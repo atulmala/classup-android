@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         if (userName.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(),
-                    "User Name is blank", Toast.LENGTH_SHORT).show();
+                    "User Name cannot be blank", Toast.LENGTH_SHORT).show();
             good_to_go = false;
         }
 
