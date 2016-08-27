@@ -64,6 +64,7 @@ public class TakeBusAttendance extends AppCompatActivity {
         this.setTitle("Bus Attendance");
 
         server_ip = MiscFunctions.getInstance().getServerIP(this);
+        final String school_id = SessionManager.getInstance().getSchool_id();
         final Intent intent = getIntent();
 
         final BusAttendanceAdapter adapter = new BusAttendanceAdapter(this,
@@ -76,7 +77,7 @@ public class TakeBusAttendance extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         final String stop_list_url =  server_ip + "/bus_attendance/retrieve_bus_stops/" +
-                intent.getStringExtra("rout") + "/?format=json";
+                school_id + "/" + intent.getStringExtra("rout") + "/?format=json";
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
@@ -99,7 +100,7 @@ public class TakeBusAttendance extends AppCompatActivity {
                                 // this stop
 
                                 final String student_list_url = ( server_ip +
-                                        "/bus_attendance/list_rout_students1/" +
+                                        "/bus_attendance/list_rout_students1/" + school_id + "/" +
                                         intent.getStringExtra("rout") + "/"
                                         + stop_name + "/?format=json").replace(" ", "%20");
                                 JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -253,7 +254,7 @@ public class TakeBusAttendance extends AppCompatActivity {
         // retrieve the list of already absent students, if the attendance has been earlier taken
         // for the same rout, type (to school or from school) and date
         already_absent_students.clear();
-        String url =  server_ip + "/bus_attendance/retrieve_bus_attendance/" +
+        String url =  server_ip + "/bus_attendance/retrieve_bus_attendance/" + school_id + "/" +
                 intent.getStringExtra("rout") + "/" + intent.getStringExtra("rout_type") +
                 "/" + intent.getStringExtra("date") + "/" + intent.getStringExtra("month") + "/"
                 + intent.getStringExtra("year") + "/?format=json";
@@ -414,6 +415,7 @@ public class TakeBusAttendance extends AppCompatActivity {
         final String d = intent.getStringExtra("date");
         final String m = intent.getStringExtra("month");
         final String y = intent.getStringExtra("year");
+        final String school_id = SessionManager.getInstance().getSchool_id();
         // create the dialog box for confirmation
         final Dialog dialog = new Dialog(TakeBusAttendance.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -470,7 +472,7 @@ public class TakeBusAttendance extends AppCompatActivity {
                 // update the server tables to indicate that the attendance for this
                 // bus rout and date was taken
                 String url =  server_ip +
-                        "/bus_attendance/bus_attendance_taken/" + rout + "/" +
+                        "/bus_attendance/bus_attendance_taken/" + school_id + "/" + rout + "/" +
                         rout_type + "/" + d + "/" + m + "/" + y + "/" + teacher + "/";
                 url = url.replace(" ", "%20");
 

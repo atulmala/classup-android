@@ -49,6 +49,7 @@ public class SelectCriteriaBusAttendance extends AppCompatActivity {
         // get the server ip to make api calls
         Context c = this.getApplicationContext();
         server_ip = MiscFunctions.getInstance().getServerIP(c);
+        String school_id = SessionManager.getInstance().getSchool_id();
 
         String logged_in_user = SessionManager.getInstance().getLogged_in_user();
         // as we are using sihgleton pattern to get the logged in user, sometimes the method
@@ -67,7 +68,8 @@ public class SelectCriteriaBusAttendance extends AppCompatActivity {
             }
         }
 
-        String url =  server_ip + "/bus_attendance/retrieve_bus_routs/";
+        String url =  server_ip + "/bus_attendance/retrieve_bus_routs/"
+                + school_id + "/?format=json";
         routPicker = (NumberPicker)findViewById(R.id.pick_bus_root);
         datePicker = (DatePicker)findViewById(R.id.pick_date_bus_attendance);
         chk_to_school = (CheckBox)findViewById(R.id.chk_to_school);

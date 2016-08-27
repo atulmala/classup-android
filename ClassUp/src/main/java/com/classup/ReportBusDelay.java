@@ -198,6 +198,7 @@ public class ReportBusDelay extends AppCompatActivity {
 
     void reportDelay(Intent intent, Context c)  {
         final String server_ip = MiscFunctions.getInstance().getServerIP(c);
+        final String school_id = SessionManager.getInstance().getSchool_id();
         final String teacher = SessionManager.getInstance().getLogged_in_user();
 
         final String d = intent.getStringExtra("date");
@@ -258,6 +259,7 @@ public class ReportBusDelay extends AppCompatActivity {
                         jsonObject.put("date", d);
                         jsonObject.put("month", m);
                         jsonObject.put("year", y);
+                        jsonObject.put("school_id", school_id);
                         jsonObject.put("rout", rout);
                         jsonObject.put("teacher", teacher);
                         jsonObject.put("message", message);

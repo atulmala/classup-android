@@ -58,11 +58,12 @@ public class BusAttendanceAdapter extends ArrayAdapter {
 
         final Context c = getContext();
         server_ip = MiscFunctions.getInstance().getServerIP(c);
+        String school_id = SessionManager.getInstance().getSchool_id();
 
         final ProgressDialog progressDialog = new ProgressDialog(c);
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
-        String url =  server_ip + "/bus_attendance/attendance_taken_earlier/" +
+        String url = server_ip + "/bus_attendance/attendance_taken_earlier/" + school_id + "/" +
                 intent.getStringExtra("rout") + "/" + intent.getStringExtra("date") +
                 "/" + intent.getStringExtra("month") + "/"
                 + intent.getStringExtra("year") + "/?format=json";
