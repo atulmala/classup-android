@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.classup">
+
+    <uses-sdk android:minSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/classup_app_logo"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <!-- activity for splash screen -->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- activity for Login -->
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.classup.LOGINACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- activity for main menu (are we using it really??) -->
+        <activity
+            android:name=".MainMenuActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.classup.MAINMENUACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- the menu that appears after login (actually this is the main menu) -->
+        <activity
+            android:name=".TeacherMenu"
+            android:label="@string/title_activity_teacher_menu">
+            <intent-filter>
+                <action android:name="com.classup.TeacherMenu" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--
+         activity for selecting class, section, subject, date,
+         month, and year for taking attendance and scheduling tests
+        -->
+        <activity
+            android:name=".SelectClass"
+            android:label="Select Class">
+            <intent-filter>
+                <action android:name="com.classup.SelectClass" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--
+             screen that shows list of students in class/section for taking attendance of a
+             particular subject
+        -->
+        <activity
+            android:name=".AttendanceList"
+            android:label="@string/title_activity_attendance_list">
+
+            <!-- android:parentActivityName=".SelectClass" > -->
+            <!--
+                <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.classup.SelectClass" />
+            -->
+
+            <intent-filter>
+                <action android:name="com.classup.classup.AttendanceList" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- test Manager screen -->
+        <activity
+            android:name=".TestManagerActivity"
+            android:label="@string/title_activity_test_manager"
+            android:theme="@style/Base.Widget.AppCompat.ActionBar">
+            <intent-filter>
+                <action android:name="com.classup.TestManagerActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- activity that shows list of pending tests -->
+        <activity
+            android:name=".PendingTestsActivity"
+            android:label="@string/title_activity_pending_tests" />
+
+        <!-- activity that shows list of completed tests -->
+        <activity
+            android:name=".CompletedTestsActivity"
+            android:label="@string/title_activity_completed_tests" />
+
+        <!-- activity for entering marks or grades of students in a test -->
+        <activity
+            android:name=".MarksEntry"
+            android:label="@string/title_activity_marks_entry"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="com.classup.MarksEntry" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SetSubjects"
+            android:label="Set Subjects">
+            <intent-filter>
+                <action android:name="com.classup.SetSubjects" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- activity to select class, section, subject, month, and year for attendance summary -->
+        <activity
+            android:name=".SelectAttendanceSummaryCriteria"
+            android:label="Select Criteria for Attendance Summary">
+            <intent-filter>
+                <action android:name="com.classup.SelectAttendanceSummaryCriteria" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- activity that shows attendance summary for a class, section, sbuject, and duration -->
+        <activity
+            android:name=".ShowAttendanceSummary"
+            android:label="Attendance Summary">
+            <intent-filter>
+                <action android:name="com.classup.ShowAttendanceSummary" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- activity for password change -->
+        <activity
+            android:name=".PasswordChange"
+            android:label="Change Password">
+            <intent-filter>
+                <action android:name="com.classup.PasswordChange" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SelectStudent" />
+        <activity android:name=".SelectClassSection" />
+        <activity android:name=".ComposeMessage" />
+        <activity android:name=".SelectCriteriaBusAttendance" />
+        <activity android:name=".TakeBusAttendance" />
+        <activity
+            android:name=".ParentsMenu"
+            android:label="Parent Menu">
+            <intent-filter>
+                <action android:name="com.classup.ParentsMenu" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ShowWard"
+            android:label="Select Student">
+            <intent-filter>
+                <action android:name="com.classup.ShowWard" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ShowAttendanceSummaryParents" />
+        <activity android:name=".ParentCommunication" />
+        <activity android:name=".ReportBusDelay" />
+        <activity
+            android:name=".ParentsSelectSubject"
+            android:label="Select Subject" />
+        <activity android:name=".SubjectMarksHistory" />
+        <activity
+            android:name=".ShowExamList"
+            android:label="Select Exam" />
+        <activity android:name=".ShowExamResults"></activity>
+    </application>
+</manifest>

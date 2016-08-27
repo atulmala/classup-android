@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.classup.MarksEntry">
+    <item android:id="@+id/save_marks" android:title="Save"
+        android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/submit_marks" android:title="Submit"
+        android:orderInCategory="100" app:showAsAction="always" />
+</menu>

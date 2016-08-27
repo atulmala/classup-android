@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:longClickable="true">
+
+    <!-- first column Roll No -->
+    <TextView
+        android:id="@+id/marks_entry_roll_no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:layout_weight="2"
+        android:textColor="@color/black"
+        android:textSize="@dimen/abc_text_size_medium_material" />
+    <!-- second column name -->
+    <TextView
+        android:id="@+id/marks_entry_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:textColor="@color/black"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:singleLine="false"
+        android:layout_gravity="center_vertical"
+        android:elegantTextHeight="true" />
+    <!-- third column for marks/grade -->
+    <EditText
+        android:id="@+id/marks_entry_marks_or_grade"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:layout_weight="3"
+        android:enabled="true"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:editable="false"
+        android:textAlignment="center" />
+    <!-- fourth column for absence switch -->
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+        android:text=""
+        android:id="@+id/absence_switch" />
+
+</LinearLayout>

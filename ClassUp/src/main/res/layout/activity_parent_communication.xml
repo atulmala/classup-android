@@ -1,0 +1,75 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:fillViewport="false">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="-20dp"
+        android:background="@color/floral_white"
+        android:orientation="vertical"
+        android:paddingTop="5dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="-10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Please Select a Category:"
+            android:textSize="20sp" />
+
+        <NumberPicker
+            android:id="@+id/pick_comm_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:datePickerMode="spinner"
+            android:scaleX="0.8"
+            android:scaleY="0.8" />
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-20dp"
+
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Compose Message (Max 200 characters):"
+            android:textSize="20sp" />
+
+        <com.classup.ActionEditText
+            android:id="@+id/txt_parent_message_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-10dp"
+            android:imeOptions="actionDone"
+            android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
+
+            android:maxLines="3"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:textSize="20sp" />
+
+
+        <Button
+            android:id="@+id/btn_send_parent_message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="40dp"
+            android:onClick="sendParentMessage"
+            android:text="Send Message" />
+
+    </LinearLayout>
+</ScrollView>
+
+

@@ -1,0 +1,131 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    android:layout_marginBottom="-20dp"
+    android:background="@color/floral_white">
+    <TextView
+        android:text="@string/select_date"
+        android:textSize="20sp"
+        android:id="@+id/txtAttendanceHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="-20dp"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:textStyle="bold" />
+    <DatePicker
+        android:id="@+id/pick_date_bus_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-10dp"
+        android:contextClickable="false"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:clickable="false" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="10dp">
+            <TextView
+                android:text="Select Bus Rout:"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="-20dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"/>
+            <NumberPicker
+                android:id="@+id/pick_bus_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="-10dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:datePickerMode="spinner"
+                android:clickable="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:paddingTop="10dp"
+            android:paddingLeft="30dp">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chk_to_school"
+                android:text="To School"
+                android:onClick="setRoute"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chk_from_school"
+                android:text="From School"
+                android:onClick="setRoute"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="-20dp"
+        android:weightSum="1">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-20dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="-20dp"
+            android:layout_weight="0.5">
+
+        </LinearLayout>
+    </LinearLayout>
+    <!--<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-20dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_goto_attendance_summary"
+            android:text="Take Bus Attendance"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="0dp"
+            android:onClick="takeBusAttendance"/>
+        <Button
+            android:id="@+id/btn_notifiy_bus_delay"
+            android:text="Report Delay"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="10dp"
+            android:onClick="reportDelay"/>
+    </LinearLayout>-->
+</LinearLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tbl_p_exam_result_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="*"
+    android:shrinkColumns="1">
+    <TableRow
+        android:id="@+id/header_row_p_exam_result"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="-5dp"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:id="@+id/txt_p_exam_result"
+            android:text="Name"
+            android:paddingLeft="10dip"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center"/>
+    </TableRow>
+    <ScrollView android:layout_height="177dp"
+        android:layout_width="fill_parent">
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="*"
+            android:id="@+id/tbl_p_exam_result">
+        </TableLayout>
+
+    </ScrollView>
+    <TableRow
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="-5dp"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:text="% Wise Subject Comparison"
+            android:paddingLeft="10dip"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center"/>
+    </TableRow>
+    <!--<View
+        android:layout_height="5dip"
+        android:background="#FF909090"/>-->
+
+    <!--<com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:id="@+id/exam_result_graph" />-->
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/exam_result_graph"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" />
+</TableLayout>

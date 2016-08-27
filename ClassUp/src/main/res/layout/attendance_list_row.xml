@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- first column Roll Number -->
+    <TextView
+        android:id="@+id/roll_no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/abc_text_size_medium_material" />
+    <!-- second column name -->
+    <TextView
+        android:id="@+id/full_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:layout_gravity="top"
+        android:textColor="@color/white"
+        android:textSize="@dimen/abc_text_size_medium_material" />
+    <!-- third column for present. By default all students will be shown as present -->
+    <RadioButton
+        android:id="@+id/radio_present"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:enabled="false"/>
+    <!-- fourth column for absence -->
+    <RadioButton
+        android:id="@+id/radio_absent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+</LinearLayout>

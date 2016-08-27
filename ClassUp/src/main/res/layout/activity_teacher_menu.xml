@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.classup.classup.TeacherMenu">
+
+    <TextView android:text="@string/teacher_menu_Heading"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_Attendance"
+        android:text="Take/Update Attendance"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="takeAttendance"/>
+
+    <Button
+        android:id="@+id/btn_Attendance_summaries"
+        android:text="Attendance Summaries"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="summaryAttendance"/>
+
+    <Button
+        android:id="@+id/btn_Bus_attendance"
+        android:text="Bus Attendance"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="selectBusRout"/>
+    <Button
+        android:id="@+id/btn_schedule_Test"
+        android:text="Schedule Test"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="scheduleTest"/>
+    <Button
+        android:id="@+id/btn_manage_Test"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Tests"
+        android:onClick="manageTest"/>
+
+    <Button
+        android:id="@+id/btn_set_Subjects"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Set My Subjects"
+        android:onClick="setSubjects"/>
+    <Button
+        android:id="@+id/btn_send_Message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="Send Message to Parents"
+        android:onClick="sendMessage"/>
+    <Button
+        android:id="@+id/btn_change_Password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        android:onClick="changePassword"/>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="Logout"
+        android:onClick="performLogout"/>
+</LinearLayout>

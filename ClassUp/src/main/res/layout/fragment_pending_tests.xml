@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    tools:context="com.classup.PendingTestsActivityFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/jeans_blue">
+        <!-- first column Date -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:paddingLeft="10dp"
+            android:text="Date"
+            android:textColor="@color/white" />
+        <!-- second column class -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:paddingLeft="5dp"
+            android:text="Class/Sec"
+            android:textColor="@color/white"/>
+        <!-- third column for sectio -->
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingRight="3dp"
+            android:text="Section"
+            android:textColor="@color/white"/> -->
+        <!-- fourth column for subject -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="0dp"
+            android:layout_weight="3"
+            android:paddingLeft="0dp"
+            android:text="Subject"
+            android:textColor="@color/white"/>
+        <!-- fifth column for maximum marks -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="3dp"
+            android:layout_weight="2"
+            android:text="Max Marks"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/pending_test_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    </ListView>
+
+</LinearLayout>

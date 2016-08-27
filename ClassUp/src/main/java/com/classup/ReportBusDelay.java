@@ -1,0 +1,317 @@
+package com.classup;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+public class ReportBusDelay extends AppCompatActivity {
+    Context c;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_report_bus_delay);
+        // get the server ip to make api calls
+        c = this.getApplicationContext();
+        final String server_ip = MiscFunctions.getInstance().getServerIP(c);
+        final String teacher = SessionManager.getInstance().getLogged_in_user();
+        Intent intent = getIntent();
+        final String d = intent.getStringExtra("date");
+        final String m = intent.getStringExtra("month");
+        final String y = intent.getStringExtra("year");
+        final String rout = intent.getStringExtra("rout");
+
+        /*Button btn_confirm = (Button) findViewById(R.id.btn_report_bus_delay);
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // check to see if message is empty
+                EditText editText = (EditText) findViewById(R.id.txt_bus_delay);
+                String message = editText.getText().toString();
+                if (message.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Message is empty!",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // create the dialog box for confirmation
+                final Dialog dialog = new Dialog(ReportBusDelay.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.confirm_bus_delay);
+
+                // show the date of attendance
+                TextView txt_date =
+                        (TextView) dialog.findViewById(R.id.txt_bus_delay_date);
+
+                String formatted_date = d + "/" + m + "/" + y;
+                txt_date.setText(formatted_date);
+                txt_date.setTypeface(Typeface.DEFAULT_BOLD);
+
+                // show the rout
+                TextView txt_rout =
+                        (TextView) dialog.findViewById((R.id.txt_bus_delay_rout));
+
+                txt_rout.setText(rout);
+                txt_rout.setTypeface(Typeface.DEFAULT_BOLD);
+
+                // now, show the dialog
+                dialog.show();
+
+                Button btn_cancel = (Button) dialog.findViewById(R.id.btn_bus_delay_cancel);
+                btn_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view)  {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button btn_ok = (Button) dialog.findViewById(R.id.btn_bus_delay_confirm);
+                btn_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editText = (EditText) findViewById(R.id.txt_bus_delay);
+                        String message = editText.getText().toString();
+                        if (message.equals("")) {
+                            Toast.makeText(getApplicationContext(), "Message is empty!",
+                                    Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        } else {
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("date", d);
+                                jsonObject.put("month", m);
+                                jsonObject.put("year", y);
+                                jsonObject.put("rout", rout);
+                                jsonObject.put("teacher", teacher);
+                                jsonObject.put("message", message);
+                            } catch (JSONException je) {
+                                System.out.println("unable to create json for bus delay message");
+                                je.printStackTrace();
+                            } catch (ArrayIndexOutOfBoundsException ae) {
+                                System.out.println("array out of bounds exception");
+                                ae.printStackTrace();
+                            }
+                            String url =  server_ip +
+                                    "/bus_attendance/report_delay/";
+                            url = url.replace(" ", "%20");
+                            final String tag = "ReportBusDelay";
+                            JsonObjectRequest jsonObjReq =
+                                    new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                                    new Response.Listener<JSONObject>() {
+
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            Log.d(tag, response.toString());
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    VolleyLog.d(tag, "Error: " + error.getMessage());
+                                    if (error instanceof TimeoutError ||
+                                            error instanceof NoConnectionError) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Slow network connection, please try later",
+                                                Toast.LENGTH_LONG).show();
+                                    }  else if (error instanceof ServerError) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Server error, please try later",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof NetworkError) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Network error, please try later",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof ParseError) {
+                                        //TODO
+                                    }
+                                }
+                            });
+                            com.classup.AppController.getInstance().
+                                    addToRequestQueue(jsonObjReq, tag);
+                            Toast.makeText(getApplicationContext(),
+                                    "Message(s) sent!",
+                                    Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            startActivity(new Intent("com.classup.TeacherMenu"));
+                            com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq,
+                                    "ReportBusDelay");
+                        }
+                    }
+                });
+            }
+        });*/
+    }
+
+    //@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(0, 0, 0, "Submit").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 1, 0, "Cancel").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                reportDelay(getIntent(), c);
+                break;
+            case 1:
+                startActivity(new Intent("com.classup.TeacherMenu").
+                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    void reportDelay(Intent intent, Context c)  {
+        final String server_ip = MiscFunctions.getInstance().getServerIP(c);
+        final String teacher = SessionManager.getInstance().getLogged_in_user();
+
+        final String d = intent.getStringExtra("date");
+        final String m = intent.getStringExtra("month");
+        final String y = intent.getStringExtra("year");
+        final String rout = intent.getStringExtra("rout");
+        EditText editText = (EditText) findViewById(R.id.txt_bus_delay);
+        final String message = editText.getText().toString();
+        // check to see if message is empty
+
+        if (message.equals("")) {
+            Toast.makeText(getApplicationContext(), "Message is empty!",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // create the dialog box for confirmation
+        final Dialog dialog = new Dialog(ReportBusDelay.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.confirm_bus_delay);
+
+        // show the date of attendance
+        TextView txt_date =
+                (TextView) dialog.findViewById(R.id.txt_bus_delay_date);
+
+        String formatted_date = d + "/" + m + "/" + y;
+        txt_date.setText(formatted_date);
+        txt_date.setTypeface(Typeface.DEFAULT_BOLD);
+
+        // show the rout
+        TextView txt_rout =
+                (TextView) dialog.findViewById((R.id.txt_bus_delay_rout));
+
+        txt_rout.setText(rout);
+        txt_rout.setTypeface(Typeface.DEFAULT_BOLD);
+
+        // now, show the dialog
+        dialog.show();
+
+        Button btn_cancel = (Button) dialog.findViewById(R.id.btn_bus_delay_cancel);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)  {
+                dialog.dismiss();
+            }
+        });
+
+        Button btn_ok = (Button) dialog.findViewById(R.id.btn_bus_delay_confirm);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (message.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Message is empty!",
+                            Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                } else {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("date", d);
+                        jsonObject.put("month", m);
+                        jsonObject.put("year", y);
+                        jsonObject.put("rout", rout);
+                        jsonObject.put("teacher", teacher);
+                        jsonObject.put("message", message);
+                    } catch (JSONException je) {
+                        System.out.println("unable to create json for bus delay message");
+                        je.printStackTrace();
+                    } catch (ArrayIndexOutOfBoundsException ae) {
+                        System.out.println("array out of bounds exception");
+                        ae.printStackTrace();
+                    }
+                    String url =  server_ip +
+                            "/bus_attendance/report_delay/";
+                    url = url.replace(" ", "%20");
+                    final String tag = "ReportBusDelay";
+                    JsonObjectRequest jsonObjReq =
+                            new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                                    new Response.Listener<JSONObject>() {
+
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            Log.d(tag, response.toString());
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    VolleyLog.d(tag, "Error: " + error.getMessage());
+                                    if (error instanceof TimeoutError ||
+                                            error instanceof NoConnectionError) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Slow network connection, please try later",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof ServerError) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Server error, please try later",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof NetworkError) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Network error, please try later",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof ParseError) {
+                                        //TODO
+                                    }
+                                }
+                            });
+                    com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
+                    Toast.makeText(getApplicationContext(),
+                            "Message(s) sent!",
+                            Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    startActivity(new Intent("com.classup.TeacherMenu"));
+                    com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq,
+                            "ReportBusDelay");
+                }
+            }
+        });
+    }
+}
