@@ -257,6 +257,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         progressDialog.hide();
+                        progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -264,6 +265,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
                         System.out.println("inside volley error handler");
                         error.printStackTrace();
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),

@@ -160,6 +160,7 @@ public class SelectClass extends AppCompatActivity {
                             }
                         }
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         String[] picker_contents = item_list.toArray(new String[item_list.size()]);
                         //picker_contents =
                         try {
@@ -187,6 +188,7 @@ public class SelectClass extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),

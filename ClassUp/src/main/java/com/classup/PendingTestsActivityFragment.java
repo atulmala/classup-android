@@ -210,12 +210,14 @@ public class PendingTestsActivityFragment extends Fragment {
                             }
                         }
                         progressDialog.hide();
+                        progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(c,

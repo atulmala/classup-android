@@ -235,6 +235,7 @@ public class ShowAttendanceSummaryParents extends AppCompatActivity {
                         final_row.setBackgroundColor(Color.YELLOW);
                         tableLayout.addView(final_row);
                         progressDialog.hide();
+                        progressDialog.dismiss();
 
                     }
                 }, new Response.ErrorListener() {
@@ -243,6 +244,7 @@ public class ShowAttendanceSummaryParents extends AppCompatActivity {
                         System.out.println("inside volley error handler");
                         error.printStackTrace();
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),

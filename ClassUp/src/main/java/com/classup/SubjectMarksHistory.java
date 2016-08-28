@@ -219,8 +219,10 @@ public class SubjectMarksHistory extends AppCompatActivity {
                                 graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
                                 graph.addSeries(series);
                                 progressDialog.hide();
+                                progressDialog.dismiss();
                             } catch (Exception e) {
                                 progressDialog.hide();
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(),
                                         "Graph will be generated after next test",
                                         Toast.LENGTH_SHORT).show();
@@ -236,6 +238,7 @@ public class SubjectMarksHistory extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),

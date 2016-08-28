@@ -114,6 +114,7 @@ public class ShowExamResults extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         if (response.length() == 0) {
                             progressDialog.hide();
+                            progressDialog.dismiss();
                             String message = "Result for " +
                                     getIntent().getStringExtra("exam_title") + " is not ready yet!";
                             Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
@@ -226,8 +227,10 @@ public class ShowExamResults extends AppCompatActivity {
                                     barChart.setData(data);
 
                                     progressDialog.hide();
+                                    progressDialog.dismiss();
                                 } catch (Exception e) {
                                     progressDialog.hide();
+                                    progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(),
                                             "Graph will be generated after next test",
                                             Toast.LENGTH_SHORT).show();
@@ -235,8 +238,10 @@ public class ShowExamResults extends AppCompatActivity {
                             }
                             else    {
                                 progressDialog.hide();
+                                progressDialog.dismiss();
                             }
                             progressDialog.hide();
+                            progressDialog.dismiss();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -245,6 +250,7 @@ public class ShowExamResults extends AppCompatActivity {
                         System.out.println("inside volley error handler");
                         error.printStackTrace();
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),

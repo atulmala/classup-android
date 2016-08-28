@@ -103,12 +103,14 @@ public class MarksEntry extends AppCompatActivity {
                             }
                         }
                         progressDialog.hide();
+                        progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
@@ -330,6 +332,7 @@ public class MarksEntry extends AppCompatActivity {
                                 // coming to android...
                                 if (response.get("status").toString().equals("success")) {
                                     progressDialog.hide();
+                                    progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(),
                                             "Marks/Grades successfully submitted",
                                             Toast.LENGTH_SHORT).show();

@@ -157,6 +157,7 @@ public class ParentCommunication extends AppCompatActivity {
                             }
                         }
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         String[] picker_contents = item_list.toArray(new String[item_list.size()]);
                         //picker_contents =
                         try {
@@ -185,6 +186,7 @@ public class ParentCommunication extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),

@@ -185,6 +185,7 @@ public class SelectAttendanceSummaryCriteria extends AppCompatActivity {
                             }
                         }
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         String[] picker_contents = item_list.toArray(new String[item_list.size()]);
                         try {
                             picker.setMaxValue(picker_contents.length - 1);
@@ -213,6 +214,7 @@ public class SelectAttendanceSummaryCriteria extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),

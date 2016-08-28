@@ -104,12 +104,14 @@ public class SetSubjects extends AppCompatActivity {
                             }
                         }
                         progressDialog.hide();
+                        progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
@@ -173,6 +175,7 @@ public class SetSubjects extends AppCompatActivity {
                             }
                         }
                         progressDialog.hide();
+                        progressDialog.dismiss();
 
                         //listView.setAdapter(arrayAdapter);
                         listView.setAdapter(adapter);
@@ -183,6 +186,7 @@ public class SetSubjects extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
+                        progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
