@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "682187619549",
+    "firebase_url": "https://classup-d5510.firebaseio.com",
+    "project_id": "classup-d5510",
+    "storage_bucket": "classup-d5510.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682187619549:android:fc5d47b34b7e5807",
+        "android_client_info": {
+          "package_name": "com.classup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682187619549-jplmk8429p2abdvtvge8a4vt5keptv1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmNEd7Egvte6VNEleSz7tDZHyv6EtZtWM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
