@@ -16,6 +16,41 @@
         <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/instant-run-bootstrap_200b350e6405234bbd4108de4cfaafea1df5e2b1.jar" />
     </item>
     <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.wefika/horizontal-picker/1.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e7c16083265599dc6849e11d22e8c40a40acd06a">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.wefika-horizontal-picker-1.1.0_c1775c0f558691321f5d4ec61c4e1d41b8b2a3c5.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/Classup/volley/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a2049960120d8fd3da36293394c3d60657ee7625">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/Classup-volley-unspecified_07d7ed6503dcf68764a6c7b3337e70039efc3d01.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="6b896c1067633db41e9c10a3a5d0919c5c4cfc8c">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.google.android.gms-play-services-basement-9.2.1_6077381c86690428b820ad0f7ba69caef23150f9.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/internal_impl-23.0.1_a81ca46cea4aaef09e9db68ef8f10f860c9e17e2.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="6a0f2d219f82db499ac03d5a985c4eb3e83fc422">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.google.firebase-firebase-analytics-9.2.1_1d7da272e5982ab3f0b6733e776d209ae3ba449a.jar" />
+    </item>
+    <item
         jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.2.1/jars/classes.jar"
         jumboMode="true"
         revision="23.0.1"
@@ -30,6 +65,13 @@
         <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/instant-run_2daca6d3142b2215b968476fb1dd992e620c789a.jar" />
     </item>
     <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d41b5d21cc9dd7d210f0ae82ac509ba7f091d611">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.google.firebase-firebase-iid-9.2.1_a536dab18bef23e47f50547fd313d75c0be1261a.jar" />
+    </item>
+    <item
         jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
         jumboMode="true"
         revision="23.0.1"
@@ -37,11 +79,11 @@
         <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/internal_impl-23.0.1_a81ca46cea4aaef09e9db68ef8f10f860c9e17e2.jar" />
     </item>
     <item
-        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.2.1/jars/classes.jar"
-        jumboMode="true"
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
         revision="23.0.1"
-        sha1="3627eacd7f7cafb5e8ae683992e7b2f9b7dcab1a">
-        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-common-9.2.1_154133b66d5191852f5e153fd5f2a06c58964b3b.jar" />
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.android.support-support-v4-23.0.1_98b1111b54e1a2f5bd00facbbfe3ac1aa136f1b7.jar" />
     </item>
     <item
         jar="/Users/atulgupta/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v2.1.6/b036abbb61656165da99cf44898e4b9123687e65/MPAndroidChart-v2.1.6.jar"
@@ -51,20 +93,6 @@
         <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/MPAndroidChart-v2.1.6_a16cc36199aa81178937b02bc631a357609e1570.jar" />
     </item>
     <item
-        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.1"
-        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
-        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.android.support-design-23.0.1_d52e6fdea2aac10d8842e235f4278a76cd575f53.jar" />
-    </item>
-    <item
-        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.2.1/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.1"
-        sha1="5337354083e89ed67151859ab0b6b80935c60eaf">
-        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-impl-9.2.1_03d7f701090baddbeb637bdc67fc66c23d8ca874.jar" />
-    </item>
-    <item
         jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
         jumboMode="true"
         revision="23.0.1"
@@ -72,18 +100,11 @@
         <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.0.1_98b1111b54e1a2f5bd00facbbfe3ac1aa136f1b7.jar" />
     </item>
     <item
-        jar="/Users/atulgupta/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
-        jumboMode="true"
+        jar="/Users/atulgupta/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v2.1.6/b036abbb61656165da99cf44898e4b9123687e65/MPAndroidChart-v2.1.6.jar"
+        jumboMode="false"
         revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/support-annotations-23.0.1_bfd8c24d39a2ab6bdd2fdb8a8c37d188d2149177.jar" />
-    </item>
-    <item
-        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.2.1/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.1"
-        sha1="6b896c1067633db41e9c10a3a5d0919c5c4cfc8c">
-        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-9.2.1_6077381c86690428b820ad0f7ba69caef23150f9.jar" />
+        sha1="b036abbb61656165da99cf44898e4b9123687e65">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/MPAndroidChart-v2.1.6_a16cc36199aa81178937b02bc631a357609e1570.jar" />
     </item>
     <item
         jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.2.1/jars/classes.jar"
@@ -100,6 +121,13 @@
         <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-messaging-9.2.1_fc2e7c9834b8768989d12b7064388696a75171cc.jar" />
     </item>
     <item
+        jar="/Users/atulgupta/classup-android/Classup/gson-2.4/gson-2.4.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/gson-2.4_d87ba7fb35255402bd13f8407a0cc8663f8500ed.jar" />
+    </item>
+    <item
         jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.2.1/jars/classes.jar"
         jumboMode="true"
         revision="23.0.1"
@@ -107,11 +135,102 @@
         <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-9.2.1_709cea7621262b65a135db0383b7c88b1f7f6a31.jar" />
     </item>
     <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ac78f93fc89c497a65f9d9a352cd405996d2f65a">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.google.firebase-firebase-messaging-9.2.1_fc2e7c9834b8768989d12b7064388696a75171cc.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="819c2c3a4fb135e085445d11131d069cf9c32b2a">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.google.android.gms-play-services-tasks-9.2.1_709cea7621262b65a135db0383b7c88b1f7f6a31.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.android.support-design-23.0.1_d52e6fdea2aac10d8842e235f4278a76cd575f53.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3627eacd7f7cafb5e8ae683992e7b2f9b7dcab1a">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.google.firebase-firebase-common-9.2.1_154133b66d5191852f5e153fd5f2a06c58964b3b.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="3627eacd7f7cafb5e8ae683992e7b2f9b7dcab1a">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-common-9.2.1_154133b66d5191852f5e153fd5f2a06c58964b3b.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.android.support-design-23.0.1_d52e6fdea2aac10d8842e235f4278a76cd575f53.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5337354083e89ed67151859ab0b6b80935c60eaf">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.google.firebase-firebase-analytics-impl-9.2.1_03d7f701090baddbeb637bdc67fc66c23d8ca874.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="5337354083e89ed67151859ab0b6b80935c60eaf">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-impl-9.2.1_03d7f701090baddbeb637bdc67fc66c23d8ca874.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/support-annotations-23.0.1_bfd8c24d39a2ab6bdd2fdb8a8c37d188d2149177.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="6b896c1067633db41e9c10a3a5d0919c5c4cfc8c">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-9.2.1_6077381c86690428b820ad0f7ba69caef23150f9.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/support-annotations-23.0.1_bfd8c24d39a2ab6bdd2fdb8a8c37d188d2149177.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.android.support-appcompat-v7-23.0.1_f4a4a0244f096b0a865799f3616a52575631b0c0.jar" />
+    </item>
+    <item
         jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
         jumboMode="true"
         revision="23.0.1"
         sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
         <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.0.1_f4a4a0244f096b0a865799f3616a52575631b0c0.jar" />
+    </item>
+    <item
+        jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.jjoe64/graphview/4.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="37bf8de5b4f9e7e93006db783b9b3168e32e38e9">
+        <dex dex="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/pre-dexed/release/com.jjoe64-graphview-4.0.1_f0511d1338eb170faa36dcc885e6e8e3cafe5f4d.jar" />
     </item>
     <item
         jar="/Users/atulgupta/classup-android/Classup/ClassUp/build/intermediates/exploded-aar/com.jjoe64/graphview/4.0.1/jars/classes.jar"
