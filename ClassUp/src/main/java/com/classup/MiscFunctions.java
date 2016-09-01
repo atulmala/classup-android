@@ -31,8 +31,8 @@ public class MiscFunctions extends Activity {
     private static final int RANDOM_STRING_LENGTH = 10;
 
     //String server_ip;
-    //String server_ip = "http://10.0.2.2:8000";
-    String server_ip = "http://54.191.53.153";
+    String server_ip = "http://10.0.2.2:8000";
+    //String server_ip = "http://54.191.53.153";
     //String server_ip = "https://"
     private static MiscFunctions ourInstance = new MiscFunctions();
 

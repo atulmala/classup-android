@@ -35,8 +35,8 @@ public class PasswordChange extends AppCompatActivity {
         setContentView(R.layout.activity_password_change);
         Button btn_perform_password_chnge =
                 (Button)findViewById(R.id.btn_perform_password_change);
-        Button btn_cancel_password_change =
-                (Button)findViewById(R.id.btn_cancel_password_change);
+        /*Button btn_cancel_password_change =
+                (Button)findViewById(R.id.btn_cancel_password_change);*/
         final EditText ed1  = ((EditText)findViewById((R.id.new_password)));
         final EditText ed2 = (EditText)findViewById(R.id.new_password1);
 
@@ -159,7 +159,7 @@ public class PasswordChange extends AppCompatActivity {
             }
         });
 
-        btn_cancel_password_change.setOnClickListener(new View.OnClickListener() {
+        /*btn_cancel_password_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), TeacherMenu.class).
@@ -167,6 +167,6 @@ public class PasswordChange extends AppCompatActivity {
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 }

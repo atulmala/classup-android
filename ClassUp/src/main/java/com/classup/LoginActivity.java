@@ -191,6 +191,18 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     try {
+                                        String subscription_status =
+                                                response.get("subscription").toString();
+                                        if(subscription_status.equals("expired"))   {
+                                            String message = "Institute/School's subscription ";
+                                            message += "has expired. For more information please ";
+                                            message += "contact your seniors";
+                                            Toast toast = Toast.makeText(getApplicationContext(),
+                                                    message, Toast.LENGTH_LONG);
+                                            toast.setGravity(Gravity.CENTER, 0, 0);
+                                            toast.show();
+                                            return;
+                                        }
                                         String loginResult = (response.get("login")).toString();
                                         if(loginResult.equals("successful")) {
                                             String userStatus =

@@ -20,27 +20,27 @@
         android:text="Month wise Attendance"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="p_attendanceSummary"/>
+        android:onClick="take_action"/>
 
     <Button
         android:id="@+id/btn_term_test_results"
         android:text="Term Test Results"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="p_term_testResults"/>
+        android:onClick="take_action"/>
 
     <Button
         android:id="@+id/btn_subject_wise_marks"
         android:text="Subject Wise Marks"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="p_subject_wiseMarks"/>
+        android:onClick="take_action"/>
     <Button
         android:id="@+id/btn_communicate_with_school"
         android:text="Communicate with School"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="p_communicateSchool"/>
+        android:onClick="take_action"/>
     <Button
         android:id="@+id/btn_parent_change_password"
         android:layout_width="fill_parent"
