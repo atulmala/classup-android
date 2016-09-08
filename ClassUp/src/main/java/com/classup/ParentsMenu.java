@@ -78,7 +78,7 @@ public class ParentsMenu extends AppCompatActivity {
                                                 break;
                                             case R.id.btn_subject_wise_marks:
                                                 intent = new Intent(getApplicationContext(),
-                                                        ShowExamList.class);
+                                                        ParentsSelectSubject.class);
                                                 intent.putExtra("student_id", student_id);
                                                 intent.putExtra("student_name", student_name);
                                                 startActivity(intent);

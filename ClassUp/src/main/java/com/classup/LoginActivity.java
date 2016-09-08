@@ -70,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
                     "User Name cannot be blank", Toast.LENGTH_SHORT).show();
             good_to_go = false;
         }
-
         if (good_to_go) {
             JSONObject jsonObject = new JSONObject();
             try {
@@ -251,6 +250,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            System.out.println(error);
                             if (error instanceof TimeoutError || error instanceof NoConnectionError)
                             {
                                 if (!MiscFunctions.getInstance().checkConnection

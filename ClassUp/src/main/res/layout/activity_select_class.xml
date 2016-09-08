@@ -40,10 +40,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-
         android:weightSum="1">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-20dp"
             android:layout_weight="0.5"
@@ -51,20 +50,22 @@
             <TextView
                 android:id="@+id/txtSelectClass"
                 android:textSize="20sp"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="-10dp"
+                android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:text="@string/select_class"
                 android:textStyle="bold" />
             <NumberPicker
                 android:id="@+id/pick_class"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="-20dp"
+                android:scaleX="0.8"
                 android:scaleY="0.8">
             </NumberPicker>
         </LinearLayout>
@@ -81,12 +82,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="-10dp"
+                android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:text="@string/select_section"
                 android:textStyle="bold" />
             <NumberPicker
                 android:id="@+id/pick_section"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-20dp"
                 android:contextClickable="false"
