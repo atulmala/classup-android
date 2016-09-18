@@ -57,11 +57,13 @@ public class ComposeMessage extends AppCompatActivity {
                         else
                             jsonObject.put("whole_class", "false");
 
-                        if(intent.getStringExtra("whole_class").equals("false"))
+                        if(intent.getStringExtra("whole_class").equals("false"))    {
                             for (int i=0; i<selected_students.size(); i++) {
                                 jsonObject.put(MiscFunctions.getInstance().generateRandomString(),
                                         selected_students.get(i));
                             }
+                            System.out.println(jsonObject);
+                        }
                     }
                     catch (JSONException je)  {
                         System.out.println("unable to create json for subjects to be deleted");
