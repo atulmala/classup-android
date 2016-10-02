@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:text="Name"
+            android:longClickable="true"
             android:textColor="@color/white"
             android:textSize="@dimen/abc_text_size_medium_material" />
         <!-- third column for present. By default all students will be shown as present -->
@@ -55,7 +56,8 @@
         android:id="@+id/attendance_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:longClickable="true">
     </ListView>
     <!--<LinearLayout
         android:layout_width="match_parent"

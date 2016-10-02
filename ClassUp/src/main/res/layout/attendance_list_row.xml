@@ -24,7 +24,8 @@
         android:layout_weight="4"
         android:layout_gravity="top"
         android:textColor="@color/white"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:longClickable="true"/>
     <!-- third column for present. By default all students will be shown as present -->
     <RadioButton
         android:id="@+id/radio_present"

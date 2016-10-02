@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -159,7 +163,97 @@ public class AttendanceList extends AppCompatActivity {
 
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
 
+        // on long pressing a student name, pop up will appear showing parent's name and
+        // mobile number
+        view.setLongClickable(true);
+        view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()   {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final int ii = i;
+                final String student_name = attendanceList.get(i).getFull_name();
+                android.app.AlertDialog.Builder builder =
+                        new android.app.AlertDialog.Builder(activity);
+                builder.setMessage("Do you want to call the parent of  " + student_name + "?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                final String student_id = attendanceList.get(ii).getId();
+                                String server_ip = MiscFunctions.getInstance().
+                                        getServerIP(activity);
+                                String url = server_ip + "/student/get_parent/" + student_id + "/";
+                                progressDialog.show();
+                                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
+                                        (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                                            @Override
+                                            public void onResponse(JSONArray response) {
+                                                try {
+                                                    JSONObject jo = response.getJSONObject(0);
+                                                    String p_m1 = jo.getString("parent_mobile1");
+                                                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                                                    intent.setData(Uri.parse("tel:" + p_m1));
+                                                    startActivity(intent);
+                                                } catch (JSONException je) {
+                                                    System.out.println("Ran into JSON exception " +
+                                                            "while trying to fetch " +
+                                                            "the list of students");
+                                                    je.printStackTrace();
+                                                } catch (Exception e) {
+                                                    System.out.println("Caught General exception " +
+                                                            "while trying to fetch the " +
+                                                            "list of students");
+                                                    e.printStackTrace();
+                                                }
 
+
+                                                progressDialog.hide();
+                                                progressDialog.dismiss();
+
+                                            }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                progressDialog.hide();
+                                                progressDialog.dismiss();
+                                                if (error instanceof TimeoutError ||
+                                                        error instanceof NoConnectionError) {
+                                                    if(!MiscFunctions.getInstance().checkConnection
+                                                            (getApplicationContext())) {
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "Slow network connection or " +
+                                                                        "No internet connectivity",
+                                                                Toast.LENGTH_LONG).show();
+                                                    } else  {
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "Some problem at server end, " +
+                                                                        "please " +
+                                                                        "try after some time",
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                }  else if (error instanceof ServerError) {
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Server error, please try later",
+                                                            Toast.LENGTH_LONG).show();
+                                                } else if (error instanceof NetworkError) {
+
+                                                } else if (error instanceof ParseError) {
+                                                    //TODO
+                                                }
+                                            }
+                                        });
+                                // here we can sort the attendance list as per roll number
+
+                                com.classup.AppController.getInstance().
+                                        addToRequestQueue(jsonArrayRequest, tag);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.show();
+                return true;
+            }
+        });
     }
 
     //@Override
