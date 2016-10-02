@@ -1,14 +1,18 @@
 package com.classup;
 
+import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -180,26 +184,42 @@ public class AttendanceList extends AppCompatActivity {
                                 String server_ip = MiscFunctions.getInstance().
                                         getServerIP(activity);
                                 String url = server_ip + "/student/get_parent/" + student_id + "/";
+                                url = url.replace(" ", "%20");
                                 progressDialog.show();
-                                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
-                                        (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                                        (Request.Method.GET, url, null,
+                                                new Response.Listener<JSONObject>()  {
                                             @Override
-                                            public void onResponse(JSONArray response) {
+                                            public void onResponse(JSONObject response) {
                                                 try {
-                                                    JSONObject jo = response.getJSONObject(0);
-                                                    String p_m1 = jo.getString("parent_mobile1");
-                                                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                                                    //JSONObject jo = response.getJSONObject;
+
+                                                    String p_m1 = response.get("parent_mobile1").
+                                                            toString();
+                                                    System.out.println("mobile=" + p_m1);
+                                                    Intent intent = new Intent(Intent.ACTION_CALL);
                                                     intent.setData(Uri.parse("tel:" + p_m1));
-                                                    startActivity(intent);
+                                                    System.out.println("going to make call");
+                                                    // check to see if dialler permssion exist
+                                                    int permissionCheck =
+                                                            ContextCompat.checkSelfPermission
+                                                            (activity,
+                                                            Manifest.permission.CALL_PHONE);
+                                                    if(permissionCheck==
+                                                            PackageManager.PERMISSION_GRANTED)
+                                                        startActivity(intent);
+                                                    else
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "Dialling permission not granted",
+                                                                Toast.LENGTH_LONG).show();
+
                                                 } catch (JSONException je) {
                                                     System.out.println("Ran into JSON exception " +
-                                                            "while trying to fetch " +
-                                                            "the list of students");
+                                                            "while trying to make call");
                                                     je.printStackTrace();
                                                 } catch (Exception e) {
                                                     System.out.println("Caught General exception " +
-                                                            "while trying to fetch the " +
-                                                            "list of students");
+                                                            "while trying make call ");
                                                     e.printStackTrace();
                                                 }
 
@@ -235,14 +255,18 @@ public class AttendanceList extends AppCompatActivity {
                                                 } else if (error instanceof NetworkError) {
 
                                                 } else if (error instanceof ParseError) {
-                                                    //TODO
+
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Error in parsing of number",
+                                                            Toast.LENGTH_LONG).show();
+                                                    System.out.println(error);
                                                 }
                                             }
                                         });
                                 // here we can sort the attendance list as per roll number
 
                                 com.classup.AppController.getInstance().
-                                        addToRequestQueue(jsonArrayRequest, tag);
+                                        addToRequestQueue(jsonObjectRequest, tag);
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
