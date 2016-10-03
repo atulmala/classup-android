@@ -1,9 +1,14 @@
 package com.classup;
 
+import android.*;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -25,6 +30,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,9 +40,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectStudent extends AppCompatActivity {
-    String tag = "SelectStudents";
     final ArrayList<String> selected_students = new ArrayList<>();
     final Activity activity = this;
+    String tag = "SelectStudents";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +55,6 @@ public class SelectStudent extends AppCompatActivity {
 
         final String server_ip = MiscFunctions.getInstance().getServerIP(this);
         final String school_id = SessionManager.getInstance().getSchool_id();
-        String logged_in_user = SessionManager.getInstance().getLogged_in_user();
         Intent intent = getIntent();
         final String student_list_url =  server_ip + "/student/list/" + school_id + "/" +
                 intent.getStringExtra("class") + "/" +
@@ -156,22 +161,122 @@ public class SelectStudent extends AppCompatActivity {
             }
         });
 
-        /*Button button = (Button) findViewById(R.id.btn_compose_message);
-        button.setOnClickListener(new View.OnClickListener() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onClick(View v) {
-                if (selected_students.size() == 0)  {
-                    String message = "Please select at least one student!";
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent intent1 = new Intent(activity, ComposeMessage.class);
-                    intent1.putExtra("student_list", selected_students);
-                    intent1.putExtra("whole_class", "false");
-                    startActivity(intent1);
-                }
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final int ii = i;
+                final String student_name = student_list.get(i).getFull_name();
+                android.app.AlertDialog.Builder builder =
+                        new android.app.AlertDialog.Builder(activity);
+                builder.setMessage("Do you want to call the parent of  " + student_name + "?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                final String student_id = student_list.get(ii).getId();
+                                String server_ip = MiscFunctions.getInstance().
+                                        getServerIP(activity);
+                                String url = server_ip + "/student/get_parent/" + student_id + "/";
+                                url = url.replace(" ", "%20");
+                                progressDialog.show();
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                                        (Request.Method.GET, url, null,
+                                                new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        try {
+                                                            String p_m1 = response.get
+                                                                    ("parent_mobile1").
+                                                                    toString();
+                                                            System.out.println("mobile=" + p_m1);
+                                                            Intent intent = new Intent
+                                                                    (Intent.ACTION_CALL);
+                                                            intent.setData(Uri.parse
+                                                                    ("tel:" + p_m1));
+                                                            System.out.println
+                                                                    ("going to make call");
+                                                            // check to see if dialler permssion exist
+                                                            int permissionCheck =
+                                                                    ContextCompat.checkSelfPermission
+                                                                            (activity,
+                                                                                    android.Manifest
+                                                                                            .permission.CALL_PHONE);
+                                                            if (permissionCheck ==
+                                                                    PackageManager.
+                                                                            PERMISSION_GRANTED)
+                                                                startActivity(intent);
+                                                            else
+                                                                Toast.makeText(
+                                                                        getApplicationContext(),
+                                                                        "Dialling permission " +
+                                                                                "not granted",
+                                                                        Toast.LENGTH_LONG).show();
+
+                                                        } catch (JSONException je) {
+                                                            System.out.println("Ran into " +
+                                                                    "JSON exception " +
+                                                                    "while trying to make call");
+                                                            je.printStackTrace();
+                                                        } catch (Exception e) {
+                                                            System.out.println("Caught " +
+                                                                    "General exception " +
+                                                                    "while trying make call ");
+                                                            e.printStackTrace();
+                                                        }
+
+
+                                                        progressDialog.hide();
+                                                        progressDialog.dismiss();
+
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                progressDialog.hide();
+                                                progressDialog.dismiss();
+                                                if (error instanceof TimeoutError ||
+                                                        error instanceof NoConnectionError) {
+                                                    if (!MiscFunctions.getInstance().checkConnection
+                                                            (getApplicationContext())) {
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "Slow network connection or " +
+                                                                        "No internet connectivity",
+                                                                Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "Some problem at server end, " +
+                                                                        "please " +
+                                                                        "try after some time",
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                } else if (error instanceof ServerError) {
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Server error, please try later",
+                                                            Toast.LENGTH_LONG).show();
+                                                } else if (error instanceof NetworkError) {
+
+                                                } else if (error instanceof ParseError) {
+
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Error in parsing of number",
+                                                            Toast.LENGTH_LONG).show();
+                                                    System.out.println(error);
+                                                }
+                                            }
+                                        });
+                                // here we can sort the attendance list as per roll number
+
+                                com.classup.AppController.getInstance().
+                                        addToRequestQueue(jsonObjectRequest, tag);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.show();
+                return true;
             }
-        });*/
+        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

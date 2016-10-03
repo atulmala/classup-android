@@ -17,15 +17,4 @@
         android:layout_height="wrap_content"
         android:layout_weight="25">
     </ListView>
-
-    <!--<Button
-        android:id="@+id/btn_compose_message"
-        android:text="Compose Message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-
-        android:layout_gravity="bottom"
-        android:choiceMode="multipleChoice" />-->
-
 </LinearLayout>
