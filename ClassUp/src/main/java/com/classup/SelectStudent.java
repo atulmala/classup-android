@@ -161,6 +161,7 @@ public class SelectStudent extends AppCompatActivity {
             }
         });
 
+        // long tapping on student name will initiate call to parent
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
