@@ -27,12 +27,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.DefaultRetryPolicy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 
 public class ReportBusDelay extends AppCompatActivity {
     Context c;
@@ -43,13 +42,6 @@ public class ReportBusDelay extends AppCompatActivity {
         setContentView(R.layout.activity_report_bus_delay);
         // get the server ip to make api calls
         c = this.getApplicationContext();
-        /*final String server_ip = MiscFunctions.getInstance().getServerIP(c);
-        final String teacher = SessionManager.getInstance().getLogged_in_user();
-        Intent intent = getIntent();
-        final String d = intent.getStringExtra("date");
-        final String m = intent.getStringExtra("month");
-        final String y = intent.getStringExtra("year");
-        final String rout = intent.getStringExtra("rout");*/
     }
 
     //@Override
@@ -186,6 +178,8 @@ public class ReportBusDelay extends AppCompatActivity {
                                     }
                                 }
                             });
+                    jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                     com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
                     Toast.makeText(getApplicationContext(),
                             "Message(s) sent!",

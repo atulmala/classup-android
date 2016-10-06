@@ -134,6 +134,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
         title_row.addView(rn);
 
         TextView fn = new TextView(getApplicationContext());
+
         fn.setText("Name");
         fn.setTextColor(Color.BLACK);
         fn.setPadding(5, 5, 5, 5);

@@ -1,7 +1,5 @@
 package com.classup;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.DefaultRetryPolicy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,6 +89,8 @@ public class ComposeMessage extends AppCompatActivity {
                             VolleyLog.d(tag, "Error: " + error.getMessage());
                         }
                     });
+                    jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                     com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
                     Toast.makeText(getApplicationContext(),
                             "Message(s) sent!",

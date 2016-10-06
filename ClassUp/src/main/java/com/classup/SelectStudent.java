@@ -142,14 +142,14 @@ public class SelectStudent extends AppCompatActivity {
 
                     selected_students.add(student_list.get(i).getId());
 
-                    // also add to the selected subjects list of the adapter
+                    // also add to the selected  list of the adapter
                     adapter.selected_students.add(student_list.get(i).getId());
                     adapter.notifyDataSetChanged();
 
                 } else {
                     textView.setChecked(false);
 
-                    // also remove from the selected subjects list of the adapter
+                    // also remove from the selected list of the adapter
                     adapter.selected_students.remove(student_list.get(i).getId());
                     adapter.notifyDataSetChanged();
 
