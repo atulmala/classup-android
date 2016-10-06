@@ -313,7 +313,7 @@ public class MarksEntry extends AppCompatActivity {
         if (good_to_submit) {
             final ProgressDialog progressDialog = new ProgressDialog(activity);
             progressDialog.setMessage("Please wait...");
-            progressDialog.setCancelable(false);
+            progressDialog.setCancelable(true);
             progressDialog.show();
             String url =  server_ip + "/academics/submit_marks/" + school_id + "/";
             System.out.println(params);
@@ -352,9 +352,9 @@ public class MarksEntry extends AppCompatActivity {
                     error.printStackTrace();
                 }
             });
-            int socketTimeout = 60000;//30 seconds - change to what you want
+            int socketTimeout = 300000;//5 minutes
             RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    -1,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
             jsonObjReq.setRetryPolicy(policy);
 
