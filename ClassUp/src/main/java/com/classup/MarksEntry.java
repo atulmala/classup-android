@@ -312,9 +312,7 @@ public class MarksEntry extends AppCompatActivity {
 
         if (good_to_submit) {
             final ProgressDialog progressDialog = new ProgressDialog(activity);
-            progressDialog.setMessage("Please wait...");
-            progressDialog.setCancelable(true);
-            progressDialog.show();
+
             String url =  server_ip + "/academics/submit_marks/" + school_id + "/";
             System.out.println(params);
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -324,25 +322,6 @@ public class MarksEntry extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d(tag, response.toString());
-
-                            try {
-                                // 11/19/2015 - we will have to either implement threading
-                                // at backend or handle volley's timeoout here. Because
-                                // we send sms at the backend, response takes long in
-                                // coming to android...
-                                if (response.get("status").toString().equals("success")) {
-                                    progressDialog.hide();
-                                    progressDialog.dismiss();
-                                    Toast.makeText(getApplicationContext(),
-                                            "Marks/Grades successfully submitted",
-                                            Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent("com.classup.TeacherMenu").
-                                            setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
                         }
                     }, new Response.ErrorListener() {
 
@@ -359,6 +338,12 @@ public class MarksEntry extends AppCompatActivity {
             jsonObjReq.setRetryPolicy(policy);
 
             com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
+            Toast.makeText(getApplicationContext(),
+                    "Marks/Grades successfully submitted",
+                    Toast.LENGTH_SHORT).show();
+            startActivity(new Intent("com.classup.TeacherMenu").
+                    setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
 }

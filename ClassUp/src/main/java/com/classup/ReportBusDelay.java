@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -42,6 +44,9 @@ public class ReportBusDelay extends AppCompatActivity {
         setContentView(R.layout.activity_report_bus_delay);
         // get the server ip to make api calls
         c = this.getApplicationContext();
+
+        // 08/10/2016 - setting the below property to prevent duplicate post requests
+        //System.setProperty("http.keepAlive", "false");
     }
 
     //@Override
@@ -178,8 +183,13 @@ public class ReportBusDelay extends AppCompatActivity {
                                     }
                                 }
                             });
-                    jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                    /*jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+                    int socketTimeout = 300000;//5 minutes
+                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                            -1,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                    jsonObjReq.setRetryPolicy(policy);
                     com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
                     Toast.makeText(getApplicationContext(),
                             "Message(s) sent!",
