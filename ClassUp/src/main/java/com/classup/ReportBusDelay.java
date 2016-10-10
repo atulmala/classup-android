@@ -133,11 +133,12 @@ public class ReportBusDelay extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 } else {
+                    dialog.dismiss();
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        jsonObject.put("date", d);
+                        /*jsonObject.put("date", d);
                         jsonObject.put("month", m);
-                        jsonObject.put("year", y);
+                        jsonObject.put("year", y);*/
                         jsonObject.put("school_id", school_id);
                         jsonObject.put("rout", rout);
                         jsonObject.put("teacher", teacher);
@@ -149,8 +150,7 @@ public class ReportBusDelay extends AppCompatActivity {
                         System.out.println("array out of bounds exception");
                         ae.printStackTrace();
                     }
-                    String url =  server_ip +
-                            "/bus_attendance/report_delay/";
+                    String url =  server_ip + "/bus_attendance/report_delay/";
                     url = url.replace(" ", "%20");
                     final String tag = "ReportBusDelay";
                     JsonObjectRequest jsonObjReq =
@@ -165,39 +165,20 @@ public class ReportBusDelay extends AppCompatActivity {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
                                     VolleyLog.d(tag, "Error: " + error.getMessage());
-                                    if (error instanceof TimeoutError ||
-                                            error instanceof NoConnectionError) {
-                                        Toast.makeText(getApplicationContext(),
-                                                "Slow network connection, please try later",
-                                                Toast.LENGTH_LONG).show();
-                                    } else if (error instanceof ServerError) {
-                                        Toast.makeText(getApplicationContext(),
-                                                "Server error, please try later",
-                                                Toast.LENGTH_LONG).show();
-                                    } else if (error instanceof NetworkError) {
-                                        Toast.makeText(getApplicationContext(),
-                                                "Network error, please try later",
-                                                Toast.LENGTH_LONG).show();
-                                    } else if (error instanceof ParseError) {
-                                        //TODO
-                                    }
                                 }
                             });
-                    /*jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
                     int socketTimeout = 300000;//5 minutes
                     RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
                             -1,
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
                     jsonObjReq.setRetryPolicy(policy);
+                    
                     com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
                     Toast.makeText(getApplicationContext(),
-                            "Message(s) sent!",
-                            Toast.LENGTH_SHORT).show();
+                            "Message(s) sent!", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     startActivity(new Intent("com.classup.TeacherMenu"));
-                    com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq,
-                            "ReportBusDelay");
+
                 }
             }
         });
