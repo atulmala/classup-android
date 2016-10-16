@@ -158,15 +158,5 @@ public class PasswordChange extends AppCompatActivity {
                 }
             }
         });
-
-        /*btn_cancel_password_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), TeacherMenu.class).
-                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });*/
     }
 }

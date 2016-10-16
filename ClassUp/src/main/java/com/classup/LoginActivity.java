@@ -14,10 +14,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.TimeoutError;
@@ -141,6 +143,11 @@ public class LoginActivity extends AppCompatActivity {
                             // TODO Auto-generated method stub
                         }
                     });
+            int socketTimeout = 300000;//5 minutes
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                    -1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            jsObjRequest1.setRetryPolicy(policy);
             com.classup.AppController.getInstance().addToRequestQueue(jsObjRequest1);
         }
     }

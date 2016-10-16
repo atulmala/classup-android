@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.classup">
 
-    <!--<uses-sdk android:minSdkVersion="19" />-->
+    <!-- <uses-sdk android:minSdkVersion="19" /> -->
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -204,6 +204,11 @@
         <activity
             android:name=".ShowExamList"
             android:label="Select Exam" />
-        <activity android:name=".ShowExamResults"></activity>
+        <activity android:name=".ShowExamResults" />
+        <activity
+            android:name=".CommunicationHistory"
+            android:label="Communication History">
+        </activity>
     </application>
+
 </manifest>

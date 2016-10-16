@@ -31,4 +31,6 @@
     <string name="compose_message">Compose Message</string>
     <string name="select_student">Select Student(s)</string>
     <string name="parent_menu_Heading">Parent Menu</string>
+    <string name="commnication_history_heading">Communication History</string>
+    <string name="communication_date">Date: </string>
 </resources>
