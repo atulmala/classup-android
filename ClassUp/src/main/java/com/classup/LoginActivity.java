@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             // the password change button. Because people press it multiple times
             String message = "Password change initiated. Please wait for upto 15 min for SMS";
             Toast toast =
-                    Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(),message, Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0,0);
             toast.show();
 
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                                         else {
                                             Toast.makeText(getApplicationContext(),
                                                     "User does not exist. Please contact " +
-                                                            "ClassUp Support at info@classup.in",
+                                                            "ClassUp Support at support@classup.in",
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     } catch (org.json.JSONException je) {
