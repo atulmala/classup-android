@@ -126,7 +126,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
         title_row.setLayoutParams(lp);
 
         TextView rn = new TextView(getApplicationContext());
-        rn.setText("Roll No");
+        rn.setText("Roll #");
         rn.setTextColor(Color.BLACK);
         rn.setPadding(5, 5, 5, 5);
         //fn.setHeight(20);
@@ -143,7 +143,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
         title_row.addView(fn);
 
         TextView att = new TextView(getApplicationContext());
-        att.setText("Attendance");
+        att.setText("Att  ");
         att.setTextColor(Color.BLACK);
         att.setPadding(5, 5, 5, 5);
         //fn.setHeight(20);

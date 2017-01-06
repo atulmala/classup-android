@@ -31,7 +31,7 @@ public class MiscFunctions extends Activity {
     private static final int RANDOM_STRING_LENGTH = 10;
 
     String server_ip = "http://10.0.2.2:8000";
-    // server_ip = "https://www.classupclient.com";
+    //String server_ip = "https://www.classupclient.com";
 
     private static MiscFunctions ourInstance = new MiscFunctions();
 
@@ -67,8 +67,7 @@ public class MiscFunctions extends Activity {
      * This method generates random string
      * @return
      */
-    public String generateRandomString(){
-
+    public String generateRandomString()    {
         StringBuffer randStr = new StringBuffer();
         for(int i=0; i<RANDOM_STRING_LENGTH; i++){
             int number = getRandomNumber();

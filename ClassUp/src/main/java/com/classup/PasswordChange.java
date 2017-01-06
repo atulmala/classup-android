@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,17 +27,12 @@ import org.json.JSONObject;
 import java.lang.annotation.Target;
 
 public class PasswordChange extends AppCompatActivity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_change);
         Button btn_perform_password_chnge =
                 (Button)findViewById(R.id.btn_perform_password_change);
-        /*Button btn_cancel_password_change =
-                (Button)findViewById(R.id.btn_cancel_password_change);*/
         final EditText ed1  = ((EditText)findViewById((R.id.new_password)));
         final EditText ed2 = (EditText)findViewById(R.id.new_password1);
 

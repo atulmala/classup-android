@@ -73,6 +73,14 @@ public class LoginActivity extends AppCompatActivity {
             good_to_go = false;
         }
         if (good_to_go) {
+            // 06/01/17 - need to show the below message immediately after pressing
+            // the password change button. Because people press it multiple times
+            String message = "Password change initiated. Please wait for upto 15 min for SMS";
+            Toast toast =
+                    Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0,0);
+            toast.show();
+
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("user", userName.getText().toString());

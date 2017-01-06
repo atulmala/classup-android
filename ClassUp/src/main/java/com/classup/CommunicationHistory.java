@@ -58,6 +58,10 @@ public class CommunicationHistory extends AppCompatActivity {
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        if(response.length() < 1)   {
+                            Toast.makeText(context, "Communication History is blank.",
+                                    Toast.LENGTH_LONG).show();
+                        }
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject jo = response.getJSONObject(i);
@@ -72,7 +76,6 @@ public class CommunicationHistory extends AppCompatActivity {
                                 String ddmmyyyy = dd + "/" + month + "/" + yy;
 
                                 String message = jo.getString("message");
-
 
                                 communication_list.add(new CommunicationSource(id,
                                         ddmmyyyy, message));
