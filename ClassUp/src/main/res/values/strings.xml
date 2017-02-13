@@ -15,6 +15,12 @@
     <string name="cancel">Cancel</string>
     <string name="title_activity_test_manager">Test Manager</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="send_bulk_sms">Send Bulk SMS</string>
+    <string name="school_admin_menu">School Admin Menu</string>
+    <string name="logout">Log Out</string>
+    <string name="send_whole_school">Send to Whole School</string>
+    <string name="send_select_classes">Send to Selected Classes</string>
+    <string name="compose_bulk_sms">Compose Bulk SMS (Max 200 chars)</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

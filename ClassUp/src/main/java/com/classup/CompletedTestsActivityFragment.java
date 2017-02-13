@@ -41,7 +41,6 @@ public class CompletedTestsActivityFragment extends Fragment {
     public CompletedTestsActivityFragment() {
     }
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_completed_tests, container, false);
@@ -55,7 +54,7 @@ public class CompletedTestsActivityFragment extends Fragment {
         server_ip = MiscFunctions.getInstance().getServerIP(c);
 
         String logged_in_user = SessionManager.getInstance().getLogged_in_user();
-        // as we are using sihgleton pattern to get the logged in user, sometimes the method
+        // as we are using singleton pattern to get the logged in user, sometimes the method
         // call returns a blank string. In this case we will retry for 20 times and if not
         // successful even after then we will ask the user to log in again
         int i = 0;

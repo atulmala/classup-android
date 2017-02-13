@@ -60,6 +60,17 @@
             </intent-filter>
         </activity>
 
+        <!-- activity for school admin -->
+        <activity
+            android:name=".SchoolAdmin"
+            android:label="@string/school_admin_menu">
+            <intent-filter>
+                <action android:name="com.classup.SchoolAdmin" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!--
          activity for selecting class, section, subject, date,
          month, and year for taking attendance and scheduling tests
@@ -207,7 +218,10 @@
         <activity android:name=".ShowExamResults" />
         <activity
             android:name=".CommunicationHistory"
-            android:label="Communication History">
+            android:label="Communication History" />
+        <activity android:name=".SendBulkSMS"
+            android:label="Send Bulk SMS">
+
         </activity>
     </application>
 

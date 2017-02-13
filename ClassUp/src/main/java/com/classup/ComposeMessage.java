@@ -1,5 +1,7 @@
 package com.classup;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ComposeMessage extends AppCompatActivity {
+    final Activity a = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,70 +39,96 @@ public class ComposeMessage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText editText = (EditText) findViewById(R.id.editText);
-                String message = editText.getText().toString();
+                final String message = editText.getText().toString();
                 if (message.equals("")) {
                     Toast.makeText(getApplicationContext(), "Message is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    JSONObject jsonObject = new JSONObject();
-                    Intent intent = getIntent();
-                    ArrayList<String> selected_students = new ArrayList<>();
-                    selected_students = intent.getStringArrayListExtra("student_list");
+                    // 10/01/17 - Upon request from GRADS International School teachers,
+                    // we are adding confirmation dialog prior to sending the message to prevent
+                    // accidental sending
+                    final android.app.AlertDialog.Builder builder =
+                            new android.app.AlertDialog.Builder(a);
+                    builder.setMessage("Are you sure you want to send message(s)?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    JSONObject jsonObject = new JSONObject();
+                                    Intent intent = getIntent();
+                                    ArrayList<String> selected_students = new ArrayList<>();
+                                    selected_students =
+                                            intent.getStringArrayListExtra("student_list");
 
-                    try {
-                        jsonObject.put("message", message);
-                        jsonObject.put("teacher", teacher);
-                        jsonObject.put("class", intent.getStringExtra("class"));
-                        jsonObject.put("section", intent.getStringExtra("section"));
-                        if(intent.getStringExtra("whole_class").equals("true"))
-                            jsonObject.put("whole_class", "true");
-                        else
-                            jsonObject.put("whole_class", "false");
+                                    try {
+                                        jsonObject.put("message", message);
+                                        jsonObject.put("teacher", teacher);
+                                        jsonObject.put("class", intent.getStringExtra("class"));
+                                        jsonObject.put("section", intent.getStringExtra("section"));
+                                        if (intent.getStringExtra("whole_class").equals("true"))
+                                            jsonObject.put("whole_class", "true");
+                                        else
+                                            jsonObject.put("whole_class", "false");
 
-                        if(intent.getStringExtra("whole_class").equals("false"))    {
-                            for (int i=0; i<selected_students.size(); i++) {
-                                jsonObject.put(MiscFunctions.getInstance().generateRandomString(),
-                                        selected_students.get(i));
-                            }
-                            System.out.println(jsonObject);
-                        }
-                    }
-                    catch (JSONException je)  {
-                        System.out.println("unable to create json for subjects to be deleted");
-                        je.printStackTrace();
-                    } catch (ArrayIndexOutOfBoundsException ae) {
-                        System.out.println("array out of bounds exception");
-                        ae.printStackTrace();
-                    }
-                    String school_id = SessionManager.getInstance().getSchool_id();
-                    String url =  server_ip + "/operations/send_message/" + school_id + "/";
+                                        if (intent.getStringExtra("whole_class").equals("false")) {
+                                            for (int i = 0; i < selected_students.size(); i++) {
+                                                jsonObject.put(MiscFunctions.getInstance().
+                                                                generateRandomString(),
+                                                        selected_students.get(i));
+                                            }
+                                            System.out.println(jsonObject);
+                                        }
+                                    } catch (JSONException je) {
+                                        System.out.println
+                                                ("unable to create json for " +
+                                                        "compose message functionality");
+                                        je.printStackTrace();
+                                    } catch (ArrayIndexOutOfBoundsException ae) {
+                                        System.out.println("array out of bounds exception");
+                                        ae.printStackTrace();
+                                    }
+                                    String school_id = SessionManager.getInstance().getSchool_id();
+                                    String url =
+                                            server_ip + "/operations/send_message/" +
+                                                    school_id + "/";
 
-                    JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                            url, jsonObject,
-                            new Response.Listener<JSONObject>() {
+                                    JsonObjectRequest jsonObjReq =
+                                            new JsonObjectRequest(Request.Method.POST,
+                                                    url, jsonObject,
+                                                    new Response.Listener<JSONObject>() {
 
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.d(tag, response.toString());
+                                                        @Override
+                                                        public void onResponse(JSONObject response)
+                                                        {
+                                                            Log.d(tag, response.toString());
+                                                        }
+                                                    }, new Response.ErrorListener() {
+
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    VolleyLog.d(tag, "Error: "
+                                                            + error.getMessage());
+                                                }
+                                            });
+                                    jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                                    com.classup.AppController.getInstance().
+                                            addToRequestQueue(jsonObjReq, tag);
+                                    Toast.makeText(getApplicationContext(),
+                                            "Message(s) sent!",
+                                            Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent("com.classup.TeacherMenu").
+                                            setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                    finish();
                                 }
-                            }, new Response.ErrorListener() {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            VolleyLog.d(tag, "Error: " + error.getMessage());
-                        }
-                    });
-                    jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                    com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
-                    Toast.makeText(getApplicationContext(),
-                            "Message(s) sent!",
-                            Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent("com.classup.TeacherMenu").
-                            setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                    finish();
+                            }).setNegativeButton(R.string.cancel,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.show();
                 }
+                ;
             }
         });
     }

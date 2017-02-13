@@ -173,9 +173,6 @@ public class MarksEntry extends AppCompatActivity {
 
             com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest1, tag);
         }
-
-
-
     }
 
     @Override

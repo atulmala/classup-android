@@ -233,6 +233,9 @@ public class LoginActivity extends AppCompatActivity {
                                                 Toast.makeText(getApplicationContext(), greetings,
                                                         Toast.LENGTH_SHORT).show();
                                                 // present the options menu
+                                                String is_school_admin =
+                                                        response.get("school_admin").toString();
+
                                                 String is_staff =
                                                         (response.get("is_staff")).toString();
                                                 if (is_staff.equals("true")) {
@@ -240,10 +243,21 @@ public class LoginActivity extends AppCompatActivity {
                                                             response.get("school_id").toString();
                                                     SessionManager.getInstance().
                                                             setSchool_id(school_id);
-                                                    startActivity(new Intent
+                                                    if (is_school_admin.equals("true")) {
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "School Admin",
+                                                                Toast.LENGTH_SHORT).show();
+
+                                                        startActivity(new Intent
+                                                                ("com.classup.SchoolAdmin"));
+                                                        finish();
+                                                    }
+                                                    else
+                                                        startActivity(new Intent
                                                             ("com.classup.TeacherMenu"));
                                                     finish();
-                                                } else
+                                                }
+                                                else
                                                     startActivity(new Intent
                                                             ("com.classup.ShowWard"));
                                             } else {
