@@ -128,7 +128,6 @@ public class ComposeMessage extends AppCompatActivity {
                     // Create the AlertDialog object and return it
                     builder.show();
                 }
-                ;
             }
         });
     }

@@ -46,7 +46,6 @@ public class SetSubjects extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final Activity a = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_subjects);
 
@@ -136,11 +135,7 @@ public class SetSubjects extends AppCompatActivity {
         final SetSubjectsAdapter adapter = new SetSubjectsAdapter(this,
                 android.R.layout.simple_list_item_checked, subject_list, already_set_subjects);
 
-        //final ArrayList<String>subjects = new ArrayList<>();
-        //final ArrayList<String>codes = new ArrayList<>();
-
         Context c = this.getApplicationContext();
-
 
         final ListView listView = (ListView)findViewById(R.id.set_subject_list);
 
@@ -212,7 +207,6 @@ public class SetSubjects extends AppCompatActivity {
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
 
-        //final ArrayList<String> subjects_to_remove = new ArrayList<>();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -246,8 +240,6 @@ public class SetSubjects extends AppCompatActivity {
                         selected_subjects.remove(codes.get(i));
                         adapter.selected_subjects.remove((codes.get(i)));
                     }
-                    String message = "Subject " + subjects.get(i) + " "
-                            + codes.get(i) + " has been un-selected.";
                 }
             }
         });

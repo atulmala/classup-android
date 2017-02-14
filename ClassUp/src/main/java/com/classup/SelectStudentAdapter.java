@@ -22,9 +22,7 @@ import java.util.List;
  * Created by atulgupta on 07/10/15.
  */
 public class SelectStudentAdapter extends ArrayAdapter {
-    //private Activity activity;
     private ArrayList<AttendanceListSource> student_list;
-    private ArrayList<AttendanceListSource> absent_student_list;
     public ArrayList<String> selected_students = new ArrayList<>();
 
     String server_ip;
@@ -54,10 +52,6 @@ public class SelectStudentAdapter extends ArrayAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    public void clearAbsentee_list()    {
-        student_list.clear();
     }
 
     public View getView(final int position, View convertView, final ViewGroup parent) {

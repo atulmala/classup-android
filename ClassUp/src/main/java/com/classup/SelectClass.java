@@ -64,11 +64,8 @@ public class SelectClass extends AppCompatActivity {
         System.out.println("school_id=" + school_id);
         String classUrl =  server_ip + "/academics/class_list/" +
                 school_id + "/?format=json";
-        //String classUrl =  server_ip + "/academics/class_list/?format=json";
         String sectionUrl =  server_ip + "/academics/section_list/" +
                 school_id + "/?format=json";
-
-        String subjectUrl2 =  server_ip + "/academics/subject_list/?format=json";
 
         String logged_in_user = SessionManager.getInstance().getLogged_in_user();
         // as we are using sihgleton pattern to get the logged in user, sometimes the method
@@ -114,7 +111,6 @@ public class SelectClass extends AppCompatActivity {
         // behoviour of this activity
         Intent intent = getIntent();
         sender = intent.getStringExtra("sender");
-        //Button submit_button = (Button)findViewById(R.id.btn_Take_Attendance);
         switch(sender)  {
             case "takeAttendance":
                 // Future dated attendance is not allowed

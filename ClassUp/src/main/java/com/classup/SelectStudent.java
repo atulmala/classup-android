@@ -48,10 +48,8 @@ public class SelectStudent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_student);
-        //final Activity activity = this;
 
         final ArrayList<AttendanceListSource> student_list = new ArrayList<AttendanceListSource>();
-        //final ArrayList<String> selected_students = new ArrayList<>();
 
         final String server_ip = MiscFunctions.getInstance().getServerIP(this);
         final String school_id = SessionManager.getInstance().getSchool_id();
