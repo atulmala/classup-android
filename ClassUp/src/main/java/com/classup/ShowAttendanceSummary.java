@@ -37,7 +37,6 @@ import java.util.Calendar;
 public class ShowAttendanceSummary extends AppCompatActivity {
     String tag = "ShowAttendanceSummary";
     String school_id = "";
-    JSONObject params = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

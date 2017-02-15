@@ -221,9 +221,15 @@
             android:label="Communication History" />
         <activity
             android:name=".SendBulkSMS"
-            android:label="Send Bulk SMS"></activity>
-        <activity android:name=".SelectionForBulkSMS"
-            android:label="Please Select">
+            android:label="Send Bulk SMS" />
+        <activity
+            android:name=".SelectionForBulkSMS"
+            android:label="Please Select" />
+        <activity android:name=".SchoolAttendanceSummary"
+            android:label="Attendance Summary"/>
+        <activity android:name=".SelectDate"
+            android:label="Select Date">
+
         </activity>
     </application>
 

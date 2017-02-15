@@ -39,4 +39,5 @@
     <string name="parent_menu_Heading">Parent Menu</string>
     <string name="commnication_history_heading">Communication History</string>
     <string name="communication_date">Date: </string>
+    <string name="daily_attendance_summary">Daily Attendance Summary</string>
 </resources>

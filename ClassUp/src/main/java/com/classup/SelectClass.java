@@ -89,7 +89,6 @@ public class SelectClass extends AppCompatActivity {
         setContentView(R.layout.activity_select_class);
         classPicker = (NumberPicker)findViewById(R.id.pick_class);
         TextView cls = (TextView) classPicker.getChildAt(0);
-        //cls.setTextSize(30);
         sectionPicker = (NumberPicker)findViewById(R.id.pick_section);
         subjectPicker = (NumberPicker)findViewById(R.id.pick_subject);
         datePicker = (DatePicker)findViewById(R.id.pick_date_attendance);
