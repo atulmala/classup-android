@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,8 +42,16 @@ public class ComposeMessage extends AppCompatActivity {
                 EditText editText = (EditText) findViewById(R.id.editText);
                 final String message = editText.getText().toString();
                 if (message.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Message is empty!",
-                            Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "Message is empty!",
+                            Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (message.length() > 140) {
+                    String prompt = "Message is too long. Please limit it to 140 Characters";
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            prompt, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 } else {
                     // 10/01/17 - Upon request from GRADS International School teachers,
                     // we are adding confirmation dialog prior to sending the message to prevent

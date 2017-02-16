@@ -20,7 +20,7 @@
     <string name="logout">Log Out</string>
     <string name="send_whole_school">Send to Whole School</string>
     <string name="send_select_classes">Send to Selected Classes</string>
-    <string name="compose_bulk_sms">Compose Bulk SMS (Max 200 chars)</string>
+    <string name="compose_sms">Compose SMS (Max 140 chars)</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -40,4 +40,5 @@
     <string name="commnication_history_heading">Communication History</string>
     <string name="communication_date">Date: </string>
     <string name="daily_attendance_summary">Daily Attendance Summary</string>
+    <string name="change_password">Change Password</string>
 </resources>
