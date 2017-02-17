@@ -225,12 +225,13 @@
         <activity
             android:name=".SelectionForBulkSMS"
             android:label="Please Select" />
-        <activity android:name=".SchoolAttendanceSummary"
-            android:label="Attendance Summary"/>
-        <activity android:name=".SelectDate"
-            android:label="Select Date">
-
-        </activity>
+        <activity
+            android:name=".SchoolAttendanceSummary"
+            android:label="Attendance Summary" />
+        <activity
+            android:name=".SelectDate"
+            android:label="Select Date"></activity>
+        <activity android:name=".AddStudent"></activity>
     </application>
 
 </manifest>

@@ -41,4 +41,5 @@
     <string name="communication_date">Date: </string>
     <string name="daily_attendance_summary">Daily Attendance Summary</string>
     <string name="change_password">Change Password</string>
+    <string name="add_student">Add Student</string>
 </resources>
