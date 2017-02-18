@@ -42,4 +42,14 @@
     <string name="daily_attendance_summary">Daily Attendance Summary</string>
     <string name="change_password">Change Password</string>
     <string name="add_student">Add Student</string>
+    <string name="class_standard">Class/Standard</string>
+    <string name="first_name">First Name</string>
+    <string name="mobile_1">Mobile 1</string>
+    <string name="mobile_2">Mobile 2</string>
+    <string name="surname">Surname</string>
+    <string name="section_batch">Section/Batch</string>
+    <string name="regitration_number">Regitration Number</string>
+    <string name="parent_name">Parent Name</string>
+    <string name="mobile">Mobile 1</string>
+    <string name="registration_no">Registration No</string>
 </resources>

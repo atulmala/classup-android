@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -58,7 +59,8 @@
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:text="@string/select_class"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RtlHardcoded" />
             <NumberPicker
                 android:id="@+id/pick_class"
                 android:layout_width="fill_parent"
@@ -85,7 +87,8 @@
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:text="@string/select_section"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RtlHardcoded" />
             <NumberPicker
                 android:id="@+id/pick_section"
                 android:layout_width="fill_parent"
