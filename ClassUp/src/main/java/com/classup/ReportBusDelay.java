@@ -136,9 +136,6 @@ public class ReportBusDelay extends AppCompatActivity {
                     dialog.dismiss();
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        /*jsonObject.put("date", d);
-                        jsonObject.put("month", m);
-                        jsonObject.put("year", y);*/
                         jsonObject.put("school_id", school_id);
                         jsonObject.put("rout", rout);
                         jsonObject.put("teacher", teacher);

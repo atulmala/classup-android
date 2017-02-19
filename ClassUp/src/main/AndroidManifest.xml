@@ -230,8 +230,9 @@
             android:label="Attendance Summary" />
         <activity
             android:name=".SelectDate"
-            android:label="Select Date"></activity>
-        <activity android:name=".AddStudent"></activity>
+            android:label="Select Date"/>
+        <activity android:name=".AddStudent"
+            android:label="Enter Details"/>
     </application>
 
 </manifest>

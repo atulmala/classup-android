@@ -68,7 +68,7 @@ public class SelectClass extends AppCompatActivity {
                 school_id + "/?format=json";
 
         String logged_in_user = SessionManager.getInstance().getLogged_in_user();
-        // as we are using sihgleton pattern to get the logged in user, sometimes the method
+        // as we are using singleton pattern to get the logged in user, sometimes the method
         // call returns a blank string. In this case we will retry for 20 times and if not
         // successful even after then we will ask the user to log in again
         int i = 0;
@@ -88,15 +88,9 @@ public class SelectClass extends AppCompatActivity {
 
         setContentView(R.layout.activity_select_class);
         classPicker = (NumberPicker)findViewById(R.id.pick_class);
-        TextView cls = (TextView) classPicker.getChildAt(0);
         sectionPicker = (NumberPicker)findViewById(R.id.pick_section);
         subjectPicker = (NumberPicker)findViewById(R.id.pick_subject);
         datePicker = (DatePicker)findViewById(R.id.pick_date_attendance);
-
-        ViewGroup viewGroup = (ViewGroup)datePicker.findViewById(Resources.getSystem().
-                getIdentifier("month", "id", "android"));
-        EditText dateEd = (EditText)viewGroup.getChildAt(0);
-        //dateEd.setTextSize(25);
 
         setupPicker(classPicker, classUrl, "standard", "class_api");
         setupPicker(sectionPicker, sectionUrl, "section", "section_api");
@@ -157,7 +151,6 @@ public class SelectClass extends AppCompatActivity {
                         progressDialog.hide();
                         progressDialog.dismiss();
                         String[] picker_contents = item_list.toArray(new String[item_list.size()]);
-                        //picker_contents =
                         try {
                             picker.setMaxValue(picker_contents.length - 1);
                             picker.setDisplayedValues(picker_contents);
@@ -412,10 +405,7 @@ public class SelectClass extends AppCompatActivity {
                 });
                 break;
         }
-
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -430,11 +420,6 @@ public class SelectClass extends AppCompatActivity {
                 break;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
