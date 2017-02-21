@@ -183,7 +183,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectStudent" />
-        <activity android:name=".SelectClassSection" />
+        <activity
+            android:name=".SelectClassSection"
+            android:label="Select Class/Section" />
         <activity android:name=".ComposeMessage" />
         <activity android:name=".SelectCriteriaBusAttendance" />
         <activity android:name=".TakeBusAttendance" />
@@ -230,9 +232,14 @@
             android:label="Attendance Summary" />
         <activity
             android:name=".SelectDate"
-            android:label="Select Date"/>
-        <activity android:name=".AddStudent"
-            android:label="Enter Details"/>
+            android:label="Select Date" />
+        <activity
+            android:name=".AddStudent"
+            android:label="Enter Details" />
+        <activity
+            android:name=".SelectClassSection1"
+            android:label="Select Class/Section" />
+        <activity android:name=".SelectStudent1"></activity>
     </application>
 
 </manifest>

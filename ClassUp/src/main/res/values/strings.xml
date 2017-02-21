@@ -54,4 +54,5 @@
     <string name="registration_no">Registration No</string>
     <string name="mobile1">Parent\'s Mobile 1</string>
     <string name="mobile2">Parent\'s Mobile 2</string>
+    <string name="update_student">Update Student</string>
 </resources>
