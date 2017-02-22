@@ -111,6 +111,8 @@ public class AttendanceList extends AppCompatActivity {
                                 String f_name = jo.getString("fist_name");
                                 String l_name = jo.getString("last_name");
                                 String full_name = f_name + " " + l_name;
+                                // get the erp_id of the student
+                                String erp_id = jo.getString("student_erp_id");
 
                                 // get the id of the student
                                 String id = jo.getString("id");
@@ -119,7 +121,7 @@ public class AttendanceList extends AppCompatActivity {
                                 String roll_no = jo.getString("roll_number");
                                 // put all the above details into the adapter
                                 attendanceList.add(new AttendanceListSource
-                                        (roll_no, full_name, id));
+                                        (roll_no, full_name, id, erp_id));
                                 tot_students = attendanceList.size();
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {

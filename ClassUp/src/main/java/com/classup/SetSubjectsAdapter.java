@@ -35,7 +35,6 @@ import java.util.List;
  * Created by atulgupta on 07/10/15.
  */
 public class SetSubjectsAdapter extends ArrayAdapter {
-    //private Activity activity;
     private ArrayList<SubjectListSource> subject_list;
     public ArrayList<String> selected_subjects = new ArrayList<>();
 

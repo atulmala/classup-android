@@ -180,6 +180,7 @@ public class AddStudent extends AppCompatActivity {
         final String parent_name = ((EditText)findViewById(R.id.parent_name)).getText().toString();
         final String mobile1 = ((EditText)findViewById(R.id.mobile1)).getText().toString();
         final String mobile2 = ((EditText)findViewById(R.id.mobile2)).getText().toString();
+        final String roll_no = ((EditText)findViewById(R.id.roll_no)).getText().toString();
 
         // Get the class
         final String[] classList = classPicker.getDisplayedValues();
@@ -256,6 +257,9 @@ public class AddStudent extends AppCompatActivity {
                 final String school_id = SessionManager.getInstance().getSchool_id();
                 String url1 = server_ip + "/setup/check_reg_no/?school_id=" + school_id;
                 url1 += "&reg_no=" + reg_no;
+                url1 += "&the_class=" + the_class;
+                url1 += "&section=" + section;
+                url1 += "&roll_no=" + roll_no;
                 final ProgressDialog progressDialog = new ProgressDialog(this);
                 progressDialog.setMessage("Please wait...");
                 progressDialog.setCancelable(false);
@@ -289,6 +293,7 @@ public class AddStudent extends AppCompatActivity {
                                                 prompt += " with mobile1: " + mobile1;
                                                 prompt += ", mobile2: " + mobile2;
                                                 prompt += " to class " + the_class + " " + section;
+                                                prompt += ", Roll No: " + roll_no;
                                                 prompt += "?";
                                                 final android.app.AlertDialog.Builder builder =
                                                         new android.app.AlertDialog.
@@ -323,6 +328,8 @@ public class AddStudent extends AppCompatActivity {
                                                                             the_class);
                                                                     jsonObject.put("section",
                                                                             section);
+                                                                    jsonObject.put("roll_no",
+                                                                            roll_no);
 
                                                                 } catch (JSONException je) {
                                                                     System.out.println

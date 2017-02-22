@@ -239,7 +239,11 @@
         <activity
             android:name=".SelectClassSection1"
             android:label="Select Class/Section" />
-        <activity android:name=".SelectStudent1"></activity>
+        <activity
+            android:name=".SelectStudent1"
+            android:label="Select Student" />
+        <activity android:name=".EditStudent"
+            android:label="Edit Student"/>
     </application>
 
 </manifest>

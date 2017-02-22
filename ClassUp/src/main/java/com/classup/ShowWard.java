@@ -68,6 +68,9 @@ public class ShowWard extends AppCompatActivity {
                                 String full_name = f_name + " " + l_name;
                                 ward_name.add(full_name);
 
+                                // get the erp_id of the student
+                                String erp_id = jo.getString("student_erp_id");
+
                                 // get the id of the student
                                 String id = jo.getString("id");
                                 ward_id.add(id);
@@ -75,7 +78,8 @@ public class ShowWard extends AppCompatActivity {
                                 // get the roll number of the student
                                 String roll_no = jo.getString("roll_number");
                                 // put all the above details into the adapter
-                                ward_list.add(new AttendanceListSource(roll_no, full_name, id));
+                                ward_list.add(new AttendanceListSource(roll_no,
+                                        full_name, id, erp_id));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +

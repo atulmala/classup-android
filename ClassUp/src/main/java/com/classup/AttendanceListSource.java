@@ -8,6 +8,7 @@ public   class AttendanceListSource  {
     private String full_name;
     private String roll_number;
     private String id;
+    private String erp_id;
 
     // for bus attendance
     private String bus_stop;
@@ -23,11 +24,12 @@ public   class AttendanceListSource  {
     }
 
 
-    public AttendanceListSource(String roll_number, String full_name, String id) {
+    public AttendanceListSource(String roll_number, String full_name, String id, String erp_id) {
         super();
         this.full_name = full_name;
         this.roll_number = roll_number;
         this.id = id;
+        this.erp_id = erp_id;
     }
 
     public String getEntry_type() {
@@ -70,6 +72,9 @@ public   class AttendanceListSource  {
         return roll_number;
     }
 
+    public String getErp_id() {
+        return erp_id;
+    }
 
     public void setRoll_number(String roll_number) {
         this.roll_number = roll_number;
