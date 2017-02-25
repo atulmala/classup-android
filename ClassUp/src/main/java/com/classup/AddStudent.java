@@ -190,9 +190,6 @@ public class AddStudent extends AppCompatActivity {
         final String[] sectionList = sectionPicker.getDisplayedValues();
         final String section = sectionList[(sectionPicker.getValue())];
 
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         switch (id) {
@@ -298,10 +295,8 @@ public class AddStudent extends AppCompatActivity {
                                                 final android.app.AlertDialog.Builder builder =
                                                         new android.app.AlertDialog.
                                                                 Builder(context);
-                                                builder.setMessage(prompt)
-                                                        .setPositiveButton("Yes",
-                                                                new DialogInterface.
-                                                                        OnClickListener() {
+                                                builder.setMessage(prompt).setPositiveButton("Yes",
+                                                        new DialogInterface.OnClickListener() {
                                                             public void onClick
                                                                     (DialogInterface dialog, int id)
                                                             {

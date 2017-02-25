@@ -43,10 +43,8 @@ public class SelectClassSection1 extends AppCompatActivity {
         server_ip = MiscFunctions.getInstance().getServerIP(c);
         school_id = SessionManager.getInstance().getSchool_id();
         System.out.println("school_id=" + school_id);
-        String classUrl =  server_ip + "/academics/class_list/" +
-                school_id + "/?format=json";
-        String sectionUrl =  server_ip + "/academics/section_list/" +
-                school_id + "/?format=json";
+        String classUrl =  server_ip + "/academics/class_list/" + school_id + "/?format=json";
+        String sectionUrl =  server_ip + "/academics/section_list/" + school_id + "/?format=json";
 
         classPicker = (NumberPicker)findViewById(R.id.pick_class1);
         sectionPicker = (NumberPicker)findViewById(R.id.pick_section1);
@@ -85,7 +83,6 @@ public class SelectClassSection1 extends AppCompatActivity {
                         progressDialog.hide();
                         progressDialog.dismiss();
                         String[] picker_contents = item_list.toArray(new String[item_list.size()]);
-                        //picker_contents =
                         try {
                             picker.setMaxValue(picker_contents.length - 1);
                             picker.setDisplayedValues(picker_contents);

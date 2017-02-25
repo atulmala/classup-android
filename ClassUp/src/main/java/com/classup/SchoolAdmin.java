@@ -33,6 +33,11 @@ public class SchoolAdmin extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void addTeacher(View view)   {
+        Intent intent = new Intent(this, AddTeacher.class);
+        startActivity(intent);
+    }
+
     public void admin_changePassword(View view) {
         Intent intent = new Intent(this, PasswordChange.class);
         startActivity(intent);

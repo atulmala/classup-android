@@ -1,5 +1,6 @@
 package com.classup;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -62,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
             String text = "Looks you are not connected to internet. Please connect and try again";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
-
             toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
             toast.show();
             return;
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),message, Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0,0);
             toast.show();
-
+            
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("user", userName.getText().toString());
@@ -197,6 +197,10 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println("array out of bounds exception");
                 ae.printStackTrace();
             }
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
             server_ip = MiscFunctions.getInstance().getServerIP(getApplicationContext());
             String url1 =  server_ip + "/auth/login1/";
             JsonObjectRequest jsObjRequest1 = new JsonObjectRequest
@@ -204,6 +208,8 @@ public class LoginActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
+                                    progressDialog.dismiss();
+                                    progressDialog.dismiss();
                                     try {
                                         String subscription_status =
                                                 response.get("subscription").toString();
@@ -279,6 +285,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            progressDialog.hide();
+                            progressDialog.dismiss();
                             System.out.println(error);
                             if (error instanceof TimeoutError || error instanceof NoConnectionError)
                             {

@@ -92,14 +92,6 @@
         <activity
             android:name=".AttendanceList"
             android:label="@string/title_activity_attendance_list">
-
-            <!-- android:parentActivityName=".SelectClass" > -->
-            <!--
-                <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.classup.SelectClass" />
-            -->
-
             <intent-filter>
                 <action android:name="com.classup.classup.AttendanceList" />
 
@@ -242,8 +234,11 @@
         <activity
             android:name=".SelectStudent1"
             android:label="Select Student" />
-        <activity android:name=".EditStudent"
-            android:label="Edit Student"/>
+        <activity
+            android:name=".EditStudent"
+            android:label="Edit Student" />
+        <activity android:name=".AddTeacher"
+            android:label="Add Teacher"/>
     </application>
 
 </manifest>

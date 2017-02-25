@@ -56,4 +56,10 @@
     <string name="mobile2">Parent\'s Mobile 2</string>
     <string name="update_student">Update Student</string>
     <string name="roll_no_optional">Roll No (Optional)</string>
+    <string name="name">Name</string>
+    <string name="employee_id">Employee ID</string>
+    <string name="full_name">Full Name</string>
+    <string name="login_id">Login ID</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="add_teacher">Add Teacher</string>
 </resources>
