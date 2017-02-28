@@ -237,8 +237,13 @@
         <activity
             android:name=".EditStudent"
             android:label="Edit Student" />
-        <activity android:name=".AddTeacher"
-            android:label="Add Teacher"/>
+        <activity
+            android:name=".AddTeacher"
+            android:label="Add Teacher" />
+        <activity android:name=".EditTeacher"
+            android:label="Edit Teacher"/>
+        <activity android:name=".SelectTeacher"
+            android:label="Select Teacher"/>
     </application>
 
 </manifest>

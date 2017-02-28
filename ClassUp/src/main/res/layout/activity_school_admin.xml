@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/activity_school_admin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.classup.SchoolAdmin">
+
+    <TextView android:text="@string/teacher_menu_Heading"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_bulk_sms"
+        android:text="@string/send_bulk_sms"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="sendBulkSMS"/>
+
+    <Button
+        android:id="@+id/btn_school_att_summary"
+        android:text="@string/daily_attendance_summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="attendanceSummary"/>
+
+    <Button
+        android:id="@+id/btn_add_student"
+        android:text="@string/add_student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="addStudent"/>
+
+    <Button
+        android:id="@+id/btn_update_student"
+        android:text="@string/update_student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="updateStudent"/>
+
+    <Button
+        android:id="@+id/btn_add_teacher"
+        android:text="@string/add_teacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="addTeacher"/>
+
+    <Button
+        android:id="@+id/btn_update_teacher"
+        android:text="@string/update_teacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="updateTeacher"/>
+
+    <Button
+        android:id="@+id/btn_change_admin_password"
+        android:text="@string/change_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="admin_changePassword"/>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="@string/logout"
+        android:onClick="performLogout"/>
+
+</LinearLayout>

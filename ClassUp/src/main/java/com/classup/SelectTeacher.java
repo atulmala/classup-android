@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,57 +27,50 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SelectStudent1 extends AppCompatActivity {
+public class SelectTeacher extends AppCompatActivity {
     final Activity activity = this;
-    String tag = "SelectStudents1";;
+    String tag = "SelectTeacher";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_student1);
+        setContentView(R.layout.activity_select_teacher);
+
+        final ArrayList<TeacherListSource> teacher_list = new ArrayList<>();
 
         final ArrayList<AttendanceListSource> student_list = new ArrayList<AttendanceListSource>();
 
         final String server_ip = MiscFunctions.getInstance().getServerIP(this);
         final String school_id = SessionManager.getInstance().getSchool_id();
-        final Intent intent = getIntent();
-        final String student_list_url =  server_ip + "/student/list/" + school_id + "/" +
-                intent.getStringExtra("class") + "/" +
-                intent.getStringExtra("section") + "/?format=json";
+        final String url =  server_ip + "/teachers/teacher_list/" + school_id + "/";
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        final SelectStudent1Adapter adapter = new SelectStudent1Adapter(this,
-                android.R.layout.simple_list_item_checked, student_list);
-        final ListView listView = (ListView) findViewById(R.id.student_list1);
+        final TeacherListAdapter adapter = new TeacherListAdapter(this,
+                android.R.layout.simple_list_item_checked, teacher_list);
+        final ListView listView = (ListView) findViewById(R.id.teacher_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(adapter);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
-                (Request.Method.GET, student_list_url, null, new Response.Listener<JSONArray>() {
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject jo = response.getJSONObject(i);
-                                // get the name of the student. We need to join first and last names
-                                String r_no = jo.getString("roll_number");
-                                String f_name = jo.getString("fist_name");
-                                String l_name = jo.getString("last_name");
-                                String full_name = r_no + "    " + f_name + " " + l_name;
-                                // get the erp id of the student
-                                String erp_id = jo.getString("student_erp_id");
-
-                                // get the id of the student
+                                // get the id of the teacher
                                 String id = jo.getString("id");
+                                String f_name = jo.getString("first_name");
+                                String l_name = jo.getString("last_name");
+                                String email = jo.getString("email");
+                                String mobile = jo.getString("mobile");
 
-                                // get the roll number of the student
-                                String roll_no = jo.getString("roll_number");
                                 // put all the above details into the adapter
-                                student_list.add(new AttendanceListSource(roll_no,
-                                        full_name, id, erp_id));
+                                teacher_list.add(new TeacherListSource(id, f_name, l_name, mobile,
+                                        email));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +
@@ -123,11 +115,25 @@ public class SelectStudent1 extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String student_id = student_list.get(i).getId();
-                Intent intent1 = new Intent(activity, EditStudent.class);
-                intent1.putExtra("student_id", student_id);
+                Intent intent1 = new Intent(activity, EditTeacher.class);
+
+                String teacher_id = teacher_list.get(i).getId();
+                intent1.putExtra("teacher_id", teacher_id);
+
+                String teacher_name = teacher_list.get(i).getFull_name();
+                intent1.putExtra("teacher_name", teacher_name);
+
+                String teacher_login = teacher_list.get(i).getLogin_id();
+                intent1.putExtra("teacher_login", teacher_login);
+
+                String teacher_mobile = teacher_list.get(i).getMobile();
+                intent1.putExtra("teacher_mobile", teacher_mobile);
+
+
                 startActivity(intent1);
             }
         });
     }
+
+
 }

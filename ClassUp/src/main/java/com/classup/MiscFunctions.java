@@ -30,8 +30,8 @@ public class MiscFunctions extends Activity {
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static final int RANDOM_STRING_LENGTH = 10;
 
-    //String server_ip = "http://10.0.2.2:8000";
-    String server_ip = "https://www.classupclient.com";
+    String server_ip = "http://10.0.2.2:8000";
+    //String server_ip = "https://www.classupclient.com";
 
     private static MiscFunctions ourInstance = new MiscFunctions();
 

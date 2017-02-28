@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    android:layout_marginBottom="0dp"
+    android:background="@color/floral_white"
+    tools:ignore="ExtraText">
+    >
+    <TextView
+        android:text="@string/select_date"
+        android:textSize="20sp"
+        android:id="@+id/txtAttendanceHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="-20dp"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:textStyle="bold" />
+    <DatePicker
+        android:id="@+id/pick_att_summ_school_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-10dp"
+        android:contextClickable="false"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:clickable="false"
+        tools:ignore="UnusedAttribute" />
+</LinearLayout>
