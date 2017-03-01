@@ -309,15 +309,18 @@ public class EditTeacher extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("teacher_id", intent.getStringExtra("teacher_id"));
-                            jsonObject.put("first_name", teacher_name);
+                            jsonObject.put("teacher_name", teacher_name);
                             jsonObject.put("teacher_login", teacher_login);
                             jsonObject.put("teacher_mobile", teacher_mobile);
 
-                            if(chk_whether_class_teacher.isEnabled()) {
+                            if(chk_whether_class_teacher.isChecked()) {
                                 jsonObject.put("is_class_teacher", "true");
                                 jsonObject.put("school_id", school_id);
                                 jsonObject.put("the_class", the_class);
                                 jsonObject.put("section", section);
+                            }
+                            else    {
+                                jsonObject.put("is_class_teacher", "false");
                             }
 
                         } catch (JSONException je) {
@@ -327,7 +330,7 @@ public class EditTeacher extends AppCompatActivity {
                         } catch (ArrayIndexOutOfBoundsException ae) {
                             ae.printStackTrace();
                         }
-                        String url = server_ip + "/setup/update_student/";
+                        String url = server_ip + "/teachers/update_teacher/";
 
                         JsonObjectRequest jsonObjReq = new JsonObjectRequest
                                 (Request.Method.POST, url, jsonObject,
@@ -335,6 +338,19 @@ public class EditTeacher extends AppCompatActivity {
                                             @Override
                                             public void onResponse(JSONObject response) {
                                                 Log.d(tag, response.toString());
+                                                try {
+                                                    String message = response.getString("message");
+                                                    Toast toast = Toast.makeText
+                                                            (getApplicationContext(),
+                                                                    message, Toast.LENGTH_LONG);
+                                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                                    toast.show();
+                                                }
+                                                catch (JSONException je)    {
+                                                    je.printStackTrace();
+                                                }
+
+
                                             }
                                         }, new Response.ErrorListener() {
 
