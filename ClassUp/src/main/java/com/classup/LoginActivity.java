@@ -2,6 +2,7 @@ package com.classup;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,14 +34,13 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
     private EditText userName;
     private EditText password;
-    private Button login;
+    final Context context = this;
 
     String server_ip;
 
     private void setUpVariables() {
         userName = (EditText) findViewById(R.id.usernameET);
         password = (EditText) findViewById(R.id.passwordET);
-        login = (Button) findViewById(R.id.loginBtn);
     }
 
     @Override
@@ -48,13 +48,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_acitivity);
         setUpVariables();
-        Context c = this.getApplicationContext();
 
         userName.setInputType
                 (InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS | InputType.TYPE_CLASS_TEXT);
     }
 
-    public void forgotPassword(View view)  {
+    public void forgotPassword(View view) {
         Boolean good_to_go = true;
         // check for internet connection
         boolean isConnected = MiscFunctions.getInstance().checkConnection(getApplicationContext());
@@ -73,90 +72,105 @@ public class LoginActivity extends AppCompatActivity {
             good_to_go = false;
         }
         if (good_to_go) {
-            // 06/01/17 - need to show the below message immediately after pressing
-            // the password change button. Because people press it multiple times
-            String message = "Password change initiated. Please wait for upto 15 min for SMS";
-            Toast toast =
-                    Toast.makeText(getApplicationContext(),message, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0,0);
-            toast.show();
-            
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("user", userName.getText().toString());
-            } catch (JSONException je) {
-                System.out.println("unable to jsonobject for forgotPassword functionality ");
-                je.printStackTrace();
-            } catch (ArrayIndexOutOfBoundsException ae) {
-                System.out.println("array out of bounds exception");
-                ae.printStackTrace();
-            }
-            server_ip = MiscFunctions.getInstance().getServerIP(getApplicationContext());
-            String url1 =  server_ip + "/auth/forgot_password/";
-            JsonObjectRequest jsObjRequest1 = new JsonObjectRequest
-                    (Request.Method.POST, url1, jsonObject,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        String result = (response.get("forgot_password")).
-                                                toString();
-                                        if(result.equals("successful")) {
-                                                String message = "Password reset successful. " +
-                                                        "You will soon receive " +
-                                                        "new password via SMS";
-                                                Toast.makeText(getApplicationContext(), message,
-                                                        Toast.LENGTH_SHORT).show();
-                                        }
-                                        else {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "User does not exist. Please contact " +
-                                                            "ClassUp Support at support@classup.in",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (org.json.JSONException je) {
-                                        je.printStackTrace();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
+            final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.
+                    Builder(context);
+            String prompt = "Are you sure you want to Reset password?";
+            builder.setMessage(prompt).setPositiveButton("Yes", new DialogInterface.
+                    OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // 06/01/17 - need to show the below message immediately after pressing
+                    // the password change button. Because people press it multiple times
+                    String message = "Password change initiated. Please wait for upto 15 min for SMS";
+                    Toast toast =
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
 
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            if (error instanceof TimeoutError ||
-                                    error instanceof NoConnectionError) {
-                                if (!MiscFunctions.getInstance().checkConnection
-                                        (getApplicationContext())) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Slow network connection or No internet connectivity",
-                                            Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Some problem at server end, please try after " +
-                                                    "some time",
-                                            Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("user", userName.getText().toString());
+                    } catch (JSONException je) {
+                        System.out.println("unable to jsonobject for forgotPassword functionality ");
+                        je.printStackTrace();
+                    } catch (ArrayIndexOutOfBoundsException ae) {
+                        System.out.println("array out of bounds exception");
+                        ae.printStackTrace();
+                    }
+                    server_ip = MiscFunctions.getInstance().getServerIP(getApplicationContext());
+                    String url1 = server_ip + "/auth/forgot_password/";
+                    JsonObjectRequest jsObjRequest1 = new JsonObjectRequest
+                            (Request.Method.POST, url1, jsonObject,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+                                                String result = (response.get("forgot_password")).
+                                                        toString();
+                                                if (result.equals("successful")) {
+                                                    String message = "Password reset successful. " +
+                                                            "You will soon receive " +
+                                                            "new password via SMS";
+                                                    Toast.makeText(getApplicationContext(), message,
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "User does not exist. Please contact " +
+                                                                    "ClassUp Support " +
+                                                                    "at support@classup.in",
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (org.json.JSONException je) {
+                                                je.printStackTrace();
+                                            }
+                                        }
+                                    }, new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    if (error instanceof TimeoutError ||
+                                            error instanceof NoConnectionError) {
+                                        if (!MiscFunctions.getInstance().checkConnection
+                                                (getApplicationContext())) {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Slow network connection " +
+                                                            "or No internet connectivity",
+                                                    Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Some problem at server end, " +
+                                                            "please try after some time",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    } else if (error instanceof ServerError) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "User does not exist. Please contact " +
+                                                        "ClassUp Support at support@classup.in",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof NetworkError) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Network error, please try later",
+                                                Toast.LENGTH_LONG).show();
+                                    } else if (error instanceof ParseError) {
+                                        //TODO
+                                    }
+                                    System.out.println("inside volley error handler(LoginActivity)");
+                                    // TODO Auto-generated method stub
                                 }
-                            } else if (error instanceof ServerError) {
-                                Toast.makeText(getApplicationContext(),
-                                        "User does not exist. Please contact " +
-                                                "ClassUp Support at info@classup.in",
-                                        Toast.LENGTH_LONG).show();
-                            } else if (error instanceof NetworkError) {
-                                Toast.makeText(getApplicationContext(),
-                                        "Network error, please try later",
-                                        Toast.LENGTH_LONG).show();
-                            } else if (error instanceof ParseError) {
-                                //TODO
-                            }
-                            System.out.println("inside volley error handler(LoginActivity)");
-                            // TODO Auto-generated method stub
+                            });
+                    int socketTimeout = 300000;//5 minutes
+                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                            -1,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                    jsObjRequest1.setRetryPolicy(policy);
+                    com.classup.AppController.getInstance().addToRequestQueue(jsObjRequest1);
+                }
+            }).setNegativeButton(R.string.cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
                         }
                     });
-            int socketTimeout = 300000;//5 minutes
-            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
-                    -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-            jsObjRequest1.setRetryPolicy(policy);
-            com.classup.AppController.getInstance().addToRequestQueue(jsObjRequest1);
+            // Create the AlertDialog object and return it
+            builder.show();
         }
     }
 

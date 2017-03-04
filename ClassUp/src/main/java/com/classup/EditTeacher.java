@@ -56,16 +56,17 @@ public class EditTeacher extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        final EditText txt_teacher_name = (EditText)findViewById(R.id.teacher_name);
+        final EditText txt_teacher_name = (EditText) findViewById(R.id.teacher_name);
         txt_teacher_name.setText(intent.getStringExtra("teacher_name"));
 
-        final EditText txt_teacher_login = (EditText)findViewById(R.id.teacher_login);
+        final EditText txt_teacher_login = (EditText) findViewById(R.id.teacher_login);
+        txt_teacher_login.setEnabled(false);
         txt_teacher_login.setText(intent.getStringExtra("teacher_login"));
 
-        final EditText txt_teacher_mobile = (EditText)findViewById(R.id.teacher_mobile);
+        final EditText txt_teacher_mobile = (EditText) findViewById(R.id.teacher_mobile);
         txt_teacher_mobile.setText(intent.getStringExtra("teacher_mobile"));
 
-        final CheckBox chk_whether_class_teacher = (CheckBox)findViewById(R.id.chk_class_teacher);
+        final CheckBox chk_whether_class_teacher = (CheckBox) findViewById(R.id.chk_class_teacher);
 
         // get the server ip to make api calls
         Context c = this.getApplicationContext();
@@ -100,7 +101,7 @@ public class EditTeacher extends AppCompatActivity {
                                 try {
                                     String is_class_teacher =
                                             response.getString("is_class_teacher");
-                                    if(is_class_teacher.equals("true")) {
+                                    if (is_class_teacher.equals("true")) {
                                         chk_whether_class_teacher.setChecked(true);
                                         String the_class = response.getString("the_class");
                                         String[] class_array = classPicker.getDisplayedValues();
@@ -112,8 +113,7 @@ public class EditTeacher extends AppCompatActivity {
                                                 sectionPicker.getDisplayedValues();
                                         List<String> section_list = Arrays.asList(section_array);
                                         sectionPicker.setValue(section_list.indexOf(section));
-                                    }
-                                    else    {
+                                    } else {
                                         chk_whether_class_teacher.setChecked(false);
                                         classPicker.setEnabled(false);
                                         sectionPicker.setEnabled(false);
@@ -139,13 +139,11 @@ public class EditTeacher extends AppCompatActivity {
                             if (!MiscFunctions.getInstance().checkConnection
                                     (getApplicationContext())) {
                                 Toast.makeText(getApplicationContext(),
-                                        "Slow network connection or " +
-                                                "No internet connectivity",
+                                        "Slow network connection or No internet connectivity",
                                         Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getApplicationContext(),
-                                        "Some problem at server end, please " +
-                                                "try after some time",
+                                        "Some problem at server end, please try after some time",
                                         Toast.LENGTH_LONG).show();
                             }
                         } else if (error instanceof ServerError) {
@@ -162,11 +160,10 @@ public class EditTeacher extends AppCompatActivity {
         chk_whether_class_teacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (chk_whether_class_teacher.isChecked())    {
+                if (chk_whether_class_teacher.isChecked()) {
                     classPicker.setEnabled(true);
                     sectionPicker.setEnabled(true);
-                }
-                else    {
+                } else {
                     classPicker.setEnabled(false);
                     sectionPicker.setEnabled(false);
                 }
@@ -186,15 +183,15 @@ public class EditTeacher extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final String teacher_name =
-                ((EditText)findViewById(R.id.teacher_name)).getText().toString();
+                ((EditText) findViewById(R.id.teacher_name)).getText().toString();
 
         final String teacher_login =
-                ((EditText)findViewById(R.id.teacher_login)).getText().toString();
+                ((EditText) findViewById(R.id.teacher_login)).getText().toString();
 
         final String teacher_mobile =
-                ((EditText)findViewById(R.id.teacher_mobile)).getText().toString();
+                ((EditText) findViewById(R.id.teacher_mobile)).getText().toString();
 
-        final CheckBox chk_whether_class_teacher = (CheckBox)findViewById(R.id.chk_class_teacher);
+        final CheckBox chk_whether_class_teacher = (CheckBox) findViewById(R.id.chk_class_teacher);
 
         // Get the class
         final String[] classList = classPicker.getDisplayedValues();
@@ -278,7 +275,7 @@ public class EditTeacher extends AppCompatActivity {
                     return super.onOptionsItemSelected(item);
                 }
 
-                if(!MiscFunctions.getInstance().isValidEmailAddress(teacher_login)) {
+                if (!MiscFunctions.getInstance().isValidEmailAddress(teacher_login)) {
                     Toast toast = Toast.makeText(this, "Login id is invalid.", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
@@ -313,19 +310,16 @@ public class EditTeacher extends AppCompatActivity {
                             jsonObject.put("teacher_login", teacher_login);
                             jsonObject.put("teacher_mobile", teacher_mobile);
 
-                            if(chk_whether_class_teacher.isChecked()) {
+                            if (chk_whether_class_teacher.isChecked()) {
                                 jsonObject.put("is_class_teacher", "true");
                                 jsonObject.put("school_id", school_id);
                                 jsonObject.put("the_class", the_class);
                                 jsonObject.put("section", section);
-                            }
-                            else    {
+                            } else {
                                 jsonObject.put("is_class_teacher", "false");
                             }
-
                         } catch (JSONException je) {
-                            System.out.println("unable to create json for " +
-                                    "aupdate student");
+                            System.out.println("unable to create json for update teacher");
                             je.printStackTrace();
                         } catch (ArrayIndexOutOfBoundsException ae) {
                             ae.printStackTrace();
@@ -345,8 +339,7 @@ public class EditTeacher extends AppCompatActivity {
                                                                     message, Toast.LENGTH_LONG);
                                                     toast.setGravity(Gravity.CENTER, 0, 0);
                                                     toast.show();
-                                                }
-                                                catch (JSONException je)    {
+                                                } catch (JSONException je) {
                                                     je.printStackTrace();
                                                 }
 
