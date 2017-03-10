@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +27,9 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.TimeoutError;
 import com.android.volley.NoConnectionError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -200,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (good_to_go) {
-            JSONObject jsonObject = new JSONObject();
+            final JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("user", userName.getText().toString());
                 jsonObject.put("password", password.getText().toString());
@@ -248,6 +251,45 @@ public class LoginActivity extends AppCompatActivity {
                                                 // set the logged in user
                                                 SessionManager.getInstance().setLogged_in_user
                                                         (userName.getText().toString());
+
+                                                // 10/03/17 - send the registration token to server
+                                                String refreshedToken =
+                                                        FirebaseInstanceId.getInstance().getToken();
+                                                Toast toast = Toast.makeText(context,
+                                                        refreshedToken, Toast.LENGTH_LONG);
+                                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                                toast.show();
+                                                JSONObject jsonObject1 = new JSONObject();
+                                                jsonObject1.put("user",
+                                                        userName.getText().toString());
+                                                jsonObject1.put("device_token", refreshedToken);
+                                                jsonObject1.put("device_type", "Android");
+
+                                                String url2 = server_ip + "/auth/map_device_token/";
+                                                JsonObjectRequest jsonObjReq =
+                                                        new JsonObjectRequest(Request.Method.POST,
+                                                                url2, jsonObject1,
+                                                                new Response.Listener<JSONObject>() {
+
+                                                                    @Override
+                                                                    public void onResponse(JSONObject response)
+                                                                    {
+                                                                        Log.d("map_device_token",
+                                                                                response.toString());
+                                                                    }
+                                                                }, new Response.ErrorListener() {
+
+                                                            @Override
+                                                            public void onErrorResponse(VolleyError error) {
+                                                                VolleyLog.d("map_device_token",
+                                                                        "Error: "
+                                                                        + error.getMessage());
+                                                            }
+                                                        });
+
+                                                com.classup.AppController.getInstance().
+                                                        addToRequestQueue(jsonObjReq,
+                                                                "map_device_token");
 
                                                 String greetings = "Hello, " + user_name;
                                                 Toast.makeText(getApplicationContext(), greetings,

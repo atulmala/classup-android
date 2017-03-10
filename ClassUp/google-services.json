@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "682187619549-mvr7nke28qcimk62jmdvaiolol319281.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.classup",
+            "certificate_hash": "bfe1e6ac4061527d0640748ce9bf7ccacc79ab39"
+          }
+        },
+        {
           "client_id": "682187619549-jplmk8429p2abdvtvge8a4vt5keptv1p.apps.googleusercontent.com",
           "client_type": 3
         }
