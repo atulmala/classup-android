@@ -167,8 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                     jsObjRequest1.setRetryPolicy(policy);
                     com.classup.AppController.getInstance().addToRequestQueue(jsObjRequest1);
                 }
-            }).setNegativeButton(R.string.cancel,
-                    new DialogInterface.OnClickListener() {
+            }).setNegativeButton(R.string.cancel,  new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                         }
                     });
@@ -258,7 +257,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 Toast toast = Toast.makeText(context,
                                                         refreshedToken, Toast.LENGTH_LONG);
                                                 toast.setGravity(Gravity.CENTER, 0, 0);
-                                                toast.show();
+                                                //toast.show();
                                                 JSONObject jsonObject1 = new JSONObject();
                                                 jsonObject1.put("user",
                                                         userName.getText().toString());
@@ -275,7 +274,8 @@ public class LoginActivity extends AppCompatActivity {
                                                                     public void onResponse(JSONObject response)
                                                                     {
                                                                         Log.d("map_device_token",
-                                                                                response.toString());
+                                                                                response.
+                                                                                        toString());
                                                                     }
                                                                 }, new Response.ErrorListener() {
 
@@ -292,8 +292,11 @@ public class LoginActivity extends AppCompatActivity {
                                                                 "map_device_token");
 
                                                 String greetings = "Hello, " + user_name;
-                                                Toast.makeText(getApplicationContext(), greetings,
-                                                        Toast.LENGTH_SHORT).show();
+                                                Toast toast1 = Toast.makeText(
+                                                        getApplicationContext(), greetings,
+                                                        Toast.LENGTH_SHORT);
+                                                toast1.setGravity(Gravity.CENTER, 0, 0);
+                                                toast1.show();
                                                 // present the options menu
                                                 String is_school_admin =
                                                         response.get("school_admin").toString();
@@ -378,26 +381,5 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "Login/Password not correct! Please retry.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login_acitivity, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -64,12 +64,12 @@
         android:layout_height="wrap_content"
         android:onClick="admin_changePassword"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/btn_logout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:text="@string/logout"
-        android:onClick="performLogout"/>
+        android:onClick="performLogout"/>-->
 
 </LinearLayout>

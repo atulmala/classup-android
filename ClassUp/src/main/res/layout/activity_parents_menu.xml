@@ -17,33 +17,33 @@
 
     <Button
         android:id="@+id/btn_parent_Attendance"
-        android:text="Month wise Attendance"
+        android:text="@string/month_wise_attendance"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="take_action"/>
 
     <Button
         android:id="@+id/btn_term_test_results"
-        android:text="Term Test Results"
+        android:text="@string/term_test_results"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="take_action"/>
 
     <Button
         android:id="@+id/btn_subject_wise_marks"
-        android:text="Subject Wise Marks"
+        android:text="@string/subject_wise_marks"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="take_action"/>
     <Button
         android:id="@+id/btn_communicate_with_school"
-        android:text="Communicate with School"
+        android:text="@string/communicate_with_school"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="take_action"/>
     <Button
         android:id="@+id/btn_communicate_history"
-        android:text="Communication History"
+        android:text="@string/communication_history"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="take_action"/>
@@ -51,15 +51,15 @@
         android:id="@+id/btn_parent_change_password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Change Password"
+        android:text="@string/change_password"
         android:onClick="p_changePassword"/>
 
-    <Button
+   <!-- <Button
         android:id="@+id/btn_parent_logout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Logout"
-        android:onClick="p_logout"/>
+        android:text="@string/logout"
+        android:onClick="p_logout"/>-->
 
 </LinearLayout>

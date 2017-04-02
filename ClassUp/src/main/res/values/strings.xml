@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Classup™</string>
+    <string name="app_name">Classup</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -20,7 +20,7 @@
     <string name="logout">Log Out</string>
     <string name="send_whole_school">Send to Whole School</string>
     <string name="send_select_classes">Send to Selected Classes</string>
-    <string name="compose_sms">Compose SMS (Max 140 chars)</string>
+    <string name="compose_sms">Compose SMS</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -68,4 +68,20 @@
     <string name="teacher_mobile">Mobile</string>
     <string name="teacher_name">Name</string>
     <string name="select_class_section">Select Class Section:</string>
+    <string name="authentication_required">Authentication Required</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="send_message">Send Message</string>
+    <string name="send_message_to_parents">Send Message to Parents</string>
+    <string name="attendance_summaries">Attendance Summaries</string>
+    <string name="bus_attendance">Bus Attendance</string>
+    <string name="schedule_test">Schedule Test</string>
+    <string name="manage_tests">Manage Tests</string>
+    <string name="take_update_attendance">Take/Update Attendance</string>
+    <string name="set_my_subjects">Set My Subjects</string>
+    <string name="communicate_with_school">Communicate with School</string>
+    <string name="communication_history">Communication History</string>
+    <string name="month_wise_attendance">Month wise Attendance</string>
+    <string name="subject_wise_marks">Subject Wise Marks</string>
+    <string name="term_test_results">Term Test Results</string>
 </resources>

@@ -22,14 +22,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
+    <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Message"
+        android:text="@string/send_message"
         android:id="@+id/btn_send_message_to_parents"
 
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" />-->
 
     <TextView
         android:layout_width="wrap_content"

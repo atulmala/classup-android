@@ -31,7 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class TeacherMenu extends AppCompatActivity {
+public class  TeacherMenu extends AppCompatActivity {
     private Button btnTakeAttendance;
     private Button btnManageTest;
 
@@ -170,10 +170,14 @@ public class TeacherMenu extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+
+
+
+    //@Override
+    public boolean onCreateOptionsMenu(Menu m) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_teacher_menu, menu);
+        m.add(0, 0, 0, "Logout").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
         return true;
     }
 
@@ -187,6 +191,14 @@ public class TeacherMenu extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        switch (id) {
+            case 0:
+                SessionManager.getInstance().logout();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
         }
 
         return super.onOptionsItemSelected(item);

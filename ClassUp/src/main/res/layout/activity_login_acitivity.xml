@@ -13,68 +13,56 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Authentication Required"
+        android:text="@string/authentication_required"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="75dp"
-        android:layout_marginLeft="10dp"
-        android:text="Username:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
         android:id="@+id/usernameET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_marginLeft="35dp"
-        android:layout_toRightOf="@+id/textView2"
-        android:hint="login id/email"
-        android:inputType="textEmailAddress">
+        android:hint="login id"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/textView1"
+        android:layout_alignLeft="@+id/forgot_password"
+        android:layout_alignStart="@+id/forgot_password"
+        android:layout_alignRight="@+id/forgot_password"
+        android:layout_alignEnd="@+id/forgot_password">
         <requestFocus />
     </EditText>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="40dp"
-        android:text="Password:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
         android:id="@+id/passwordET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/usernameET"
-        android:layout_alignRight="@+id/usernameET"
         android:hint="password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/usernameET"
+        android:layout_alignLeft="@+id/usernameET"
+        android:layout_alignStart="@+id/usernameET"
+        android:layout_alignRight="@+id/usernameET"
+        android:layout_alignEnd="@+id/usernameET" />
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/passwordET"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
         android:onClick="authenticateLogin"
-        android:text="Login" />
+        android:text="@string/login"
+        android:layout_below="@+id/passwordET"
+        android:layout_marginTop="19dp"
+        android:layout_alignLeft="@+id/passwordET"
+        android:layout_alignStart="@+id/passwordET"
+        android:layout_alignRight="@+id/passwordET"
+        android:layout_alignEnd="@+id/passwordET" />
 
     <Button
         android:id="@+id/forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="forgotPassword"
-        android:text="Forgot Password?"
+        android:text="@string/forgot_password"
         android:layout_below="@+id/loginBtn"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp" />
 </RelativeLayout>
