@@ -84,4 +84,8 @@
     <string name="month_wise_attendance">Month wise Attendance</string>
     <string name="subject_wise_marks">Subject Wise Marks</string>
     <string name="term_test_results">Term Test Results</string>
+    <string name="home_work">Home Work</string>
+    <string name="hw_due_date">Due Date</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="hw_image">HW Image</string>
 </resources>

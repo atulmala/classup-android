@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.classup"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 33
         versionName "2.7"
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':volley')
     compile project(':gson-2.4')
     compile 'com.android.support:appcompat-v7:25.2.0'
@@ -33,6 +33,8 @@ dependencies {
     compile 'com.jjoe64:graphview:4.0.1'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.google.firebase:firebase-messaging:9.6.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile files('libs/pinchzoom/pinchzoom.jar')
 }
 
 // Add to the bottom of the file

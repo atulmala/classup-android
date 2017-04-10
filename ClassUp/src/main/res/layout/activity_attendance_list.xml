@@ -22,7 +22,8 @@
             android:paddingLeft="5dp"
             android:text="Roll No"
             android:textColor="@color/white"
-            android:textSize="@dimen/abc_text_size_medium_material" />
+            android:textSize="@dimen/abc_text_size_medium_material"
+            tools:ignore="RtlSymmetry" />
         <!-- second column name -->
         <TextView
             android:layout_width="wrap_content"
@@ -40,7 +41,8 @@
             android:paddingRight="3dp"
             android:text="P"
             android:textColor="@color/white"
-            android:textSize="@dimen/abc_text_size_medium_material" />
+            android:textSize="@dimen/abc_text_size_medium_material"
+            tools:ignore="RtlSymmetry" />
         <!-- fourth column for absence -->
         <TextView
             android:layout_width="wrap_content"
@@ -59,24 +61,5 @@
         android:layout_weight="1"
         android:longClickable="true">
     </ListView>
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_SubmitAttendance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"
-            android:text="Submit"/>
-        <Button
-            android:id="@+id/btn_CancelAttendance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:onClick="cancelAttendance"/>
-    </LinearLayout>-->
+
 </LinearLayout>

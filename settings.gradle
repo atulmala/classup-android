@@ -1,1 +1,1 @@
-include ':ClassUp', ':volley', ':gson-2.4'
+include ':ClassUp', ':volley', ':gson-2.4', ':pinchzoom'

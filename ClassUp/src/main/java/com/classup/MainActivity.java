@@ -2,12 +2,9 @@ package com.classup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.classup.R;
 
 
 public class MainActivity extends AppCompatActivity {

@@ -1,6 +1,5 @@
 package com.classup;
 
-import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -13,7 +12,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
@@ -37,7 +35,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.classup.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

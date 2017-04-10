@@ -34,6 +34,13 @@
         android:text="@string/send_message_to_parents" />
 
     <Button
+        android:id="@+id/btn_homework"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_work"
+        android:onClick="manageHW"/>
+
+    <Button
         android:id="@+id/btn_schedule_Test"
         android:text="@string/schedule_test"
         android:layout_width="fill_parent"
@@ -58,8 +65,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/set_my_subjects"
-        android:onClick="setSubjects"/>
+        android:onClick="setSubjects"
+        android:text="@string/set_my_subjects" />
 
     <Button
         android:id="@+id/btn_change_Password"

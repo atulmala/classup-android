@@ -1,10 +1,8 @@
 package com.classup;
 
 import android.app.Activity;
-
 import android.content.Context;
 import android.graphics.Color;
-import android.renderscript.ScriptGroup;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;

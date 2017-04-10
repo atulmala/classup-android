@@ -1,15 +1,12 @@
 package com.classup;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -22,7 +19,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.classup.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -157,22 +153,16 @@ public class  TeacherMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void performLogout(View view)    {
-        SessionManager.getInstance().logout();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
     public void sendMessage(View view)  {
         Intent intent = new Intent(this, SelectClassSection.class);
         startActivity(intent);
     }
 
-
-
-
-
+    public void manageHW(View view) {
+        Intent intent = new Intent(this, HWList.class);
+        intent.putExtra("sender", "teacher_menu");
+        startActivity(intent);
+    }
     //@Override
     public boolean onCreateOptionsMenu(Menu m) {
         // Inflate the menu; this adds items to the action bar if it is present.

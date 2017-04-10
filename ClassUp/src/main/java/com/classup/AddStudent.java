@@ -1,15 +1,11 @@
 package com.classup;
 
-import android.*;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -54,9 +50,9 @@ public class AddStudent extends AppCompatActivity {
         server_ip = MiscFunctions.getInstance().getServerIP(c);
         school_id = SessionManager.getInstance().getSchool_id();
         System.out.println("school_id=" + school_id);
-        String classUrl =  server_ip + "/academics/class_list/" +
+        String classUrl = server_ip + "/academics/class_list/" +
                 school_id + "/?format=json";
-        String sectionUrl =  server_ip + "/academics/section_list/" +
+        String sectionUrl = server_ip + "/academics/section_list/" +
                 school_id + "/?format=json";
 
         String logged_in_user = SessionManager.getInstance().getLogged_in_user();
@@ -66,7 +62,7 @@ public class AddStudent extends AppCompatActivity {
         int i = 0;
         while (logged_in_user.equals("")) {
             logged_in_user = SessionManager.getInstance().getLogged_in_user();
-            if (i++ == 20)  {
+            if (i++ == 20) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "There seems to be some problem with network. Please re-login",
                         Toast.LENGTH_LONG);
@@ -78,8 +74,8 @@ public class AddStudent extends AppCompatActivity {
             }
         }
 
-        classPicker = (NumberPicker)findViewById(R.id.class_picker);
-        sectionPicker = (NumberPicker)findViewById(R.id.section_picker);
+        classPicker = (NumberPicker) findViewById(R.id.class_picker);
+        sectionPicker = (NumberPicker) findViewById(R.id.section_picker);
         setupPicker(classPicker, classUrl, "standard", "class_api");
         setupPicker(sectionPicker, sectionUrl, "section", "section_api");
     }
@@ -117,16 +113,14 @@ public class AddStudent extends AppCompatActivity {
                         try {
                             picker.setMaxValue(picker_contents.length - 1);
                             picker.setDisplayedValues(picker_contents);
-                        }
-                        catch (ArrayIndexOutOfBoundsException e)    {
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("there seems to be no data for " + tag);
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(),
                                     "It looks that you have not yet set subjects. " +
                                             "Please set subjects", Toast.LENGTH_LONG).show();
                             startActivity(new Intent("com.classup.SetSubjects"));
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("ran into exception during " + tag);
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(),
@@ -145,7 +139,7 @@ public class AddStudent extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),
                                     "Slow network connection, please try later",
                                     Toast.LENGTH_LONG).show();
-                        }  else if (error instanceof ServerError) {
+                        } else if (error instanceof ServerError) {
                             Toast.makeText(getApplicationContext(),
                                     "Server error, please try later",
                                     Toast.LENGTH_LONG).show();
@@ -174,13 +168,13 @@ public class AddStudent extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final String user = SessionManager.getInstance().getLogged_in_user();
-        final String reg_no = ((EditText)findViewById(R.id.reg_no)).getText().toString();
-        final String first_name = ((EditText)findViewById(R.id.first_name)).getText().toString();
-        final String last_name = ((EditText)findViewById(R.id.the_surname)).getText().toString();
-        final String parent_name = ((EditText)findViewById(R.id.parent_name)).getText().toString();
-        final String mobile1 = ((EditText)findViewById(R.id.mobile1)).getText().toString();
-        final String mobile2 = ((EditText)findViewById(R.id.mobile2)).getText().toString();
-        final String roll_no = ((EditText)findViewById(R.id.roll_no)).getText().toString();
+        final String reg_no = ((EditText) findViewById(R.id.reg_no)).getText().toString();
+        final String first_name = ((EditText) findViewById(R.id.first_name)).getText().toString();
+        final String last_name = ((EditText) findViewById(R.id.the_surname)).getText().toString();
+        final String parent_name = ((EditText) findViewById(R.id.parent_name)).getText().toString();
+        final String mobile1 = ((EditText) findViewById(R.id.mobile1)).getText().toString();
+        final String mobile2 = ((EditText) findViewById(R.id.mobile2)).getText().toString();
+        final String roll_no = ((EditText) findViewById(R.id.roll_no)).getText().toString();
 
         // Get the class
         final String[] classList = classPicker.getDisplayedValues();
@@ -195,35 +189,35 @@ public class AddStudent extends AppCompatActivity {
         switch (id) {
             case 0:
                 // check for blanks
-                if(reg_no.equals("")) {
+                if (reg_no.equals("")) {
                     Toast toast = Toast.makeText(this, "Registration number is blank",
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     return super.onOptionsItemSelected(item);
                 }
-                if(first_name.equals(""))    {
+                if (first_name.equals("")) {
                     Toast toast = Toast.makeText(this, "First Name is blank",
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     return super.onOptionsItemSelected(item);
                 }
-                if(last_name.equals("")) {
+                if (last_name.equals("")) {
                     Toast toast = Toast.makeText(this, "Surname/Last Name is blank",
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     return super.onOptionsItemSelected(item);
                 }
-                if(parent_name.equals(""))   {
+                if (parent_name.equals("")) {
                     Toast toast = Toast.makeText(this, "Parent Name is blank",
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     return super.onOptionsItemSelected(item);
                 }
-                if(mobile1.equals(""))   {
+                if (mobile1.equals("")) {
                     Toast toast = Toast.makeText(this, "Mobile1  is blank",
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -232,15 +226,15 @@ public class AddStudent extends AppCompatActivity {
                 }
 
                 // mobile numbers should be of exactly 10 digits
-                if(mobile1.length() != 10) {
+                if (mobile1.length() != 10) {
                     Toast toast = Toast.makeText(this,
                             "Mobile1  is invalid. Should be of 10 digits", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     return super.onOptionsItemSelected(item);
                 }
-                if(!mobile2.equals("")) {
-                    if(mobile2.length() != 10) {
+                if (!mobile2.equals("")) {
+                    if (mobile2.length() != 10) {
                         Toast toast = Toast.makeText(this,
                                 "Mobile2  is invalid. Should be of 10 digits", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -263,14 +257,14 @@ public class AddStudent extends AppCompatActivity {
                 progressDialog.show();
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                         (Request.Method.GET, url1, null,
-                                new Response.Listener<JSONObject>()  {
+                                new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         try {
                                             // check that this registration number is not
                                             // associated with any other student
                                             final String status = response.getString("status");
-                                            if(status.equals("error"))  {
+                                            if (status.equals("error")) {
                                                 progressDialog.hide();
                                                 progressDialog.dismiss();
                                                 String message =
@@ -279,8 +273,7 @@ public class AddStudent extends AppCompatActivity {
                                                         Toast.LENGTH_LONG);
                                                 toast.setGravity(Gravity.CENTER, 0, 0);
                                                 toast.show();
-                                            }
-                                            else    {
+                                            } else {
                                                 progressDialog.hide();
                                                 progressDialog.dismiss();
                                                 String prompt = "Are you sure to add ";
@@ -298,8 +291,7 @@ public class AddStudent extends AppCompatActivity {
                                                 builder.setMessage(prompt).setPositiveButton("Yes",
                                                         new DialogInterface.OnClickListener() {
                                                             public void onClick
-                                                                    (DialogInterface dialog, int id)
-                                                            {
+                                                                    (DialogInterface dialog, int id) {
                                                                 JSONObject jsonObject =
                                                                         new JSONObject();
                                                                 try {
@@ -342,22 +334,21 @@ public class AddStudent extends AppCompatActivity {
                                                                 JsonObjectRequest jsonObjReq =
                                                                         new JsonObjectRequest
                                                                                 (Request.Method.POST,
-                                                                                url, jsonObject,
-                                                                                new Response.Listener<JSONObject>() {
+                                                                                        url, jsonObject,
+                                                                                        new Response.Listener<JSONObject>() {
+
+                                                                                            @Override
+                                                                                            public void onResponse(JSONObject response) {
+                                                                                                Log.d(tag, response.toString());
+                                                                                            }
+                                                                                        }, new Response.ErrorListener() {
 
                                                                                     @Override
-                                                                                    public void onResponse(JSONObject response)
-                                                                                    {
-                                                                                        Log.d(tag, response.toString());
+                                                                                    public void onErrorResponse(VolleyError error) {
+                                                                                        VolleyLog.d(tag, "Error: "
+                                                                                                + error.getMessage());
                                                                                     }
-                                                                                }, new Response.ErrorListener() {
-
-                                                                            @Override
-                                                                            public void onErrorResponse(VolleyError error) {
-                                                                                VolleyLog.d(tag, "Error: "
-                                                                                        + error.getMessage());
-                                                                            }
-                                                                        });
+                                                                                });
                                                                 jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
                                                                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                                                                 com.classup.AppController.getInstance().
@@ -365,7 +356,7 @@ public class AddStudent extends AppCompatActivity {
                                                                 Toast toast = Toast.makeText(getApplicationContext(),
                                                                         "Student Added.",
                                                                         Toast.LENGTH_SHORT);
-                                                                toast.setGravity(Gravity.CENTER, 0 , 0);
+                                                                toast.setGravity(Gravity.CENTER, 0, 0);
                                                                 toast.show();
                                                                 startActivity(new Intent("com.classup.SchoolAdmin").
                                                                         setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -396,19 +387,19 @@ public class AddStudent extends AppCompatActivity {
 
                                 if (error instanceof TimeoutError ||
                                         error instanceof NoConnectionError) {
-                                    if(!MiscFunctions.getInstance().checkConnection
+                                    if (!MiscFunctions.getInstance().checkConnection
                                             (getApplicationContext())) {
                                         Toast.makeText(getApplicationContext(),
                                                 "Slow network connection or " +
                                                         "No internet connectivity",
                                                 Toast.LENGTH_LONG).show();
-                                    } else  {
+                                    } else {
                                         Toast.makeText(getApplicationContext(),
                                                 "Some problem at server end, please " +
                                                         "try after some time",
                                                 Toast.LENGTH_LONG).show();
                                     }
-                                }  else if (error instanceof ServerError) {
+                                } else if (error instanceof ServerError) {
                                     Toast.makeText(getApplicationContext(),
                                             "Server error, please try later",
                                             Toast.LENGTH_LONG).show();

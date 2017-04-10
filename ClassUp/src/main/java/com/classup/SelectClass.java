@@ -4,13 +4,18 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,22 +35,33 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.classup.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class SelectClass extends AppCompatActivity {
+    static final int REQUEST_TAKE_PHOTO = 1;
+
+
+
     // Various pickers to be shown on the screen
     private NumberPicker classPicker;
     private NumberPicker sectionPicker;
     private NumberPicker subjectPicker;
     private DatePicker  datePicker;
+
+    String mCurrentPhotoPath;
+
+    MenuItem take_pic;
 
     String server_ip;
     String school_id;
@@ -104,10 +120,11 @@ public class SelectClass extends AppCompatActivity {
         // behoviour of this activity
         Intent intent = getIntent();
         sender = intent.getStringExtra("sender");
+        Calendar calendar =  Calendar.getInstance();
         switch(sender)  {
             case "takeAttendance":
                 // Future dated attendance is not allowed
-                Calendar calendar =  Calendar.getInstance();
+
                 datePicker.setMaxDate(calendar.getTimeInMillis());
                 menu = "Take Attendance";
                 //submit_button.setText("Take Attendance");
@@ -115,6 +132,14 @@ public class SelectClass extends AppCompatActivity {
             case "scheduleTest":
                 //submit_button.setText("Schedule Test");
                 menu = "Schedule Test";
+                break;
+            case "createHW":
+                datePicker.setMinDate(System.currentTimeMillis() - 1000);
+                datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH) + 1);
+                menu = "Take Pic";
+                TextView textView = (TextView)findViewById(R.id.txtAttendanceHeading);
+                textView.setText(R.string.hw_due_date);
                 break;
             default:
                 //submit_button.setText("Go Ahead");
@@ -200,11 +225,25 @@ public class SelectClass extends AppCompatActivity {
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        if (sender.equals("createHW")) {
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                menu.getItem(0).setEnabled(false);
+                ActivityCompat.requestPermissions(this, new String[]{
+                        android.Manifest.permission.CAMERA,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            }
+        }
+        return true;
+    }
+
     //@Override
     public boolean onCreateOptionsMenu(Menu m) {
         // Inflate the menu; this adds items to the action bar if it is present.
         m.add(0, 0, 0, menu).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
+        take_pic = m.getItem(0);
         return true;
     }
 
@@ -233,6 +272,22 @@ public class SelectClass extends AppCompatActivity {
                 intent.putExtra("subject", subjectList[(subjectPicker.getValue())]);
 
                 startActivity(intent);
+                break;
+
+            case "createHW":
+                Intent intent1 = new Intent(this, ReviewHW.class);
+                // Collect the values from pickers
+                // get the Date. Due to different handling of date by Java and Python
+                // we will be using the raw dates, ie, date, month and year separately
+                intent1.putExtra("sender_type", "teacher");
+                intent1.putExtra("date", d.toString());
+                intent1.putExtra("month", m.toString());
+                intent1.putExtra("year", y.toString());
+                intent1.putExtra("class", classList[(classPicker.getValue())]);
+                intent1.putExtra("section", sectionList[(sectionPicker.getValue())]);
+                intent1.putExtra("subject", subjectList[(subjectPicker.getValue())]);
+
+                startActivity(intent1);
                 break;
 
             case "scheduleTest":
@@ -407,6 +462,24 @@ public class SelectClass extends AppCompatActivity {
         }
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -416,11 +489,97 @@ public class SelectClass extends AppCompatActivity {
 
         switch (id) {
             case 0:
-                takeAttendaneOrScheduleTest();
+                if (!sender.equals("createHW")) {
+                    takeAttendaneOrScheduleTest();
+                } else {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // Ensure that there's a camera activity to handle the intent
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        // Create the File where the photo should go
+                        File photoFile = null;
+                        try {
+                            photoFile = createImageFile();
+                        } catch (IOException ex) {
+                            // Error occurred while creating the File
+                        }
+                        // Continue only if the File was successfully created
+                        if (photoFile != null) {
+                            Uri photoURI = FileProvider.getUriForFile(this, "com.classup.provider",
+                                    photoFile);
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                        }
+                    }
+                }
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        final Integer d = datePicker.getDayOfMonth();
+        final Integer m = datePicker.getMonth() + 1;  // because index start from 0
+        final Integer y = datePicker.getYear();
+        // Get the class
+        final String[] classList = classPicker.getDisplayedValues();
+        // Get the section
+        final String[] sectionList = sectionPicker.getDisplayedValues();
+        // Get the subject
+        final String[] subjectList = subjectPicker.getDisplayedValues();
+        Intent intent1 = new Intent(this, ReviewHW.class);
+        // Collect the values from pickers
+        // get the Date. Due to different handling of date by Java and Python
+        // we will be using the raw dates, ie, date, month and year separately
+
+        intent1.putExtra("date", d.toString());
+        intent1.putExtra("month", m.toString());
+        intent1.putExtra("year", y.toString());
+        intent1.putExtra("class", classList[(classPicker.getValue())]);
+        intent1.putExtra("section", sectionList[(sectionPicker.getValue())]);
+        intent1.putExtra("subject", subjectList[(subjectPicker.getValue())]);
+        intent1.putExtra("photo_path", mCurrentPhotoPath);
+
+        /*if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            try {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                //Write file
+                String filename = "bitmap.png";
+                FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 1000, stream);
+                //Pop intent
+                intent1.putExtra("image", imageBitmap);
+                startActivity(intent1);
+
+                //Cleanup
+                stream.close();
+                imageBitmap.recycle();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else    {
+            Toast toast = Toast.makeText(this, "Error creating Home Work. Plase try again",
+                    Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }*/
+        startActivity(intent1);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                take_pic.setEnabled(true);
+            }
+        }
     }
 }

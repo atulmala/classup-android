@@ -1,18 +1,16 @@
 package com.classup;
 
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -81,7 +79,6 @@ public class CompletedTestsActivityFragment extends Fragment {
 
         listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()    {
             public void onItemClick(AdapterView<?> view, View v, int position, long id) {
-
                 intent.putExtra("test_id", completed_test_list.get(position).getId());
 
                 if (completed_test_list.get(position).getMax_marks().equals("Grade Based"))

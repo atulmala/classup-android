@@ -1,24 +1,11 @@
 package com.classup;
 
-import java.util.Random;
-
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
 
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONObject;
+import java.util.Random;
 
 /**
  * Created by root on 9/8/15.
@@ -30,8 +17,8 @@ public class MiscFunctions extends Activity {
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static final int RANDOM_STRING_LENGTH = 10;
 
-    //String server_ip = "http://10.0.2.2:8000";
-    String server_ip = "https://www.classupclient.com";
+    String server_ip = "http://10.0.2.2:8000";
+    //String server_ip = "https://www.classupclient.com";
 
     private static MiscFunctions ourInstance = new MiscFunctions();
 
