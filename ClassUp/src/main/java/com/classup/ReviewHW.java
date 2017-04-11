@@ -186,7 +186,9 @@ public class ReviewHW extends AppCompatActivity {
                         };
                         com.classup.AppController.getInstance().
                                 addToRequestQueue(stringRequest, tag);
-                        Toast.makeText(getApplicationContext(), "HW Uploaded!",
+                        Toast.makeText(getApplicationContext(),
+                                "HW Upload in Progress. " +
+                                        "It will appeare in this list after a few minutes",
                                 Toast.LENGTH_SHORT).show();
                         Intent intent1 = new Intent(getApplicationContext(), HWList.class);
                         intent1.putExtra("sender", "teacher_menu");

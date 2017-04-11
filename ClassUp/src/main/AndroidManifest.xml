@@ -201,8 +201,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".HWList"
-            android:parentActivityName="com.classup.TeacherMenu">
+        <activity android:name=".HWList">
             <intent-filter>
                 <action android:name="com.classup.HWList" />
                 <category android:name="android.intent.category.DEFAULT" />
