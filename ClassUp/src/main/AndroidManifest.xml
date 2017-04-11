@@ -201,6 +201,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".HWList"
+            android:parentActivityName="com.classup.TeacherMenu">
+            <intent-filter>
+                <action android:name="com.classup.HWList" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ReviewHW"/>
         <activity android:name=".ShowAttendanceSummaryParents" />
         <activity android:name=".ParentCommunication" />
         <activity android:name=".ReportBusDelay" />
@@ -282,8 +290,7 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/algae_green" />
 
-        <activity android:name=".HWList" />
-        <activity android:name=".ReviewHW"/>
+
     </application>
 
 </manifest>

@@ -51,7 +51,8 @@
             android:layout_weight="1"
             android:text="A"
             android:textColor="@color/white"
-            android:textSize="@dimen/abc_text_size_medium_material" />
+            android:textSize="@dimen/abc_text_size_medium_material"
+            tools:ignore="RtlSymmetry" />
     </LinearLayout>
 
     <ListView

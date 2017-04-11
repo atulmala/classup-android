@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,8 +51,6 @@ import java.util.Date;
 
 public class SelectClass extends AppCompatActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
-
-
 
     // Various pickers to be shown on the screen
     private NumberPicker classPicker;
@@ -529,47 +528,29 @@ public class SelectClass extends AppCompatActivity {
         final String[] sectionList = sectionPicker.getDisplayedValues();
         // Get the subject
         final String[] subjectList = subjectPicker.getDisplayedValues();
-        Intent intent1 = new Intent(this, ReviewHW.class);
-        // Collect the values from pickers
-        // get the Date. Due to different handling of date by Java and Python
-        // we will be using the raw dates, ie, date, month and year separately
 
-        intent1.putExtra("date", d.toString());
-        intent1.putExtra("month", m.toString());
-        intent1.putExtra("year", y.toString());
-        intent1.putExtra("class", classList[(classPicker.getValue())]);
-        intent1.putExtra("section", sectionList[(sectionPicker.getValue())]);
-        intent1.putExtra("subject", subjectList[(subjectPicker.getValue())]);
-        intent1.putExtra("photo_path", mCurrentPhotoPath);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            Intent intent1 = new Intent(this, ReviewHW.class);
+            // Collect the values from pickers
+            // get the Date. Due to different handling of date by Java and Python
+            // we will be using the raw dates, ie, date, month and year separately
 
-        /*if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            try {
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                //Write file
-                String filename = "bitmap.png";
-                FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 1000, stream);
-                //Pop intent
-                intent1.putExtra("image", imageBitmap);
-                startActivity(intent1);
-
-                //Cleanup
-                stream.close();
-                imageBitmap.recycle();
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            intent1.putExtra("date", d.toString());
+            intent1.putExtra("month", m.toString());
+            intent1.putExtra("year", y.toString());
+            intent1.putExtra("class", classList[(classPicker.getValue())]);
+            intent1.putExtra("section", sectionList[(sectionPicker.getValue())]);
+            intent1.putExtra("subject", subjectList[(subjectPicker.getValue())]);
+            intent1.putExtra("photo_path", mCurrentPhotoPath);
+            startActivity(intent1);
         }
         else    {
             Toast toast = Toast.makeText(this, "Error creating Home Work. Plase try again",
                     Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
-        }*/
-        startActivity(intent1);
+        }
+
     }
 
     @Override
