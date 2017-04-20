@@ -23,6 +23,13 @@
         android:onClick="take_action"/>
 
     <Button
+        android:id="@+id/bth_hw_list_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_work"
+        android:onClick="take_action"/>
+
+    <Button
         android:id="@+id/btn_term_test_results"
         android:text="@string/term_test_results"
         android:layout_width="fill_parent"

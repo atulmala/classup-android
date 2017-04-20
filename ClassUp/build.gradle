@@ -34,7 +34,9 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.google.firebase:firebase-messaging:9.6.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile files('libs/pinchzoom/pinchzoom.jar')
+    compile 'com.amazonaws:aws-android-sdk-s3:2.4.1'
 }
 
 // Add to the bottom of the file

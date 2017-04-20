@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -530,7 +531,10 @@ public class SelectClass extends AppCompatActivity {
         final String[] subjectList = subjectPicker.getDisplayedValues();
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
             Intent intent1 = new Intent(this, ReviewHW.class);
+            intent1.putExtra("sender", "select_class");
+
             // Collect the values from pickers
             // get the Date. Due to different handling of date by Java and Python
             // we will be using the raw dates, ie, date, month and year separately

@@ -11,6 +11,7 @@ import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -23,16 +24,31 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.imagezoom.ImageAttacher;
 import com.imagezoom.ImageAttacher.OnMatrixChangedListener;
 import com.imagezoom.ImageAttacher.OnPhotoTapListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
@@ -43,6 +59,8 @@ import java.util.Map;
 */
 
 public class ReviewHW extends AppCompatActivity {
+    String bucket = "classup2";
+
     final Activity a = this;
     ImageView imageView;
     private ScaleGestureDetector scaleGestureDetector;
@@ -53,42 +71,155 @@ public class ReviewHW extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_hw);
-
-        this.setTitle("Please Review");
-
-        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
         imageView = (ImageView) findViewById(R.id.image_view);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inScaled = false;
-        if (getIntent().getStringExtra("photo_path").equals(""))  {
-            Toast toast = Toast.makeText(this, "Error taking Picture. Please try again.",
-                    Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-            Intent intent = new Intent(this, HWList.class);
-            startActivity(intent);
-        }
-        try {
-            bitmap1 = scaleDownAndRotatePic(getIntent().getStringExtra("photo_path"));
-            imageView.setImageBitmap(bitmap1);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast toast = Toast.makeText(this, "Error taking Picture. Please try again.",
-                    Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-            Intent intent = new Intent(this, HWList.class);
-            startActivity(intent);
-
-        }
         usingSimpleImage(imageView);
+
+        // 12/04/2017 - we can arrive at this ativity from multiple sources
+        // 1. when teacher creates homework by clicking picture. Then this actvity is used for
+        // review picture and uploading to server
+        // 2. when a teacher or parent taps on the list of homework to see the picture. Then this
+        // activity will be shown for just reviewing the picture and then go back to hw list.
+        // In this case Upload option in the menu will not be shown
+        if(getIntent().getStringExtra("sender").equals("select_class")) {
+            this.setTitle("Please Review");
+            scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = false;
+            if (getIntent().getStringExtra("photo_path").equals(""))  {
+                Toast toast = Toast.makeText(this, "Error taking Picture. Please try again.",
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                Intent intent = new Intent(this, HWList.class);
+                startActivity(intent);
+            }
+            try {
+                bitmap1 = scaleDownAndRotatePic(getIntent().getStringExtra("photo_path"));
+                Picasso.with(a).load(new File(getIntent().getStringExtra("photo_path")))
+                        .fit().centerCrop()
+                        .into(imageView);
+                //imageView.setImageBitmap(bitmap1);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast toast = Toast.makeText(this, "Error taking Picture. Please try again.",
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                Intent intent = new Intent(this, HWList.class);
+                startActivity(intent);
+
+            }
+        }
+        else    {
+            // Initialize the Amazon Cognito credentials provider
+            CognitoCachingCredentialsProvider credentialsProvider =
+                    new CognitoCachingCredentialsProvider(getApplicationContext(),
+                    "us-west-2:f31aeb5c-d78f-4ba2-b0e0-4aaff07c8220", // Identity Pool ID
+                    Regions.US_WEST_2 // Region
+            );
+
+            // Create an S3 client
+            AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
+
+            TransferUtility transferUtility = new TransferUtility(s3, getApplicationContext());
+            String location = getIntent().getStringExtra("location");
+            final ProgressDialog progressDialog = new ProgressDialog(a);
+            progressDialog.setMessage("Retrieving HW. This can take a few moment. Please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            Picasso.with(getApplicationContext())
+                    .load(location).fit()
+                    .centerCrop()
+                    .into(imageView,  new Callback() {
+                @Override
+                public void onSuccess() {
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+
+                }
+
+                @Override
+                public void onError() {
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Failed to download HW Image", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            });
+            String key = location.substring(34);
+            System.out.println("key=" + key);
+            File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
+
+            /*try {
+                //S3Object s3object = s3.getObject(new GetObjectRequest(bucket, key));
+                //System.out.println("Content-Type: "  + s3object.getObjectMetadata().getContentType());
+                TransferObserver observer = transferUtility.download(
+                        bucket,
+                        key,
+                        file
+                );
+                System.out.println(file);
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                //imageView.setImageBitmap(bitmap);
+
+            } catch (AmazonServiceException ase) {
+                System.out.println("Caught an AmazonServiceException, which" +
+                        " means your request made it " +
+                        "to Amazon S3, but was rejected with an error response" +
+                        " for some reason.");
+                System.out.println("Error Message:    " + ase.getMessage());
+                System.out.println("HTTP Status Code: " + ase.getStatusCode());
+                System.out.println("AWS Error Code:   " + ase.getErrorCode());
+                System.out.println("Error Type:       " + ase.getErrorType());
+                System.out.println("Request ID:       " + ase.getRequestId());
+            } catch (AmazonClientException ace) {
+                System.out.println("Caught an AmazonClientException, which means"+
+                        " the client encountered " +
+                        "an internal error while trying to " +
+                        "communicate with S3, " +
+                        "such as not being able to access the network.");
+                System.out.println("Error Message: " + ace.getMessage());
+            }*/
+
+            String server_ip = MiscFunctions.getInstance().getServerIP(this);
+            String url = server_ip + "/academics/get_hw_image/" +
+                    getIntent().getStringExtra("hw_id");
+            this.setTitle("HW Image");
+
+            /*ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    System.out.println("image downloaded");
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                    imageView.setImageBitmap(response);
+                }
+            }, 0, 0, null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Volley request failed",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    Log.e("GetHWImage", "http Volley request failed!", volleyError);
+                    volleyError.printStackTrace();
+                }
+            });
+            com.classup.AppController.getInstance().addToRequestQueue(ir, "GetHWImage");*/
+        }
     }
 
     //@Override
     public boolean onCreateOptionsMenu(Menu m) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        m.add(0, 0, 0, "Upload").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if(getIntent().getStringExtra("sender").equals("select_class")) {
+            m.add(0, 0, 0, "Upload").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            return true;
+        }
         return true;
     }
 
@@ -121,6 +252,7 @@ public class ReviewHW extends AppCompatActivity {
                         progressDialog.setMessage("Please wait...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
+
                         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                                 url, new Response.Listener<String>() {
                             @Override
@@ -184,12 +316,17 @@ public class ReviewHW extends AppCompatActivity {
                                 return params;
                             }
                         };
+                        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         com.classup.AppController.getInstance().
                                 addToRequestQueue(stringRequest, tag);
-                        Toast.makeText(getApplicationContext(),
+                        Toast toast = Toast.makeText(getApplicationContext(),
                                 "HW Upload in Progress. " +
                                         "It will appeare in this list after a few minutes",
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+
                         Intent intent1 = new Intent(getApplicationContext(), HWList.class);
                         intent1.putExtra("sender", "teacher_menu");
                         //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -228,9 +365,10 @@ public class ReviewHW extends AppCompatActivity {
 
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
         return encodedImage;
     }
 
@@ -277,8 +415,7 @@ public class ReviewHW extends AppCompatActivity {
             int width_tmp = o.outWidth, height_tmp = o.outHeight;
             int scale = 0;
             while (true) {
-                if (width_tmp / 2 < REQUIRED_SIZE
-                        || height_tmp / 2 < REQUIRED_SIZE)
+                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
                     break;
                 width_tmp /= 2;
                 height_tmp /= 2;

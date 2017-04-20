@@ -92,6 +92,13 @@ public class ParentsMenu extends AppCompatActivity {
                                                 intent.putExtra("student_name", student_name);
                                                 startActivity(intent);
                                                 break;
+                                            case R.id.bth_hw_list_parent:
+                                                intent = new Intent(getApplicationContext(),
+                                                        HWList.class);
+                                                intent.putExtra("sender", "ParentApp");
+                                                intent.putExtra("student_id", student_id);
+                                                startActivity(intent);
+                                                break;
                                         }
                                     }
                                 } catch (org.json.JSONException je) {
