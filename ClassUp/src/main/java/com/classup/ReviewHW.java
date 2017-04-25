@@ -322,12 +322,12 @@ public class ReviewHW extends AppCompatActivity {
                                 addToRequestQueue(stringRequest, tag);
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "HW Upload in Progress. " +
-                                        "It will appeare in this list after a few minutes",
+                                        "It will appeare Home Work list after a few minutes",
                                 Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
 
-                        Intent intent1 = new Intent(getApplicationContext(), HWList.class);
+                        Intent intent1 = new Intent(getApplicationContext(), TeacherMenu.class);
                         intent1.putExtra("sender", "teacher_menu");
                         //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                 //Intent.FLAG_ACTIVITY_CLEAR_TASK);

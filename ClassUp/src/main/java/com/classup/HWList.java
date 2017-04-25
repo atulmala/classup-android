@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.view.Gravity;
@@ -213,7 +214,6 @@ public class HWList extends AppCompatActivity {
                         });
                 // Create the AlertDialog object and return it
                 builder.show();
-                //Toast.makeText(getActivity(), "Row is long clicked", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

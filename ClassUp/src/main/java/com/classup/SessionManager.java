@@ -28,6 +28,26 @@ public class SessionManager {
         this.school_id = school_id;
     }
 
+    Boolean bus_attendance_known = false;
+
+    public Boolean getBus_attendance_known() {
+        return bus_attendance_known;
+    }
+
+    public void setBus_attendance_known(Boolean bus_attendance_known) {
+        this.bus_attendance_known = bus_attendance_known;
+    }
+
+    String bus_attendance = "false";
+
+    public String getBus_attendance() {
+        return bus_attendance;
+    }
+
+    public void setBus_attendance(String bus_attendance) {
+        this.bus_attendance = bus_attendance;
+    }
+
     public void logout()    {
         school_id = "";
         logged_in_user = "";

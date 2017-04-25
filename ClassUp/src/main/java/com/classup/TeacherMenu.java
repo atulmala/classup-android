@@ -46,59 +46,67 @@ public class  TeacherMenu extends AppCompatActivity {
 
         String server_ip = MiscFunctions.getInstance().getServerIP(getApplicationContext());
         String school_id = SessionManager.getInstance().getSchool_id();
-        String url = server_ip + "/setup/bus_attendance_enabled/" + school_id + "/?format=json";
-        final String tag = "bus_attendance_enabled";
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject jo = response.getJSONObject(i);
-                                bus_attendance.add(jo.getString("enable_bus_attendance")); ;
-                            } catch (JSONException je) {
-                                System.out.println("Ran into JSON exception while dealing with "
-                                        + tag);
-                                je.printStackTrace();
-                            } catch (Exception e) {
-                                System.out.println("Caught General exception " +
-                                        "while dealing with" + tag);
-                                e.printStackTrace();
+        if (!SessionManager.getInstance().getBus_attendance_known()) {
+            String url = server_ip + "/setup/bus_attendance_enabled/" + school_id + "/?format=json";
+            final String tag = "bus_attendance_enabled";
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
+                    (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    JSONObject jo = response.getJSONObject(i);
+                                    bus_attendance.add(jo.getString("enable_bus_attendance"));
+                                    SessionManager.getInstance().setBus_attendance_known(true);
+                                    SessionManager.getInstance().
+                                            setBus_attendance(jo.getString("enable_bus_attendance"));
+                                } catch (JSONException je) {
+                                    System.out.println("Ran into JSON exception while dealing with "
+                                            + tag);
+                                    je.printStackTrace();
+                                } catch (Exception e) {
+                                    System.out.println("Caught General exception " +
+                                            "while dealing with" + tag);
+                                    e.printStackTrace();
+                                }
                             }
+                            progressDialog.hide();
+                            progressDialog.dismiss();
                         }
-                        progressDialog.hide();
-                        progressDialog.dismiss();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println("inside volley error handler");
-                        progressDialog.hide();
-                        progressDialog.dismiss();
-                        if (error instanceof TimeoutError ||
-                                error instanceof NoConnectionError) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Slow network connection, please try later",
-                                    Toast.LENGTH_LONG).show();
-                        }  else if (error instanceof ServerError) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Server error, please try later",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof NetworkError) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Network error, please try later",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof ParseError) {
-                            //TODO
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("inside volley error handler");
+                            progressDialog.hide();
+                            progressDialog.dismiss();
+                            if (error instanceof TimeoutError ||
+                                    error instanceof NoConnectionError) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Slow network connection, please try later",
+                                        Toast.LENGTH_LONG).show();
+                            } else if (error instanceof ServerError) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Server error, please try later",
+                                        Toast.LENGTH_LONG).show();
+                            } else if (error instanceof NetworkError) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Network error, please try later",
+                                        Toast.LENGTH_LONG).show();
+                            } else if (error instanceof ParseError) {
+                                //TODO
+                            }
+                            // TODO Auto-generated method stub
                         }
-                        // TODO Auto-generated method stub
-                    }
-                });
-        com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
+                    });
+            com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
+        }
+        else    {
+            bus_attendance.add(SessionManager.getInstance().getBus_attendance());
+        }
 
     }
 
