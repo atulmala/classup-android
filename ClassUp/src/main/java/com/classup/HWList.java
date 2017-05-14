@@ -250,10 +250,24 @@ public class HWList extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //Changes 'back' button action
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent(this, TeacherMenu.class);
-            intent.putExtra("sender", "createHW");
-            System.out.println("intent set to createHW");
-            startActivity(intent);
+            switch(getIntent().getStringExtra("sender"))    {
+                case "teacher_menu":
+                    Intent intent1 = new Intent(this, TeacherMenu.class);
+                    intent1.putExtra("sender", "createHW");
+                    System.out.println("intent set to createHW");
+                    startActivity(intent1);
+                    break;
+                case "ParentApp":
+                    String student_id = getIntent().getStringExtra("student_id");
+                    String student_name = getIntent().getStringExtra("student_name");
+                    Intent intent2 = new Intent(this, ParentsMenu.class);
+                    intent2.putExtra("sender", "createHW");
+                    intent2.putExtra("student_id", student_id);
+                    intent2.putExtra("student_name", student_name);
+                    System.out.println("intent set to createHW");
+                    startActivity(intent2);
+                    break;
+            }
         }
         return true;
     }

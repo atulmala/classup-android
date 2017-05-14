@@ -89,7 +89,7 @@ public class ParentsMenu extends AppCompatActivity {
                                                 intent = new Intent(getApplicationContext(),
                                                         CommunicationHistory.class);
                                                 intent.putExtra("student_id", student_id);
-                                                intent.putExtra("student_name", student_name);
+
                                                 startActivity(intent);
                                                 break;
                                             case R.id.bth_hw_list_parent:
@@ -97,6 +97,7 @@ public class ParentsMenu extends AppCompatActivity {
                                                         HWList.class);
                                                 intent.putExtra("sender", "ParentApp");
                                                 intent.putExtra("student_id", student_id);
+                                                intent.putExtra("student_name", student_name);
                                                 startActivity(intent);
                                                 break;
                                         }
