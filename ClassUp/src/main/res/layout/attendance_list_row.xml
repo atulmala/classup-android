@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -15,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/white"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        android:textSize="@dimen/abc_text_size_medium_material"
+        tools:ignore="PrivateResource" />
     <!-- second column name -->
     <TextView
         android:id="@+id/full_name"
@@ -25,7 +27,8 @@
         android:layout_gravity="top"
         android:textColor="@color/white"
         android:textSize="@dimen/abc_text_size_medium_material"
-        android:longClickable="true"/>
+        android:longClickable="true"
+        tools:ignore="PrivateResource" />
     <!-- third column for present. By default all students will be shown as present -->
     <RadioButton
         android:id="@+id/radio_present"

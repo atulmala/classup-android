@@ -229,17 +229,22 @@ public class AttendanceListAdapter extends BaseAdapter  {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.attendance_list_row, null);
+            convertView = inflater.inflate(R.layout.attendance_list_row2, null);
         }
         final View conVertViewRef = convertView;
         TextView full_name_col = (TextView)convertView.findViewById(R.id.full_name);
         TextView roll_no_col = (TextView)convertView.findViewById(R.id.roll_no);
+
+        // 01/06/2017 We are now showing the parent name also
+        TextView parent_name_col = (TextView)convertView.findViewById(R.id.parent_name);
+
         final RadioButton radioButton_present =
                 (RadioButton)convertView.findViewById(R.id.radio_present);
         final RadioButton radioButton_absent =
                 (RadioButton)convertView.findViewById(R.id.radio_absent);
         roll_no_col.setText(roll_no_and_name_list.get(position).getRoll_number());
         full_name_col.setText(roll_no_and_name_list.get(position).getFull_name());
+        parent_name_col.setText(roll_no_and_name_list.get(position).getParent_name());
 
 
         // If this student was absent, the name will be shown in amber background,
@@ -266,7 +271,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
             // absent radio button should be shown as unchecked
             radioButton_absent.setChecked(false);
             // this row should be shown in green background
-            conVertViewRef.setBackgroundColor(parent.getResources().getColor(R.color.green_apple));
+            conVertViewRef.setBackgroundColor(parent.getResources().getColor(R.color.android_green));
         }
 
         // what happens when the teacher clicks the absent radio button

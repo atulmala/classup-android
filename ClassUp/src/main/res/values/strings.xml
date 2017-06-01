@@ -88,4 +88,5 @@
     <string name="hw_due_date">Due Date</string>
     <string name="take_picture">Take Picture</string>
     <string name="hw_image">HW Image</string>
+    <string name="absent">Absent</string>
 </resources>

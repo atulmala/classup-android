@@ -116,9 +116,13 @@ public class AttendanceList extends AppCompatActivity {
 
                                 // get the roll number of the student
                                 String roll_no = jo.getString("roll_number");
+
+                                // 01/06/2017 get the parent name
+                                String parent_name = jo.getString("parent");
+
                                 // put all the above details into the adapter
                                 attendanceList.add(new AttendanceListSource
-                                        (roll_no, full_name, id, erp_id));
+                                        (roll_no, full_name, id, parent_name));
                                 tot_students = attendanceList.size();
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {

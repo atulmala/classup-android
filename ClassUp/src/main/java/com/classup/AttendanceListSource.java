@@ -9,35 +9,20 @@ public   class AttendanceListSource  {
     private String roll_number;
     private String id;
     private String erp_id;
+    private String parent_name;
 
     // for bus attendance
     private String bus_stop;
     private String entry_type;
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-
-    public AttendanceListSource(String roll_number, String full_name, String id, String erp_id) {
+    public AttendanceListSource(String roll_number, String full_name, String id,
+                                String parent_name) {
         super();
         this.full_name = full_name;
         this.roll_number = roll_number;
         this.id = id;
-        this.erp_id = erp_id;
-    }
-
-    public String getEntry_type() {
-        return entry_type;
-    }
-
-    public String getBus_stop() {
-        return bus_stop;
+        //this.erp_id = erp_id;
+        this.parent_name = parent_name;
     }
 
     public AttendanceListSource(String roll_number, String full_name, String id,
@@ -53,9 +38,25 @@ public   class AttendanceListSource  {
     public void show()  {
         System.out.println(full_name + "/" + bus_stop + "/" + entry_type);
     }
+    public String getEntry_type() {
+        return entry_type;
+    }
 
+    public String getBus_stop() {
+        return bus_stop;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getFull_name() {
         return full_name;
+    }
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
     public String getName_rollno()  {
         if (roll_number.equals("")) // in case of bus attendance we do not need to show roll number
@@ -63,20 +64,11 @@ public   class AttendanceListSource  {
         else
             return roll_number + "      " + full_name;
     }
-
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
-    }
-
     public String getRoll_number() {
         return roll_number;
     }
 
-    public String getErp_id() {
-        return erp_id;
-    }
-
-    public void setRoll_number(String roll_number) {
-        this.roll_number = roll_number;
+    public String getParent_name() {
+        return parent_name;
     }
 }

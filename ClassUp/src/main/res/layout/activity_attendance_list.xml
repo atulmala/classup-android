@@ -7,14 +7,14 @@
     android:background="@color/floral_white"
     tools:context="com.classup.AttendanceList">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:background="@color/jeans_blue">
-        <!-- first column Roll Number -->
+        &lt;!&ndash; first column Roll Number &ndash;&gt;
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/abc_text_size_medium_material"
             tools:ignore="RtlSymmetry" />
-        <!-- second column name -->
+        &lt;!&ndash; second column name &ndash;&gt;
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:longClickable="true"
             android:textColor="@color/white"
             android:textSize="@dimen/abc_text_size_medium_material" />
-        <!-- third column for present. By default all students will be shown as present -->
+        &lt;!&ndash; third column for present. By default all students will be shown as present &ndash;&gt;
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/abc_text_size_medium_material"
             tools:ignore="RtlSymmetry" />
-        <!-- fourth column for absence -->
+        &lt;!&ndash; fourth column for absence &ndash;&gt;
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:textSize="@dimen/abc_text_size_medium_material"
             tools:ignore="RtlSymmetry" />
     </LinearLayout>
-
+-->
     <ListView
         android:id="@+id/attendance_list"
         android:layout_width="match_parent"
