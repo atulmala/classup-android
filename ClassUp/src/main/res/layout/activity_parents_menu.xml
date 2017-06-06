@@ -30,6 +30,13 @@
         android:onClick="take_action"/>
 
     <Button
+        android:id="@+id/btn_pending_test_list_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Tests"
+        android:onClick="take_action"/>
+
+    <Button
         android:id="@+id/btn_term_test_results"
         android:text="@string/term_test_results"
         android:layout_width="fill_parent"

@@ -89,4 +89,5 @@
     <string name="take_picture">Take Picture</string>
     <string name="hw_image">HW Image</string>
     <string name="absent">Absent</string>
+    <string name="total">total</string>
 </resources>

@@ -6,8 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -19,7 +19,6 @@
         android:icon="@mipmap/classup_app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -27,7 +26,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <!-- activity for splash screen -->
@@ -36,6 +35,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,6 +46,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.classup.LOGINACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -56,6 +57,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.classup.MAINMENUACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -66,6 +68,7 @@
             android:label="@string/title_activity_teacher_menu">
             <intent-filter>
                 <action android:name="com.classup.TeacherMenu" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -76,6 +79,7 @@
             android:label="@string/school_admin_menu">
             <intent-filter>
                 <action android:name="com.classup.SchoolAdmin" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -89,6 +93,7 @@
             android:label="Select Class">
             <intent-filter>
                 <action android:name="com.classup.SelectClass" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -102,6 +107,7 @@
             android:label="@string/title_activity_attendance_list">
             <intent-filter>
                 <action android:name="com.classup.classup.AttendanceList" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -113,6 +119,7 @@
             android:theme="@style/Base.Widget.AppCompat.ActionBar">
             <intent-filter>
                 <action android:name="com.classup.TestManagerActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -134,6 +141,7 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="com.classup.MarksEntry" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -153,6 +161,7 @@
             android:label="Select Criteria for Attendance Summary">
             <intent-filter>
                 <action android:name="com.classup.SelectAttendanceSummaryCriteria" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -163,6 +172,7 @@
             android:label="Attendance Summary">
             <intent-filter>
                 <action android:name="com.classup.ShowAttendanceSummary" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -189,6 +199,7 @@
             android:label="Parent Menu">
             <intent-filter>
                 <action android:name="com.classup.ParentsMenu" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -197,16 +208,18 @@
             android:label="Select Student">
             <intent-filter>
                 <action android:name="com.classup.ShowWard" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".HWList">
             <intent-filter>
                 <action android:name="com.classup.HWList" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReviewHW"/>
+        <activity android:name=".ReviewHW" />
         <activity android:name=".ShowAttendanceSummaryParents" />
         <activity android:name=".ParentCommunication" />
         <activity android:name=".ReportBusDelay" />
@@ -291,7 +304,7 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/algae_green" />
 
-
+        <activity android:name=".TestListParent"></activity>
     </application>
 
 </manifest>

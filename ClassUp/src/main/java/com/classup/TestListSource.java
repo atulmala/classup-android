@@ -10,6 +10,7 @@ public class TestListSource {
     private String subject;
     private String max_marks;
     private String id;
+    private String test_topics;
 
     public String getId() {
         return id;
@@ -24,6 +25,17 @@ public class TestListSource {
         this.max_marks = max_marks;
         this.id = id;
 
+    }
+
+    public TestListSource(String date, String the_class, String section, String subject,
+                          String max_marks, String id, String test_topics) {
+        this.date = date;
+        this.the_class = the_class;
+        this.section = section;
+        this.subject = subject;
+        this.max_marks = max_marks;
+        this.id = id;
+        this.test_topics = test_topics;
     }
 
     public String getDate() {
@@ -46,5 +58,7 @@ public class TestListSource {
         return max_marks;
     }
 
-
+    public String getTest_topics() {
+        return test_topics;
+    }
 }

@@ -17,7 +17,6 @@ public class CompletedTestListAdapter extends BaseAdapter {
     private List<TestListSource> completed_test_list;
 
     public CompletedTestListAdapter(Activity activity, List<TestListSource> completed_test_list) {
-
         super();
         this.activity = activity;
         this.completed_test_list = completed_test_list;

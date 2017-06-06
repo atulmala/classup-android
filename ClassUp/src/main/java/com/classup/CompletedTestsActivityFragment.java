@@ -32,7 +32,6 @@ import java.util.ArrayList;
  * A placeholder fragment containing a simple view.
  */
 public class CompletedTestsActivityFragment extends Fragment {
-    CompletedTestListAdapter ptr_adapter;
     String tag = "Completed Tests";
     String server_ip;
 

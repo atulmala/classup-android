@@ -1,115 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/cool_grey"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textStyle="bold"
-            android:textSize="15dp"
-            android:text="Please provide following details"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="5dp"
-            android:text="Maximum Marks: "/>
-        <EditText
-            android:id="@+id/txt_max_marks"
-            android:digits="0123456789."
-            android:inputType="numberDecimal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:layout_weight="2" />
-    </LinearLayout>
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="Passing Marks: "/>
-        <EditText
-            android:id="@+id/txt_passing_marks"
-            android:digits="0123456789."
-            android:inputType="numberDecimal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="5dp"
-            android:layout_weight="2" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/txt_whether_grade_based"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:layout_weight="2"
-            android:text="Whether Grade based?"/>
-        <CheckBox
-            android:id="@+id/chk_whether_grade_based"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="Test Type/Comments: "/>
-        <EditText
-            android:id="@+id/txt_comments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"/>
-    </LinearLayout>
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Please provide Details For this Test"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="13dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/chk_whether_grade_based"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_test_confirm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="0dp"
-            android:text="Submit"/>
-        <Button
-            android:id="@+id/btn_test_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="0dp"
-            android:text="Cancel"/>
-    </LinearLayout>
-</LinearLayout>
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="35dp"
+        android:text="Grade Based"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="Max Marks:"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="77dp"
+        android:layout_marginStart="16dp" />
+
+    <EditText
+        android:id="@+id/txt_max_marks"
+        android:layout_width="51dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="109dp"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="67dp"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="false"
+        android:text="mm "
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="176dp"
+        android:layout_marginTop="77dp"
+        android:text="Pass Marks:"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="208dp" />
+
+    <EditText
+        android:id="@+id/txt_passing_marks"
+        android:layout_width="51dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="275dp"
+        android:layout_marginTop="67dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="pm "
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="308dp" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="117dp"
+        android:text="Topics/Comments (Optional):"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp" />
+
+    <EditText
+        android:id="@+id/txt_comments"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="310dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="139dp"
+        android:ems="10"
+        android:inputType="textCapSentences|textMultiLine"
+        android:lineSpacingExtra="8sp"
+        android:singleLine="false"
+        android:text="comments"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_test_confirm"
+        android:layout_width="87dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="209dp"
+        android:text="Submit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_test_cancel" />
+
+    <Button
+        android:id="@+id/btn_test_cancel"
+        android:layout_width="87dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="209dp"
+        android:text="Cancel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btn_test_confirm" />
+</android.support.constraint.ConstraintLayout>

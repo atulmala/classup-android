@@ -39,6 +39,7 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -315,7 +316,7 @@ public class AttendanceList extends AppCompatActivity {
         // create the dialog box for confirmation
         final Dialog dialog = new Dialog(AttendanceList.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_attendence_submission);
+        dialog.setContentView(R.layout.dialog_attendance_submission1);
 
         // show the date of attendance
         TextView txt_date = (TextView) dialog.findViewById(R.id.txt_att_submission_date);
@@ -344,6 +345,11 @@ public class AttendanceList extends AppCompatActivity {
 
         // get the list of absentee
         final List<String> absentee_list = adapter.getAbsentee_list();
+
+        // 03/06/2017 - show the total count
+        TextView txt_total = (TextView) dialog.findViewById(R.id.txt_att_submission_total);
+        Integer tot_stu = tot_students;
+        txt_total.setText(tot_stu.toString());
 
         // show absent count
         Integer absent_count = absentee_list.size();

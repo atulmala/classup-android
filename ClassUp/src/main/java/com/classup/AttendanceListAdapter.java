@@ -48,6 +48,9 @@ public class AttendanceListAdapter extends BaseAdapter  {
     String server_ip;
     String school_id;
 
+    int green = R.color.clover_green;
+    int amber = R.color.amber;
+
     public AttendanceListAdapter(Activity a, List<AttendanceListSource> l, Intent intent) {
         super();
         this.activity = a;
@@ -257,7 +260,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
             radioButton_absent.setEnabled(false);
             radioButton_absent.setChecked(true);
             // this row should be shown in amber background
-            conVertViewRef.setBackgroundColor(parent.getResources().getColor(R.color.amber));
+            conVertViewRef.setBackgroundColor(parent.getResources().getColor(amber));
         }
         else {
             // present radio button should be shown as disabled
@@ -271,7 +274,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
             // absent radio button should be shown as unchecked
             radioButton_absent.setChecked(false);
             // this row should be shown in green background
-            conVertViewRef.setBackgroundColor(parent.getResources().getColor(R.color.android_green));
+            conVertViewRef.setBackgroundColor(parent.getResources().getColor(green));
         }
 
         // what happens when the teacher clicks the absent radio button
@@ -281,7 +284,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 // present radio button will be unchecked
                 radioButton_present.setChecked(false);
                 // the row should turn amber
-                conVertViewRef.setBackgroundColor(parent.getResources().getColor(R.color.amber));
+                conVertViewRef.setBackgroundColor(parent.getResources().getColor(amber));
                 // absent radio button should be disabled to receive any further clicks
                 radioButton_absent.setEnabled(false);
                 // present radio button should be enabled
@@ -307,7 +310,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 radioButton_absent.setChecked(false);
                 // the row should turn green
                 conVertViewRef.setBackgroundColor(parent.getResources().
-                        getColor(R.color.green_apple));
+                        getColor(green));
                 // present radio button should be disabled to receive any further clicks
                 radioButton_present.setEnabled(false);
                 // absent radio button should be enabled
