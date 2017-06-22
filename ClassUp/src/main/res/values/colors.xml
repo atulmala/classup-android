@@ -28,7 +28,7 @@
     <color name="army_green">#4B5320</color>
     <color name="ash_grey">#B2BEB5</color>
     <color name="asparagus">#87A96B</color>
-    <color name="atomic_tangerine">#FF9966</color>
+    <color name="atomic_tangerine">#ff9966</color>
     <color name="aureolin">#FDEE00</color>
     <color name="aurometalsaurus">#6E7F80</color>
     <color name="avocado_green">#B2C248</color>
@@ -111,7 +111,7 @@
     <color name="brilliant_rose">#FF55A3</color>
     <color name="brink_pink">#FB607F</color>
     <color name="british_racing_green">#004225</color>
-    <color name="bronze">#CD7F32</color>
+    <color name="bronze">#f37d09</color>
     <color name="brown_bear">#835C3B</color>
     <color name="brown_sugar">#E2A76F</color>
     <color name="bubble_gum">#FFC1CC</color>
@@ -289,7 +289,7 @@
     <color name="deep_peach">#FFCBA4</color>
     <color name="deep_pink">#FF1493</color>
     <color name="deep_saffron">#FF9933</color>
-    <color name="deep_sky_blue">#3BB9FF</color>
+    <color name="deep_sky_blue">#3bb9ff</color>
     <color name="denim">#1560BD</color>
     <color name="denim_blue">#79BAEC</color>
     <color name="desert_sand">#EDC9AF</color>
