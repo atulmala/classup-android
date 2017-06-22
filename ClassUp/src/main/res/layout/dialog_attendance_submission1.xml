@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/confirm_attendance_submit"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="Class:"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="5dp" />
+
+    <TextView
+        android:id="@+id/txt_att_submission_class"
+        android:layout_width="111dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/class_standard"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sub: "
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.548"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/txt_att_submission_subject"
+        android:layout_width="141dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="60dp"
+        android:text="subject "
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/textView19"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="0dp" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:text="Date: "
+        android:textSize="18sp"
+        android:layout_marginLeft="103dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="38dp"
+        android:layout_marginStart="103dp" />
+
+    <TextView
+        android:id="@+id/txt_att_submission_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="38dp"
+        android:text="date "
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="150dp" />
+
+    <TextView
+        android:id="@+id/txt_att_submission_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="88dp"
+        android:text="@string/total"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="54dp" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="105dp"
+        android:text="Present: "
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="88dp"
+        android:layout_marginStart="103dp" />
+
+    <TextView
+        android:id="@+id/txt_att_present_count"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:text="present"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="88dp"
+        android:layout_marginLeft="175dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="173dp" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="217dp"
+        android:layout_marginTop="88dp"
+        android:text="Absent:"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="221dp" />
+
+    <TextView
+        android:id="@+id/txt_att_absent_count"
+        android:layout_width="101dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="88dp"
+        android:text="@string/absent"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="283dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView26"
+        android:layout_marginStart="283dp" />
+
+    <Button
+        android:id="@+id/btn_att_confirm"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="113dp"
+        android:text="Submit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_att_cancel"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btn_att_cancel"
+        android:layout_width="84dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="113dp"
+        android:text="Cancel"
+        app:layout_constraintLeft_toRightOf="@+id/btn_att_confirm"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        app:layout_constraintGuide_begin="179dp"
+        android:orientation="horizontal" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="88dp"
+        android:text="Total: "
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>
