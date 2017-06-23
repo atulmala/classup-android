@@ -8,7 +8,7 @@ android {
         applicationId "com.classup"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 33
+        versionCode 34
         versionName "2.7"
     }
     buildTypes {
@@ -26,7 +26,7 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':volley')
-    compile project(':gson-2.4')
+    //compile project(':gson-2.4')
     compile files('libs/pinchzoom/pinchzoom.jar')
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'

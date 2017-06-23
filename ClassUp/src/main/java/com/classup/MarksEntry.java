@@ -83,11 +83,12 @@ public class MarksEntry extends AppCompatActivity {
                                 String id = jo.getString("id");
                                 String roll_no = jo.getString("roll_no");
                                 String full_name = jo.getString("student");
+                                String parent = jo.getString("parent"); // added 23/06/2017
                                 String marks = jo.getString("marks_obtained");
                                 String grade = jo.getString("grade");
 
                                 marks_list.add(new MarksEntryListSource(id, roll_no,
-                                        full_name, marks, grade));
+                                        full_name, parent, marks, grade));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +

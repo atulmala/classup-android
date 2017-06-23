@@ -7,14 +7,17 @@ public class MarksEntryListSource {
     private String id;
     private String roll_no;
     private String full_name;
+    private String parent;
     private String marks;
     private String grade;
 
-    public MarksEntryListSource(String id, String roll_no, String name, String marks, String grade) {
+    public MarksEntryListSource(String id, String roll_no, String name,
+                                String parent, String marks, String grade) {
         this.marks = marks;
         this.id = id;
         this.grade = grade;
         this.full_name = name;
+        this.parent = parent;
         this.roll_no = roll_no;
     }
 
@@ -44,5 +47,9 @@ public class MarksEntryListSource {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public String getParent() {
+        return parent;
     }
 }

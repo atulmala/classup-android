@@ -72,7 +72,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
             //LayoutInflater inflater = activity.getLayoutInflater();
             LayoutInflater inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.marks_entry_row, null);
+            view = inflater.inflate(R.layout.marks_entry_row2, null);
             holder = new ViewHolder(view);
             //view.setTag(holder);
         }
