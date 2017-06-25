@@ -64,8 +64,7 @@ public class MarksEntry extends AppCompatActivity {
 
         final ArrayList<MarksEntryListSource> marks_list = new ArrayList<MarksEntryListSource>();
         final ListView listView = (ListView)findViewById(R.id.marks_entry_list);
-        adapter = new MarksEntryListAdapter(this, marks_list, grade_based,
-                        intent.getStringExtra("test_id"));
+        adapter = new MarksEntryListAdapter(this, marks_list, grade_based);
 
         // get the list of students, roll no and current marks/grade
         final ProgressDialog progressDialog = new ProgressDialog(activity);

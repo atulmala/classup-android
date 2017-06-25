@@ -8,7 +8,6 @@ public   class AttendanceListSource  {
     private String full_name;
     private String roll_number;
     private String id;
-    private String erp_id;
     private String parent_name;
 
     // for bus attendance

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class SelectStudent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_student);
+        this.setTitle("Select Student(s)");
 
         final ArrayList<AttendanceListSource> student_list = new ArrayList<AttendanceListSource>();
 
@@ -58,8 +60,8 @@ public class SelectStudent extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        final SelectStudentAdapter adapter = new SelectStudentAdapter(this,
-                android.R.layout.simple_list_item_checked, student_list);
+        final SelectStudentAdapter adapter = new SelectStudentAdapter(this, student_list,
+                selected_students);
         final ListView listView = (ListView) findViewById(R.id.student_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
@@ -76,7 +78,7 @@ public class SelectStudent extends AppCompatActivity {
                                 String l_name = jo.getString("last_name");
                                 String full_name = f_name + " " + l_name;
                                 // get the erp_id of the student
-                                String erp_id = jo.getString("student_erp_id");
+                                String parent_name = jo.getString("parent");
 
                                 // get the id of the student
                                 String id = jo.getString("id");
@@ -85,7 +87,7 @@ public class SelectStudent extends AppCompatActivity {
                                 String roll_no = jo.getString("roll_number");
                                 // put all the above details into the adapter
                                 student_list.add(new AttendanceListSource(roll_no,
-                                        full_name, id, erp_id));
+                                        full_name, id, parent_name));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +
@@ -125,38 +127,8 @@ public class SelectStudent extends AppCompatActivity {
                         // TODO Auto-generated method stub
                     }
                 });
-        // here we can sort the attendance list as per roll number
 
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CheckedTextView textView = (CheckedTextView) view.findViewById(R.id.student_name);
-
-                if (!textView.isChecked()) {
-                    textView.setChecked(true);
-
-                    selected_students.add(student_list.get(i).getId());
-
-                    // also add to the selected  list of the adapter
-                    adapter.selected_students.add(student_list.get(i).getId());
-                    adapter.notifyDataSetChanged();
-
-                } else {
-                    textView.setChecked(false);
-
-                    // also remove from the selected list of the adapter
-                    adapter.selected_students.remove(student_list.get(i).getId());
-                    adapter.notifyDataSetChanged();
-
-                    if (selected_students.contains(student_list.get(i).getId())) {
-                        selected_students.remove(student_list.get(i).getId());
-                        adapter.selected_students.remove((student_list.get(i).getId()));
-                    }
-                }
-            }
-        });
 
         // long tapping on student name will initiate call to parent
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

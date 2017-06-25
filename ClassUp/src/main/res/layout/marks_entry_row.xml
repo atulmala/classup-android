@@ -1,51 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:longClickable="true">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- first column Roll No -->
-    <TextView
-        android:id="@+id/marks_entry_roll_no"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:layout_weight="2"
-        android:textColor="@color/black"
-        android:textSize="@dimen/abc_text_size_medium_material" />
-    <!-- second column name -->
     <TextView
         android:id="@+id/marks_entry_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="8"
-        android:textColor="@color/black"
-        android:textSize="@dimen/abc_text_size_medium_material"
-        android:singleLine="false"
-        android:layout_gravity="center_vertical"
-        android:elegantTextHeight="true" />
-    <!-- third column for marks/grade -->
-    <EditText
-        android:id="@+id/marks_entry_marks_or_grade"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingRight="10dp"
-        android:layout_weight="3"
-        android:enabled="true"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:editable="false"
-        android:textAlignment="center" />
-    <!-- fourth column for absence switch -->
-    <CheckBox
+        android:layout_width="197dp"
+        android:layout_height="27dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="7dp"
+        android:text="Student Name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="34dp"
+        android:text="Roll No"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        android:layout_weight="1"
-        android:text=""
-        android:id="@+id/absence_switch" />
+    <TextView
+        android:id="@+id/marks_entry_roll_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="71dp"
+        android:layout_marginTop="34dp"
+        android:text="TextView"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="141dp"
+        android:layout_marginTop="34dp"
+        android:text="Parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/parent_name"
+        android:layout_width="164dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="34dp"
+        android:text="Parent Name"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lbl_marks_or_grade"
+        android:layout_width="83dp"
+        android:layout_height="27dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="63dp"
+        android:text="Marks/Grade"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/marks_entry_marks_or_grade"
+        android:layout_width="54dp"
+        android:layout_height="39dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="55dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/absence_switch"
+        android:layout_width="77dp"
+        android:layout_height="58dp"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="44dp"
+        android:text="Absent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

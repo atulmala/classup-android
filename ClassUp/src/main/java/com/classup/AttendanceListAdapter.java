@@ -268,9 +268,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
             // absent radio button should be shown as enabled
             radioButton_absent.setEnabled(true);
             // present radio button should be shown as checked
-            radioButton_present.setChecked(true);/*    public void onCreate(Bundle SavedInstanceState)  {
-        super.onCreate(SavedInstanceState);
-    }*/
+            radioButton_present.setChecked(true);
             // absent radio button should be shown as unchecked
             radioButton_absent.setChecked(false);
             // this row should be shown in green background

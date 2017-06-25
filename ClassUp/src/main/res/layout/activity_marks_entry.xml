@@ -7,14 +7,14 @@
     android:paddingBottom="5dp"
     tools:context="com.classup.MarksEntry">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:background="@color/jeans_blue">
 
-        <!-- first column Roll No -->
+        &lt;!&ndash; first column Roll No &ndash;&gt;
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             android:paddingLeft="10dp"
             android:text="Roll No"
             android:textColor="@color/white" />
-        <!-- second column Name -->
+        &lt;!&ndash; second column Name &ndash;&gt;
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:paddingLeft="5dp"
             android:text="Name"
             android:textColor="@color/white"/>
-        <!-- third column Marks/Grade -->
+        &lt;!&ndash; third column Marks/Grade &ndash;&gt;
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:paddingLeft="10dp"
             android:text="Marks"
             android:textColor="@color/white"/>
-        <!-- fourth column Whether Absent -->
+        &lt;!&ndash; fourth column Whether Absent &ndash;&gt;
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,12 +47,12 @@
             android:text="Absent?"
             android:textColor="@color/white"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
     <ListView
         android:id="@+id/marks_entry_list"
         android:descendantFocusability="beforeDescendants"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1">
     </ListView>
 

@@ -27,7 +27,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater = null;
     private List<MarksEntryListSource> marks_entry_list;
     private Boolean whether_grade_based;
-    private String test_id;
+    //private String test_id;
 
     public String max_marks = "50";
     public String pass_marks = "10";
@@ -37,13 +37,13 @@ public class MarksEntryListAdapter extends BaseAdapter {
     }
 
     public MarksEntryListAdapter(Activity activity, List<MarksEntryListSource> list,
-                                 Boolean whether_grade_based, String test_id) {
+                                 Boolean whether_grade_based) {
         super();
         this.activity = activity;
 
         this.marks_entry_list = list;
         this.whether_grade_based = whether_grade_based;
-        this.test_id = test_id;
+        //this.test_id = test_id;
 
         mLayoutInflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -72,7 +72,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
             //LayoutInflater inflater = activity.getLayoutInflater();
             LayoutInflater inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.marks_entry_row2, null);
+            view = inflater.inflate(R.layout.marks_entry_row, null);
             holder = new ViewHolder(view);
             //view.setTag(holder);
         }
@@ -89,6 +89,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
 
         holder.roll_no.setText(marks_entry_list.get(position).getRoll_no());
         holder.full_name.setText(marks_entry_list.get(position).getFull_name());
+        holder.parent_name.setText(marks_entry_list.get(position).getParent());
 
         String mg;
         if(!whether_grade_based)
@@ -244,6 +245,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
     static class ViewHolder {
         TextView roll_no;
         TextView full_name;
+        TextView parent_name;
         EditText marks_or_grade;
         CheckBox whether_absent;
         static int i = 0;
@@ -252,6 +254,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
             //System.out.println("i=" + i++);
             this.roll_no = (TextView)view.findViewById(R.id.marks_entry_roll_no);
             this.full_name = (TextView)view.findViewById(R.id.marks_entry_name);
+            this.parent_name = (TextView)view.findViewById(R.id.parent_name);
             this.marks_or_grade = (EditText)view.findViewById(R.id.marks_entry_marks_or_grade);
             this.whether_absent = (CheckBox)view.findViewById(R.id.absence_switch);
         }
