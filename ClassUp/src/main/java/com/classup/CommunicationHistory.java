@@ -2,7 +2,10 @@ package com.classup;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -33,6 +36,10 @@ public class CommunicationHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communication_history);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
 
         context = getApplicationContext();
         server_ip = MiscFunctions.getInstance().getServerIP(context);

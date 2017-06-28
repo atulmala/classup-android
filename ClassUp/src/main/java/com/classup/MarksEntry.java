@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -46,7 +49,6 @@ public class MarksEntry extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         activity = this;
 
         final Intent intent = this.getIntent();
@@ -61,6 +63,10 @@ public class MarksEntry extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marks_entry);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
 
         final ArrayList<MarksEntryListSource> marks_list = new ArrayList<MarksEntryListSource>();
         final ListView listView = (ListView)findViewById(R.id.marks_entry_list);
@@ -133,8 +139,7 @@ public class MarksEntry extends AppCompatActivity {
 
         // get max marks and passing marks for this test and communicate to adapter
         if(!grade_based) {
-            url =  server_ip + "/academics/get_test_type/" +
-                    intent.getStringExtra("test_id") + "/";
+            url =  server_ip + "/academics/get_test_type/" + intent.getStringExtra("test_id") + "/";
 
             JsonArrayRequest jsonArrayRequest1 = new JsonArrayRequest
                     (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {

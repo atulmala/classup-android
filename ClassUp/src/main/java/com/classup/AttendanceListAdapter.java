@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -232,7 +235,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.attendance_list_row2, null);
+            convertView = inflater.inflate(R.layout.attendance_list_row, null);
         }
         final View conVertViewRef = convertView;
         TextView full_name_col = (TextView)convertView.findViewById(R.id.full_name);
@@ -240,11 +243,12 @@ public class AttendanceListAdapter extends BaseAdapter  {
 
         // 01/06/2017 We are now showing the parent name also
         TextView parent_name_col = (TextView)convertView.findViewById(R.id.parent_name);
-
         final RadioButton radioButton_present =
                 (RadioButton)convertView.findViewById(R.id.radio_present);
         final RadioButton radioButton_absent =
                 (RadioButton)convertView.findViewById(R.id.radio_absent);
+        final ImageView imageView = (ImageView)convertView.findViewById(R.id.img_absent);
+        //imageView.setRotation(10);
         roll_no_col.setText(roll_no_and_name_list.get(position).getRoll_number());
         full_name_col.setText(roll_no_and_name_list.get(position).getFull_name());
         parent_name_col.setText(roll_no_and_name_list.get(position).getParent_name());
@@ -260,7 +264,8 @@ public class AttendanceListAdapter extends BaseAdapter  {
             radioButton_absent.setEnabled(false);
             radioButton_absent.setChecked(true);
             // this row should be shown in amber background
-            conVertViewRef.setBackgroundColor(parent.getResources().getColor(amber));
+            //conVertViewRef.setBackgroundColor(parent.getResources().getColor(amber));
+            imageView.setVisibility(View.VISIBLE);
         }
         else {
             // present radio button should be shown as disabled
@@ -272,7 +277,8 @@ public class AttendanceListAdapter extends BaseAdapter  {
             // absent radio button should be shown as unchecked
             radioButton_absent.setChecked(false);
             // this row should be shown in green background
-            conVertViewRef.setBackgroundColor(parent.getResources().getColor(green));
+            //conVertViewRef.setBackgroundColor(parent.getResources().getColor(green));
+            imageView.setVisibility(View.INVISIBLE);
         }
 
         // what happens when the teacher clicks the absent radio button
@@ -282,7 +288,8 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 // present radio button will be unchecked
                 radioButton_present.setChecked(false);
                 // the row should turn amber
-                conVertViewRef.setBackgroundColor(parent.getResources().getColor(amber));
+                //conVertViewRef.setBackgroundColor(parent.getResources().getColor(amber));
+                imageView.setVisibility(View.VISIBLE);
                 // absent radio button should be disabled to receive any further clicks
                 radioButton_absent.setEnabled(false);
                 // present radio button should be enabled
@@ -295,8 +302,6 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 // remove the id of this student from the correction list
                 if(correction_list.contains(roll_no_and_name_list.get(position).getId()))
                     correction_list.remove(roll_no_and_name_list.get(position).getId());
-
-
             }
         });
 
@@ -307,8 +312,8 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 // absent radion button will be unchecked
                 radioButton_absent.setChecked(false);
                 // the row should turn green
-                conVertViewRef.setBackgroundColor(parent.getResources().
-                        getColor(green));
+                //conVertViewRef.setBackgroundColor(parent.getResources().getColor(green));
+                imageView.setVisibility(View.INVISIBLE);
                 // present radio button should be disabled to receive any further clicks
                 radioButton_present.setEnabled(false);
                 // absent radio button should be enabled
@@ -318,13 +323,11 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 if (absentee_list.contains(roll_no_and_name_list.get(position).getId()))
                     absentee_list.remove(roll_no_and_name_list.get(position).getId());
 
-
                 // add this student to correction list. Means if this student was marked as
                 // absent earlier, he/she will now be marked as present
                 if (!correction_list.contains(roll_no_and_name_list.get(position).getId())) {
                     correction_list.add(roll_no_and_name_list.get(position).getId());
                 }
-
             }
         });
         return convertView;

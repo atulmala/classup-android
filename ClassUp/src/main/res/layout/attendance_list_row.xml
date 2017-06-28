@@ -1,45 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent_white_hex_6"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
 
-    <!-- first column Roll Number -->
-    <TextView
-        android:id="@+id/roll_no"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@color/white"
-        android:textSize="@dimen/abc_text_size_medium_material"
-        tools:ignore="PrivateResource" />
-    <!-- second column name -->
     <TextView
         android:id="@+id/full_name"
-        android:layout_width="0dp"
+        android:layout_width="213dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="@string/the_full_name"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintTop_creator="1" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="107dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="29dp"
+        android:text="@string/the_roll_no"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="16dp" />
+
+    <TextView
+        android:id="@+id/roll_no"
+        android:layout_width="37dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginTop="29dp"
+        android:text="@string/roll_no_optional"
+        android:textAlignment="viewStart"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@+id/textView24"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="57dp" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:layout_gravity="top"
-        android:textColor="@color/white"
-        android:textSize="@dimen/abc_text_size_medium_material"
-        android:longClickable="true"
-        tools:ignore="PrivateResource" />
-    <!-- third column for present. By default all students will be shown as present -->
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="29dp"
+        android:text="@string/the_parent1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="110dp" />
+
+    <TextView
+        android:id="@+id/parent_name"
+        android:layout_width="159dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="29dp"
+        android:text="@string/the_parent"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="163dp" />
+
     <RadioButton
         android:id="@+id/radio_present"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:enabled="false"/>
-    <!-- fourth column for absence -->
+        android:layout_marginStart="292dp"
+        android:layout_marginTop="-3dp"
+        android:text="@string/p"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <RadioButton
         android:id="@+id/radio_absent"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
-</LinearLayout>
+        android:layout_marginStart="245dp"
+        android:layout_marginTop="-3dp"
+        android:text="@string/a"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_absent"
+        android:layout_width="88dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/transparent_white_hex_1"
+        android:contentDescription="@string/absent"
+        android:rotation="-3"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/absent2" />
+
+</android.support.constraint.ConstraintLayout>

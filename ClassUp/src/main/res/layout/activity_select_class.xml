@@ -7,6 +7,7 @@
     android:layout_marginBottom="0dp"
     android:background="@color/floral_white">
     >
+
     <TextView
         android:text="@string/select_date"
         android:textSize="20sp"
