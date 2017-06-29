@@ -49,6 +49,23 @@ public class ParentCommunication extends AppCompatActivity {
         setupPicker(cat_picker, category_url, "category", "Category Extraction");
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
     public void sendParentMessage(View view)    {
         final String tag = "SubmitParentsCommunication";
         String[] category_list = cat_picker.getDisplayedValues();

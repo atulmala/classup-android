@@ -33,6 +33,23 @@ public class SendBulkSMS extends AppCompatActivity {
         setContentView(R.layout.activity_send_bulk_sms);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
     public void selectClasses(View view)    {
         EditText editText = (EditText)findViewById(R.id.bulkSMS);
         final String message = editText.getText().toString();

@@ -1,5 +1,7 @@
 package com.classup;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.MobileAnalyticsManager;
+
 /**
  * Created by root on 9/15/15.
  */
@@ -12,6 +14,7 @@ public class SessionManager {
     private SessionManager() {
     }
 
+    static MobileAnalyticsManager analytics;    // 29/06/2017 starting to collect analytics
     String logged_in_user = "";
     public void setLogged_in_user(String user)  {
         logged_in_user = user;

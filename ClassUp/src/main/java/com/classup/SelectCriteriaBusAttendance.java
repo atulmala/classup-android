@@ -77,6 +77,23 @@ public class SelectCriteriaBusAttendance extends AppCompatActivity {
         setupPicker(routPicker, url, "bus_root", "rerieve_bus_routs");
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
     public void reportDelay()  {
         final String[] rout_list = routPicker.getDisplayedValues();
         final Integer d = datePicker.getDayOfMonth();

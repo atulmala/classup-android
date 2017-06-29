@@ -22,6 +22,23 @@ public class CompletedTestsActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long

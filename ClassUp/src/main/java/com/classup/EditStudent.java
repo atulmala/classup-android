@@ -181,6 +181,23 @@ public class EditStudent extends AppCompatActivity {
         com.classup.AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
     public void setupPicker(final NumberPicker picker, String url,
                             final String item_to_extract, final String tag) {
         final ArrayList<String> item_list = new ArrayList<String>();

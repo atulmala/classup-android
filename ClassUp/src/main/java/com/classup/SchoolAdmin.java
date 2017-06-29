@@ -15,6 +15,23 @@ public class SchoolAdmin extends AppCompatActivity {
         setContentView(R.layout.activity_school_admin);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
     public void attendanceSummary(View view)    {
         Intent intent = new Intent(this, SelectDate.class);
         startActivity(intent);

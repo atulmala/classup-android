@@ -38,6 +38,23 @@ public class TestManagerActivity extends FragmentActivity implements ActionBar.T
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
     // Create a tab listener that is called when the user changes tabs.
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }

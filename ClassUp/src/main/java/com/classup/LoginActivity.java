@@ -29,11 +29,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.*;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.regions.Regions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
+
     private EditText userName;
     private EditText password;
     final Context context = this;
@@ -47,6 +51,27 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //29/06/2017 - initialize AWS cognito
+        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+                context, // get the context for the current activity
+                "263985579392 ", // your AWS Account id
+                "us-east-1:3c5df3cc-591c-44f1-9624-0fb5fe21cee3", // your identity pool id
+                "arn:aws:iam::263985579392:role/Cognito_classupUnauth_Role",// an authenticated role ARN
+                "arn:aws:iam::XXXXXXXXXX:role/YourRoleName", // an unauthenticated role ARN
+                Regions.US_EAST_1 //Region
+        );
+
+        // initialize AWS analytics
+        try {
+            SessionManager.getInstance().analytics = MobileAnalyticsManager.getOrCreateInstance(
+                    this.getApplicationContext(),
+                    "175b4dff4d244f67a3b493ca2fbf0904", //Amazon Mobile Analytics App ID
+                    "us-east-1:3c5df3cc-591c-44f1-9624-0fb5fe21cee3" //Amazon Cognito Identity Pool ID
+            );
+        } catch(InitializationException ex) {
+            Log.e(this.getClass().getName(), "Failed to initialize Amazon Mobile Analytics", ex);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_acitivity);
 
@@ -58,6 +83,23 @@ public class LoginActivity extends AppCompatActivity {
 
         userName.setInputType
                 (InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS | InputType.TYPE_CLASS_TEXT);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
     }
 
     public void forgotPassword(View view) {

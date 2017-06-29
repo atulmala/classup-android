@@ -21,7 +21,7 @@
     <string name="send_whole_school">Send to Whole School</string>
     <string name="send_select_classes">Send to Selected Classes</string>
     <string name="compose_sms">Compose SMS</string>
-    <String name="communicate_with_parents">Communicate with Parents</String>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -110,6 +110,23 @@ public class  TeacherMenu extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
     // selecting date, class, section, and subject is a common task for taking attendance and
     // scheduling tests. Hence we are going to use the same activity. The differentiation will
     // be done by intent parameter sender which will be set to takeAttendance or scheduleTest

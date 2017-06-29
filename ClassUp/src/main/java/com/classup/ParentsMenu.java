@@ -37,6 +37,24 @@ public class ParentsMenu extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.txt_parent_menu_Heading);
         textView.setText(student_name);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
+            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().analytics != null) {
+            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        }
+    }
+
     public void take_action(final View view)  {
         String server_ip = MiscFunctions.getInstance().getServerIP(getApplicationContext());
         String url1 = server_ip + "/auth/check_subscription/" + student_id + "/";

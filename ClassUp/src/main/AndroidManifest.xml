@@ -52,15 +52,6 @@
         </activity>
 
         <!-- activity for main menu (are we using it really??) -->
-        <activity
-            android:name=".MainMenuActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="com.classup.MAINMENUACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
 
         <!-- the menu that appears after login (actually this is the main menu) -->
         <activity
