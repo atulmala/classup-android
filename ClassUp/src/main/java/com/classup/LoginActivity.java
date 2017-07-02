@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -102,7 +104,30 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void forgotPassword(View view) {
+    //@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(0, 0, 0, "Login").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0,1, 0, "Forgot Password?").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                authenticateLogin();
+                break;
+            case 1:
+                forgotPassword();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void forgotPassword() {
         Boolean good_to_go = true;
         // check for internet connection
         boolean isConnected = MiscFunctions.getInstance().checkConnection(getApplicationContext());
@@ -222,7 +247,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void authenticateLogin(View view) {
+    public void authenticateLogin() {
         Boolean good_to_go = true;
         // check for internet connection
         boolean isConnected = MiscFunctions.getInstance().checkConnection(getApplicationContext());

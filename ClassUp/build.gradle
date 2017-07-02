@@ -8,8 +8,8 @@ android {
         applicationId "com.classup"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 34
-        versionName "2.7"
+        versionCode 36
+        versionName "2.8"
     }
     buildTypes {
         release {

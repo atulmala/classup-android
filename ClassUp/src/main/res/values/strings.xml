@@ -102,4 +102,5 @@
     <string name="a">A</string>
     <string name="p">P</string>
     <string name="communicate_with_parents">Communicate with Parents</string>
+    <string name="password">password</string>
 </resources>

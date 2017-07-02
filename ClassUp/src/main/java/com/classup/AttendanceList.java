@@ -319,7 +319,6 @@ public class AttendanceList extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         menu.add(0, 0, 0, "Submit").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        //menu.add(0, 1, 0, "Cancel").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
