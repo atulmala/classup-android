@@ -6,8 +6,6 @@
     android:paddingTop="5dp"
     android:layout_marginBottom="0dp"
     android:background="@color/floral_white">
-    >
-
     <TextView
         android:text="@string/select_date"
         android:textSize="20sp"
@@ -131,14 +129,5 @@
 
             android:id="@+id/pick_subject">
         </NumberPicker>
-        <!--<Button
-            android:id="@+id/btn_Take_Attendance"
-            android:text="@string/take_attendance"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="-20dp"
-            android:onClick="takeAttendaneOrScheduleTest"
-            android:layout_marginBottom="10dp" />-->
     </LinearLayout>
 </LinearLayout>

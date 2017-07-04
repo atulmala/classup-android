@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginBottom="-10dp"
                 android:scaleY="0.8"
                 android:text="@string/select_class"
@@ -87,7 +88,7 @@
             android:layout_marginBottom="0dp" />
         <Button
             android:id="@+id/btn_whole_class"
-            android:text="Send Message to Whole Class"
+            android:text="@string/send_message_to_whole_class"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

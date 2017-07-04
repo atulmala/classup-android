@@ -295,7 +295,7 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/algae_green" />
 
-        <activity android:name=".TestListParent"></activity>
+        <activity android:name=".TestListParent"/>
     </application>
 
 </manifest>
