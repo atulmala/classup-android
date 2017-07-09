@@ -104,4 +104,11 @@
     <string name="communicate_with_parents">Communicate with Parents</string>
     <string name="password">password</string>
     <string name="send_message_to_whole_class">Send Message to Whole Class</string>
+    <string name="student_name">Name</string>
+    <string name="txt_absent">Absent</string>
+    <string name="marks_grade">Marks/Grade</string>
+    <string name="txt_parent_name">Parent Name</string>
+    <string name="txt_parent">Parent</string>
+    <string name="txt_roll_no">Roll No</string>
+    <string name="txt_textview">TextView</string>
 </resources>

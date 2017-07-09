@@ -62,10 +62,10 @@
         android:onClick="selectBusRout"
         android:text="@string/bus_attendance" />
 
-    <Button
+    <!--<Button
         android:id="@+id/btn_change_Password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/change_password"
-        android:onClick="changePassword"/>
+        android:onClick="changePassword"/>-->
 </LinearLayout>

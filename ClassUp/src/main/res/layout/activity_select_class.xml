@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:paddingTop="5dp"
     android:layout_marginBottom="0dp"
-    android:background="@color/floral_white">
+    android:background="@color/floral_white"
+    android:id="@+id/layout_select_class">
     <TextView
         android:text="@string/select_date"
         android:textSize="20sp"

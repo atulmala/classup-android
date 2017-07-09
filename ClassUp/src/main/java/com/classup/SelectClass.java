@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,15 +15,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +53,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.classup.R.id.linearLayout;
 
 
 public class SelectClass extends AppCompatActivity {
@@ -107,10 +115,41 @@ public class SelectClass extends AppCompatActivity {
         subjectPicker = (NumberPicker)findViewById(R.id.pick_subject);
         datePicker = (DatePicker)findViewById(R.id.pick_date_attendance);
 
+
         setupPicker(classPicker, classUrl, "standard", "class_api");
         setupPicker(sectionPicker, sectionUrl, "section", "section_api");
 
         setupPicker(subjectPicker, subjectUrl, "subject", "subject_api");
+
+        // 05/07/2017 - recently it was found at Lord Krishna Public School that some teachers
+        // use old devices having smaller size and low resolution. So the pickers overlap each other
+        // We need to fix this by reducing the scale factor.
+        int density= getResources().getDisplayMetrics().densityDpi;
+        switch(density)
+        {
+            case DisplayMetrics.DENSITY_LOW:
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                subjectPicker.setScaleX(0.6f);
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                break;
+        }
+
+        int screenSize = getResources().getConfiguration().screenLayout &Configuration.SCREENLAYOUT_SIZE_MASK;
+        switch(screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                break;
+            default:
+                break;
+
+        }
         // if teacher has not yet set subjects, then we need to get all subjects
         //if (subjectPicker.getMaxValue() < 1)
             //setupPicker(subjectPicker, subjectUrl2, "subject_name", "subject_api");
