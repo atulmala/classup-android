@@ -109,7 +109,7 @@ public class SelectClass extends AppCompatActivity {
         String subjectUrl =  server_ip + "/teachers/teacher_subject_list/" +
                 logged_in_user + "/?format=json";
 
-        setContentView(R.layout.activity_select_class);
+        setContentView(R.layout.activity_select_class1);
         classPicker = (NumberPicker)findViewById(R.id.pick_class);
         sectionPicker = (NumberPicker)findViewById(R.id.pick_section);
         subjectPicker = (NumberPicker)findViewById(R.id.pick_subject);
@@ -138,7 +138,8 @@ public class SelectClass extends AppCompatActivity {
                 break;
         }
 
-        int screenSize = getResources().getConfiguration().screenLayout &Configuration.SCREENLAYOUT_SIZE_MASK;
+        int screenSize = getResources().getConfiguration().
+                screenLayout &Configuration.SCREENLAYOUT_SIZE_MASK;
         switch(screenSize) {
             case Configuration.SCREENLAYOUT_SIZE_LARGE:
                 break;

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -368,7 +369,15 @@ public class LoginActivity extends AppCompatActivity {
                                                         Toast.LENGTH_SHORT);
                                                 toast1.setGravity(Gravity.CENTER, 0, 0);
                                                 toast1.show();
-                                                // present the options menu
+
+                                                // 10/07/2017 - Get the manufacturer, model & OS
+                                                // of the device
+                                                String model = getDeviceName();
+                                                Toast toast2 = Toast.makeText
+                                                        (getApplicationContext(), model,
+                                                                Toast.LENGTH_SHORT);
+                                                toast2.show();
+
                                                 String is_school_admin =
                                                         response.get("school_admin").toString();
 
@@ -451,6 +460,29 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(),
                     "Login/Password not correct! Please retry.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return capitalize(model);
+        } else {
+            return capitalize(manufacturer) + " " + model;
+        }
+    }
+
+
+    private String capitalize(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        char first = s.charAt(0);
+        if (Character.isUpperCase(first)) {
+            return s;
+        } else {
+            return Character.toUpperCase(first) + s.substring(1);
         }
     }
 }
