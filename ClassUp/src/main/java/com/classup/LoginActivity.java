@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -31,6 +33,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.*;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
@@ -274,10 +277,21 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (good_to_go) {
+            // 10/07/2017 - Get the manufacturer, model & OS of the device
+            String model = getDeviceName();
+            Integer version = Build.VERSION.SDK_INT;
+            String versionRelease = Build.VERSION.RELEASE;
+            String os = "API Level: " + version.toString() + ", Release: " + versionRelease;
+
             final JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("user", userName.getText().toString());
                 jsonObject.put("password", password.getText().toString());
+                jsonObject.put("device_type", "Android");
+                jsonObject.put("model", model);
+                jsonObject.put("os", os);
+                jsonObject.put("size", getScreenSize());
+                jsonObject.put("resolution", getDensity());
             } catch (JSONException je) {
                 System.out.println("unable to create login ");
                 je.printStackTrace();
@@ -363,20 +377,14 @@ public class LoginActivity extends AppCompatActivity {
                                                         addToRequestQueue(jsonObjReq,
                                                                 "map_device_token");
 
-                                                String greetings = "Hello, " + user_name;
+                                                //String greetings = "Hello, " + user_name;
+                                                String greetings =
+                                                        response.getString("welcome_message");
                                                 Toast toast1 = Toast.makeText(
                                                         getApplicationContext(), greetings,
                                                         Toast.LENGTH_SHORT);
                                                 toast1.setGravity(Gravity.CENTER, 0, 0);
                                                 toast1.show();
-
-                                                // 10/07/2017 - Get the manufacturer, model & OS
-                                                // of the device
-                                                String model = getDeviceName();
-                                                Toast toast2 = Toast.makeText
-                                                        (getApplicationContext(), model,
-                                                                Toast.LENGTH_SHORT);
-                                                toast2.show();
 
                                                 String is_school_admin =
                                                         response.get("school_admin").toString();
@@ -466,11 +474,9 @@ public class LoginActivity extends AppCompatActivity {
     public String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
-        if (model.startsWith(manufacturer)) {
-            return capitalize(model);
-        } else {
-            return capitalize(manufacturer) + " " + model;
-        }
+
+        return capitalize(manufacturer) + " " + model;
+
     }
 
 
@@ -484,5 +490,35 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             return Character.toUpperCase(first) + s.substring(1);
         }
+    }
+
+    private String getScreenSize () {
+        int screenSize = getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        String screen_size;
+        switch(screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                screen_size = "Large screen";
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                screen_size = "Normal screen";
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                screen_size = "Small screen";
+                break;
+            default:
+                screen_size = "Undetermined";
+        }
+
+        return screen_size;
+    }
+
+    private String getDensity() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int density = metrics.densityDpi;
+
+        return String.valueOf(density);
     }
 }

@@ -148,7 +148,7 @@
 
         <!-- activity to select class, section, subject, month, and year for attendance summary -->
         <activity
-            android:name=".SelectAttendanceSummaryCriteria"
+            android:name=".SelectCriteriaAttendanceSummary"
             android:label="Select Criteria for Attendance Summary">
             <intent-filter>
                 <action android:name="com.classup.SelectAttendanceSummaryCriteria" />

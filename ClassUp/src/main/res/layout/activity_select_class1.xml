@@ -17,7 +17,7 @@
         android:layout_marginTop="176dp"
         android:scaleX="0.8"
         android:scaleY="0.8"
-        android:text="Select Class/Section/Subject:"
+        android:text="@string/select_class_section_subject"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"

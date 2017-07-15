@@ -238,16 +238,17 @@ public class AttendanceListAdapter extends BaseAdapter  {
             convertView = inflater.inflate(R.layout.attendance_list_row, null);
         }
         final View conVertViewRef = convertView;
-        TextView full_name_col = (TextView)convertView.findViewById(R.id.full_name);
-        TextView roll_no_col = (TextView)convertView.findViewById(R.id.roll_no);
+        TextView full_name_col = convertView.findViewById(R.id.full_name);
+        TextView roll_no_col = convertView.findViewById(R.id.roll_no);
 
         // 01/06/2017 We are now showing the parent name also
-        TextView parent_name_col = (TextView)convertView.findViewById(R.id.parent_name);
-        final RadioButton radioButton_present =
-                (RadioButton)convertView.findViewById(R.id.radio_present);
-        final RadioButton radioButton_absent =
-                (RadioButton)convertView.findViewById(R.id.radio_absent);
-        final ImageView imageView = (ImageView)convertView.findViewById(R.id.img_absent);
+        TextView parent_name_col = convertView.findViewById(R.id.parent_name);
+        final RadioButton radioButton_present = convertView.findViewById(R.id.radio_present);
+        final RadioButton radioButton_absent = convertView.findViewById(R.id.radio_absent);
+        radioButton_absent.bringToFront();
+        radioButton_present.bringToFront();
+
+        final ImageView imageView = convertView.findViewById(R.id.img_absent);
         //imageView.setRotation(10);
         roll_no_col.setText(roll_no_and_name_list.get(position).getRoll_number());
         full_name_col.setText(roll_no_and_name_list.get(position).getFull_name());

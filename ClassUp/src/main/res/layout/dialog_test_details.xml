@@ -78,15 +78,15 @@
         android:id="@+id/txt_passing_marks"
         android:layout_width="51dp"
         android:layout_height="44dp"
-        android:layout_marginLeft="9dp"
         android:ems="10"
         android:inputType="number"
         android:text="pm "
         android:textStyle="bold"
         android:layout_marginStart="308dp"
-        app:layout_constraintLeft_toRightOf="@+id/textView25"
         app:layout_constraintTop_toTopOf="@+id/txt_max_marks"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="25dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/textView27"
