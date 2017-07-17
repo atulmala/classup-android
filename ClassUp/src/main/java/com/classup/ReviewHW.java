@@ -86,6 +86,7 @@ public class ReviewHW extends AppCompatActivity {
                 startActivity(intent);
             }
             try {
+                bitmap1 = scaleDownAndRotatePic(getIntent().getStringExtra("photo_path"));
                 Picasso.with(a).load(new File(getIntent().getStringExtra("photo_path")))
                         .fit().centerCrop()
                         .into(imageView);
@@ -377,7 +378,9 @@ public class ReviewHW extends AppCompatActivity {
     }
 
     public String getStringImage(Bitmap bmp) {
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
         bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
