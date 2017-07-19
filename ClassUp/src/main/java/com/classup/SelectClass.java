@@ -54,7 +54,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.classup.R.id.linearLayout;
 
 
 public class SelectClass extends AppCompatActivity {

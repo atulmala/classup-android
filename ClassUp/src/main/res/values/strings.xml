@@ -122,4 +122,12 @@
     <string name="till_date">Till Date</string>
     <string name="select_class_section_subject">Select Class/Section/Subject:</string>
     <string name="select_month">Select Month:</string>
+    <string name="grade_based">Grade Based</string>
+    <string name="pass_marks">Pass Marks:</string>
+    <string name="max_marks">Max Marks:</string>
+    <string name="please_provide_details_for_this_test">Please provide Details For this Test</string>
+    <string name="mm">mm</string>
+    <string name="pm">pm</string>
+    <string name="topics_comments_optional">Topics/Comments (Optional):</string>
+    <string name="comments">comments</string>
 </resources>
