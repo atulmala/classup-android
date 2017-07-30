@@ -205,6 +205,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/mobile2"
         android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/mobile2"
-        android:layout_marginLeft="0dp" />
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

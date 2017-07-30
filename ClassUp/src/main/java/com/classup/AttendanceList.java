@@ -119,10 +119,16 @@ public class AttendanceList extends AppCompatActivity {
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject jo = response.getJSONObject(i);
+
+
                                 // get the name of the student. We need to join first and last names
                                 String f_name = jo.getString("fist_name");
                                 String l_name = jo.getString("last_name");
-                                String full_name = f_name + " " + l_name;
+                                String sr_no = Integer.toString(i+1);
+
+                                String full_name = sr_no + "    " + f_name + " " + l_name;
+                                if (sr_no.length() > 1)
+                                    full_name = sr_no + "  " + f_name + " " + l_name;
                                 // get the erp_id of the student
                                 String erp_id = jo.getString("student_erp_id");
 

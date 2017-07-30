@@ -34,6 +34,7 @@ public   class AttendanceListSource  {
         this.entry_type = entry_type;
     }
 
+
     public void show()  {
         System.out.println(full_name + "/" + bus_stop + "/" + entry_type);
     }

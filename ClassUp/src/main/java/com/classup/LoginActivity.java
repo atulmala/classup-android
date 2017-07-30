@@ -58,7 +58,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //29/06/2017 - initialize AWS cognito
-        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+        CognitoCachingCredentialsProvider credentialsProvider =
+                new CognitoCachingCredentialsProvider(
                 context, // get the context for the current activity
                 "263985579392 ", // your AWS Account id
                 "us-east-1:3c5df3cc-591c-44f1-9624-0fb5fe21cee3", // your identity pool id
@@ -158,7 +159,8 @@ public class LoginActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
                     // 06/01/17 - need to show the below message immediately after pressing
                     // the password change button. Because people press it multiple times
-                    String message = "Password change initiated. Please wait for upto 15 min for SMS";
+                    String message =
+                            "Password change initiated. Please wait for upto 15 min for SMS";
                     Toast toast =
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);

@@ -130,4 +130,6 @@
     <string name="pm">pm</string>
     <string name="topics_comments_optional">Topics/Comments (Optional):</string>
     <string name="comments">comments</string>
+    <string name="test">test</string>
+    <string name="test_topics">test topics</string>
 </resources>

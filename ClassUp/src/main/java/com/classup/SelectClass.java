@@ -347,6 +347,16 @@ public class SelectClass extends AppCompatActivity {
                 break;
 
             case "scheduleTest":
+                String subject = subjectList[(subjectPicker.getValue())];
+                if (subject.equals("Main")) {
+                    String message = "Test cannot be scheduled for Main." +
+                            " Please choose another Subject";
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    break;
+                }
                 final Dialog dialog = new Dialog(SelectClass.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_test_details);

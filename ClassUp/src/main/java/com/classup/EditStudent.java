@@ -52,7 +52,7 @@ public class EditStudent extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_student1);
+        setContentView(R.layout.activity_add_student);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
