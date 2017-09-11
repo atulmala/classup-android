@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -70,6 +71,8 @@ public class PasswordChange extends AppCompatActivity {
 
                     String url =   server_ip + "/auth/change_password/";
 
+
+
                     JSONObject params = new JSONObject();
                     String logged_in_user = SessionManager.getInstance().getLogged_in_user();
                     // as we are using sihgleton pattern to get the logged in user, sometimes the method
@@ -78,6 +81,18 @@ public class PasswordChange extends AppCompatActivity {
                     int i = 0;
                     while (logged_in_user.equals("")) {
                         logged_in_user = SessionManager.getInstance().getLogged_in_user();
+                        // 11/09/17 - Now we are building the custom Analysis via AWS
+                        try {
+                            AnalyticsEvent changePasswordEvent = SessionManager.getInstance().
+                                    analytics.getEventClient().createEvent("Change Password");
+                            changePasswordEvent.addAttribute("user", logged_in_user);
+                            SessionManager.getInstance().analytics.getEventClient().
+                                    recordEvent(changePasswordEvent);
+                        } catch (NullPointerException exception)    {
+                            System.out.println("flopped in creating analytics");
+                        } catch (Exception exception)   {
+                            System.out.println("flopped in creating analytics");
+                        }
                         if (i++ == 20)  {
                             Toast.makeText(getApplicationContext(),
                                     "There seems to be some problem with network. Please re-login",

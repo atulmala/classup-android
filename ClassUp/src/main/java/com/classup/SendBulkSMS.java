@@ -81,8 +81,8 @@ public class SendBulkSMS extends AppCompatActivity {
                     Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
-        } else if (message.length() > 140) {
-            String prompt = "Message is too long. Please limit it to 140 Characters";
+        } else if (message.length() > 200) {
+            String prompt = "Message is too long. Please limit it to 200 Characters";
             Toast toast = Toast.makeText(getApplicationContext(), prompt, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();

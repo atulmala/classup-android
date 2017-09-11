@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -88,6 +89,19 @@ public class AttendanceList extends AppCompatActivity {
         final String student_list_url =  server_ip + "/student/list/" +
                 school_id + "/" + intent.getStringExtra("class") + "/" +
                 intent.getStringExtra("section") + "/?format=json";
+        // 11/09/17 - Now we are building the custom Analysis via AWS
+        try {
+            AnalyticsEvent initiateAttendanceEvent = SessionManager.getInstance().
+                    analytics.getEventClient().createEvent("Initiated Attendance");
+            initiateAttendanceEvent.addAttribute("user",
+                    SessionManager.getInstance().getLogged_in_user());
+            SessionManager.getInstance().analytics.getEventClient().
+                    recordEvent(initiateAttendanceEvent);
+        } catch (NullPointerException exception)    {
+            System.out.println("flopped in creating analytics Initiated Attendance");
+        } catch (Exception exception)   {
+            System.out.println("flopped in creating analytics Initiated Attendance");
+        }
 
         // 23/06/2017 - show class subject and date on the Action bar like we do on iOS
         String title = intent.getStringExtra("class") + "-" + intent.getStringExtra("section");
@@ -119,7 +133,6 @@ public class AttendanceList extends AppCompatActivity {
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject jo = response.getJSONObject(i);
-
 
                                 // get the name of the student. We need to join first and last names
                                 String f_name = jo.getString("fist_name");
@@ -519,6 +532,20 @@ public class AttendanceList extends AppCompatActivity {
                 // show the toast that attendance has successfully been submitted
                 Toast.makeText(getApplicationContext(), "Attendance submitted to server",
                         Toast.LENGTH_SHORT).show();
+
+                // 11/09/17 - Now we are building the custom Analysis via AWS
+                try {
+                    AnalyticsEvent conductedAttendanceEvent = SessionManager.getInstance().
+                            analytics.getEventClient().createEvent("Conducted Attendance");
+                    conductedAttendanceEvent.addAttribute("user",
+                            SessionManager.getInstance().getLogged_in_user());
+                    SessionManager.getInstance().analytics.getEventClient().
+                            recordEvent(conductedAttendanceEvent);
+                } catch (NullPointerException exception)    {
+                    System.out.println("flopped in creating analytics Conducted Attendance");
+                } catch (Exception exception)   {
+                    System.out.println("flopped in creating analytics Conducted Attendance");
+                }
 
                 startActivity(new Intent("com.classup.TeacherMenu").
                         setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

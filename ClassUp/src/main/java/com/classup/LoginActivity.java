@@ -157,6 +157,16 @@ public class LoginActivity extends AppCompatActivity {
             builder.setMessage(prompt).setPositiveButton("Yes", new DialogInterface.
                     OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
+                    // 11/09/17 - Now we are building the custom Analysis via AWS
+                    try {
+                        AnalyticsEvent forgotPasswordEvent = SessionManager.getInstance().
+                                analytics.getEventClient().createEvent("Forgot Password");
+                        forgotPasswordEvent.addAttribute("user", userName.getText().toString());
+                        SessionManager.getInstance().analytics.getEventClient().
+                                recordEvent(forgotPasswordEvent);
+                    } catch (NullPointerException exception)    {
+                        System.out.println("flopped in creating analytics");
+                    }
                     // 06/01/17 - need to show the below message immediately after pressing
                     // the password change button. Because people press it multiple times
                     String message =
@@ -170,7 +180,8 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         jsonObject.put("user", userName.getText().toString());
                     } catch (JSONException je) {
-                        System.out.println("unable to jsonobject for forgotPassword functionality ");
+                        System.out.println("unable to create json object for " +
+                                "forgotPassword functionality ");
                         je.printStackTrace();
                     } catch (ArrayIndexOutOfBoundsException ae) {
                         System.out.println("array out of bounds exception");
@@ -279,6 +290,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (good_to_go) {
+            try {
+                AnalyticsEvent loginAttemptEvent = SessionManager.getInstance().
+                        analytics.getEventClient().createEvent("Login Attempt");
+                loginAttemptEvent.addAttribute("user", userName.getText().toString());
+                SessionManager.getInstance().analytics.getEventClient().
+                        recordEvent(loginAttemptEvent);
+            } catch (NullPointerException exception)    {
+                System.out.println("flopped in creating analytics");
+            }
             // 10/07/2017 - Get the manufacturer, model & OS of the device
             String model = getDeviceName();
             Integer version = Build.VERSION.SDK_INT;
@@ -387,6 +407,22 @@ public class LoginActivity extends AppCompatActivity {
                                                         Toast.LENGTH_SHORT);
                                                 toast1.setGravity(Gravity.CENTER, 0, 0);
                                                 toast1.show();
+                                                try {
+                                                    AnalyticsEvent loginResultEvent =
+                                                            SessionManager.getInstance().
+                                                            analytics.getEventClient().
+                                                                    createEvent("Login Result");
+                                                    loginResultEvent.addAttribute
+                                                            ("Lo", userName.getText().toString());
+                                                    loginResultEvent.addAttribute("Login Result",
+                                                            "Success");
+                                                    SessionManager.getInstance().analytics.
+                                                            getEventClient().
+                                                            recordEvent(loginResultEvent);
+                                                } catch (NullPointerException exception)    {
+                                                    System.out.println
+                                                            ("flopped in creating analytics");
+                                                }
 
                                                 String is_school_admin =
                                                         response.get("school_admin").toString();
@@ -416,12 +452,29 @@ public class LoginActivity extends AppCompatActivity {
                                                     startActivity(new Intent
                                                             ("com.classup.ShowWard"));
                                             } else {
+
                                                 Toast.makeText(getApplicationContext(),
                                                         "Login disabled! Please contact your Admin",
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                         else {
+                                            try {
+                                                AnalyticsEvent loginResultEvent =
+                                                        SessionManager.getInstance().
+                                                                analytics.getEventClient().
+                                                                createEvent("Login Result");
+                                                loginResultEvent.addAttribute
+                                                        ("Lo", userName.getText().toString());
+                                                loginResultEvent.addAttribute("Login Result",
+                                                        "Failed");
+                                                SessionManager.getInstance().analytics.
+                                                        getEventClient().
+                                                        recordEvent(loginResultEvent);
+                                            } catch (NullPointerException exception)    {
+                                                System.out.println
+                                                        ("flopped in creating analytics");
+                                            }
                                             Toast.makeText(getApplicationContext(),
                                                     "Login/Password not correct! Please retry.",
                                                     Toast.LENGTH_SHORT).show();
