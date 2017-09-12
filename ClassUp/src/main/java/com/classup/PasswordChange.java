@@ -81,18 +81,7 @@ public class PasswordChange extends AppCompatActivity {
                     int i = 0;
                     while (logged_in_user.equals("")) {
                         logged_in_user = SessionManager.getInstance().getLogged_in_user();
-                        // 11/09/17 - Now we are building the custom Analysis via AWS
-                        try {
-                            AnalyticsEvent changePasswordEvent = SessionManager.getInstance().
-                                    analytics.getEventClient().createEvent("Change Password");
-                            changePasswordEvent.addAttribute("user", logged_in_user);
-                            SessionManager.getInstance().analytics.getEventClient().
-                                    recordEvent(changePasswordEvent);
-                        } catch (NullPointerException exception)    {
-                            System.out.println("flopped in creating analytics");
-                        } catch (Exception exception)   {
-                            System.out.println("flopped in creating analytics");
-                        }
+
                         if (i++ == 20)  {
                             Toast.makeText(getApplicationContext(),
                                     "There seems to be some problem with network. Please re-login",
@@ -104,6 +93,20 @@ public class PasswordChange extends AppCompatActivity {
                             startActivity(intent);
                         }
                     }
+
+                    // 11/09/17 - Now we are building the custom Analysis via AWS
+                    try {
+                        AnalyticsEvent changePasswordEvent = SessionManager.getInstance().
+                                analytics.getEventClient().createEvent("Change Password");
+                        changePasswordEvent.addAttribute("user", logged_in_user);
+                        SessionManager.getInstance().analytics.getEventClient().
+                                recordEvent(changePasswordEvent);
+                    } catch (NullPointerException exception)    {
+                        System.out.println("flopped in creating analytics");
+                    } catch (Exception exception)   {
+                        System.out.println("flopped in creating analytics");
+                    }
+
                     try {
                         params.put("user", logged_in_user);
                         params.put("new_password", new_password);

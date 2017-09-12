@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -365,6 +366,26 @@ public class AddStudent extends AppCompatActivity {
                                                                                             @Override
                                                                                             public void onResponse(JSONObject response) {
                                                                                                 Log.d(tag, response.toString());
+                                                                                                // 12/09/17 - Now we are building the custom
+                                                                                                // Analysis via AWS
+                                                                                                try {
+                                                                                                    AnalyticsEvent addStudentEvent =
+                                                                                                            SessionManager.getInstance().
+                                                                                                                    analytics.getEventClient().
+                                                                                                                    createEvent("Add Student");
+                                                                                                    addStudentEvent.addAttribute("user",
+                                                                                                            SessionManager.getInstance().
+                                                                                                                    getLogged_in_user());
+                                                                                                    SessionManager.getInstance().analytics.
+                                                                                                            getEventClient().
+                                                                                                            recordEvent(addStudentEvent);
+                                                                                                } catch (NullPointerException exception)    {
+                                                                                                    System.out.println("flopped in creating " +
+                                                                                                            "analytics Schedule Test");
+                                                                                                } catch (Exception exception)   {
+                                                                                                    System.out.println("flopped in " +
+                                                                                                            "creating analytics Schedule Test");
+                                                                                                }
                                                                                             }
                                                                                         }, new Response.ErrorListener() {
 

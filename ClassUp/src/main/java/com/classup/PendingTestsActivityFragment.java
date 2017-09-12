@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -101,6 +102,26 @@ public class PendingTestsActivityFragment extends Fragment {
                                             public void onResponse(String response) {
                                                 Toast.makeText(getContext(), "Test Deleted",
                                                         Toast.LENGTH_SHORT).show();
+                                                // 12/09/17 - Now we are building the custom
+                                                // Analysis via AWS
+                                                try {
+                                                    AnalyticsEvent event =
+                                                            SessionManager.getInstance().
+                                                                    analytics.getEventClient().
+                                                                    createEvent("Delete Test");
+                                                    event.addAttribute("user",
+                                                            SessionManager.getInstance().
+                                                            getLogged_in_user());
+                                                    SessionManager.getInstance().analytics.
+                                                            getEventClient().
+                                                            recordEvent(event);
+                                                } catch (NullPointerException exception)    {
+                                                    System.out.println("flopped in creating " +
+                                                            "analytics Retrieve Delete Test");
+                                                } catch (Exception exception)   {
+                                                    System.out.println("flopped in " +
+                                                            "creating analytics Delete Test");
+                                                }
                                                 startActivity(new Intent("com.classup.TeacherMenu").
                                                         setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                                                 Intent.FLAG_ACTIVITY_CLEAR_TASK));

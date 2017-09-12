@@ -19,6 +19,7 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -141,6 +142,24 @@ public class SelectStudent extends AppCompatActivity {
                 builder.setMessage("Do you want to call the parent of  " + student_name + "?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                // 12/09/17 - Now we are building the custom Analysis via AWS
+                                try {
+                                    AnalyticsEvent callParentEvent =
+                                            SessionManager.getInstance().
+                                            analytics.getEventClient().
+                                                    createEvent("Call Parent");
+                                    callParentEvent.addAttribute("user",
+                                            SessionManager.getInstance().getLogged_in_user());
+                                    SessionManager.getInstance().analytics.getEventClient().
+                                            recordEvent(callParentEvent);
+                                } catch (NullPointerException exception)    {
+                                    System.out.println("flopped in creating " +
+                                            "analytics Call Parent");
+                                } catch (Exception exception)   {
+                                    System.out.println("flopped in creating " +
+                                            "analytics Call Parent");
+                                }
+
                                 final String student_id = student_list.get(ii).getId();
                                 String server_ip = MiscFunctions.getInstance().
                                         getServerIP(activity);
@@ -281,6 +300,23 @@ public class SelectStudent extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    // 12/09/17 - Now we are building the custom Analysis via AWS
+                    try {
+                        AnalyticsEvent sendMessageEvent =
+                                SessionManager.getInstance().
+                                        analytics.getEventClient().
+                                        createEvent("Send Message Selected Students");
+                        sendMessageEvent.addAttribute("user",
+                                SessionManager.getInstance().getLogged_in_user());
+                        SessionManager.getInstance().analytics.getEventClient().
+                                recordEvent(sendMessageEvent);
+                    } catch (NullPointerException exception)    {
+                        System.out.println("flopped in creating " +
+                                "analytics Call Parent");
+                    } catch (Exception exception)   {
+                        System.out.println("flopped in creating " +
+                                "analytics Call Parent");
+                    }
                     Intent intent1 = new Intent(activity, ComposeMessage.class);
                     intent1.putExtra("student_list", selected_students);
                     intent1.putExtra("whole_class", "false");

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -163,6 +164,24 @@ public class SelectClassSection extends AppCompatActivity {
     }
 
     public void composeMessageForWholeClass(View view)   {
+        // 12/09/17 - Now we are building the custom Analysis via AWS
+        try {
+            AnalyticsEvent sendMessageEvent =
+                    SessionManager.getInstance().
+                            analytics.getEventClient().
+                            createEvent("Send Message Whole Class");
+            sendMessageEvent.addAttribute("user",
+                    SessionManager.getInstance().getLogged_in_user());
+            SessionManager.getInstance().analytics.getEventClient().
+                    recordEvent(sendMessageEvent);
+        } catch (NullPointerException exception)    {
+            System.out.println("flopped in creating " +
+                    "analytics Call Parent");
+        } catch (Exception exception)   {
+            System.out.println("flopped in creating " +
+                    "analytics Call Parent");
+        }
+
         Intent intent = new Intent(this, ComposeMessage.class);
         // Get the class
         final String[] classList = classPicker.getDisplayedValues();

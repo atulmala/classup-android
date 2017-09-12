@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -68,7 +69,7 @@ public class ParentCommunication extends AppCompatActivity {
 
     public void sendParentMessage(View view)    {
         final String tag = "SubmitParentsCommunication";
-        String[] category_list = cat_picker.getDisplayedValues();
+        final String[] category_list = cat_picker.getDisplayedValues();
         ActionEditText editText = (ActionEditText)findViewById(R.id.txt_parent_message_content);
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editText.setHorizontallyScrolling(false);
@@ -106,6 +107,26 @@ public class ParentCommunication extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d(tag, response.toString());
+                            // 12/09/17 - Now we are building the custom
+                            // Analysis via AWS
+                            try {
+                                AnalyticsEvent event =
+                                        SessionManager.getInstance().analytics.getEventClient().
+                                                createEvent("Parent Communication");
+                                event.addAttribute("user", SessionManager.getInstance().
+                                        getLogged_in_user());
+                                // we also capture the communication category
+                                event.addAttribute("category", category_list[cat_picker.getValue()]);
+                                SessionManager.getInstance().analytics.
+                                        getEventClient().
+                                        recordEvent(event);
+                            } catch (NullPointerException exception)    {
+                                System.out.println("flopped in creating " +
+                                        "analytics Parent Communication");
+                            } catch (Exception exception)   {
+                                System.out.println("flopped in " +
+                                        "creating analytics Parent Communication");
+                            }
                         }
                     }, new Response.ErrorListener() {
 

@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -124,6 +125,23 @@ public class HWList extends AppCompatActivity {
                                         "while trying to fetch the HW list");
                                 e.printStackTrace();
                             }
+                        }
+                        // 12/09/17 - Now we are building the custom
+                        // Analysis via AWS
+                        try {
+                            AnalyticsEvent event =
+                                    SessionManager.getInstance().analytics.getEventClient().
+                                            createEvent("Retrieve HW List");
+                            event.addAttribute("user", SessionManager.getInstance().
+                                    getLogged_in_user());
+                            SessionManager.getInstance().analytics.getEventClient().
+                                    recordEvent(event);
+                        } catch (NullPointerException exception)    {
+                            System.out.println("flopped in creating " +
+                                    "analytics Retrieve HW List");
+                        } catch (Exception exception)   {
+                            System.out.println("flopped in " +
+                                    "creating analytics Retrieve HW List");
                         }
                         progressDialog.hide();
                         progressDialog.dismiss();

@@ -32,6 +32,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -357,6 +358,7 @@ public class SelectClass extends AppCompatActivity {
                     toast.show();
                     break;
                 }
+
                 final Dialog dialog = new Dialog(SelectClass.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_test_details);
@@ -476,6 +478,26 @@ public class SelectClass extends AppCompatActivity {
                                     new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
+                                            // 11/09/17 - Now we are building the custom
+                                            // Analysis via AWS
+                                            try {
+                                                AnalyticsEvent scheduleTestEvent =
+                                                        SessionManager.getInstance().
+                                                        analytics.getEventClient().
+                                                                createEvent("Schedule Test");
+                                                scheduleTestEvent.addAttribute("user",
+                                                        SessionManager.getInstance().
+                                                                getLogged_in_user());
+                                                SessionManager.getInstance().analytics.
+                                                        getEventClient().
+                                                        recordEvent(scheduleTestEvent);
+                                            } catch (NullPointerException exception)    {
+                                                System.out.println("flopped in creating " +
+                                                        "analytics Schedule Test");
+                                            } catch (Exception exception)   {
+                                                System.out.println("flopped in " +
+                                                        "creating analytics Schedule Test");
+                                            }
                                         }
                                     },
                                     new Response.ErrorListener() {

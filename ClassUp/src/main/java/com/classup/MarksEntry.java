@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -260,6 +261,26 @@ public class MarksEntry extends AppCompatActivity {
                                 toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
                                         |Gravity.CENTER_VERTICAL, 0, 0);
                                 toast.show();
+                                // 12/09/17 - Now we are building the custom
+                                // Analysis via AWS
+                                try {
+                                    AnalyticsEvent saveMarksEvent =
+                                            SessionManager.getInstance().
+                                                    analytics.getEventClient().
+                                                    createEvent("Saved Marks");
+                                    saveMarksEvent.addAttribute("user",
+                                            SessionManager.getInstance().
+                                                    getLogged_in_user());
+                                    SessionManager.getInstance().analytics.
+                                            getEventClient().
+                                            recordEvent(saveMarksEvent);
+                                } catch (NullPointerException exception)    {
+                                    System.out.println("flopped in creating " +
+                                            "analytics Save Marks");
+                                } catch (Exception exception)   {
+                                    System.out.println("flopped in " +
+                                            "creating analytics Save Marks");
+                                }
                             }
                         }
                         catch (JSONException e) {
@@ -338,6 +359,24 @@ public class MarksEntry extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d(tag, response.toString());
+                            // 12/09/17 - Now we are building the custom
+                            // Analysis via AWS
+                            try {
+                                AnalyticsEvent event =
+                                        SessionManager.getInstance().
+                                                analytics.getEventClient().
+                                                createEvent("Submit Marks");
+                                event.addAttribute("user", SessionManager.getInstance().
+                                                getLogged_in_user());
+                                SessionManager.getInstance().analytics.getEventClient().
+                                        recordEvent(event);
+                            } catch (NullPointerException exception)    {
+                                System.out.println("flopped in creating " +
+                                        "analytics Submit Marks");
+                            } catch (Exception exception)   {
+                                System.out.println("flopped in " +
+                                        "creating analytics Submit Marks");
+                            }
                         }
                     }, new Response.ErrorListener() {
 

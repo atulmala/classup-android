@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -172,6 +173,31 @@ public class AddTeacher extends AppCompatActivity {
                                                                         Toast.LENGTH_LONG);
                                                         toast.setGravity(Gravity.CENTER, 0, 0);
                                                         toast.show();
+                                                        // 12/09/17 - Now we are building the custom
+                                                        // Analysis via AWS
+                                                        try {
+                                                            AnalyticsEvent event =
+                                                                    SessionManager.getInstance().
+                                                                            analytics.
+                                                                            getEventClient().
+                                                                            createEvent
+                                                                                    ("Add Teacher");
+                                                            event.addAttribute("user",
+                                                                    SessionManager.getInstance().
+                                                                    getLogged_in_user());
+                                                            SessionManager.getInstance().analytics.
+                                                                    getEventClient().
+                                                                    recordEvent(event);
+                                                        } catch (NullPointerException exception)
+                                                        {
+                                                            System.out.println("flopped in " +
+                                                                    "creating " +
+                                                                    "analytics Add Teacher");
+                                                        } catch (Exception exception)   {
+                                                            System.out.println("flopped in " +
+                                                                    "creating analytics " +
+                                                                    "Add Teacher");
+                                                        }
                                                     } else {
                                                         Toast toast = Toast.makeText(context,
                                                                 message, Toast.LENGTH_LONG);
