@@ -303,19 +303,18 @@ public class SelectStudent extends AppCompatActivity {
                     // 12/09/17 - Now we are building the custom Analysis via AWS
                     try {
                         AnalyticsEvent sendMessageEvent =
-                                SessionManager.getInstance().
-                                        analytics.getEventClient().
+                                SessionManager.getInstance().analytics.getEventClient().
                                         createEvent("Send Message Selected Students");
                         sendMessageEvent.addAttribute("user",
                                 SessionManager.getInstance().getLogged_in_user());
                         SessionManager.getInstance().analytics.getEventClient().
                                 recordEvent(sendMessageEvent);
                     } catch (NullPointerException exception)    {
-                        System.out.println("flopped in creating " +
-                                "analytics Call Parent");
+                        System.out.println("flopped in creating analytics " +
+                                "Send Message Selected Students");
                     } catch (Exception exception)   {
-                        System.out.println("flopped in creating " +
-                                "analytics Call Parent");
+                        System.out.println("flopped in creating analytics " +
+                                "Send Message Selected Students");
                     }
                     Intent intent1 = new Intent(activity, ComposeMessage.class);
                     intent1.putExtra("student_list", selected_students);

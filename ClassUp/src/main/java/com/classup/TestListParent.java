@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -32,6 +33,21 @@ public class TestListParent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list_parent);
         this.setTitle("Upcoming tests for " + getIntent().getStringExtra("student_name"));
+
+        try {
+            AnalyticsEvent event =
+                    SessionManager.getInstance().analytics.getEventClient().
+                            createEvent("Upcoming Tests");
+            event.addAttribute("user", SessionManager.getInstance().
+                    getLogged_in_user());
+            // we also capture the communication category
+            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+        } catch (NullPointerException exception)    {
+            System.out.println("flopped in creating analytics Upcoming Tests");
+        } catch (Exception exception)   {
+            System.out.println("flopped in creating analytics Upcoming Tests");
+        }
+
 
         final Context c = this;
         server_ip = MiscFunctions.getInstance().getServerIP(c);

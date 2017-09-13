@@ -103,30 +103,10 @@ public class ParentCommunication extends AppCompatActivity {
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                     url, jsonObject,
                     new Response.Listener<JSONObject>() {
-
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d(tag, response.toString());
-                            // 12/09/17 - Now we are building the custom
-                            // Analysis via AWS
-                            try {
-                                AnalyticsEvent event =
-                                        SessionManager.getInstance().analytics.getEventClient().
-                                                createEvent("Parent Communication");
-                                event.addAttribute("user", SessionManager.getInstance().
-                                        getLogged_in_user());
-                                // we also capture the communication category
-                                event.addAttribute("category", category_list[cat_picker.getValue()]);
-                                SessionManager.getInstance().analytics.
-                                        getEventClient().
-                                        recordEvent(event);
-                            } catch (NullPointerException exception)    {
-                                System.out.println("flopped in creating " +
-                                        "analytics Parent Communication");
-                            } catch (Exception exception)   {
-                                System.out.println("flopped in " +
-                                        "creating analytics Parent Communication");
-                            }
+
                         }
                     }, new Response.ErrorListener() {
 
@@ -135,16 +115,13 @@ public class ParentCommunication extends AppCompatActivity {
                     VolleyLog.d(tag, "Error: " + error.getMessage());
                     if (error instanceof TimeoutError ||
                             error instanceof NoConnectionError) {
-                        Toast.makeText(getApplicationContext(),
-                                "Slow network connection",
+                        Toast.makeText(getApplicationContext(), "Slow network connection",
                                 Toast.LENGTH_LONG).show();
                     }  else if (error instanceof ServerError) {
-                        Toast.makeText(getApplicationContext(),
-                                "Server error, please try later",
+                        Toast.makeText(getApplicationContext(), "Server error, please try later",
                                 Toast.LENGTH_LONG).show();
                     } else if (error instanceof NetworkError) {
-                        Toast.makeText(getApplicationContext(),
-                                "Network error, please try later",
+                        Toast.makeText(getApplicationContext(), "Network error, please try later",
                                 Toast.LENGTH_LONG).show();
                     } else if (error instanceof ParseError) {
                         //TODO
@@ -154,8 +131,27 @@ public class ParentCommunication extends AppCompatActivity {
             com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
             Toast.makeText(getApplicationContext(),
                     "Your communication has been sent. If needed, school authorities will " +
-                            "contact you.",
-                    Toast.LENGTH_SHORT).show();
+                            "contact you.", Toast.LENGTH_SHORT).show();
+            // 12/09/17 - Now we are building the custom
+            // Analysis via AWS
+            try {
+                AnalyticsEvent event =
+                        SessionManager.getInstance().analytics.getEventClient().
+                                createEvent("Parent Communication");
+                event.addAttribute("user", SessionManager.getInstance().
+                        getLogged_in_user());
+                // we also capture the communication category
+                event.addAttribute("category", category_list[cat_picker.getValue()]);
+                SessionManager.getInstance().analytics.
+                        getEventClient().
+                        recordEvent(event);
+            } catch (NullPointerException exception)    {
+                System.out.println("flopped in creating " +
+                        "analytics Parent Communication");
+            } catch (Exception exception)   {
+                System.out.println("flopped in " +
+                        "creating analytics Parent Communication");
+            }
             Intent intent = new Intent("com.classup.ParentsMenu");
             intent.putExtra("student_id", student_id);
             intent.putExtra("student_name", student_name);

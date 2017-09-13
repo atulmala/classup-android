@@ -16,6 +16,7 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -46,6 +47,20 @@ public class SetSubjects extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_subjects);
+
+        try {
+            AnalyticsEvent event =
+                    SessionManager.getInstance().analytics.getEventClient().
+                            createEvent("Set Subjects");
+            event.addAttribute("user", SessionManager.getInstance().
+                    getLogged_in_user());
+            // we also capture the communication category
+            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+        } catch (NullPointerException exception)    {
+            System.out.println("flopped in creating analytics Set Subjects");
+        } catch (Exception exception)   {
+            System.out.println("flopped in creating analytics Set Subjects");
+        }
 
         final ArrayList<SubjectListSource> subject_list = new ArrayList<SubjectListSource>();
 

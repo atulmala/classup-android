@@ -137,8 +137,7 @@ public class HWList extends AppCompatActivity {
                             SessionManager.getInstance().analytics.getEventClient().
                                     recordEvent(event);
                         } catch (NullPointerException exception)    {
-                            System.out.println("flopped in creating " +
-                                    "analytics Retrieve HW List");
+                            System.out.println("flopped in creating analytics Retrieve HW List");
                         } catch (Exception exception)   {
                             System.out.println("flopped in " +
                                     "creating analytics Retrieve HW List");

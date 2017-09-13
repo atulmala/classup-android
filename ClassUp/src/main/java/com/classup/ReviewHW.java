@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -113,6 +114,22 @@ public class ReviewHW extends AppCompatActivity {
                     .into(imageView,  new Callback() {
                 @Override
                 public void onSuccess() {
+                    // 12/09/17 - Now we are building the custom
+                    // Analysis via AWS
+                    try {
+                        AnalyticsEvent event =
+                                SessionManager.getInstance().analytics.getEventClient().
+                                        createEvent("Retrieve HW");
+                        event.addAttribute("user", SessionManager.getInstance().
+                                getLogged_in_user());
+                        // we also capture the communication category
+                        SessionManager.getInstance().analytics.getEventClient().
+                                recordEvent(event);
+                    } catch (NullPointerException exception)    {
+                        System.out.println("flopped in creating analytics Retrieve HW");
+                    } catch (Exception exception)   {
+                        System.out.println("flopped in creating analytics Retrieve HW");
+                    }
                     progressDialog.hide();
                     progressDialog.dismiss();
 

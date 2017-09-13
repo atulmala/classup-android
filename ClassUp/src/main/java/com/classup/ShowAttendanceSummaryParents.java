@@ -9,6 +9,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -32,6 +33,21 @@ public class ShowAttendanceSummaryParents extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_attendance_summary_parents);
+
+        try {
+            AnalyticsEvent event =
+                    SessionManager.getInstance().analytics.getEventClient().
+                            createEvent("Attendance Summary Parents");
+            event.addAttribute("user", SessionManager.getInstance().
+                    getLogged_in_user());
+            // we also capture the communication category
+            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+        } catch (NullPointerException exception)    {
+            System.out.println("flopped in creating analytics Attendance Summary Parents");
+        } catch (Exception exception)   {
+            System.out.println("flopped in creating analytics Attendance Summary Parents");
+        }
+
 
         // show the name of student on the top
         TableRow header_row = (TableRow)findViewById(R.id.header_row_p_att_summary);

@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -48,6 +49,8 @@ public class TakeBusAttendance extends AppCompatActivity {
     BusAttendanceAdapter ptr_adapter;
     String tag = "TakeBusAttendance";
 
+
+
     final ArrayList<AttendanceListSource> student_list = new ArrayList<AttendanceListSource>();
     private ArrayList<String> stop_list = new ArrayList<>();
     final ArrayList<String> current_absent_students = new ArrayList<>();
@@ -65,6 +68,21 @@ public class TakeBusAttendance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_bus_attendance);
+
+        try {
+            AnalyticsEvent event =
+                    SessionManager.getInstance().analytics.getEventClient().
+                            createEvent("Bus Attendance");
+            event.addAttribute("user", SessionManager.getInstance().
+                    getLogged_in_user());
+            // we also capture the communication category
+            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+        } catch (NullPointerException exception)    {
+            System.out.println("flopped in creating analytics Bus Attendance");
+        } catch (Exception exception)   {
+            System.out.println("flopped in creating analytics Bus Attendance");
+        }
+
         context = this;
         this.setTitle("Bus Attendance");
 

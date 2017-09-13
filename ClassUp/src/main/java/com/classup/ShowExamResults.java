@@ -13,6 +13,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -41,6 +42,21 @@ public class ShowExamResults extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_exam_results);
+
+        try {
+            AnalyticsEvent event =
+                    SessionManager.getInstance().analytics.getEventClient().
+                            createEvent("Show Exam Result");
+            event.addAttribute("user", SessionManager.getInstance().
+                    getLogged_in_user());
+            // we also capture the communication category
+            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+        } catch (NullPointerException exception)    {
+            System.out.println("flopped in creating analytics Show Exam Result");
+        } catch (Exception exception)   {
+            System.out.println("flopped in creating analytics Show Exam Result");
+        }
+
 
         //final GraphView graph = (GraphView) findViewById(R.id.exam_result_graph);
         final BarChart barChart = (BarChart) findViewById(R.id.exam_result_graph);
