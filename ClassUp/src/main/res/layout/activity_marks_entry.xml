@@ -1,59 +1,26 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
     tools:context="com.classup.MarksEntry">
 
-    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:background="@color/jeans_blue">
-
-        &lt;!&ndash; first column Roll No &ndash;&gt;
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:paddingLeft="10dp"
-            android:text="Roll No"
-            android:textColor="@color/white" />
-        &lt;!&ndash; second column Name &ndash;&gt;
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:paddingLeft="5dp"
-            android:text="Name"
-            android:textColor="@color/white"/>
-        &lt;!&ndash; third column Marks/Grade &ndash;&gt;
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:paddingLeft="10dp"
-            android:text="Marks"
-            android:textColor="@color/white"/>
-        &lt;!&ndash; fourth column Whether Absent &ndash;&gt;
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:text="Absent?"
-            android:textColor="@color/white"/>
-
-    </LinearLayout>-->
     <ListView
         android:id="@+id/marks_entry_list"
         android:descendantFocusability="beforeDescendants"
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:background="@color/white"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
     </ListView>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -156,10 +156,10 @@ public class HWList extends AppCompatActivity {
                             Toast.makeText(c, "Slow network connection",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(c, "Server error, please try later",
+                            Toast.makeText(c, "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(c, "Network error, please try later",
+                            Toast.makeText(c, "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO

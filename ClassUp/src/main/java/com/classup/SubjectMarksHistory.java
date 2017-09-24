@@ -44,6 +44,8 @@ public class SubjectMarksHistory extends AppCompatActivity {
                             createEvent("Subject Marks History");
             event.addAttribute("user", SessionManager.getInstance().
                     getLogged_in_user());
+            // 17/09/2017 also track of which subject?
+            event.addAttribute("Subject", getIntent().getStringExtra("subject"));
             // we also capture the communication category
             SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
@@ -253,15 +255,15 @@ public class SubjectMarksHistory extends AppCompatActivity {
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Slow network connection, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Server error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Network error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO

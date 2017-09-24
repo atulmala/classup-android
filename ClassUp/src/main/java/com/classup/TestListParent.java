@@ -99,7 +99,7 @@ public class TestListParent extends AppCompatActivity {
                                 // get the id of the test
                                 String id = jo.getString("id");
 
-                                String test_topics = jo.getString("test_type");
+                                String test_topics = jo.getString("syllabus");
 
                                 // put all the above details into the adapter
                                 test_list.add(new TestListSource(ddmmyyyy, the_class,
@@ -126,13 +126,13 @@ public class TestListParent extends AppCompatActivity {
                         progressDialog.dismiss();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
-                            Toast.makeText(c, "Slow network connection",
+                            Toast.makeText(c, "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         }  else if (error instanceof ServerError) {
-                            Toast.makeText(c, "Server error, please try later",
+                            Toast.makeText(c, "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(c, "Network error, please try later",
+                            Toast.makeText(c, "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO

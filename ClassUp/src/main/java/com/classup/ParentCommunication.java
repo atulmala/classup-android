@@ -115,13 +115,16 @@ public class ParentCommunication extends AppCompatActivity {
                     VolleyLog.d(tag, "Error: " + error.getMessage());
                     if (error instanceof TimeoutError ||
                             error instanceof NoConnectionError) {
-                        Toast.makeText(getApplicationContext(), "Slow network connection",
+                        Toast.makeText(getApplicationContext(),
+                                "Slow network connection or No internet connectivity",
                                 Toast.LENGTH_LONG).show();
                     }  else if (error instanceof ServerError) {
-                        Toast.makeText(getApplicationContext(), "Server error, please try later",
+                        Toast.makeText(getApplicationContext(),
+                                "Slow network connection or No internet connectivity",
                                 Toast.LENGTH_LONG).show();
                     } else if (error instanceof NetworkError) {
-                        Toast.makeText(getApplicationContext(), "Network error, please try later",
+                        Toast.makeText(getApplicationContext(),
+                                "Slow network connection or No internet connectivity",
                                 Toast.LENGTH_LONG).show();
                     } else if (error instanceof ParseError) {
                         //TODO
@@ -223,15 +226,15 @@ public class ParentCommunication extends AppCompatActivity {
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Slow network connection",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Server error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Network error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO

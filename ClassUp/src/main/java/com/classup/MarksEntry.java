@@ -47,33 +47,38 @@ public class MarksEntry extends AppCompatActivity {
     Activity activity;
 
     Boolean grade_based;
+    String test_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         activity = this;
 
         final Intent intent = this.getIntent();
         grade_based = intent.getBooleanExtra("grade_based", false);
+        test_type = intent.getStringExtra("test_type");
 
         final Context c = this.getApplicationContext();
 
-        server_ip = MiscFunctions.getInstance().getServerIP(c);
-        school_id = SessionManager.getInstance().getSchool_id();
-        String url =  server_ip + "/academics/get_test_marks_list/" +
-                intent.getStringExtra("test_id") + "/";
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marks_entry);
 
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
+        if (actionBar != null) {
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+            String title = "Marks Entry " + intent.getStringExtra("class") + "-" +
+                    intent.getStringExtra("section") + " " + intent.getStringExtra("subject");
+            actionBar.setTitle(title);
+        }
 
         final ArrayList<MarksEntryListSource> marks_list = new ArrayList<MarksEntryListSource>();
         final ListView listView = (ListView)findViewById(R.id.marks_entry_list);
-        adapter = new MarksEntryListAdapter(this, marks_list, grade_based);
+        adapter = new MarksEntryListAdapter(this, marks_list, grade_based, test_type);
 
         // get the list of students, roll no and current marks/grade
+        server_ip = MiscFunctions.getInstance().getServerIP(c);
+        school_id = SessionManager.getInstance().getSchool_id();
+        String url =  server_ip + "/academics/get_test_marks_list/" +
+                intent.getStringExtra("test_id") + "/";;
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
@@ -88,13 +93,23 @@ public class MarksEntry extends AppCompatActivity {
 
                                 String id = jo.getString("id");
                                 String roll_no = jo.getString("roll_no");
-                                String full_name = jo.getString("student");
+                                String name = jo.getString("student");
+                                String sr_no = Integer.toString(i+1);
+                                String full_name = sr_no + "    " + name;
+                                if (sr_no.length() > 1)
+                                    full_name = sr_no + "  " + name;
                                 String parent = jo.getString("parent"); // added 23/06/2017
                                 String marks = jo.getString("marks_obtained");
                                 String grade = jo.getString("grade");
 
+                                // 23/09/2017 for term test
+                                String pt_marks = jo.getString("periodic_test_marks");
+                                String notebook_sub_marks = jo.getString("notebook_marks");
+                                String sub_enrich_marks = jo.getString("sub_enrich_marks");
+
                                 marks_list.add(new MarksEntryListSource(id, roll_no,
-                                        full_name, parent, marks, grade));
+                                        full_name, parent, marks, grade, pt_marks,
+                                         notebook_sub_marks, sub_enrich_marks));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +
@@ -118,15 +133,15 @@ public class MarksEntry extends AppCompatActivity {
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Slow network connection",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Server error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Network error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
@@ -213,7 +228,7 @@ public class MarksEntry extends AppCompatActivity {
                 saveMarks(adapter);
                 break;
             case R.id.submit_marks:
-                submitMarks(activity, adapter);
+                submitMarks(adapter);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -227,20 +242,28 @@ public class MarksEntry extends AppCompatActivity {
     }
 
     void saveMarks(MarksEntryListAdapter adapter)    {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Saving Marks/Grades...", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL |Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
         List<MarksEntryListSource> marks_entry_list = adapter.getMarks_entry_list();
         JSONObject params = new JSONObject();
         for (int i = 0; i < marks_entry_list.size(); i++)
             if (!grade_based)
                 try {
-                    params.put(marks_entry_list.get(i).getId(),
-                            marks_entry_list.get(i).getMarks());
+                    JSONObject params1 = new JSONObject();
+                    params1.put("marks", marks_entry_list.get(i).getMarks());
+                    params1.put("pa", marks_entry_list.get(i).getPeriodic_test_marks());
+                    params1.put("notebook", marks_entry_list.get(i).getNotebook_submission_marks());
+                    params1.put("subject_enrich",
+                            marks_entry_list.get(i).getSubject_enrichment_marks());
+                    params.put(marks_entry_list.get(i).getId(), params1);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             else
                 try {
-                    params.put(marks_entry_list.get(i).getId(),
-                            marks_entry_list.get(i).getGrade());
+                    params.put(marks_entry_list.get(i).getId(), marks_entry_list.get(i).getGrade());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -298,7 +321,7 @@ public class MarksEntry extends AppCompatActivity {
         com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
     }
 
-    void submitMarks(Activity activity, MarksEntryListAdapter adapter) {
+    void submitMarks(MarksEntryListAdapter adapter) {
         List<MarksEntryListSource> marks_entry_list = adapter.getMarks_entry_list();
         JSONObject params = new JSONObject();
 
@@ -306,8 +329,7 @@ public class MarksEntry extends AppCompatActivity {
         for (int i=0; i<marks_entry_list.size(); i++) {
             if (!grade_based) {
                 if (marks_entry_list.get(i).getMarks().equals("-5000.00")) {
-                    String message = "Please enter marks for Roll No: " +
-                            marks_entry_list.get(i).getRoll_no().toString() + " " +
+                    String message = "Please enter marks for " +
                             marks_entry_list.get(i).getFull_name() + " or mark absence";
                     Toast toast = Toast.makeText(getApplicationContext(),
                             message, Toast.LENGTH_LONG);
@@ -318,9 +340,53 @@ public class MarksEntry extends AppCompatActivity {
                     break;
                 }
 
+                if (marks_entry_list.get(i).getPeriodic_test_marks().equals("-5000.0")||
+                        marks_entry_list.get(i).getPeriodic_test_marks().equals("-5000.00")) {
+                    String message = "Please enter Periodic Test Marks for " +
+                            marks_entry_list.get(i).getFull_name();
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
+                            |Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                    good_to_submit = false;
+                    break;
+                }
+
+                if (marks_entry_list.get(i).getNotebook_submission_marks().equals("-5000.0")||
+                        marks_entry_list.get(i).getNotebook_submission_marks().equals("-5000.00")) {
+                    String message = "Please enter Notebook Submission Marks for " +
+                            marks_entry_list.get(i).getFull_name();
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
+                            |Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                    good_to_submit = false;
+                    break;
+                }
+
+                if (marks_entry_list.get(i).getSubject_enrichment_marks().equals("-5000.0")||
+                        marks_entry_list.get(i).getSubject_enrichment_marks().equals("-5000.00")) {
+                    String message = "Please enter Subject Enrichment Marks for " +
+                            marks_entry_list.get(i).getFull_name();
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
+                            |Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                    good_to_submit = false;
+                    break;
+                }
+
                 try {
-                    params.put(marks_entry_list.get(i).getId(),
-                            marks_entry_list.get(i).getMarks());
+                    JSONObject params1 = new JSONObject();
+                    params1.put("marks", marks_entry_list.get(i).getMarks());
+                    params1.put("pa", marks_entry_list.get(i).getPeriodic_test_marks());
+                    params1.put("notebook", marks_entry_list.get(i).getNotebook_submission_marks());
+                    params1.put("subject_enrich",
+                            marks_entry_list.get(i).getSubject_enrichment_marks());
+                    params.put(marks_entry_list.get(i).getId(), params1);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -348,8 +414,6 @@ public class MarksEntry extends AppCompatActivity {
         }
 
         if (good_to_submit) {
-            final ProgressDialog progressDialog = new ProgressDialog(activity);
-
             String url =  server_ip + "/academics/submit_marks/" + school_id + "/";
             System.out.println(params);
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -397,8 +461,7 @@ public class MarksEntry extends AppCompatActivity {
                     "Marks/Grades successfully submitted",
                     Toast.LENGTH_SHORT).show();
             startActivity(new Intent("com.classup.TeacherMenu").
-                    setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
 }

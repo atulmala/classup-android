@@ -94,10 +94,12 @@ public class BusAttendanceAdapter extends ArrayAdapter {
 
                         } else if (error instanceof ServerError) {
                             Toast.makeText(c,
-                                    "Server error, please try later", Toast.LENGTH_LONG).show();
+                                    "Slow network connection or No internet connectivity",
+                                    Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
                             Toast.makeText(c,
-                                    "Network error, please try later", Toast.LENGTH_LONG).show();
+                                    "Slow network connection or No internet connectivity",
+                                    Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
                         }

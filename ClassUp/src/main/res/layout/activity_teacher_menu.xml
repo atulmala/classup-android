@@ -37,10 +37,18 @@
 
     <Button
         android:id="@+id/btn_schedule_Test"
-        android:text="@string/schedule_test"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="scheduleTest"/>
+        android:onClick="scheduleTest"
+        android:text="@string/schedule_test" />
+
+    <Button
+        android:id="@+id/btn_term_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="scheduleTest"
+        android:text="@string/schedule_term_test" />
+
     <Button
         android:id="@+id/btn_manage_Test"
         android:layout_width="fill_parent"

@@ -120,14 +120,16 @@ public class AttendanceListAdapter extends BaseAdapter  {
                                         Toast.LENGTH_LONG).show();
                             } else  {
                                 Toast.makeText(c,
-                                        "Some problem at server end, please try after some time",
+                                        "Slow network connection or No internet connectivity",
                                         Toast.LENGTH_LONG).show();
                             }
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(activity,
-                                    "Server error, please try later", Toast.LENGTH_LONG).show();
+                                    "Slow network connection or No internet connectivity",
+                                    Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(activity, "Network error, please try later",
+                            Toast.makeText(activity,
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
@@ -183,7 +185,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
                                             Toast.LENGTH_LONG).show();
                                 } else  {
                                     Toast.makeText(c,
-                                            "Some problem at server end, please try after some time",
+                                            "Slow network connection or No internet connectivity",
                                             Toast.LENGTH_LONG).show();
                                 }
                             }  else if (error instanceof ServerError) {

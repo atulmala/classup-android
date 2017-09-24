@@ -107,6 +107,7 @@
         <activity
             android:name=".TestManagerActivity"
             android:label="@string/title_activity_test_manager"
+
             android:theme="@style/Base.Widget.AppCompat.ActionBar">
             <intent-filter>
                 <action android:name="com.classup.TestManagerActivity" />

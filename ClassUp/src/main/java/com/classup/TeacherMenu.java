@@ -39,7 +39,7 @@ public class  TeacherMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setUpVariables();
-        setContentView(R.layout.activity_teacher_menu);
+        setContentView(R.layout.activity_teacher_menu1);
 
         String server_ip = MiscFunctions.getInstance().getServerIP(getApplicationContext());
         String school_id = SessionManager.getInstance().getSchool_id();
@@ -83,15 +83,15 @@ public class  TeacherMenu extends AppCompatActivity {
                             if (error instanceof TimeoutError ||
                                     error instanceof NoConnectionError) {
                                 Toast.makeText(getApplicationContext(),
-                                        "Slow network connection, please try later",
+                                        "Slow network connection or No internet connectivity",
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof ServerError) {
                                 Toast.makeText(getApplicationContext(),
-                                        "Server error, please try later",
+                                        "Slow network connection or No internet connectivity",
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof NetworkError) {
                                 Toast.makeText(getApplicationContext(),
-                                        "Network error, please try later",
+                                        "Slow network connection or No internet connectivity",
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof ParseError) {
                                 //TODO
@@ -151,6 +151,13 @@ public class  TeacherMenu extends AppCompatActivity {
     public void scheduleTest(View view) {
         Intent intent = new Intent(this, SelectClass.class);
         intent.putExtra("sender", "scheduleTest");
+
+        // 20/09/2017 we are scheduling Term Test also
+        if (view.getId() == R.id.btn_term_test)
+            intent.putExtra("type", "Term");
+        else
+            intent.putExtra("type", "Unit");
+
         System.out.println("intent set to scheduleTest");
         startActivity(intent);
     }

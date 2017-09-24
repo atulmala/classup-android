@@ -129,10 +129,12 @@ public class CommunicationHistory extends AppCompatActivity {
                             Toast.makeText(context, "Slow network connection, please try later",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(context, "Server error, please try later",
+                            Toast.makeText(context,
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(context, "Network error, please try later",
+                            Toast.makeText(context,
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO

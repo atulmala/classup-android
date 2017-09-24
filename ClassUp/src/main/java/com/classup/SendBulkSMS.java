@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -51,6 +52,10 @@ public class SendBulkSMS extends AppCompatActivity {
     }
 
     public void selectClasses(View view)    {
+        AnalyticsEvent event = SessionManager.getInstance().analytics.getEventClient().
+                createEvent("Send Bulk SMS Selected Classes");
+        event.addAttribute("user", SessionManager.getInstance().getLogged_in_user());
+        SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
         EditText editText = (EditText)findViewById(R.id.bulkSMS);
         final String message = editText.getText().toString();
 
@@ -72,6 +77,11 @@ public class SendBulkSMS extends AppCompatActivity {
     }
 
     public void bulkSMSwholeSchool(View view)    {
+        AnalyticsEvent event = SessionManager.getInstance().analytics.getEventClient().
+                        createEvent("Send Bulk SMS Whole School");
+        event.addAttribute("user", SessionManager.getInstance().getLogged_in_user());
+        SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+
         EditText editText = (EditText)findViewById(R.id.bulkSMS);
         final String message = editText.getText().toString();
 

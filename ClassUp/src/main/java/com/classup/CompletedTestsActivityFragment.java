@@ -79,6 +79,10 @@ public class CompletedTestsActivityFragment extends Fragment {
         listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()    {
             public void onItemClick(AdapterView<?> view, View v, int position, long id) {
                 intent.putExtra("test_id", completed_test_list.get(position).getId());
+                intent.putExtra("test_type", completed_test_list.get(position).getTest_type());
+                intent.putExtra("class", completed_test_list.get(position).getThe_class());
+                intent.putExtra("section", completed_test_list.get(position).getSection());
+                intent.putExtra("subject", completed_test_list.get(position).getSubject());
 
                 if (completed_test_list.get(position).getMax_marks().equals("Grade Based"))
                     intent.putExtra("grade_based", true);
@@ -126,10 +130,15 @@ public class CompletedTestsActivityFragment extends Fragment {
 
                                 // get the id of the test
                                 String id = jo.getString("id");
+                                // syllabus for the test
+                                String syllabus = jo.getString("syllabus");
+
+                                // 23/09/2017 - get the test type (Unit or Term)
+                                String test_type = jo.getString("test_type");
 
                                 // put all the above details into the adapter
                                 completed_test_list.add(new TestListSource(ddmmyyyy, the_class,
-                                        section, subject, max_marks, id));
+                                        section, subject, max_marks, id, syllabus, test_type));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +
@@ -153,15 +162,15 @@ public class CompletedTestsActivityFragment extends Fragment {
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(c,
-                                    "Slow network connection",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(c,
-                                    "Server error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
                             Toast.makeText(c,
-                                    "Network error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
@@ -171,6 +180,4 @@ public class CompletedTestsActivityFragment extends Fragment {
                 });
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
     }
-
-
 }

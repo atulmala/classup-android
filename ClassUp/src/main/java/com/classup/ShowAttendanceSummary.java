@@ -283,15 +283,15 @@ public class ShowAttendanceSummary extends AppCompatActivity {
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Slow network connection, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Server error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Network error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO

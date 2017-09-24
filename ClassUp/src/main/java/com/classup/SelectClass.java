@@ -3,6 +3,7 @@ package com.classup;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -262,15 +263,15 @@ public class SelectClass extends AppCompatActivity {
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Slow network connection, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Server error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Network error, please try later",
+                                    "Slow network connection or No internet connectivity",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
@@ -348,130 +349,247 @@ public class SelectClass extends AppCompatActivity {
                 break;
 
             case "scheduleTest":
-                String subject = subjectList[(subjectPicker.getValue())];
-                if (subject.equals("Main")) {
-                    String message = "Test cannot be scheduled for Main." +
-                            " Please choose another Subject";
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            message, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    break;
-                }
+                scheduleTest();
+                break;
+        }
+    }
 
-                final Dialog dialog = new Dialog(SelectClass.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_test_details);
+    private void scheduleTest() {
+        final Integer d = datePicker.getDayOfMonth();
+        final Integer m = datePicker.getMonth() + 1;  // because index start from 0
+        final Integer y = datePicker.getYear();
+        // Get the class
+        final String[] classList = classPicker.getDisplayedValues();
+        // Get the section
+        final String[] sectionList = sectionPicker.getDisplayedValues();
+        // Get the subject
+        final String[] subjectList = subjectPicker.getDisplayedValues();
 
-                // set default values for max_marks and passing_marks
-                ((EditText)dialog.findViewById(R.id.txt_max_marks)).setText("0");
-                ((EditText)dialog.findViewById(R.id.txt_passing_marks)).setText("0");
-                ((EditText)dialog.findViewById(R.id.txt_comments)).setText(" ");
+        String subject = subjectList[(subjectPicker.getValue())];
+        if (subject.equals("Main")) {
+            String message = "Test cannot be scheduled for Main." +
+                    " Please choose another Subject";
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    message, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
 
-                // initially the check box for Grade Based is unchecked. This means the test is
-                // marks based
-                final CheckBox checkBox =
-                        (CheckBox)dialog.findViewById(R.id.chk_whether_grade_based);
-                GradeBased.getInstance().setGrade_based("False");
-                //checkBox.setEnabled(false);
-                dialog.show();
+        if (!getIntent().getStringExtra("type").equals("Term")) {
+            // 20/09/2017 - this is a Unit Test hence we need to get the max/passing marks, Grade
+            // based and syllabus
+            final Dialog dialog = new Dialog(SelectClass.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_test_details);
 
-                checkBox.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view1) {
-                        if (checkBox.isChecked()) {
-                            GradeBased.getInstance().setGrade_based("True");
-                            (dialog.findViewById(R.id.txt_max_marks)).setEnabled(false);
-                            ((EditText) dialog.findViewById(R.id.txt_passing_marks)).
-                                    setEnabled(false);
-                        } else {
-                            GradeBased.getInstance().setGrade_based("False");
-                            ((EditText) dialog.findViewById(R.id.txt_max_marks)).setEnabled(true);
-                            ((EditText) dialog.findViewById(R.id.txt_passing_marks)).
-                                    setEnabled(true);
-                        }
+            // set default values for max_marks and passing_marks
+            ((EditText) dialog.findViewById(R.id.txt_max_marks)).setText("0");
+            ((EditText) dialog.findViewById(R.id.txt_passing_marks)).setText("0");
+            ((EditText) dialog.findViewById(R.id.txt_comments)).setText(" ");
+
+            // initially the check box for Grade Based is unchecked. This means the test is
+            // marks based
+            final CheckBox checkBox = dialog.findViewById(R.id.chk_whether_grade_based);
+            GradeBased.getInstance().setGrade_based("False");
+            //checkBox.setEnabled(false);
+            dialog.show();
+
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view1) {
+                    if (checkBox.isChecked()) {
+                        GradeBased.getInstance().setGrade_based("True");
+                        (dialog.findViewById(R.id.txt_max_marks)).setEnabled(false);
+                        ((EditText) dialog.findViewById(R.id.txt_passing_marks)).
+                                setEnabled(false);
+                    } else {
+                        GradeBased.getInstance().setGrade_based("False");
+                        ((EditText) dialog.findViewById(R.id.txt_max_marks)).setEnabled(true);
+                        ((EditText) dialog.findViewById(R.id.txt_passing_marks)).
+                                setEnabled(true);
                     }
-                });
-                Button btn_submit = (Button)dialog.findViewById(R.id.btn_test_confirm);
-                btn_submit.setOnClickListener(new View.OnClickListener()    {
-                    @Override
-                    public void onClick(View view)  {
-                        Boolean good_to_go = true;
-                        String comments = ((EditText)dialog.findViewById(R.id.txt_comments)).
-                                getText().toString();
-                        if (comments.equals(" "))
-                            comments = "No_Comments";
-                        String mm = ((EditText)dialog.findViewById(R.id.txt_max_marks)).
-                                getText().toString();
-                        String pm = ((EditText)dialog.findViewById(R.id.txt_passing_marks)).
-                                getText().toString();
-                        if(GradeBased.getInstance().getGrade_based().equals("False"))  {
-                            if (mm.equals("") || mm.equals("0") || pm.equals(""))    {
-                                good_to_go = false;
-                                String message;
-                                switch (mm) {
-                                    case "":
-                                        message = "Max Marks cannot be blank.";
-                                        break;
-                                    case "0":
-                                        message = "Max Marks cannot be 0.";
-                                        break;
-                                    default:
-                                        message = "Passing Marks cannot be blank.";
-                                }
-
-                                Toast.makeText(getApplicationContext(),
-                                        message,
-                                        Toast.LENGTH_LONG).show();
-                            }
-                            else
-                                good_to_go = true;
-                        }
-
-                        if (good_to_go) {
-                            String g = "1";
-                            switch (GradeBased.getInstance().getGrade_based())  {
-                                case "True":
-                                    g = "0";
+                }
+            });
+            Button btn_submit = (Button) dialog.findViewById(R.id.btn_test_confirm);
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Boolean good_to_go = true;
+                    String comments = ((EditText) dialog.findViewById(R.id.txt_comments)).
+                            getText().toString();
+                    if (comments.equals(" "))
+                        comments = "No_Comments";
+                    String mm = ((EditText) dialog.findViewById(R.id.txt_max_marks)).
+                            getText().toString();
+                    String pm = ((EditText) dialog.findViewById(R.id.txt_passing_marks)).
+                            getText().toString();
+                    if (GradeBased.getInstance().getGrade_based().equals("False")) {
+                        if (mm.equals("") || mm.equals("0") || pm.equals("")) {
+                            good_to_go = false;
+                            String message;
+                            switch (mm) {
+                                case "":
+                                    message = "Max Marks cannot be blank.";
                                     break;
-                                case "False":
-                                    g = "1";
-
+                                case "0":
+                                    message = "Max Marks cannot be 0.";
+                                    break;
+                                default:
+                                    message = "Passing Marks cannot be blank.";
                             }
-                            // in case of grade based test, teacher will leave the max marks
-                            // and pass marks blank. In this case the url will not be formed
-                            // correctly. Hence we need to set these to zero explicitly
-                            if (mm.equals(""))
-                                mm = "0";
-                            if (pm.equals(""))
-                                pm = "0";
+
+                            Toast.makeText(getApplicationContext(),
+                                    message,
+                                    Toast.LENGTH_LONG).show();
+                        } else
+                            good_to_go = true;
+                    }
+
+                    if (good_to_go) {
+
+                        String g = "1";
+                        switch (GradeBased.getInstance().getGrade_based()) {
+                            case "True":
+                                g = "0";
+                                break;
+                            case "False":
+                                g = "1";
+
+                        }
+                        // in case of grade based test, teacher will leave the max marks
+                        // and pass marks blank. In this case the url will not be formed
+                        // correctly. Hence we need to set these to zero explicitly
+                        if (mm.equals(""))
+                            mm = "0";
+                        if (pm.equals(""))
+                            pm = "0";
+                        String logged_in_user = SessionManager.getInstance().getLogged_in_user();
+                        // as we are using sihgleton pattern to get the logged in user,
+                        // sometimes the method
+                        // call returns a blank string. In this case we will retry
+                        // for 20 times and if not
+                        // successful even after then we will ask the user to log in again
+                        int i = 0;
+                        while (logged_in_user.equals("")) {
+                            logged_in_user = SessionManager.getInstance().getLogged_in_user();
+                            if (i++ == 20) {
+                                Toast.makeText(getApplicationContext(),
+                                        "There seems to be some problem with network. " +
+                                                "Please re-login",
+                                        Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getApplicationContext(),
+                                        LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        }
+                        // now we have to send a POST request to backend to create the test
+
+                        String url = server_ip + "/academics/create_test1/" + school_id
+                                + "/" + classList[(classPicker.getValue())]
+                                + "/" + sectionList[(sectionPicker.getValue())]
+                                + "/" + subjectList[(subjectPicker.getValue())]
+                                + "/" + logged_in_user
+                                + "/" + d.toString() + "/" + m.toString() + "/" + y.toString()
+                                + "/" + mm + "/" + pm
+                                + "/" + g + "/" + comments
+                                + "/unit/";
+                        url = url.replace(" ", "%20");
+                        String tag = "Create Test";
+                        StringRequest request = new StringRequest(Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        // 11/09/17 - Now we are building the custom
+                                        // Analysis via AWS
+                                        try {
+                                            AnalyticsEvent scheduleTestEvent =
+                                                    SessionManager.getInstance().
+                                                            analytics.getEventClient().
+                                                            createEvent("Schedule Test");
+                                            scheduleTestEvent.addAttribute("user",
+                                                    SessionManager.getInstance().
+                                                            getLogged_in_user());
+                                            SessionManager.getInstance().analytics.
+                                                    getEventClient().
+                                                    recordEvent(scheduleTestEvent);
+                                        } catch (NullPointerException exception) {
+                                            System.out.println("flopped in creating " +
+                                                    "analytics Schedule Test");
+                                        } catch (Exception exception) {
+                                            System.out.println("flopped in " +
+                                                    "creating analytics Schedule Test");
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        error.printStackTrace();
+
+                                        if (error instanceof TimeoutError ||
+                                                error instanceof NoConnectionError) {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Slow network connection or" +
+                                                            " No internet connectivity",
+                                                    Toast.LENGTH_LONG).show();
+                                        } else if (error instanceof ServerError) {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Slow network connection or " +
+                                                            "No internet connectivity",
+                                                    Toast.LENGTH_LONG).show();
+                                        } else if (error instanceof NetworkError) {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Slow network connection or " +
+                                                            "No internet connectivity",
+                                                    Toast.LENGTH_LONG).show();
+                                        } else if (error instanceof ParseError) {
+                                            //TODO
+                                        }
+                                    }
+                                });
+                        com.classup.AppController.getInstance().addToRequestQueue(request, tag);
+                        // as GradeBased is a singleton class, it is necessary to set
+                        // grade_based to No
+                        GradeBased.getInstance().setGrade_based("False");
+
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Test Scheduled",
+                                Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent("com.classup.TeacherMenu").
+                                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    }
+                }
+            });
+
+            Button btn_cancel = (Button) dialog.findViewById(R.id.btn_test_cancel);
+            btn_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    startActivity(new Intent("com.classup.TeacherMenu"));
+                }
+            });
+        }
+        else {
+            final android.app.AlertDialog.Builder builder =
+                    new android.app.AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want schedule this Term Test?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
                             String logged_in_user = SessionManager.getInstance().getLogged_in_user();
-                            // as we are using sihgleton pattern to get the logged in user, sometimes the method
-                            // call returns a blank string. In this case we will retry for 20 times and if not
-                            // successful even after then we will ask the user to log in again
-                            int i = 0;
-                            while (logged_in_user.equals("")) {
-                                logged_in_user = SessionManager.getInstance().getLogged_in_user();
-                                if (i++ == 20)  {
-                                    Toast.makeText(getApplicationContext(),
-                                            "There seems to be some problem with network. " +
-                                                    "Please re-login",
-                                            Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext(),
-                                            LoginActivity.class);
-                                    startActivity(intent);
-                                }
-                            }
-                            // now we have to send a POST request to backend to create the test
-
-                            String url =  server_ip + "/academics/create_test/" + school_id
+                            // This is a Term Test as per the CBSE pattern.
+                            // No need to get the Max/Passing marks and
+                            // other details. This will be a test of 80 marks
+                            String url = server_ip + "/academics/create_test1/" + school_id
                                     + "/" + classList[(classPicker.getValue())]
                                     + "/" + sectionList[(sectionPicker.getValue())]
                                     + "/" + subjectList[(subjectPicker.getValue())]
                                     + "/" + logged_in_user
                                     + "/" + d.toString() + "/" + m.toString() + "/" + y.toString()
-                                    + "/" + mm + "/" + pm
-                                    + "/" + g + "/" + comments
-                                    + "/";
+                                    + "/" + "80" + "/" + "33"
+                                    + "/" + "1" + "/" + "Half Yearly Syllabus"
+                                    + "/term/";
                             url = url.replace(" ", "%20");
                             String tag = "Create Test";
                             StringRequest request = new StringRequest(Request.Method.POST, url,
@@ -483,20 +601,20 @@ public class SelectClass extends AppCompatActivity {
                                             try {
                                                 AnalyticsEvent scheduleTestEvent =
                                                         SessionManager.getInstance().
-                                                        analytics.getEventClient().
-                                                                createEvent("Schedule Test");
+                                                                analytics.getEventClient().
+                                                                createEvent("Schedule Term Test");
                                                 scheduleTestEvent.addAttribute("user",
                                                         SessionManager.getInstance().
-                                                                getLogged_in_user());
+                                                        getLogged_in_user());
                                                 SessionManager.getInstance().analytics.
                                                         getEventClient().
                                                         recordEvent(scheduleTestEvent);
-                                            } catch (NullPointerException exception)    {
+                                            } catch (NullPointerException exception) {
                                                 System.out.println("flopped in creating " +
                                                         "analytics Schedule Test");
-                                            } catch (Exception exception)   {
+                                            } catch (Exception exception) {
                                                 System.out.println("flopped in " +
-                                                        "creating analytics Schedule Test");
+                                                        "creating analytics Schedule Term Test");
                                             }
                                         }
                                     },
@@ -508,15 +626,18 @@ public class SelectClass extends AppCompatActivity {
                                             if (error instanceof TimeoutError ||
                                                     error instanceof NoConnectionError) {
                                                 Toast.makeText(getApplicationContext(),
-                                                        "Slow network connection, please try later",
+                                                        "Slow network connection or" +
+                                                                " No internet connectivity",
                                                         Toast.LENGTH_LONG).show();
-                                            }  else if (error instanceof ServerError) {
+                                            } else if (error instanceof ServerError) {
                                                 Toast.makeText(getApplicationContext(),
-                                                        "Server error, please try later",
+                                                        "Slow network connection or " +
+                                                                "No internet connectivity",
                                                         Toast.LENGTH_LONG).show();
                                             } else if (error instanceof NetworkError) {
                                                 Toast.makeText(getApplicationContext(),
-                                                        "Network error, please try later",
+                                                        "Slow network connection or " +
+                                                                "No internet connectivity",
                                                         Toast.LENGTH_LONG).show();
                                             } else if (error instanceof ParseError) {
                                                 //TODO
@@ -528,25 +649,20 @@ public class SelectClass extends AppCompatActivity {
                             // grade_based to No
                             GradeBased.getInstance().setGrade_based("False");
 
-                            dialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Test Scheduled",
+                            Toast.makeText(getApplicationContext(), "Term Test Scheduled",
                                     Toast.LENGTH_SHORT).show();
                             startActivity(new Intent("com.classup.TeacherMenu").
                                     setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                             Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         }
-                    }
-                });
+                    }).setNegativeButton(R.string.cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            builder.show();
 
-                Button btn_cancel = (Button)dialog.findViewById(R.id.btn_test_cancel);
-                btn_cancel.setOnClickListener(new View.OnClickListener()    {
-                    @Override
-                    public void onClick(View view)  {
-                        dialog.dismiss();
-                        startActivity(new Intent("com.classup.TeacherMenu"));
-                    }
-                });
-                break;
         }
     }
 

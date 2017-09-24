@@ -413,7 +413,7 @@ public class LoginActivity extends AppCompatActivity {
                                                             analytics.getEventClient().
                                                                     createEvent("Login Result");
                                                     loginResultEvent.addAttribute
-                                                            ("Lo", userName.getText().toString());
+                                                            ("user", userName.getText().toString());
                                                     loginResultEvent.addAttribute("Login Result",
                                                             "Success");
                                                     SessionManager.getInstance().analytics.
