@@ -53,6 +53,7 @@
 
         <!-- activity for main menu (are we using it really??) -->
 
+
         <!-- the menu that appears after login (actually this is the main menu) -->
         <activity
             android:name=".TeacherMenu"
@@ -107,7 +108,6 @@
         <activity
             android:name=".TestManagerActivity"
             android:label="@string/title_activity_test_manager"
-
             android:theme="@style/Base.Widget.AppCompat.ActionBar">
             <intent-filter>
                 <action android:name="com.classup.TestManagerActivity" />
@@ -296,7 +296,18 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/algae_green" />
 
-        <activity android:name=".TestListParent"/>
+        <activity android:name=".TestListParent" />
+        <activity
+            android:name=".TeacherMenu2"
+            android:label="@string/title_activity_teacher_menu2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CoScholastic">
+            <intent-filter>
+                <action android:name="com.classup.CoScholastic" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

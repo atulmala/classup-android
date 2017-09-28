@@ -66,24 +66,99 @@ public class MarksEntry extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
             String title = "Marks Entry " + intent.getStringExtra("class") + "-" +
-                    intent.getStringExtra("section") + " " + intent.getStringExtra("subject");
+                intent.getStringExtra("section") + " " + intent.getStringExtra("subject");
             actionBar.setTitle(title);
         }
 
         final ArrayList<MarksEntryListSource> marks_list = new ArrayList<MarksEntryListSource>();
-        final ListView listView = (ListView)findViewById(R.id.marks_entry_list);
+        final ListView listView = (ListView) findViewById(R.id.marks_entry_list);
         adapter = new MarksEntryListAdapter(this, marks_list, grade_based, test_type);
 
         // get the list of students, roll no and current marks/grade
         server_ip = MiscFunctions.getInstance().getServerIP(c);
         school_id = SessionManager.getInstance().getSchool_id();
-        String url =  server_ip + "/academics/get_test_marks_list/" +
-                intent.getStringExtra("test_id") + "/";;
+        String url = server_ip + "/academics/get_test_marks_list/" +
+            intent.getStringExtra("test_id") + "/";
+        ;
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
+            (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jo = response.getJSONObject(i);
+
+                            String id = jo.getString("id");
+                            String roll_no = jo.getString("roll_no");
+                            String name = jo.getString("student");
+                            String sr_no = Integer.toString(i + 1);
+                            String full_name = sr_no + "    " + name;
+                            if (sr_no.length() > 1)
+                                full_name = sr_no + "  " + name;
+                            String parent = jo.getString("parent"); // added 23/06/2017
+                            String marks = jo.getString("marks_obtained");
+                            String grade = jo.getString("grade");
+
+                            // 23/09/2017 for term test
+                            String pt_marks = jo.getString("periodic_test_marks");
+                            String notebook_sub_marks = jo.getString("notebook_marks");
+                            String sub_enrich_marks = jo.getString("sub_enrich_marks");
+
+                            marks_list.add(new MarksEntryListSource(id, roll_no,
+                                full_name, parent, marks, grade, pt_marks,
+                                notebook_sub_marks, sub_enrich_marks));
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException je) {
+                            System.out.println("Ran into JSON exception " +
+                                "while trying to fetch the marks/grade list");
+                            je.printStackTrace();
+                        } catch (Exception e) {
+                            System.out.println("Caught General exception " +
+                                "while trying to fetch the marks/grade list");
+                            e.printStackTrace();
+                        }
+                    }
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("inside volley error handler");
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                    if (error instanceof TimeoutError ||
+                        error instanceof NoConnectionError) {
+                        Toast.makeText(getApplicationContext(),
+                            "Slow network connection or No internet connectivity",
+                            Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(getApplicationContext(),
+                            "Slow network connection or No internet connectivity",
+                            Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(getApplicationContext(),
+                            "Slow network connection or No internet connectivity",
+                            Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        //TODO
+                    }
+                    // TODO Auto-generated method stub
+                }
+            });
+
+        com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
+        listView.setAdapter(adapter);
+
+        // get max marks and passing marks for this test and communicate to adapter
+        if (!grade_based) {
+            url = server_ip + "/academics/get_test_type/" + intent.getStringExtra("test_id") + "/";
+
+            JsonArrayRequest jsonArrayRequest1 = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -91,103 +166,29 @@ public class MarksEntry extends AppCompatActivity {
                             try {
                                 JSONObject jo = response.getJSONObject(i);
 
-                                String id = jo.getString("id");
-                                String roll_no = jo.getString("roll_no");
-                                String name = jo.getString("student");
-                                String sr_no = Integer.toString(i+1);
-                                String full_name = sr_no + "    " + name;
-                                if (sr_no.length() > 1)
-                                    full_name = sr_no + "  " + name;
-                                String parent = jo.getString("parent"); // added 23/06/2017
-                                String marks = jo.getString("marks_obtained");
-                                String grade = jo.getString("grade");
-
-                                // 23/09/2017 for term test
-                                String pt_marks = jo.getString("periodic_test_marks");
-                                String notebook_sub_marks = jo.getString("notebook_marks");
-                                String sub_enrich_marks = jo.getString("sub_enrich_marks");
-
-                                marks_list.add(new MarksEntryListSource(id, roll_no,
-                                        full_name, parent, marks, grade, pt_marks,
-                                         notebook_sub_marks, sub_enrich_marks));
+                                String mm = jo.getString("max_marks");
+                                String pm = jo.getString("passing_marks");
+                                adapter.max_marks = mm;
+                                adapter.pass_marks = pm;
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +
-                                        "while trying to fetch the marks/grade list");
+                                    "while trying to fetch the marks/grade list");
                                 je.printStackTrace();
                             } catch (Exception e) {
                                 System.out.println("Caught General exception " +
-                                        "while trying to fetch the marks/grade list");
+                                    "while trying to fetch the marks/grade list");
                                 e.printStackTrace();
                             }
                         }
-                        progressDialog.hide();
-                        progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error handler");
-                        progressDialog.hide();
-                        progressDialog.dismiss();
-                        if (error instanceof TimeoutError ||
-                                error instanceof NoConnectionError) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Slow network connection or No internet connectivity",
-                                    Toast.LENGTH_LONG).show();
-                        }  else if (error instanceof ServerError) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Slow network connection or No internet connectivity",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof NetworkError) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Slow network connection or No internet connectivity",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof ParseError) {
-                            //TODO
-                        }
                         // TODO Auto-generated method stub
                     }
                 });
-
-        com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
-        listView.setAdapter(adapter);
-
-        // get max marks and passing marks for this test and communicate to adapter
-        if(!grade_based) {
-            url =  server_ip + "/academics/get_test_type/" + intent.getStringExtra("test_id") + "/";
-
-            JsonArrayRequest jsonArrayRequest1 = new JsonArrayRequest
-                    (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            for (int i = 0; i < response.length(); i++) {
-                                try {
-                                    JSONObject jo = response.getJSONObject(i);
-
-                                    String mm = jo.getString("max_marks");
-                                    String pm = jo.getString("passing_marks");
-                                    adapter.max_marks = mm;
-                                    adapter.pass_marks = pm;
-                                    adapter.notifyDataSetChanged();
-                                } catch (JSONException je) {
-                                    System.out.println("Ran into JSON exception " +
-                                            "while trying to fetch the marks/grade list");
-                                    je.printStackTrace();
-                                } catch (Exception e) {
-                                    System.out.println("Caught General exception " +
-                                            "while trying to fetch the marks/grade list");
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            System.out.println("inside volley error handler");
-                            // TODO Auto-generated method stub
-                        }
-                    });
 
             com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest1, tag);
         }
@@ -196,7 +197,7 @@ public class MarksEntry extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
+        if (SessionManager.getInstance().analytics != null) {
             SessionManager.getInstance().analytics.getSessionClient().pauseSession();
             SessionManager.getInstance().analytics.getEventClient().submitEvents();
         }
@@ -205,7 +206,7 @@ public class MarksEntry extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
+        if (SessionManager.getInstance().analytics != null) {
             SessionManager.getInstance().analytics.getSessionClient().resumeSession();
         }
     }
@@ -241,10 +242,10 @@ public class MarksEntry extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void saveMarks(MarksEntryListAdapter adapter)    {
+    void saveMarks(MarksEntryListAdapter adapter) {
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Saving Marks/Grades...", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL |Gravity.CENTER_VERTICAL, 0, 0);
+            "Saving Marks/Grades...", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
         List<MarksEntryListSource> marks_entry_list = adapter.getMarks_entry_list();
         JSONObject params = new JSONObject();
@@ -256,7 +257,7 @@ public class MarksEntry extends AppCompatActivity {
                     params1.put("pa", marks_entry_list.get(i).getPeriodic_test_marks());
                     params1.put("notebook", marks_entry_list.get(i).getNotebook_submission_marks());
                     params1.put("subject_enrich",
-                            marks_entry_list.get(i).getSubject_enrichment_marks());
+                        marks_entry_list.get(i).getSubject_enrichment_marks());
                     params.put(marks_entry_list.get(i).getId(), params1);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -268,50 +269,49 @@ public class MarksEntry extends AppCompatActivity {
                     e.printStackTrace();
                 }
         System.out.println(params);
-        String url =  server_ip + "/academics/save_marks/";
+        String url = server_ip + "/academics/save_marks/";
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, params,
-                new Response.Listener<JSONObject>() {
+            url, params,
+            new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(tag, response.toString());
-                        try {
-                            if (response.get("status").toString().equals("success")) {
-                                Toast toast = Toast.makeText(getApplicationContext(),
-                                        "Marks/Grades successfully saved",
-                                        Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
-                                        |Gravity.CENTER_VERTICAL, 0, 0);
-                                toast.show();
-                                // 12/09/17 - Now we are building the custom
-                                // Analysis via AWS
-                                try {
-                                    AnalyticsEvent saveMarksEvent =
-                                            SessionManager.getInstance().
-                                                    analytics.getEventClient().
-                                                    createEvent("Saved Marks");
-                                    saveMarksEvent.addAttribute("user",
-                                            SessionManager.getInstance().
-                                                    getLogged_in_user());
-                                    SessionManager.getInstance().analytics.
-                                            getEventClient().
-                                            recordEvent(saveMarksEvent);
-                                } catch (NullPointerException exception)    {
-                                    System.out.println("flopped in creating " +
-                                            "analytics Save Marks");
-                                } catch (Exception exception)   {
-                                    System.out.println("flopped in " +
-                                            "creating analytics Save Marks");
-                                }
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d(tag, response.toString());
+                    try {
+                        if (response.get("status").toString().equals("success")) {
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                "Marks/Grades successfully saved",
+                                Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
+                                | Gravity.CENTER_VERTICAL, 0, 0);
+                            toast.show();
+                            // 12/09/17 - Now we are building the custom
+                            // Analysis via AWS
+                            try {
+                                AnalyticsEvent saveMarksEvent =
+                                    SessionManager.getInstance().
+                                        analytics.getEventClient().
+                                        createEvent("Saved Marks");
+                                saveMarksEvent.addAttribute("user",
+                                    SessionManager.getInstance().
+                                        getLogged_in_user());
+                                SessionManager.getInstance().analytics.
+                                    getEventClient().
+                                    recordEvent(saveMarksEvent);
+                            } catch (NullPointerException exception) {
+                                System.out.println("flopped in creating " +
+                                    "analytics Save Marks");
+                            } catch (Exception exception) {
+                                System.out.println("flopped in " +
+                                    "creating analytics Save Marks");
                             }
                         }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
+
+                }
+            }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -326,54 +326,54 @@ public class MarksEntry extends AppCompatActivity {
         JSONObject params = new JSONObject();
 
         Boolean good_to_submit = true;
-        for (int i=0; i<marks_entry_list.size(); i++) {
+        for (int i = 0; i < marks_entry_list.size(); i++) {
             if (!grade_based) {
                 if (marks_entry_list.get(i).getMarks().equals("-5000.00")) {
                     String message = "Please enter marks for " +
-                            marks_entry_list.get(i).getFull_name() + " or mark absence";
+                        marks_entry_list.get(i).getFull_name() + " or mark absence";
                     Toast toast = Toast.makeText(getApplicationContext(),
-                            message, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
-                            |Gravity.CENTER_VERTICAL, 0, 0);
+                        message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
+                        | Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                     good_to_submit = false;
                     break;
                 }
 
-                if (marks_entry_list.get(i).getPeriodic_test_marks().equals("-5000.0")||
-                        marks_entry_list.get(i).getPeriodic_test_marks().equals("-5000.00")) {
+                if (marks_entry_list.get(i).getPeriodic_test_marks().equals("-5000.0") ||
+                    marks_entry_list.get(i).getPeriodic_test_marks().equals("-5000.00")) {
                     String message = "Please enter Periodic Test Marks for " +
-                            marks_entry_list.get(i).getFull_name();
+                        marks_entry_list.get(i).getFull_name();
                     Toast toast = Toast.makeText(getApplicationContext(),
-                            message, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
-                            |Gravity.CENTER_VERTICAL, 0, 0);
+                        message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
+                        | Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                     good_to_submit = false;
                     break;
                 }
 
-                if (marks_entry_list.get(i).getNotebook_submission_marks().equals("-5000.0")||
-                        marks_entry_list.get(i).getNotebook_submission_marks().equals("-5000.00")) {
+                if (marks_entry_list.get(i).getNotebook_submission_marks().equals("-5000.0") ||
+                    marks_entry_list.get(i).getNotebook_submission_marks().equals("-5000.00")) {
                     String message = "Please enter Notebook Submission Marks for " +
-                            marks_entry_list.get(i).getFull_name();
+                        marks_entry_list.get(i).getFull_name();
                     Toast toast = Toast.makeText(getApplicationContext(),
-                            message, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
-                            |Gravity.CENTER_VERTICAL, 0, 0);
+                        message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
+                        | Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                     good_to_submit = false;
                     break;
                 }
 
-                if (marks_entry_list.get(i).getSubject_enrichment_marks().equals("-5000.0")||
-                        marks_entry_list.get(i).getSubject_enrichment_marks().equals("-5000.00")) {
+                if (marks_entry_list.get(i).getSubject_enrichment_marks().equals("-5000.0") ||
+                    marks_entry_list.get(i).getSubject_enrichment_marks().equals("-5000.00")) {
                     String message = "Please enter Subject Enrichment Marks for " +
-                            marks_entry_list.get(i).getFull_name();
+                        marks_entry_list.get(i).getFull_name();
                     Toast toast = Toast.makeText(getApplicationContext(),
-                            message, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
-                            |Gravity.CENTER_VERTICAL, 0, 0);
+                        message, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
+                        | Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                     good_to_submit = false;
                     break;
@@ -385,28 +385,28 @@ public class MarksEntry extends AppCompatActivity {
                     params1.put("pa", marks_entry_list.get(i).getPeriodic_test_marks());
                     params1.put("notebook", marks_entry_list.get(i).getNotebook_submission_marks());
                     params1.put("subject_enrich",
-                            marks_entry_list.get(i).getSubject_enrichment_marks());
+                        marks_entry_list.get(i).getSubject_enrichment_marks());
                     params.put(marks_entry_list.get(i).getId(), params1);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            if(grade_based) {
+            if (grade_based) {
                 if (marks_entry_list.get(i).getGrade().equals("-5000.00") ||
-                        marks_entry_list.get(i).getGrade().equals("")) {
+                    marks_entry_list.get(i).getGrade().equals("")) {
                     String message = "Please enter grade for " +
-                            marks_entry_list.get(i).getFull_name() + " or mark absence";
+                        marks_entry_list.get(i).getFull_name() + " or mark absence";
                     Toast toast = Toast.makeText(getApplicationContext(), message,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL
-                            |Gravity.CENTER_VERTICAL, 0, 0);
+                        Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
+                        | Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                     good_to_submit = false;
                     break;
                 }
                 try {
                     params.put(marks_entry_list.get(i).getId(),
-                            marks_entry_list.get(i).getGrade());
+                        marks_entry_list.get(i).getGrade());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -414,35 +414,35 @@ public class MarksEntry extends AppCompatActivity {
         }
 
         if (good_to_submit) {
-            String url =  server_ip + "/academics/submit_marks/" + school_id + "/";
+            String url = server_ip + "/academics/submit_marks/" + school_id + "/";
             System.out.println(params);
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    url, params,
-                    new Response.Listener<JSONObject>() {
+                url, params,
+                new Response.Listener<JSONObject>() {
 
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d(tag, response.toString());
-                            // 12/09/17 - Now we are building the custom
-                            // Analysis via AWS
-                            try {
-                                AnalyticsEvent event =
-                                        SessionManager.getInstance().
-                                                analytics.getEventClient().
-                                                createEvent("Submit Marks");
-                                event.addAttribute("user", SessionManager.getInstance().
-                                                getLogged_in_user());
-                                SessionManager.getInstance().analytics.getEventClient().
-                                        recordEvent(event);
-                            } catch (NullPointerException exception)    {
-                                System.out.println("flopped in creating " +
-                                        "analytics Submit Marks");
-                            } catch (Exception exception)   {
-                                System.out.println("flopped in " +
-                                        "creating analytics Submit Marks");
-                            }
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(tag, response.toString());
+                        // 12/09/17 - Now we are building the custom
+                        // Analysis via AWS
+                        try {
+                            AnalyticsEvent event =
+                                SessionManager.getInstance().
+                                    analytics.getEventClient().
+                                    createEvent("Submit Marks");
+                            event.addAttribute("user", SessionManager.getInstance().
+                                getLogged_in_user());
+                            SessionManager.getInstance().analytics.getEventClient().
+                                recordEvent(event);
+                        } catch (NullPointerException exception) {
+                            System.out.println("flopped in creating " +
+                                "analytics Submit Marks");
+                        } catch (Exception exception) {
+                            System.out.println("flopped in " +
+                                "creating analytics Submit Marks");
                         }
-                    }, new Response.ErrorListener() {
+                    }
+                }, new Response.ErrorListener() {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
@@ -452,16 +452,16 @@ public class MarksEntry extends AppCompatActivity {
             });
             int socketTimeout = 300000;//5 minutes
             RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
-                    -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
             jsonObjReq.setRetryPolicy(policy);
 
             com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
             Toast.makeText(getApplicationContext(),
-                    "Marks/Grades successfully submitted",
-                    Toast.LENGTH_SHORT).show();
+                "Marks/Grades successfully submitted",
+                Toast.LENGTH_SHORT).show();
             startActivity(new Intent("com.classup.TeacherMenu").
-                    setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
 }

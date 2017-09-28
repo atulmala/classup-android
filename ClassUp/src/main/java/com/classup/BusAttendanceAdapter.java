@@ -142,12 +142,12 @@ public class BusAttendanceAdapter extends ArrayAdapter {
 
             switch (student_list.get(position).getEntry_type()) {
                 case "bus_stop":
-                    convertView = inflater.inflate(R.layout.header_ro, null);
+                    convertView = inflater.inflate(R.layout.row_header, null);
                     holder.textView = (TextView) convertView.findViewById(R.id.textSeparator);
                     break;
                 case "student_name":
-                    convertView = inflater.inflate(R.layout.select_student_row, null);
-                    holder.textView = (TextView) convertView.findViewById(R.id.student_name);
+                    convertView = inflater.inflate(R.layout.row_select_student, null);
+                    holder.textView = (TextView) convertView.findViewById(R.id.lbl_roll_no);
                     break;
             }
             //convertView.setTag(holder);
@@ -163,7 +163,7 @@ public class BusAttendanceAdapter extends ArrayAdapter {
                 case "student_name":
                     holder.textView.setText(student_list.get(position).getName_rollno());
                     holder.textView1 =
-                            (CheckedTextView) convertView.findViewById(R.id.student_name);
+                            (CheckedTextView) convertView.findViewById(R.id.lbl_roll_no);
                     if (taken_earlier.get(0).equals("true"))
                         if (already_absent_students.contains(student_list.get(position).getId())) {
                             holder.textView.setBackgroundColor(Color.YELLOW);

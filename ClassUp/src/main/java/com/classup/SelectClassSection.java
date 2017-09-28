@@ -43,10 +43,8 @@ public class SelectClassSection extends AppCompatActivity {
         server_ip = MiscFunctions.getInstance().getServerIP(c);
         school_id = SessionManager.getInstance().getSchool_id();
         System.out.println("school_id=" + school_id);
-        String classUrl =  server_ip + "/academics/class_list/" +
-                school_id + "/?format=json";
-        String sectionUrl =  server_ip + "/academics/section_list/" +
-                school_id + "/?format=json";
+        String classUrl =  server_ip + "/academics/class_list/" + school_id + "/?format=json";
+        String sectionUrl =  server_ip + "/academics/section_list/" + school_id + "/?format=json";
 
         classPicker = (NumberPicker)findViewById(R.id.pick_class);
         sectionPicker = (NumberPicker)findViewById(R.id.pick_section);

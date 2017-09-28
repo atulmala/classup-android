@@ -72,9 +72,9 @@ public class MarksEntryListAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (test_type.equals("term") || test_type.equals("Term"))
-                view = inflater.inflate(R.layout.term_marks_entry_row1, null);
+                view = inflater.inflate(R.layout.row_term_marks_entry1, null);
             else
-                view = inflater.inflate(R.layout.unit_marks_entry_row, null);
+                view = inflater.inflate(R.layout.row_unit_marks_entry, null);
             holder = new ViewHolder(view);
         }
         else

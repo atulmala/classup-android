@@ -40,7 +40,7 @@ public class CompletedTestListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.test_list_row, null);
+            convertView = inflater.inflate(R.layout.row_test_list, null);
         }
         TextView date_col = (TextView)convertView.findViewById(R.id.txt_test_date);
         TextView class_col = (TextView)convertView.findViewById(R.id.txt_class);

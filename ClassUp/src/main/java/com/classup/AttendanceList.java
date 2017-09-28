@@ -118,6 +118,8 @@ public class AttendanceList extends AppCompatActivity {
         final AttendanceListAdapter adapter =
                 new AttendanceListAdapter(this, attendanceList, intent);
 
+
+
         ptr_adapter = adapter;
 
         view.setAdapter(adapter);

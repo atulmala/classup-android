@@ -50,7 +50,7 @@ public class SetSubjectsAdapter extends ArrayAdapter {
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.set_subject_row, null);
+            convertView = inflater.inflate(R.layout.row_set_subject, null);
         }
         final CheckedTextView textView =
                 (CheckedTextView) convertView.findViewById(R.id.subject_name);

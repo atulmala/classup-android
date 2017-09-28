@@ -42,13 +42,13 @@ public class TeacherListAdapter extends ArrayAdapter {
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.select_student_row, null);
+            convertView = inflater.inflate(R.layout.row_select_student, null);
         }
         // we don't want to show the checkbox
         final CheckedTextView textView =
-                (CheckedTextView) convertView.findViewById(R.id.student_name);
+                (CheckedTextView) convertView.findViewById(R.id.lbl_roll_no);
 
-        TextView student_name = (TextView) convertView.findViewById(R.id.student_name);
+        TextView student_name = (TextView) convertView.findViewById(R.id.lbl_roll_no);
         student_name.setText(teacher_list.get(position).getFull_name());
         return convertView;
     }

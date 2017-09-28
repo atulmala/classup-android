@@ -10,71 +10,95 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.classup.SelectClassSection1">
     <LinearLayout
-        android:baselineAligned="false"
+        android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="20dp"
+        android:baselineAligned="false"
+        android:orientation="vertical"
         android:weightSum="1"
         tools:ignore="UselessParent">
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-20dp"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/txtSelectClass"
-                android:textSize="20sp"
-                android:layout_width="fill_parent"
+            android:baselineAligned="false">
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="-10dp"
-                android:scaleY="0.8"
-                android:text="@string/select_class"
-                android:textStyle="bold"
-                tools:ignore="RtlHardcoded" />
-            <NumberPicker
-                android:id="@+id/pick_class1"
-                android:layout_width="match_parent"
+                android:layout_marginBottom="-20dp"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txtSelectClass"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="-10dp"
+                    android:layout_marginLeft="10dp"
+                    android:scaleY="0.8"
+                    android:text="@string/select_class"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlHardcoded" />
+                <NumberPicker
+                    android:id="@+id/pick_class1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="-20dp"
+                    android:scaleX="1"
+                    android:scaleY="0.8">
+                </NumberPicker>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="-20dp"
-                android:scaleX="1"
-                android:scaleY="0.8">
-            </NumberPicker>
+                android:layout_marginBottom="-20dp"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txtSelectSection"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-10dp"
+                    android:layout_marginRight="10dp"
+                    android:scaleY="0.8"
+                    android:text="@string/select_section"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlHardcoded" />
+                <NumberPicker
+                    android:id="@+id/pick_section1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:contextClickable="false"
+                    android:scaleX="1"
+                    android:scaleY="0.8"
+                    tools:targetApi="m">
+                </NumberPicker>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="-20dp"
-            android:layout_weight="0.5">
-            <TextView
-                android:id="@+id/txtSelectSection"
-                android:layout_width="fill_parent"
-                android:textSize="20sp"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+            <CheckBox
+                android:id="@+id/chk_term1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="-10dp"
-                android:scaleY="0.8"
-                android:text="@string/select_section"
-                android:textStyle="bold"
-                tools:ignore="RtlHardcoded" />
-            <NumberPicker
-                android:id="@+id/pick_section1"
-                android:layout_width="match_parent"
+                android:layout_weight="0.5"
+                android:visibility="visible"
+                android:text="@string/term_1"
+                android:onClick="setTerm"/>
+            <CheckBox
+                android:id="@+id/chk_term2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-20dp"
-                android:contextClickable="false"
-                android:scaleX="1"
-                android:scaleY="0.8"
-                tools:targetApi="m">
-            </NumberPicker>
+                android:layout_weight="0.5"
+                android:text="@string/term_2"
+                android:onClick="setTerm"/>
         </LinearLayout>
     </LinearLayout>
-
-
-
 </RelativeLayout>

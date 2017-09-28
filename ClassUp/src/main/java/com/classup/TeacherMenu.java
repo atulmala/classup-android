@@ -4,10 +4,13 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -28,7 +31,6 @@ import java.util.ArrayList;
 
 
 public class  TeacherMenu extends AppCompatActivity {
-
     final ArrayList<String> bus_attendance = new ArrayList<>();
 
     private void setUpVariables()   {
@@ -40,6 +42,9 @@ public class  TeacherMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setUpVariables();
         setContentView(R.layout.activity_teacher_menu1);
+
+
+
 
         String server_ip = MiscFunctions.getInstance().getServerIP(getApplicationContext());
         String school_id = SessionManager.getInstance().getSchool_id();
@@ -184,6 +189,13 @@ public class  TeacherMenu extends AppCompatActivity {
 
     public void sendMessage(View view)  {
         Intent intent = new Intent(this, SelectClassSection.class);
+        intent.putExtra("sender", "send_message");
+        startActivity(intent);
+    }
+
+    public void coScholastic(View view) {
+        Intent intent = new Intent(this, SelectClassSection1.class);
+        intent.putExtra("sender", "co_scholastic");
         startActivity(intent);
     }
 

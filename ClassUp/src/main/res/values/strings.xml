@@ -137,4 +137,19 @@
     <string name="periodic_assessment">Periodic Test</string>
     <string name="notebook_submission">Notebook Sub</string>
     <string name="sub_enrich">Subject Enrich</string>
+    <string name="co_scholastic">Enter Co-Scholastic Grades</string>
+    <string name="title_activity_teacher_menu2">TeacherMenu2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_co_scholastic">CoScholastic</string>
+    <string name="term_1">Term 1</string>
+    <string name="term_2">Term 2</string>
+    <string name="work_education_or_pre_vocational_education">Work Education (or Pre-vocational Education)</string>
+    <string name="b">B</string>
+    <string name="c">C</string>
+    <string name="art_education">Art Education</string>
+    <string name="health_physical_education"><![CDATA[Health & Physical Education]]></string>
+    <string name="discipline">Discipline</string>
+    <string name="class_teacher_s_remarks">Class Teacher\'s Remarks</string>
+    <string name="promoted_to_class">Promoted to Class:</string>
 </resources>

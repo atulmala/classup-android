@@ -53,7 +53,7 @@ public class BulkSMSAdapter extends ArrayAdapter{
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.bulk_sms_row, null);
+            convertView = inflater.inflate(R.layout.row_bulk_sms, null);
         }
         final CheckedTextView textView =
                 (CheckedTextView) convertView.findViewById(R.id.the_class);

@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -237,7 +235,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.attendance_list_row, null);
+            convertView = inflater.inflate(R.layout.row_attendance_list, null);
         }
         final View conVertViewRef = convertView;
         TextView full_name_col = convertView.findViewById(R.id.full_name);

@@ -354,7 +354,7 @@ public class TakeBusAttendance extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 adapter.first_time = false;
-                CheckedTextView textView = (CheckedTextView) view.findViewById(R.id.student_name);
+                CheckedTextView textView = (CheckedTextView) view.findViewById(R.id.lbl_roll_no);
 
                 if(textView != null)
                     if (!textView.isChecked()) {

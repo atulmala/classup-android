@@ -41,7 +41,7 @@ public class PendingTestListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.test_list_row, null);
+            convertView = inflater.inflate(R.layout.row_test_list, null);
         }
 
         final View convertViewRef = convertView;

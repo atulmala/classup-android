@@ -5,16 +5,12 @@ package com.classup;
  */
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +58,12 @@ public class SelectStudentAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.select_student_row1, null);
+            convertView = inflater.inflate(R.layout.row_select_student1, null);
         }
 
         final CheckBox chk = (CheckBox)convertView.findViewById(R.id.chk_select);
 
-        TextView student_name = (TextView) convertView.findViewById(R.id.student_name);
+        TextView student_name = (TextView) convertView.findViewById(R.id.lbl_roll_no);
         student_name.setText(student_list.get(position).getFull_name());
 
         TextView roll_no = (TextView)convertView.findViewById(R.id.roll_no);

@@ -37,7 +37,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.amazonaws:aws-android-sdk-s3:2.4.1'
-    compile 'com.amazonaws:aws-android-sdk-mobileanalytics:2.3+'
+    compile 'com.amazonaws:aws-android-sdk-mobileanalytics:2.3.+'
     compile 'com.anupcowkur:reservoir:3.1.0'
 }
 

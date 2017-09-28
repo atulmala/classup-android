@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <CheckedTextView
-        android:id="@+id/student_name"
+        android:id="@+id/lbl_roll_no"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"

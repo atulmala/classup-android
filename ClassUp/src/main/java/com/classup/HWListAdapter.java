@@ -1,13 +1,10 @@
 package com.classup;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,7 +36,7 @@ class HWListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.hw_list_row, null);
+            convertView = inflater.inflate(R.layout.row_hw_list, null);
         }
 
         TextView the_class = (TextView)convertView.findViewById(R.id.class_sec);

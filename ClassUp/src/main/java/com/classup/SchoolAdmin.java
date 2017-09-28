@@ -49,6 +49,7 @@ public class SchoolAdmin extends AppCompatActivity {
 
     public void updateStudent(View view)    {
         Intent intent = new Intent(this, SelectClassSection1.class);
+        intent.putExtra("sender", "school_admin");
         startActivity(intent);
     }
 

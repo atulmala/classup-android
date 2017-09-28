@@ -41,7 +41,7 @@ public class TestListParentAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.p_test_list_row, null);
+            convertView = inflater.inflate(R.layout.row_p_test_list, null);
         }
         TextView date = (TextView)convertView.findViewById(R.id.txt_test_date);
         TextView subject = (TextView)convertView.findViewById(R.id.txt_test);
