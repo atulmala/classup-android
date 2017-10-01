@@ -39,13 +39,13 @@ class HWListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.row_hw_list, null);
         }
 
-        TextView the_class = (TextView)convertView.findViewById(R.id.class_sec);
+        TextView the_class = convertView.findViewById(R.id.class_sec);
         the_class.setText(hwListSources.get(position).getThe_class());
 
-        TextView subject = (TextView)convertView.findViewById(R.id.hw_subject);
+        TextView subject = convertView.findViewById(R.id.hw_subject);
         subject.setText(hwListSources.get(position).getSubject());
 
-        TextView due_date = (TextView)convertView.findViewById(R.id.hw_date);
+        TextView due_date = convertView.findViewById(R.id.hw_date);
         due_date.setText(hwListSources.get(position).getDue_date());
 
         return convertView;

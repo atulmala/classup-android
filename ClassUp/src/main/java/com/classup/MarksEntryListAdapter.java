@@ -72,7 +72,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (test_type.equals("term") || test_type.equals("Term"))
-                view = inflater.inflate(R.layout.row_term_marks_entry1, null);
+                view = inflater.inflate(R.layout.row_term_marks_entry, null);
             else
                 view = inflater.inflate(R.layout.row_unit_marks_entry, null);
             holder = new ViewHolder(view);
@@ -159,7 +159,6 @@ public class MarksEntryListAdapter extends BaseAdapter {
         // if the marks obtained are less than passing marks they need to be highligted
         if (!whether_grade_based)   {
             if (!test_type.equals("term"))
-
                 if (!holder.marks_or_grade.getText().toString().equals("") &&
                         !holder.marks_or_grade.getText().toString().equals("ABS")) {
                     float marks = 0;
@@ -171,7 +170,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                     }
                     float pm = Float.parseFloat(pass_marks.toString());
                     if (marks < pm) {
-                        holder.marks_or_grade.setTextColor(Color.RED);
+                        //holder.marks_or_grade.setTextColor(Color.RED);
                     }
                     else
                         holder.marks_or_grade.setBackgroundColor(Color.WHITE);
@@ -189,7 +188,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                     }
                     float pm = Float.parseFloat(pass_marks.toString());
                     if (marks < pm) {
-                        holder.term_marks.setTextColor(Color.RED);
+                        //holder.term_marks.setTextColor(Color.RED);
                     }
                     else
                         holder.term_marks.setBackgroundColor(Color.WHITE);
@@ -246,7 +245,6 @@ public class MarksEntryListAdapter extends BaseAdapter {
                                 marks_entry_list.get(position).setMarks("-5000.00");
                         }
                     }
-
             }
         });
 
@@ -256,7 +254,6 @@ public class MarksEntryListAdapter extends BaseAdapter {
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 }
-
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if (!whether_grade_based) {
@@ -292,7 +289,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                                 }
 
                                 if (marks < pm) {
-                                    holder.marks_or_grade.setBackgroundColor(Color.RED);
+                                    //holder.marks_or_grade.setTextColor(Color.RED);
                                 } else
                                     holder.marks_or_grade.setBackgroundColor(Color.WHITE);
 
@@ -362,7 +359,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                             }
 
                             if (marks < pm) {
-                                holder.term_marks.setBackgroundColor(Color.RED);
+                                //holder.term_marks.setTextColor(Color.RED);
                             } else
                                 holder.term_marks.setBackgroundColor(Color.WHITE);
 
@@ -370,7 +367,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                                     setMarks(holder.term_marks.getText().toString());
                             break;
                     }
-                    }
+                }
                 @Override
                 public void afterTextChanged(Editable editable) {
 

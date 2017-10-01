@@ -189,7 +189,7 @@ public class SelectClassSection1 extends AppCompatActivity {
             case 0:
                 switch (getIntent().getStringExtra("sender")) {
                     case "school_admin":
-                        Intent intent = new Intent(this, SelectStudent1.class);
+                        final Intent intent = new Intent(this, SelectStudent1.class);
                         intent.putExtra("class", classList[(classPicker.getValue())]);
                         intent.putExtra("section", sectionList[(sectionPicker.getValue())]);
                         startActivity(intent);
@@ -221,72 +221,73 @@ public class SelectClassSection1 extends AppCompatActivity {
                                     new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(JSONObject response) {
-                                            for (int i = 0; i < response.length(); i++) {
-                                                try {
-                                                    String whether_class_teacher =
-                                                        response.getString("is_class_teacher");
-                                                    if (whether_class_teacher.equals("true")) {
-                                                        String the_class
-                                                            = response.getString("the_class");
-                                                        String section =
-                                                            response.getString("section");
-                                                        String selected_class =
-                                                            classList[classPicker.getValue()];
+                                            try {
+                                                String whether_class_teacher =
+                                                    response.getString("is_class_teacher");
+                                                if (whether_class_teacher.equals("true")) {
+                                                    String the_class
+                                                        = response.getString("the_class");
+                                                    String section =
+                                                        response.getString("section");
+                                                    String selected_class =
+                                                        classList[classPicker.getValue()];
 
-                                                        String selected_section =
-                                                            sectionList[sectionPicker.getValue()];
+                                                    String selected_section =
+                                                        sectionList[sectionPicker.getValue()];
 
-                                                        if ((!selected_class.equals(the_class)) ||
-                                                            !selected_section.equals(section)) {
-                                                            progressDialog.dismiss();
-                                                            progressDialog.hide();
-                                                            String message = "You are not the";
-                                                            message += " Class Teacher of ";
-                                                            message += selected_class + "-";
-                                                            message += selected_section;
-                                                            Toast toast1 = Toast.makeText
-                                                                (getApplicationContext(), message,
-                                                                    Toast.LENGTH_LONG);
-                                                            toast1.setGravity(Gravity.CENTER, 0, 0);
-                                                            toast1.show();
-
-                                                            break;
-                                                        } else {
-                                                            progressDialog.dismiss();
-                                                            progressDialog.hide();
-                                                            Intent intent1 = new Intent
-                                                                    (getApplicationContext(),
-                                                                        CoScholastic.class);
-                                                            intent1.putExtra("the_class",
-                                                                selected_class);
-                                                            intent1.putExtra("section",
-                                                                selected_section);
-                                                            startActivity(intent1);
-                                                        }
+                                                    if ((!selected_class.equals(the_class)) ||
+                                                        !selected_section.equals(section)) {
+                                                        progressDialog.dismiss();
+                                                        progressDialog.hide();
+                                                        String message = "You are not the";
+                                                        message += " Class Teacher of ";
+                                                        message += selected_class + "-";
+                                                        message += selected_section;
+                                                        Toast toast1 = Toast.makeText
+                                                            (getApplicationContext(), message,
+                                                                Toast.LENGTH_LONG);
+                                                        toast1.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast1.show();
 
                                                     } else {
                                                         progressDialog.dismiss();
                                                         progressDialog.hide();
-                                                        Toast toast1 = Toast.makeText
+                                                        Intent intent1 = new Intent
                                                             (getApplicationContext(),
-                                                                "You are not a Class Teacher",
-                                                                Toast.LENGTH_SHORT);
-                                                        toast1.setGravity(Gravity.CENTER, 0, 0);
-                                                        toast1.show();
-
-                                                        break;
+                                                                CoScholastic.class);
+                                                        intent1.putExtra("teacher",
+                                                            SessionManager.getInstance().
+                                                                getLogged_in_user());
+                                                        intent1.putExtra("the_class",
+                                                            selected_class);
+                                                        intent1.putExtra("section",
+                                                            selected_section);
+                                                        intent1.putExtra("term", selected_term);
+                                                        startActivity(intent1);
                                                     }
-                                                } catch (JSONException je) {
-                                                    System.out.println("Ran into JSON exception " +
-                                                        "while dealing with "
-                                                        + tag);
-                                                    je.printStackTrace();
-                                                } catch (Exception e) {
-                                                    System.out.println("Caught General exception " +
-                                                        "while dealing with" + tag);
-                                                    e.printStackTrace();
+
+                                                } else {
+                                                    progressDialog.dismiss();
+                                                    progressDialog.hide();
+                                                    Toast toast1 = Toast.makeText
+                                                        (getApplicationContext(),
+                                                            "You are not a Class Teacher",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast1.setGravity(Gravity.CENTER, 0, 0);
+                                                    toast1.show();
+
                                                 }
+                                            } catch (JSONException je) {
+                                                System.out.println("Ran into JSON exception " +
+                                                    "while dealing with "
+                                                    + tag);
+                                                je.printStackTrace();
+                                            } catch (Exception e) {
+                                                System.out.println("Caught General exception " +
+                                                    "while dealing with" + tag);
+                                                e.printStackTrace();
                                             }
+                                            //}
                                             progressDialog.hide();
                                             progressDialog.dismiss();
                                         }
@@ -322,7 +323,6 @@ public class SelectClassSection1 extends AppCompatActivity {
                                 addToRequestQueue(jsonObjectRequest, tag);
                         }
                         break;
-
                 }
             default:
                 return super.onOptionsItemSelected(item);

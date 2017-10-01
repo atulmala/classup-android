@@ -92,17 +92,17 @@ public class AddStudent extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -372,13 +372,13 @@ public class AddStudent extends AppCompatActivity {
                                                                                                 // Analysis via AWS
                                                                                                 try {
                                                                                                     AnalyticsEvent addStudentEvent =
-                                                                                                            SessionManager.getInstance().
+                                                                                                            SessionManager.
                                                                                                                     analytics.getEventClient().
                                                                                                                     createEvent("Add Student");
                                                                                                     addStudentEvent.addAttribute("user",
                                                                                                             SessionManager.getInstance().
                                                                                                                     getLogged_in_user());
-                                                                                                    SessionManager.getInstance().analytics.
+                                                                                                    SessionManager.analytics.
                                                                                                             getEventClient().
                                                                                                             recordEvent(addStudentEvent);
                                                                                                 } catch (NullPointerException exception)    {
