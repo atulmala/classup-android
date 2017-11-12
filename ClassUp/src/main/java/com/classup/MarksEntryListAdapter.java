@@ -383,7 +383,8 @@ public class MarksEntryListAdapter extends BaseAdapter {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     switch (holder.periodic_marks.getText().toString()) {
                         case "":
-                            marks_entry_list.get(position).setMarks("-5000.00");
+                            //marks_entry_list.get(position).setMarks("-5000.00");
+                            marks_entry_list.get(position).setPeriodic_test_marks("-5000.0");
                             break;
                         case "ABS":
                             marks_entry_list.get(position).setMarks("-1000.00");
@@ -431,7 +432,8 @@ public class MarksEntryListAdapter extends BaseAdapter {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     switch (holder.notebook_marks.getText().toString()) {
                         case "":
-                            marks_entry_list.get(position).setMarks("-5000.00");
+                            //marks_entry_list.get(position).setMarks("-5000.00");
+                            marks_entry_list.get(position).setNotebook_submission_marks("-5000.0");
                             break;
                         case "ABS":
                             marks_entry_list.get(position).setMarks("-1000.00");
@@ -479,7 +481,8 @@ public class MarksEntryListAdapter extends BaseAdapter {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     switch (holder.sub_enrich_marks.getText().toString()) {
                         case "":
-                            marks_entry_list.get(position).setMarks("-5000.00");
+                            //marks_entry_list.get(position).setMarks("-5000.00");
+                            marks_entry_list.get(position).setSubject_enrichment_marks("-5000.0");
                             break;
                         case "ABS":
                             marks_entry_list.get(position).setMarks("-1000.00");

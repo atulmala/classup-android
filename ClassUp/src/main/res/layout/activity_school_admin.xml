@@ -16,6 +16,13 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/btn_teacher_att"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="teacherAttendance"
+        android:text="@string/teacher_attenance"/>
+
+    <Button
         android:id="@+id/btn_bulk_sms"
         android:text="@string/send_bulk_sms"
         android:layout_width="fill_parent"

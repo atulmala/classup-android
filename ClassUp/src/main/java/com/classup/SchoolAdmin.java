@@ -32,8 +32,15 @@ public class SchoolAdmin extends AppCompatActivity {
         }
     }
 
+    public void teacherAttendance (View view)   {
+        Intent intent = new Intent(this, SelectDate.class);
+        intent.putExtra("comingFrom", "teacherAttendance");
+        startActivity(intent);
+    }
+
     public void attendanceSummary(View view)    {
         Intent intent = new Intent(this, SelectDate.class);
+        intent.putExtra("comingFrom", "attendanceSummary");
         startActivity(intent);
     }
 

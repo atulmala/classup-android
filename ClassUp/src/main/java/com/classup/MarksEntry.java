@@ -288,22 +288,16 @@ public class MarksEntry extends AppCompatActivity {
                             // 12/09/17 - Now we are building the custom
                             // Analysis via AWS
                             try {
-                                AnalyticsEvent saveMarksEvent =
-                                    SessionManager.getInstance().
-                                        analytics.getEventClient().
-                                        createEvent("Saved Marks");
+                                AnalyticsEvent saveMarksEvent = SessionManager.getInstance().
+                                        analytics.getEventClient().createEvent("Saved Marks");
                                 saveMarksEvent.addAttribute("user",
-                                    SessionManager.getInstance().
-                                        getLogged_in_user());
-                                SessionManager.getInstance().analytics.
-                                    getEventClient().
+                                    SessionManager.getInstance().getLogged_in_user());
+                                SessionManager.getInstance().analytics.getEventClient().
                                     recordEvent(saveMarksEvent);
                             } catch (NullPointerException exception) {
-                                System.out.println("flopped in creating " +
-                                    "analytics Save Marks");
+                                System.out.println("flopped in creating analytics Save Marks");
                             } catch (Exception exception) {
-                                System.out.println("flopped in " +
-                                    "creating analytics Save Marks");
+                                System.out.println("flopped in creating analytics Save Marks");
                             }
                         }
                     } catch (JSONException e) {
@@ -427,19 +421,16 @@ public class MarksEntry extends AppCompatActivity {
                         // Analysis via AWS
                         try {
                             AnalyticsEvent event =
-                                SessionManager.getInstance().
-                                    analytics.getEventClient().
+                                SessionManager.getInstance().analytics.getEventClient().
                                     createEvent("Submit Marks");
                             event.addAttribute("user", SessionManager.getInstance().
                                 getLogged_in_user());
                             SessionManager.getInstance().analytics.getEventClient().
                                 recordEvent(event);
                         } catch (NullPointerException exception) {
-                            System.out.println("flopped in creating " +
-                                "analytics Submit Marks");
+                            System.out.println("flopped in creating analytics Submit Marks");
                         } catch (Exception exception) {
-                            System.out.println("flopped in " +
-                                "creating analytics Submit Marks");
+                            System.out.println("flopped in creating analytics Submit Marks");
                         }
                     }
                 }, new Response.ErrorListener() {

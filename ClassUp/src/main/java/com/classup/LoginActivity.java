@@ -51,8 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     String server_ip;
 
     private void setUpVariables() {
-        userName = (EditText) findViewById(R.id.usernameET);
-        password = (EditText) findViewById(R.id.passwordET);
+        userName = findViewById(R.id.usernameET);
+        password = findViewById(R.id.passwordET);
     }
 
     @Override
@@ -76,7 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                     "us-east-1:3c5df3cc-591c-44f1-9624-0fb5fe21cee3" //Amazon Cognito Identity Pool ID
             );
         } catch(InitializationException ex) {
-            Log.e(this.getClass().getName(), "Failed to initialize Amazon Mobile Analytics", ex);
+            Log.e(this.getClass().getName(),
+                "Failed to initialize Amazon Mobile Analytics", ex);
         }
 
         super.onCreate(savedInstanceState);
@@ -297,6 +298,7 @@ public class LoginActivity extends AppCompatActivity {
                 SessionManager.getInstance().analytics.getEventClient().
                         recordEvent(loginAttemptEvent);
             } catch (NullPointerException exception)    {
+                Toast.makeText(this, "Analytics", Toast.LENGTH_SHORT).show();
                 System.out.println("flopped in creating analytics");
             }
             // 10/07/2017 - Get the manufacturer, model & OS of the device
@@ -332,7 +334,7 @@ public class LoginActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    progressDialog.dismiss();
+                                    progressDialog.hide();
                                     progressDialog.dismiss();
                                     try {
                                         String subscription_status =
@@ -364,13 +366,16 @@ public class LoginActivity extends AppCompatActivity {
                                                         FirebaseInstanceId.getInstance().getToken();
                                                 Toast toast = Toast.makeText(context,
                                                         refreshedToken, Toast.LENGTH_LONG);
-                                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                                toast.setGravity(Gravity.CENTER, 0,
+                                                    0);
                                                 //toast.show();
                                                 JSONObject jsonObject1 = new JSONObject();
                                                 jsonObject1.put("user",
                                                         userName.getText().toString());
-                                                jsonObject1.put("device_token", refreshedToken);
-                                                jsonObject1.put("device_type", "Android");
+                                                jsonObject1.put("device_token",
+                                                    refreshedToken);
+                                                jsonObject1.put("device_type",
+                                                    "Android");
 
                                                 String url2 = server_ip + "/auth/map_device_token/";
                                                 JsonObjectRequest jsonObjReq =
@@ -465,7 +470,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                 analytics.getEventClient().
                                                                 createEvent("Login Result");
                                                 loginResultEvent.addAttribute
-                                                        ("Lo", userName.getText().toString());
+                                                        ("Login", userName.getText().toString());
                                                 loginResultEvent.addAttribute("Login Result",
                                                         "Failed");
                                                 SessionManager.getInstance().analytics.
@@ -489,7 +494,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
                             progressDialog.hide();
                             progressDialog.dismiss();
-                            System.out.println(error);
+                            System.out.println(error.getMessage());
                             if (error instanceof TimeoutError || error instanceof NoConnectionError)
                             {
                                 if (!MiscFunctions.getInstance().checkConnection
@@ -498,6 +503,9 @@ public class LoginActivity extends AppCompatActivity {
                                             "Slow network connection or No internet connectivity",
                                             Toast.LENGTH_LONG).show();
                                 } else {
+                                    if (error instanceof TimeoutError)
+                                        Toast.makeText(getApplicationContext(),
+                                            "Timeout errors", Toast.LENGTH_LONG).show();
                                     Toast.makeText(getApplicationContext(),
                                             "Some problem at server end, please try after " +
                                                     "some time",
@@ -519,6 +527,11 @@ public class LoginActivity extends AppCompatActivity {
                             // TODO Auto-generated method stub
                         }
                     });
+            int socketTimeout = 300000;//5 minutes
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            jsObjRequest1.setRetryPolicy(policy);
             com.classup.AppController.getInstance().addToRequestQueue(jsObjRequest1);
         } else {
             Toast.makeText(getApplicationContext(),
@@ -533,7 +546,6 @@ public class LoginActivity extends AppCompatActivity {
         return capitalize(manufacturer) + " " + model;
 
     }
-
 
     private String capitalize(String s) {
         if (s == null || s.length() == 0) {

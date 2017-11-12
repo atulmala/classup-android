@@ -38,8 +38,6 @@ public class SelectTeacher extends AppCompatActivity {
 
         final ArrayList<TeacherListSource> teacher_list = new ArrayList<>();
 
-        final ArrayList<AttendanceListSource> student_list = new ArrayList<AttendanceListSource>();
-
         final String server_ip = MiscFunctions.getInstance().getServerIP(this);
         final String school_id = SessionManager.getInstance().getSchool_id();
         final String url =  server_ip + "/teachers/teacher_list/" + school_id + "/";

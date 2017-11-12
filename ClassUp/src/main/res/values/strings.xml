@@ -152,4 +152,5 @@
     <string name="discipline">Discipline</string>
     <string name="class_teacher_s_remarks">Class Teacher\'s Remarks</string>
     <string name="promoted_to_class">Promoted to Class:</string>
+    <string name="teacher_attenance">Teacher Attenance</string>
 </resources>

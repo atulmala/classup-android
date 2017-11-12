@@ -104,7 +104,8 @@ public class AttendanceList extends AppCompatActivity {
         }
 
         // 23/06/2017 - show class subject and date on the Action bar like we do on iOS
-        String title = intent.getStringExtra("class") + "-" + intent.getStringExtra("section");
+        String title = intent.getStringExtra("class") + "-" +
+            intent.getStringExtra("section");
         title +=  " " + intent.getStringExtra("date") + "/" +
                 intent.getStringExtra("month") + "/" + intent.getStringExtra("year");
         title += " " + intent.getStringExtra("subject");
@@ -114,11 +115,9 @@ public class AttendanceList extends AppCompatActivity {
         setContentView(R.layout.activity_attendance_list);
 
         final ArrayList<AttendanceListSource> attendanceList = new ArrayList<AttendanceListSource>();
-        final ListView view = (ListView) findViewById(R.id.attendance_list);
+        final ListView view = findViewById(R.id.attendance_list);
         final AttendanceListAdapter adapter =
                 new AttendanceListAdapter(this, attendanceList, intent);
-
-
 
         ptr_adapter = adapter;
 
@@ -383,8 +382,7 @@ public class AttendanceList extends AppCompatActivity {
         txt_date.setTypeface(Typeface.DEFAULT_BOLD);
 
         // show class & section
-        TextView txt_class_section =
-                (TextView) dialog.findViewById((R.id.txt_att_submission_class));
+        TextView txt_class_section = dialog.findViewById((R.id.txt_att_submission_class));
         String class_plus_section =
                 intent.getStringExtra("class") + " " + intent.getStringExtra("section");
         txt_class_section.setText(class_plus_section);
@@ -400,20 +398,19 @@ public class AttendanceList extends AppCompatActivity {
         final List<String> absentee_list = adapter.getAbsentee_list();
 
         // 03/06/2017 - show the total count
-        TextView txt_total = (TextView) dialog.findViewById(R.id.txt_att_submission_total);
+        TextView txt_total = dialog.findViewById(R.id.txt_att_submission_total);
         Integer tot_stu = tot_students;
         txt_total.setText(tot_stu.toString());
 
         // show absent count
         Integer absent_count = absentee_list.size();
-        TextView txt_absent = (TextView) dialog.findViewById((R.id.txt_att_absent_count));
+        TextView txt_absent = dialog.findViewById((R.id.txt_att_absent_count));
         txt_absent.setText(absent_count.toString());
         txt_absent.setTypeface(Typeface.DEFAULT_BOLD);
 
         // show present count
         Integer present_count = tot_students - absent_count;
-        TextView txt_present_count =
-                (TextView) dialog.findViewById(R.id.txt_att_present_count);
+        TextView txt_present_count = dialog.findViewById(R.id.txt_att_present_count);
         txt_present_count.setText(present_count.toString());
         txt_present_count.setTypeface(Typeface.DEFAULT_BOLD);
 
@@ -421,7 +418,7 @@ public class AttendanceList extends AppCompatActivity {
         dialog.show();
 
         // what happens when OK button is clicked?
-        Button btn_ok = (Button) dialog.findViewById(R.id.btn_att_confirm);
+        Button btn_ok = dialog.findViewById(R.id.btn_att_confirm);
 
         final String teacher = SessionManager.getInstance().getLogged_in_user();
         btn_ok.setOnClickListener(new View.OnClickListener() {

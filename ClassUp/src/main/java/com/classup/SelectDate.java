@@ -19,10 +19,7 @@ public class SelectDate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_date);
 
-        datePicker = (DatePicker)findViewById(R.id.pick_att_summ_school_date);
-
-        ViewGroup viewGroup = (ViewGroup)datePicker.findViewById(Resources.getSystem().
-                getIdentifier("month", "id", "android"));
+        datePicker = findViewById(R.id.pick_att_summ_school_date);
 
         Calendar calendar =  Calendar.getInstance();
         datePicker.setMaxDate(calendar.getTimeInMillis());
@@ -59,10 +56,14 @@ public class SelectDate extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Intent intent;
         switch (id) {
             case 0:
-                Intent intent = new Intent(this, SchoolAttendanceSummary.class);
+                if (getIntent().getStringExtra("comingFrom").equals("attendanceSummary"))
+                    intent = new Intent(this, SchoolAttendanceSummary.class);
+                else
+                    intent = new Intent(this, TeachersAttendance.class);
+
                 final Integer d = datePicker.getDayOfMonth();
                 final Integer m = datePicker.getMonth() + 1;  // because index start from 0
                 final Integer y = datePicker.getYear();

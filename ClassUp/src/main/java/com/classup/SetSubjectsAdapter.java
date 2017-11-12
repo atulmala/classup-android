@@ -52,10 +52,9 @@ public class SetSubjectsAdapter extends ArrayAdapter {
                     (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.row_set_subject, null);
         }
-        final CheckedTextView textView =
-                (CheckedTextView) convertView.findViewById(R.id.subject_name);
+        final CheckedTextView textView = convertView.findViewById(R.id.subject_name);
 
-        TextView subject_name = (TextView) convertView.findViewById(R.id.subject_name);
+        TextView subject_name = convertView.findViewById(R.id.subject_name);
         subject_name.setText(subject_list.get(position).getSubject_name());
 
         if (selected_subjects.contains(subject_list.get(position).getSubject_name()))   {

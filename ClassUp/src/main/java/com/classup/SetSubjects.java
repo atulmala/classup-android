@@ -150,10 +150,9 @@ public class SetSubjects extends AppCompatActivity {
 
         Context c = this.getApplicationContext();
 
-        final ListView listView = (ListView)findViewById(R.id.set_subject_list);
+        final ListView listView = findViewById(R.id.set_subject_list);
 
-        String url =  server_ip + "/academics/subject_list/"
-                + school_id + "/?format=json";
+        String url =  server_ip + "/academics/subject_list/" + school_id + "/?format=json";
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -223,7 +222,7 @@ public class SetSubjects extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CheckedTextView textView = (CheckedTextView) view.findViewById(R.id.subject_name);
+                CheckedTextView textView = view.findViewById(R.id.subject_name);
 
                 if (!textView.isChecked()) {
                     textView.setChecked(true);
@@ -236,10 +235,6 @@ public class SetSubjects extends AppCompatActivity {
                     // also add to the selected subjects list of the adapter
                     adapter.selected_subjects.add(subjects.get(i));
                     adapter.notifyDataSetChanged();
-
-                    String message = "Subject " + subjects.get(i) + " "
-                            + codes.get(i) + " has been selected.";
-
                 } else {
                     textView.setChecked(false);
                     // this subject has to be removed from the subject list of this teacher
