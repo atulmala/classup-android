@@ -43,9 +43,6 @@ public class  TeacherMenu extends AppCompatActivity {
         setUpVariables();
         setContentView(R.layout.activity_teacher_menu1);
 
-
-
-
         String server_ip = MiscFunctions.getInstance().getServerIP(getApplicationContext());
         String school_id = SessionManager.getInstance().getSchool_id();
         if (!SessionManager.getInstance().getBus_attendance_known()) {
@@ -187,10 +184,11 @@ public class  TeacherMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void sendMessage(View view)  {
-        Intent intent = new Intent(this, SelectClassSection.class);
-        intent.putExtra("sender", "send_message");
-        startActivity(intent);
+
+
+    public void commCenter (View view) {
+        Intent intent = new Intent(this, CommunicationCenter.class);
+        startActivity (intent);
     }
 
     public void coScholastic(View view) {
@@ -207,8 +205,10 @@ public class  TeacherMenu extends AppCompatActivity {
     //@Override
     public boolean onCreateOptionsMenu(Menu m) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        m.add(0, 0, 0, "Logout").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        m.add(0, 1, 0, "Change Password").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        m.add(0, 0, 0, "Logout").
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        m.add(0, 1, 0, "Change Password").
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return true;
     }

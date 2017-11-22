@@ -22,7 +22,6 @@
     <string name="send_select_classes">Send to Selected Classes</string>
     <string name="compose_sms">Compose SMS</string>
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_pending_test">Pending Tests</string>
@@ -153,4 +152,10 @@
     <string name="class_teacher_s_remarks">Class Teacher\'s Remarks</string>
     <string name="promoted_to_class">Promoted to Class:</string>
     <string name="teacher_attenance">Teacher Attenance</string>
+    <string name="communicate_string_communicate_with_parents">Communicate @string/communicate_with_parents</string>
+    <string name="activity_group_communication">Activity Group Communication</string>
+    <string name="notices_circulars"><![CDATA[Notices & Circulars]]></string>
+    <string name="today_s_arrangements">Today\'s Arrangements</string>
+    <string name="comm_center">Communication Center</string>
+    <string name="period">Period:</string>
 </resources>

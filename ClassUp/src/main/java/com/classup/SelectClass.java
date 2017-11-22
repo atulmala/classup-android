@@ -111,10 +111,10 @@ public class SelectClass extends AppCompatActivity {
                 logged_in_user + "/?format=json";
 
         setContentView(R.layout.activity_select_class1);
-        classPicker = (NumberPicker)findViewById(R.id.pick_class);
-        sectionPicker = (NumberPicker)findViewById(R.id.pick_section);
-        subjectPicker = (NumberPicker)findViewById(R.id.pick_subject);
-        datePicker = (DatePicker)findViewById(R.id.pick_date_attendance);
+        classPicker = findViewById(R.id.pick_class);
+        sectionPicker = findViewById(R.id.pick_section);
+        subjectPicker = findViewById(R.id.pick_subject);
+        datePicker = findViewById(R.id.pick_date_attendance);
 
 
         setupPicker(classPicker, classUrl, "standard", "class_api");
@@ -404,13 +404,13 @@ public class SelectClass extends AppCompatActivity {
                                 setEnabled(false);
                     } else {
                         GradeBased.getInstance().setGrade_based("False");
-                        ((EditText) dialog.findViewById(R.id.txt_max_marks)).setEnabled(true);
-                        ((EditText) dialog.findViewById(R.id.txt_passing_marks)).
+                        ( dialog.findViewById(R.id.txt_max_marks)).setEnabled(true);
+                        ( dialog.findViewById(R.id.txt_passing_marks)).
                                 setEnabled(true);
                     }
                 }
             });
-            Button btn_submit = (Button) dialog.findViewById(R.id.btn_test_confirm);
+            Button btn_submit = dialog.findViewById(R.id.btn_test_confirm);
             btn_submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

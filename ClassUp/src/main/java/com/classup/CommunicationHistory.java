@@ -46,7 +46,7 @@ public class CommunicationHistory extends AppCompatActivity {
         server_ip = MiscFunctions.getInstance().getServerIP(context);
 
         final ArrayList<CommunicationSource> communication_list = new ArrayList<>();
-        ListView listView = (ListView)findViewById(R.id.communication_list);
+        ListView listView = findViewById(R.id.communication_list);
         final CommunicationHistoryAdapter adapter =
                 new CommunicationHistoryAdapter(this, communication_list);
         listView.setAdapter(adapter);

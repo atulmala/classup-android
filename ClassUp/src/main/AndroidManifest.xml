@@ -319,6 +319,10 @@
         </activity>
         <activity android:name=".TeachersAttendance">
         </activity>
+        <activity android:name=".CommunicationCenter">
+        </activity>
+        <activity android:name=".Arrangements">
+        </activity>
     </application>
 
 </manifest>

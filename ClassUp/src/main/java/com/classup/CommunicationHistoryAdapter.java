@@ -40,15 +40,15 @@ public class CommunicationHistoryAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.communication_history_row, null);
         }
 
-        TextView date = (TextView)convertView.findViewById(R.id.communication_date);
+        TextView date = convertView.findViewById(R.id.communication_date);
         date.setText(communicationSourceList.get(position).getDate());
 
-        TextView communication_date = (TextView)convertView.findViewById(R.id.communication_date);
+        TextView communication_date = convertView.findViewById(R.id.communication_date);
         String the_date = communicationSourceList.get(position).getDate();
         communication_date.setText(the_date);
         communication_date.setTextColor(Color.LTGRAY);
 
-        EditText communication_text = (EditText)convertView.findViewById(R.id.communiction_text);
+        EditText communication_text = convertView.findViewById(R.id.communiction_text);
         communication_text.setEnabled(false);
         //communication_text.setInputType(InputType.TYPE_NULL);
         communication_text.setTextColor(Color.DKGRAY);
