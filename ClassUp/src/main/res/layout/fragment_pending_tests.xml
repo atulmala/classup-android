@@ -30,14 +30,6 @@
             android:paddingLeft="5dp"
             android:text="Class/Sec"
             android:textColor="@color/white"/>
-        <!-- third column for sectio -->
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingRight="3dp"
-            android:text="Section"
-            android:textColor="@color/white"/> -->
         <!-- fourth column for subject -->
         <TextView
             android:layout_width="wrap_content"

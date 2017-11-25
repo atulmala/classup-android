@@ -41,8 +41,6 @@ public class ComposeMessage extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
-
-
     }
 
     @Override
@@ -65,7 +63,8 @@ public class ComposeMessage extends AppCompatActivity {
     //@Override
     public boolean onCreateOptionsMenu(Menu m) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        m.add(0, 0, 0, "Send Message").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        m.add(0, 0, 0, "Send Message").
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -75,15 +74,15 @@ public class ComposeMessage extends AppCompatActivity {
 
         switch (id) {
             case 0:
-                EditText editText = (EditText) findViewById(R.id.editText);
+                EditText editText = findViewById(R.id.editText);
                 final String message = editText.getText().toString();
                 if (message.equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Message is empty!",
                         Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                } else if (message.length() > 200) {
-                    String prompt = "Message is too long. Please limit it to 140 Characters";
+                } else if (message.length() > 300) {
+                    String prompt = "Message is too long. Please limit it to 300 Characters";
                     Toast toast = Toast.makeText(getApplicationContext(),
                         prompt, Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -105,14 +104,17 @@ public class ComposeMessage extends AppCompatActivity {
                                 try {
                                     jsonObject.put("message", message);
                                     jsonObject.put("teacher", teacher);
-                                    jsonObject.put("class", intent.getStringExtra("class"));
-                                    jsonObject.put("section", intent.getStringExtra("section"));
+                                    jsonObject.put("class",
+                                        intent.getStringExtra("class"));
+                                    jsonObject.put("section",
+                                        intent.getStringExtra("section"));
                                     if (intent.getStringExtra("whole_class").equals("true"))
                                         jsonObject.put("whole_class", "true");
                                     else
                                         jsonObject.put("whole_class", "false");
 
-                                    if (intent.getStringExtra("whole_class").equals("false")) {
+                                    if (intent.getStringExtra("whole_class").equals("false"))
+                                    {
                                         for (int i = 0; i < selected_students.size(); i++) {
                                             jsonObject.put(MiscFunctions.getInstance().
                                                     generateRandomString(),
@@ -151,8 +153,8 @@ public class ComposeMessage extends AppCompatActivity {
                                                 + error.getMessage());
                                         }
                                     });
-                                jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                                jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0,
+                                    -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                                 com.classup.AppController.getInstance().
                                     addToRequestQueue(jsonObjReq, tag);
                                 Toast.makeText(getApplicationContext(),

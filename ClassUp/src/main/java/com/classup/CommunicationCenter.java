@@ -26,4 +26,9 @@ public class CommunicationCenter extends AppCompatActivity {
         intent.putExtra("teacher", SessionManager.getInstance().getLogged_in_user());
         startActivity (intent);
     }
+
+    public void showActivityGroups (View view)   {
+        Intent intent = new Intent (this, ActivityGroup.class);
+        startActivity (intent);
+    }
 }

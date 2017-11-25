@@ -8,8 +8,8 @@ android {
         applicationId "com.classup"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 47
-        versionName "2.12"
+        versionCode 48
+        versionName "2.13"
         multiDexEnabled true
     }
     buildTypes {

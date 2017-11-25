@@ -275,7 +275,8 @@ public class LoginActivity extends AppCompatActivity {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
 
-            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,
+                0, 0);
             toast.show();
             return;
         }
@@ -286,7 +287,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (password.getText().toString().equals("")) {
-            Toast.makeText(getApplicationContext(), "Password is blank", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Password is blank",
+                Toast.LENGTH_SHORT).show();
             good_to_go = false;
         }
 
@@ -410,7 +412,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 Toast toast1 = Toast.makeText(
                                                         getApplicationContext(), greetings,
                                                         Toast.LENGTH_SHORT);
-                                                toast1.setGravity(Gravity.CENTER, 0, 0);
+                                                toast1.setGravity(Gravity.CENTER, 0,
+                                                    0);
                                                 toast1.show();
                                                 try {
                                                     AnalyticsEvent loginResultEvent =

@@ -278,8 +278,10 @@ public class EditStudent extends AppCompatActivity {
     //@Override
     public boolean onCreateOptionsMenu(Menu m) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        m.add(0, 0, 0, "Delete").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        m.add(0, 1, 0, "Update").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        m.add(0, 0, 0, "Delete").
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        m.add(0, 1, 0, "Update")
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return true;
     }
@@ -424,7 +426,8 @@ public class EditStudent extends AppCompatActivity {
                 if (!mobile2.equals("")) {
                     if (mobile2.length() != 10) {
                         Toast toast = Toast.makeText(this,
-                                "Mobile2  is invalid. Should be of 10 digits", Toast.LENGTH_LONG);
+                                "Mobile2  is invalid. Should be of 10 digits",
+                            Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                         return super.onOptionsItemSelected(item);
@@ -485,7 +488,8 @@ public class EditStudent extends AppCompatActivity {
                                                     AnalyticsEvent event =
                                                             SessionManager.getInstance().
                                                                     analytics.getEventClient().
-                                                                    createEvent("Update Student");
+                                                                    createEvent
+                                                                        ("Update Student");
                                                     event.addAttribute("user", SessionManager.
                                                             getInstance().
                                                             getLogged_in_user());
@@ -507,7 +511,8 @@ public class EditStudent extends AppCompatActivity {
                                         VolleyLog.d(tag, "Error: " + error.getMessage());
                                     }
                                 });
-                        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0,
+                            -1,
                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         com.classup.AppController.getInstance().
                                 addToRequestQueue(jsonObjReq, tag);

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -68,8 +69,11 @@ public class Arrangements extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONArray response) {
                     if(response.length() < 1)   {
-                        Toast.makeText(context, "Communication History is blank.",
-                            Toast.LENGTH_LONG).show();
+                        Toast toast = Toast.makeText(context,
+                            "No Arrangements till nowArrangement List.",
+                            Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     }
                     for (int i = 0; i < response.length(); i++) {
                         try {

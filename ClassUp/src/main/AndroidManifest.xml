@@ -323,6 +323,10 @@
         </activity>
         <activity android:name=".Arrangements">
         </activity>
+        <activity android:name=".ActivityGroup">
+        </activity>
+        <activity android:name=".ActivityMembers">
+        </activity>
     </application>
 
 </manifest>

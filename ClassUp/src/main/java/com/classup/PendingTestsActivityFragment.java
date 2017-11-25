@@ -54,7 +54,7 @@ public class PendingTestsActivityFragment extends Fragment {
         final Context c = this.getContext();
 
         final ArrayList<TestListSource> pending_test_list = new ArrayList<TestListSource>();
-        ListView listView = (ListView)getActivity().findViewById(R.id.pending_test_list);
+        ListView listView = getActivity().findViewById(R.id.pending_test_list);
 
         final PendingTestListAdapter adapter =
                 new PendingTestListAdapter(getActivity(), pending_test_list);
@@ -99,7 +99,8 @@ public class PendingTestsActivityFragment extends Fragment {
                                 String url =  server_ip + "/academics/delete_test/" +
                                         test_id + "/";
                                 String tag = "TestDeletion";
-                                StringRequest request = new StringRequest(Request.Method.DELETE, url,
+                                StringRequest request =
+                                    new StringRequest(Request.Method.DELETE, url,
                                         new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
@@ -111,7 +112,8 @@ public class PendingTestsActivityFragment extends Fragment {
                                                     AnalyticsEvent event =
                                                             SessionManager.getInstance().
                                                                     analytics.getEventClient().
-                                                                    createEvent("Delete Test");
+                                                                    createEvent
+                                                                        ("Delete Test");
                                                     event.addAttribute("user",
                                                             SessionManager.getInstance().
                                                             getLogged_in_user());
@@ -125,7 +127,8 @@ public class PendingTestsActivityFragment extends Fragment {
                                                     System.out.println("flopped in " +
                                                             "creating analytics Delete Test");
                                                 }
-                                                startActivity(new Intent("com.classup.TeacherMenu").
+                                                startActivity(new Intent
+                                                    ("com.classup.TeacherMenu").
                                                         setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                                                 Intent.FLAG_ACTIVITY_CLEAR_TASK));
                                             }

@@ -9,8 +9,8 @@
 
     <Button
         android:id="@+id/btn_comm_parents"
-        android:layout_width="344dp"
-        android:layout_height="44dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:onClick="sendMessage"
         android:text="@string/communicate_with_parents"
@@ -21,11 +21,12 @@
 
     <Button
         android:id="@+id/btn_comm_activity"
-        android:layout_width="344dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:onClick="showActivityGroups"
         android:text="@string/activity_group_communication"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -34,7 +35,7 @@
 
     <Button
         android:id="@+id/btn_comm_history"
-        android:layout_width="344dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/communication_history"
@@ -47,7 +48,7 @@
 
     <Button
         android:id="@+id/btn_notices"
-        android:layout_width="344dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/notices_circulars"
@@ -58,7 +59,7 @@
 
     <Button
         android:id="@+id/btn_arrangements"
-        android:layout_width="344dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:onClick="showArrangements"
