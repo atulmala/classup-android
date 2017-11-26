@@ -46,8 +46,8 @@ public class SelectClassSection extends AppCompatActivity {
         String classUrl =  server_ip + "/academics/class_list/" + school_id + "/?format=json";
         String sectionUrl =  server_ip + "/academics/section_list/" + school_id + "/?format=json";
 
-        classPicker = (NumberPicker)findViewById(R.id.pick_class);
-        sectionPicker = (NumberPicker)findViewById(R.id.pick_section);
+        classPicker = findViewById(R.id.pick_class);
+        sectionPicker = findViewById(R.id.pick_section);
 
         setupPicker(classPicker, classUrl, "standard", "class_api");
         setupPicker(sectionPicker, sectionUrl, "section", "section_api");
@@ -155,6 +155,10 @@ public class SelectClassSection extends AppCompatActivity {
         final String[] classList = classPicker.getDisplayedValues();
         // Get the section
         final String[] sectionList = sectionPicker.getDisplayedValues();
+
+        // 26/11/2017 - now we will be reaching the compose message screen from Activity Group
+        // communication also. Hence, the compose message screen should know its trigger
+        intent.putExtra("coming_from", "TeacherCommunication");
         intent.putExtra("class", classList[(classPicker.getValue())]);
         intent.putExtra("section", sectionList[(sectionPicker.getValue())]);
         intent.putExtra("whole_class", "false");
@@ -185,6 +189,9 @@ public class SelectClassSection extends AppCompatActivity {
         final String[] classList = classPicker.getDisplayedValues();
         // Get the section
         final String[] sectionList = sectionPicker.getDisplayedValues();
+        // 26/11/2017 - now we will be reaching the compose message screen from Activity Group
+        // communication also. Hence, the compose message screen should know its trigger
+        intent.putExtra("coming_from", "TeacherCommunication");
         intent.putExtra("class", classList[(classPicker.getValue())]);
         intent.putExtra("section", sectionList[(sectionPicker.getValue())]);
         intent.putExtra("whole_class", "true");

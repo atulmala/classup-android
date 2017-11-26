@@ -46,7 +46,7 @@ public class ComposeMessage extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
+        if (SessionManager.getInstance().analytics != null) {
             SessionManager.getInstance().analytics.getSessionClient().pauseSession();
             SessionManager.getInstance().analytics.getEventClient().submitEvents();
         }
@@ -55,7 +55,7 @@ public class ComposeMessage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
+        if (SessionManager.getInstance().analytics != null) {
             SessionManager.getInstance().analytics.getSessionClient().resumeSession();
         }
     }
@@ -70,51 +70,55 @@ public class ComposeMessage extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        final String school_id = SessionManager.getInstance().getSchool_id();
 
-        switch (id) {
-            case 0:
-                EditText editText = findViewById(R.id.editText);
-                final String message = editText.getText().toString();
-                if (message.equals("")) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Message is empty!",
-                        Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else if (message.length() > 300) {
-                    String prompt = "Message is too long. Please limit it to 300 Characters";
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                        prompt, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else {
-                    // 10/01/17 - Upon request from GRADS International School teachers,
-                    // we are adding confirmation dialog prior to sending the message to prevent
-                    // accidental sending
-                    final android.app.AlertDialog.Builder builder =
-                        new android.app.AlertDialog.Builder(a);
-                    builder.setMessage("Are you sure you want to send message(s)?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                JSONObject jsonObject = new JSONObject();
-                                Intent intent = getIntent();
+        EditText editText = findViewById(R.id.editText);
+        final String message = editText.getText().toString();
+        if (message.equals("")) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Message is empty!",
+                Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else if (message.length() > 300) {
+            String prompt = "Message is too long. Please limit it to 300 Characters";
+            Toast toast = Toast.makeText(getApplicationContext(),
+                prompt, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else {
+            // 10/01/17 - Upon request from GRADS International School teachers,
+            // we are adding confirmation dialog prior to sending the message to prevent
+            // accidental sending
+            final android.app.AlertDialog.Builder builder =
+                new android.app.AlertDialog.Builder(a);
+            builder.setMessage("Are you sure you want to send message(s)?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        JSONObject jsonObject = new JSONObject();
+                        Intent intent = getIntent();
+                        String coming_from = intent.getStringExtra("coming_from");
+                        switch (coming_from) {
+                            case "TeacherCommunication":
                                 ArrayList<String> selected_students = new ArrayList<>();
                                 selected_students =
                                     intent.getStringArrayListExtra("student_list");
                                 try {
+                                    jsonObject.put ("coming_from",
+                                        coming_from);
                                     jsonObject.put("message", message);
                                     jsonObject.put("teacher", teacher);
                                     jsonObject.put("class",
                                         intent.getStringExtra("class"));
                                     jsonObject.put("section",
                                         intent.getStringExtra("section"));
-                                    if (intent.getStringExtra("whole_class").equals("true"))
+                                    if (intent.getStringExtra
+                                        ("whole_class").equals("true"))
                                         jsonObject.put("whole_class", "true");
                                     else
                                         jsonObject.put("whole_class", "false");
 
-                                    if (intent.getStringExtra("whole_class").equals("false"))
-                                    {
+                                    if (intent.getStringExtra("whole_class").
+                                        equals("false")) {
                                         for (int i = 0; i < selected_students.size(); i++) {
                                             jsonObject.put(MiscFunctions.getInstance().
                                                     generateRandomString(),
@@ -131,50 +135,66 @@ public class ComposeMessage extends AppCompatActivity {
                                     System.out.println("array out of bounds exception");
                                     ae.printStackTrace();
                                 }
-                                String school_id = SessionManager.getInstance().getSchool_id();
-                                String url =
-                                    server_ip + "/operations/send_message/" +
-                                        school_id + "/";
+                                break;
+                            case "ActivityGroup":
+                                try {
+                                    jsonObject.put ("coming_from",
+                                        coming_from);
+                                    jsonObject.put("teacher", teacher);
+                                    jsonObject.put("message", message);
+                                    jsonObject.put("group_id",
+                                        getIntent().getStringExtra("group_id"));
+                                } catch (JSONException je) {
+                                    System.out.println
+                                        ("unable to create json for compose message functionality");
+                                    je.printStackTrace();
+                                } catch (ArrayIndexOutOfBoundsException ae) {
+                                    System.out.println("array out of bounds exception");
+                                    ae.printStackTrace();
+                                }
 
-                                JsonObjectRequest jsonObjReq =
-                                    new JsonObjectRequest(Request.Method.POST,
-                                        url, jsonObject,
-                                        new Response.Listener<JSONObject>() {
+                        }
+                        String url = server_ip + "/operations/send_message/" + school_id + "/";
 
-                                            @Override
-                                            public void onResponse(JSONObject response) {
-                                                Log.d(tag, response.toString());
-                                            }
-                                        }, new Response.ErrorListener() {
+                        JsonObjectRequest jsonObjReq =
+                            new JsonObjectRequest(Request.Method.POST,
+                                url, jsonObject,
+                                new Response.Listener<JSONObject>() {
 
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            VolleyLog.d(tag, "Error: "
-                                                + error.getMessage());
-                                        }
-                                    });
-                                jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0,
-                                    -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                                com.classup.AppController.getInstance().
-                                    addToRequestQueue(jsonObjReq, tag);
-                                Toast.makeText(getApplicationContext(),
-                                    "Message(s) sent!",
-                                    Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent("com.classup.TeacherMenu").
-                                    setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                                finish();
-                            }
-                        }).setNegativeButton(R.string.cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                    // Create the AlertDialog object and return it
-                    builder.show();
-                    return super.onOptionsItemSelected(item);
-                }
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.d(tag, response.toString());
+                                    }
+                                }, new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    VolleyLog.d(tag, "Error: "
+                                        + error.getMessage());
+                                }
+                            });
+                        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0,
+                            -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                        com.classup.AppController.getInstance().
+                            addToRequestQueue(jsonObjReq, tag);
+                        Toast.makeText(getApplicationContext(),
+                            "Message(s) sent!",
+                            Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent("com.classup.TeacherMenu").
+                            setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        finish();
+                    }
+                }).setNegativeButton(R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+            // Create the AlertDialog object and return it
+            builder.show();
+            return super.onOptionsItemSelected(item);
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

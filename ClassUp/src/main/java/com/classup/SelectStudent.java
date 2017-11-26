@@ -317,6 +317,7 @@ public class SelectStudent extends AppCompatActivity {
                                 "Send Message Selected Students");
                     }
                     Intent intent1 = new Intent(activity, ComposeMessage.class);
+                    intent1.putExtra("coming_from", "TeacherCommunication");
                     intent1.putExtra("student_list", selected_students);
                     intent1.putExtra("whole_class", "false");
                     startActivity(intent1);
