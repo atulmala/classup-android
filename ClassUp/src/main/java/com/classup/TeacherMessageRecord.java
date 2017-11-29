@@ -42,6 +42,7 @@ public class TeacherMessageRecord extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+        this.setTitle("Message History");
 
         context = getApplicationContext();
         String user = SessionManager.getInstance().getLogged_in_user();
