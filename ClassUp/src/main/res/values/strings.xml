@@ -159,4 +159,5 @@
     <string name="comm_center">Communication Center</string>
     <string name="period">Period:</string>
     <string name="group_incharge">Group Incharge:</string>
+    <string name="sent_to">Sent to:</string>
 </resources>

@@ -31,4 +31,9 @@ public class CommunicationCenter extends AppCompatActivity {
         Intent intent = new Intent (this, ActivityGroup.class);
         startActivity (intent);
     }
+
+    public void showTeacherMessageHistory (View view)   {
+        Intent intent = new Intent(this, TeacherMessageRecord.class);
+        startActivity(intent);
+    }
 }

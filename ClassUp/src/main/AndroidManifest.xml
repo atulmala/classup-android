@@ -327,6 +327,8 @@
         </activity>
         <activity android:name=".ActivityMembers">
         </activity>
+        <activity android:name=".TeacherMessageRecord">
+        </activity>
     </application>
 
 </manifest>

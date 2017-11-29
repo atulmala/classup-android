@@ -37,7 +37,7 @@ public class CommunicationHistoryAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.communication_history_row, null);
+            convertView = inflater.inflate(R.layout.row_communication_history, null);
         }
 
         TextView date = convertView.findViewById(R.id.communication_date);

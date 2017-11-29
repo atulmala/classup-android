@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.BaseAdapter;
 
 public class TestManagerActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -89,4 +90,6 @@ public class TestManagerActivity extends FragmentActivity implements ActionBar.T
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
