@@ -31,31 +31,33 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class TeacherMessageRecord extends AppCompatActivity {
+public class TeacherMessageReceivers extends AppCompatActivity {
     String server_ip;
     String url;
 
     Context context;
-    final ArrayList<MessageSource> messge_list = new ArrayList<>();
+    final ArrayList<RecepientMessageSource> messge_list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teacher_message_record);
+        setContentView(R.layout.activity_teacher_message_receivers);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
-        this.setTitle("Message History");
-
+        this.setTitle("Recepient Details");
         context = getApplicationContext();
-        String user = SessionManager.getInstance().getLogged_in_user();
+
+        Intent intent = getIntent();
+        String message_id = intent.getStringExtra ("message_id");
+
         server_ip = MiscFunctions.getInstance().getServerIP(context);
-        ListView listView = findViewById(R.id.list_teacher_message_record);
-        final TeacherMessageAdapter adapter = new TeacherMessageAdapter(this, messge_list);
+        ListView listView = findViewById(R.id.list_teacher_message_recepients);
+        final MessageReceiverAdapter adapter = new MessageReceiverAdapter(this, messge_list);
         listView.setAdapter(adapter);
 
-        String url = server_ip + "/teachers/message_list/" + user + "/";
+        String url = server_ip + "/teachers/receivers_list/" + message_id + "/";
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
@@ -76,26 +78,14 @@ public class TeacherMessageRecord extends AppCompatActivity {
 
                             // though we have nothing to do with id it's a good idea to keep it
                             String id = jo.getString("id");
-                            // get the name of the student. We need to join first and last names
-                            String date = jo.getString("date");
-                            String yy = date.substring(0, 4);
-                            String month = date.substring(5, 7);
-                            String dd = date.substring(8, 10);
-                            String ddmmyyyy = dd + "/" + month + "/" + yy;
-
-                            String message = jo.getString("message");
-                            String sent_to = jo.getString("sent_to");
-                            String the_class = jo.getString("the_class");
-                            String section = jo.getString("section");
-
-                            if (!the_class.equals("null"))
-                                sent_to += " (" + the_class + "-" + section +")";
-                            String activity_group = jo.getString("activity_group");
-
-                            String teacher = jo.getString("teacher");
-
-                            messge_list.add(new MessageSource(id, ddmmyyyy, message, sent_to,
-                                the_class, section, activity_group, teacher));
+                            String full_message = jo.getString("full_message");
+                            String status = jo.getString ("status");
+                            String extracted = jo.getString("status_extracted");
+                            Boolean status_extracted = true;
+                            if (extracted.equals("false"))
+                                status_extracted = false;
+                            messge_list.add(new RecepientMessageSource(id, full_message,
+                                status_extracted, status));
                             adapter.notifyDataSetChanged();
                         } catch (JSONException je) {
                             System.out.println("Ran into JSON exception " +
@@ -156,29 +146,15 @@ public class TeacherMessageRecord extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String message_id = messge_list.get(i).getId();
-                Intent intent = new Intent(context, TeacherMessageReceivers.class);
-                intent.putExtra("message_id", message_id);
-                startActivity (intent);
+                String status = "Status is awaited";
+                Boolean status_extracted = messge_list.get(i).getStatus_extracted();
+                if (status_extracted)
+                    status = messge_list.get(i).getStatus();
+                Toast toast = Toast.makeText(context, status, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
             }
         });
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
-        }
     }
 }
