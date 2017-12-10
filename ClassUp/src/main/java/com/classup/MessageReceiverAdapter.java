@@ -37,6 +37,8 @@ public class MessageReceiverAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.row_teacher_message_receivers, null);
         }
 
+        TextView student = convertView.findViewById(R.id.txt_stu_name);
+        student.setText(message_list.get(position).getStudent());
         TextView message = convertView.findViewById(R.id.txt_message_recievers);
         message.setText(message_list.get(position).getMessage());
         return convertView;

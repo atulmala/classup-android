@@ -78,14 +78,16 @@ public class TeacherMessageReceivers extends AppCompatActivity {
 
                             // though we have nothing to do with id it's a good idea to keep it
                             String id = jo.getString("id");
+                            String student = jo.getString("student");
                             String full_message = jo.getString("full_message");
                             String status = jo.getString ("status");
                             String extracted = jo.getString("status_extracted");
+                            String outcome = jo.getString("outcome");
                             Boolean status_extracted = true;
                             if (extracted.equals("false"))
                                 status_extracted = false;
-                            messge_list.add(new RecepientMessageSource(id, full_message,
-                                status_extracted, status));
+                            messge_list.add(new RecepientMessageSource(id, student, full_message,
+                                status_extracted, status, outcome));
                             adapter.notifyDataSetChanged();
                         } catch (JSONException je) {
                             System.out.println("Ran into JSON exception " +
@@ -102,7 +104,7 @@ public class TeacherMessageReceivers extends AppCompatActivity {
                     try {
                         AnalyticsEvent event = SessionManager.getInstance().
                             analytics.getEventClient().
-                            createEvent("Teacher Message Record");
+                            createEvent("Teacher Message Receivers");
                         event.addAttribute("user", SessionManager.getInstance().
                             getLogged_in_user());
                         SessionManager.getInstance().analytics.getEventClient().
@@ -146,11 +148,11 @@ public class TeacherMessageReceivers extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String status = "Status is awaited";
+                String outcome = "Status is awaited";
                 Boolean status_extracted = messge_list.get(i).getStatus_extracted();
                 if (status_extracted)
-                    status = messge_list.get(i).getStatus();
-                Toast toast = Toast.makeText(context, status, Toast.LENGTH_LONG);
+                    outcome = messge_list.get(i).getOutcome();
+                Toast toast = Toast.makeText(context, outcome, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
 
