@@ -43,7 +43,6 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +113,7 @@ public class AttendanceList extends AppCompatActivity {
 
         setContentView(R.layout.activity_attendance_list);
 
-        final ArrayList<AttendanceListSource> attendanceList = new ArrayList<AttendanceListSource>();
+        final ArrayList<AttendanceListSource> attendanceList = new ArrayList<>();
         final ListView view = findViewById(R.id.attendance_list);
         final AttendanceListAdapter adapter =
                 new AttendanceListAdapter(this, attendanceList, intent);

@@ -174,7 +174,7 @@ public class SelectCriteriaAttendanceSummary extends AppCompatActivity {
 
     public void setupPicker(final NumberPicker picker, String url,
                             final String item_to_extract, final String tag) {
-        final ArrayList<String> item_list = new ArrayList<String>();
+        final ArrayList<String> item_list = new ArrayList<>();
 
         System.out.println("Going to fetch " + tag);
         final ProgressDialog progressDialog = new ProgressDialog(this);

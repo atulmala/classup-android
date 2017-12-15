@@ -14,8 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -48,7 +46,7 @@ public class SelectStudent extends AppCompatActivity {
         setContentView(R.layout.activity_select_student);
         this.setTitle("Select Student(s)");
 
-        final ArrayList<AttendanceListSource> student_list = new ArrayList<AttendanceListSource>();
+        final ArrayList<AttendanceListSource> student_list = new ArrayList<>();
 
         final String server_ip = MiscFunctions.getInstance().getServerIP(this);
         final String school_id = SessionManager.getInstance().getSchool_id();

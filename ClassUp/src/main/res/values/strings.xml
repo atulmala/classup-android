@@ -160,4 +160,6 @@
     <string name="period">Period:</string>
     <string name="group_incharge">Group Incharge:</string>
     <string name="sent_to">Sent to:</string>
+    <string name="please_select_a_category">Please Select a Category:</string>
+    <string name="compose_message_max_200_characters">Compose Message (Max 200 characters):</string>
 </resources>

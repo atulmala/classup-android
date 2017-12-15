@@ -64,7 +64,7 @@ public class ShowExamResults extends AppCompatActivity {
         final ArrayList<BarEntry> entries = new ArrayList<>();
         final BarDataSet dataset = new BarDataSet(entries, "");
         dataset.setColors(ColorTemplate.COLORFUL_COLORS);
-        final ArrayList<String> labels = new ArrayList<String>();
+        final ArrayList<String> labels = new ArrayList<>();
 
 
         // show the name of student on the top
@@ -114,7 +114,7 @@ public class ShowExamResults extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        final ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
+        final ArrayList<TableRow> tableRows = new ArrayList<>();
         final Context context = getApplicationContext();
         final Intent intent = new Intent(this.getApplicationContext(), ShowExamList.class);
         intent.putExtra("student_id", getIntent().getStringExtra("student_id"));

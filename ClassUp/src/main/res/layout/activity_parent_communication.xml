@@ -20,7 +20,7 @@
             android:layout_marginBottom="-10dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:text="Please Select a Category:"
+            android:text="@string/please_select_a_category"
             android:textSize="20sp" />
 
         <NumberPicker
@@ -43,7 +43,7 @@
 
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:text="Compose Message (Max 200 characters):"
+            android:text="@string/compose_message_max_200_characters"
             android:textSize="20sp" />
 
         <com.classup.ActionEditText

@@ -2,8 +2,8 @@ package com.classup;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -52,7 +52,7 @@ public class TestListParent extends AppCompatActivity {
         final Context c = this;
         server_ip = MiscFunctions.getInstance().getServerIP(c);
 
-        final ArrayList<TestListSource> test_list = new ArrayList<TestListSource>();
+        final ArrayList<TestListSource> test_list = new ArrayList<>();
         ListView listView = (ListView)findViewById(R.id.p_pending_test_list);
 
         final TestListParentAdapter adapter = new TestListParentAdapter(this, test_list);

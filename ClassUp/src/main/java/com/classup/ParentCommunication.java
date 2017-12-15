@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.NumberPicker;
@@ -42,7 +43,7 @@ public class ParentCommunication extends AppCompatActivity {
         // get the id and name of the student
         student_id = getIntent().getStringExtra("student_id");
         student_name = getIntent().getStringExtra("student_name");
-        cat_picker = (NumberPicker)findViewById(R.id.pick_comm_category);
+        cat_picker = findViewById(R.id.pick_comm_category);
 
         String category_url =
                 MiscFunctions.getInstance().getServerIP(getApplicationContext()) +
@@ -68,9 +69,9 @@ public class ParentCommunication extends AppCompatActivity {
     }
 
     public void sendParentMessage(View view)    {
-        final String tag = "SubmitParentsCommunication";
+        final String tag = "SubmitParentsComm";
         final String[] category_list = cat_picker.getDisplayedValues();
-        ActionEditText editText = (ActionEditText)findViewById(R.id.txt_parent_message_content);
+        ActionEditText editText = findViewById(R.id.txt_parent_message_content);
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editText.setHorizontallyScrolling(false);
 
@@ -78,63 +79,73 @@ public class ParentCommunication extends AppCompatActivity {
         //editText.setMaxLines(Integer.MAX_VALUE);
         String communication_text = editText.getText().toString();
         if (communication_text.equals(""))    {
-            Toast.makeText(getApplicationContext(), "Message is empty!",
-                    Toast.LENGTH_SHORT).show();
-
+            Toast toast = Toast.makeText(getApplicationContext(), "Message is empty!",
+                    Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         } else {
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("communication_text", communication_text);
-                jsonObject.put("student_id", student_id);
-                jsonObject.put("category", category_list[cat_picker.getValue()]);
-                System.out.println(jsonObject);
+            if (communication_text.length() > 200)  {
+                String message = "Message is longer than 200 characters. " +
+                    "Please limit to 200 characters";
+                Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
-            catch (JSONException je)  {
-                System.out.println("unable to create json for subjects to be deleted");
-                je.printStackTrace();
-            } catch (ArrayIndexOutOfBoundsException ae) {
-                System.out.println("array out of bounds exception");
-                ae.printStackTrace();
-            }
-            String url =
+            else {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("communication_text", communication_text);
+                    jsonObject.put("student_id", student_id);
+                    jsonObject.put("category", category_list[cat_picker.getValue()]);
+                    System.out.println(jsonObject);
+                } catch (JSONException je) {
+                    System.out.println("unable to create json for subjects to be deleted");
+                    je.printStackTrace();
+                } catch (ArrayIndexOutOfBoundsException ae) {
+                    System.out.println("array out of bounds exception");
+                    ae.printStackTrace();
+                }
+                String url =
                     MiscFunctions.getInstance().getServerIP(getApplicationContext()) +
-                    "/parents/submit_parents_communication/";
+                        "/parents/submit_parents_communication/";
 
-            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                     url, jsonObject,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d(tag, response.toString());
-
                         }
                     }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d(tag, "Error: " + error.getMessage());
-                    if (error instanceof TimeoutError ||
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(tag, "Error: " + error.getMessage());
+                        if (error instanceof TimeoutError ||
                             error instanceof NoConnectionError) {
-                        Toast.makeText(getApplicationContext(),
+                            Toast.makeText(getApplicationContext(),
                                 "Slow network connection or No internet connectivity",
                                 Toast.LENGTH_LONG).show();
-                    }  else if (error instanceof ServerError) {
-                        Toast.makeText(getApplicationContext(),
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(getApplicationContext(),
                                 "Slow network connection or No internet connectivity",
                                 Toast.LENGTH_LONG).show();
-                    } else if (error instanceof NetworkError) {
-                        Toast.makeText(getApplicationContext(),
+                        } else if (error instanceof NetworkError) {
+                            Toast.makeText(getApplicationContext(),
                                 "Slow network connection or No internet connectivity",
                                 Toast.LENGTH_LONG).show();
-                    } else if (error instanceof ParseError) {
-                        //TODO
+                        } else if (error instanceof ParseError) {
+                            //TODO
+                        }
                     }
-                }
-            });
-            com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
-            Toast.makeText(getApplicationContext(),
+                });
+                com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
+                Toast toast = Toast.makeText(getApplicationContext(),
                     "Your communication has been sent. If needed, school authorities will " +
-                            "contact you.", Toast.LENGTH_SHORT).show();
+                        "contact you.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
             // 12/09/17 - Now we are building the custom
             // Analysis via AWS
             try {
@@ -167,7 +178,7 @@ public class ParentCommunication extends AppCompatActivity {
     }
     public void setupPicker(final NumberPicker picker, String url,
                             final String item_to_extract, final String tag) {
-        final ArrayList<String> item_list = new ArrayList<String>();
+        final ArrayList<String> item_list = new ArrayList<>();
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");

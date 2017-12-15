@@ -70,7 +70,7 @@ public class MarksEntry extends AppCompatActivity {
             actionBar.setTitle(title);
         }
 
-        final ArrayList<MarksEntryListSource> marks_list = new ArrayList<MarksEntryListSource>();
+        final ArrayList<MarksEntryListSource> marks_list = new ArrayList<>();
         final ListView listView = (ListView) findViewById(R.id.marks_entry_list);
         adapter = new MarksEntryListAdapter(this, marks_list, grade_based, test_type);
 

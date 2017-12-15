@@ -53,7 +53,7 @@ public class PendingTestsActivityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         final Context c = this.getContext();
 
-        final ArrayList<TestListSource> pending_test_list = new ArrayList<TestListSource>();
+        final ArrayList<TestListSource> pending_test_list = new ArrayList<>();
         ListView listView = getActivity().findViewById(R.id.pending_test_list);
 
         final PendingTestListAdapter adapter =

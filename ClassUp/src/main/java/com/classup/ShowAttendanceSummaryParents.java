@@ -104,7 +104,7 @@ public class ShowAttendanceSummaryParents extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        final ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
+        final ArrayList<TableRow> tableRows = new ArrayList<>();
         String tag = "AttendanceSummaryStudent";
         String url =  MiscFunctions.getInstance().getServerIP(getApplicationContext()) +
                 "/parents/retrieve_stu_att_summary/?student_id=" +

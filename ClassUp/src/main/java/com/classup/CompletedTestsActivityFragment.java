@@ -66,7 +66,7 @@ public class CompletedTestsActivityFragment extends Fragment {
         final String url =  server_ip + "/academics/completed_test_list/" +
                 logged_in_user + "/?format=json";
 
-        final ArrayList<TestListSource> completed_test_list = new ArrayList<TestListSource>();
+        final ArrayList<TestListSource> completed_test_list = new ArrayList<>();
         ListView listView = (ListView)getActivity().findViewById(R.id.completed_test_list);
 
         final CompletedTestListAdapter adapter = new CompletedTestListAdapter(getActivity(),

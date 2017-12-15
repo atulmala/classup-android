@@ -62,7 +62,7 @@ public class SetSubjects extends AppCompatActivity {
             System.out.println("flopped in creating analytics Set Subjects");
         }
 
-        final ArrayList<SubjectListSource> subject_list = new ArrayList<SubjectListSource>();
+        final ArrayList<SubjectListSource> subject_list = new ArrayList<>();
 
         // retrieve the list of subjects already set for this teacher. Those subjects will be
         // shown checked in the list
@@ -90,7 +90,7 @@ public class SetSubjects extends AppCompatActivity {
         String subjectUrl =  server_ip + "/teachers/teacher_subject_list/" +
                 logged_in_user + "/?format=json";
         final String tag = "Retrieve_Subjects_For_LoggedinUser";
-        final ArrayList<String> already_set_subjects = new ArrayList<String>();
+        final ArrayList<String> already_set_subjects = new ArrayList<>();
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);

@@ -37,7 +37,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
     private Activity activity;
     private List<AttendanceListSource> roll_no_and_name_list;
 
-    private static List<String> absentee_list = new ArrayList<String>();
+    private static List<String> absentee_list = new ArrayList<>();
 
     // a list to hold the student who were absent earlier but now marked as present
     private static List<String> correction_list = new ArrayList<>();

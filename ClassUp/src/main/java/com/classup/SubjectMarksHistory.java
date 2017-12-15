@@ -109,7 +109,7 @@ public class SubjectMarksHistory extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        final ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
+        final ArrayList<TableRow> tableRows = new ArrayList<>();
         String tag = "SubjectMarksHistory";
         String url =  MiscFunctions.getInstance().getServerIP(getApplicationContext()) +
                 "/parents/retrieve_stu_sub_marks_history/" + getIntent().getStringExtra("subject")

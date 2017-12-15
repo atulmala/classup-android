@@ -51,7 +51,7 @@ public class TakeBusAttendance extends AppCompatActivity {
 
 
 
-    final ArrayList<AttendanceListSource> student_list = new ArrayList<AttendanceListSource>();
+    final ArrayList<AttendanceListSource> student_list = new ArrayList<>();
     private ArrayList<String> stop_list = new ArrayList<>();
     final ArrayList<String> current_absent_students = new ArrayList<>();
     final ArrayList<String> already_absent_students = new ArrayList<>();

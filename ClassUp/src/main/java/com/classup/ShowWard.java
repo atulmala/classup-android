@@ -52,9 +52,9 @@ public class ShowWard extends AppCompatActivity {
 
         // get the list of wards for this parent
         String tag = "ParentsMenu";
-        final ArrayList<AttendanceListSource> ward_list = new ArrayList<AttendanceListSource>();
-        final ArrayList<String> ward_name = new ArrayList<String>();
-        final ArrayList<String> ward_id = new ArrayList<String>();
+        final ArrayList<AttendanceListSource> ward_list = new ArrayList<>();
+        final ArrayList<String> ward_name = new ArrayList<>();
+        final ArrayList<String> ward_id = new ArrayList<>();
 
         final ArrayAdapter adapter = new ArrayAdapter(this, R.layout.ward_list_view, ward_name);
         ListView listView = (ListView)findViewById(R.id.ward_list);

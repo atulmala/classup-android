@@ -36,7 +36,7 @@ public class SelectStudent1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_student1);
 
-        final ArrayList<AttendanceListSource> student_list = new ArrayList<AttendanceListSource>();
+        final ArrayList<AttendanceListSource> student_list = new ArrayList<>();
 
         final String server_ip = MiscFunctions.getInstance().getServerIP(this);
         final String school_id = SessionManager.getInstance().getSchool_id();
