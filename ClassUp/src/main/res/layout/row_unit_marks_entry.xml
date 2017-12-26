@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/marks_entry_name" />
 
     <TextView
-        android:id="@+id/lbl_marks_or_grade"
+        android:id="@+id/lbl_marks_prac"
         android:layout_width="85dp"
         android:layout_height="33dp"
         android:text="@string/marks_grade"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
     <EditText
-        android:id="@+id/marks_entry_marks_or_grade"
+        android:id="@+id/prac_marks"
         android:layout_width="74dp"
         android:layout_height="43dp"
 
@@ -89,7 +89,7 @@
         android:inputType="textCapCharacters|numberDecimal"
         android:text="@string/student_name"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@+id/lbl_marks_or_grade"
+        app:layout_constraintLeft_toRightOf="@+id/lbl_marks_prac"
         app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
     <CheckBox
@@ -99,7 +99,7 @@
         android:text="@string/txt_absent"
         android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/parent_name"
-        app:layout_constraintLeft_toRightOf="@+id/marks_entry_marks_or_grade"
+        app:layout_constraintLeft_toRightOf="@+id/prac_marks"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"/>
 </android.support.constraint.ConstraintLayout>

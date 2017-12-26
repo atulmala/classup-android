@@ -16,9 +16,13 @@ public class MarksEntryListSource {
     private String notebook_submission_marks;
     private String subject_enrichment_marks;
 
+    // 24/12/2017 for higher classes (XI & XII) term tests
+    private String prac_marks;
+
     public MarksEntryListSource(String id, String roll_no, String full_name, String parent,
                                 String marks, String grade, String periodic_test_marks,
-                                String notebook_submission_marks, String subject_enrichment_marks) {
+                                String notebook_submission_marks, String subject_enrichment_marks,
+                                String prac_marks) {
         this.id = id;
         this.roll_no = roll_no;
         this.full_name = full_name;
@@ -28,6 +32,7 @@ public class MarksEntryListSource {
         this.periodic_test_marks = periodic_test_marks;
         this.notebook_submission_marks = notebook_submission_marks;
         this.subject_enrichment_marks = subject_enrichment_marks;
+        this.prac_marks = prac_marks;
     }
 
     public String getId() {
@@ -84,5 +89,13 @@ public class MarksEntryListSource {
 
     public String getSubject_enrichment_marks() {
         return subject_enrichment_marks;
+    }
+
+    public String getPrac_marks() {
+        return prac_marks;
+    }
+
+    public void setPrac_marks(String prac_marks) {
+        this.prac_marks = prac_marks;
     }
 }

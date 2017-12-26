@@ -182,7 +182,6 @@ public class  TeacherMenu extends AppCompatActivity {
     }
 
 
-
     public void commCenter (View view) {
         Intent intent = new Intent(this, CommunicationCenter.class);
         startActivity (intent);
@@ -225,6 +224,7 @@ public class  TeacherMenu extends AppCompatActivity {
         switch (id) {
             case 0:
                 SessionManager.getInstance().logout();
+                finishAndRemoveTask ();
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 finish();

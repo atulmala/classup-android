@@ -171,7 +171,8 @@ public class AddTeacher extends AppCompatActivity {
                                                         Toast toast =
                                                                 Toast.makeText(context, message,
                                                                         Toast.LENGTH_LONG);
-                                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast.setGravity(Gravity.CENTER,
+                                                            0, 0);
                                                         toast.show();
                                                         // 12/09/17 - Now we are building the custom
                                                         // Analysis via AWS
@@ -201,7 +202,8 @@ public class AddTeacher extends AppCompatActivity {
                                                     } else {
                                                         Toast toast = Toast.makeText(context,
                                                                 message, Toast.LENGTH_LONG);
-                                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast.setGravity(Gravity.CENTER,
+                                                            0, 0);
                                                         toast.show();
                                                         startActivity(new Intent
                                                                 ("com.classup.SchoolAdmin").
@@ -227,7 +229,8 @@ public class AddTeacher extends AppCompatActivity {
                                         VolleyLog.d(tag, "Error: " + error.getMessage());
                                     }
                                 });
-                        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy
+                            (0, -1,
                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         com.classup.AppController.getInstance().
                                 addToRequestQueue(jsonObjReq, tag);

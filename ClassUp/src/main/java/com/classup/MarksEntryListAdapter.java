@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,29 +26,35 @@ import java.util.List;
  */
 public class MarksEntryListAdapter extends BaseAdapter {
     private Activity activity;
-    private LayoutInflater mLayoutInflater = null;
     private List<MarksEntryListSource> marks_entry_list;
     private Boolean whether_grade_based;
     private String test_type;
+    private String whether_higher_class;
+    private String subject;
 
     public String max_marks = "50";
     public String pass_marks = "10";
+    List<String> prac_subjects = Arrays.asList("Biology", "Physics", "Chemistry",
+        "Accountancy", "Business Studies", "Economics",
+        "Information Practices", "Computer Science", "Painting",
+        "Physical Education");
+
 
     public List<MarksEntryListSource> getMarks_entry_list() {
         return marks_entry_list;
     }
 
     public MarksEntryListAdapter(Activity activity, List<MarksEntryListSource> list,
-                                 Boolean whether_grade_based, String test_type) {
+                                 Boolean whether_grade_based, String test_type,
+                                 String whether_higher_class, String subject) {
         super();
         this.activity = activity;
 
         this.marks_entry_list = list;
         this.whether_grade_based = whether_grade_based;
         this.test_type = test_type;
-
-        mLayoutInflater = (LayoutInflater) activity
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.whether_higher_class = whether_higher_class;
+        this.subject = subject;
     }
 
    @Override
@@ -72,7 +80,10 @@ public class MarksEntryListAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (test_type.equals("term") || test_type.equals("Term"))
-                view = inflater.inflate(R.layout.row_term_marks_entry, null);
+                if (whether_higher_class.equals("true"))
+                    view = inflater.inflate(R.layout.row_marks_entry_xi_xii, null);
+                else
+                    view = inflater.inflate(R.layout.row_term_marks_entry, null);
             else
                 view = inflater.inflate(R.layout.row_unit_marks_entry, null);
             holder = new ViewHolder(view);
@@ -88,12 +99,21 @@ public class MarksEntryListAdapter extends BaseAdapter {
             else {
                 holder.term_marks.setInputType
                         (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                holder.sub_enrich_marks.setInputType
-                        (InputType.TYPE_CLASS_NUMBER| InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                holder.notebook_marks.setInputType
-                        (InputType.TYPE_CLASS_NUMBER| InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                holder.sub_enrich_marks.setInputType
-                        (InputType.TYPE_CLASS_NUMBER| InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                if (!whether_higher_class.equals("true")) {
+                    holder.sub_enrich_marks.setInputType
+                        (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    holder.notebook_marks.setInputType
+                        (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    holder.sub_enrich_marks.setInputType
+                        (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                }
+                else    {
+                    holder.prac_marks.setInputType
+                        (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    if (!prac_subjects.contains(subject))   {
+                        holder.prac_marks.setEnabled(false);
+                    }
+                }
             }
         }
         else
@@ -139,22 +159,33 @@ public class MarksEntryListAdapter extends BaseAdapter {
         else {
             holder.term_marks.setText(mg);
 
-            String pm = marks_entry_list.get(position).getPeriodic_test_marks();
-            if (pm.equals("-5000.0"))
-                pm = "";
-            holder.periodic_marks.setText(pm);
+            if (!whether_higher_class.equals("true")) {
+                String pm = marks_entry_list.get(position).getPeriodic_test_marks();
+                if (pm.equals("-5000.0"))
+                    pm = "";
+                holder.periodic_marks.setText(pm);
 
-            String nb = marks_entry_list.get(position).getNotebook_submission_marks();
-            if (nb.equals("-5000.0"))
-                nb = "";
-            holder.notebook_marks.setText(nb);
+                String nb = marks_entry_list.get(position).getNotebook_submission_marks();
+                if (nb.equals("-5000.0"))
+                    nb = "";
+                holder.notebook_marks.setText(nb);
 
-            String se = marks_entry_list.get(position).getSubject_enrichment_marks();
-            if (se.equals("-5000.0"))
-                se = "";
-            holder.sub_enrich_marks.setText(se);
+                String se = marks_entry_list.get(position).getSubject_enrichment_marks();
+                if (se.equals("-5000.0"))
+                    se = "";
+                holder.sub_enrich_marks.setText(se);
+            }
+            // 24/12/2017 - for higher class we need only practical marks
+            else    {
+                String prac_marks = marks_entry_list.get(position).getPrac_marks();
+                if (prac_marks.equals("-5000.0"))
+                    prac_marks = "";
+                holder.prac_marks.setText(prac_marks);
+                if (!prac_subjects.contains(subject))   {
+                    holder.prac_marks.setText("N/A");
+                }
+            }
         }
-
 
         // if the marks obtained are less than passing marks they need to be highligted
         if (!whether_grade_based)   {
@@ -320,208 +351,277 @@ public class MarksEntryListAdapter extends BaseAdapter {
             });
         }
         else    {
-            holder.term_marks.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if (!whether_higher_class.equals("true")) {
+                holder.term_marks.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    switch (holder.term_marks.getText().toString()) {
-                        case "":
-                            marks_entry_list.get(position).setMarks("-5000.00");
-                            break;
-                        case "ABS":
-                            marks_entry_list.get(position).setMarks("-1000.00");
-                            break;
-                        default:
-                            float marks = 0;
-                            if (holder.term_marks.getText().toString().equals(".")) {
-                                marks = 0;
-                            } else {
-                                marks = Float.parseFloat(holder.
-                                        term_marks.getText().toString());
-                            }
-                            float mm = Float.parseFloat(max_marks.toString());
-                            float pm = Float.parseFloat(pass_marks.toString());
-                            if (marks > mm) {
-                                String message = "Marks entered: ";
-                                message += holder.term_marks.getText().toString();
-                                message += " for " + holder.full_name.getText() +
-                                        " are more than ";
-                                message += "Max marks: " + max_marks.toString();
-                                Toast toast = Toast.makeText(activity, message,
-                                        Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
-                                holder.term_marks.setText("");
-                            }
-
-                            if (marks < pm) {
-                                //holder.term_marks.setTextColor(Color.RED);
-                            } else
-                                holder.term_marks.setBackgroundColor(Color.WHITE);
-
-                            marks_entry_list.get(position).
-                                    setMarks(holder.term_marks.getText().toString());
-                            break;
                     }
-                }
-                @Override
-                public void afterTextChanged(Editable editable) {
 
-                }
-            });
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        switch (holder.term_marks.getText().toString()) {
+                            case "":
+                                marks_entry_list.get(position).setMarks("-5000.00");
+                                break;
+                            case "ABS":
+                                marks_entry_list.get(position).setMarks("-1000.00");
+                                break;
+                            default:
+                                float marks = 0;
+                                if (holder.term_marks.getText().toString().equals(".")) {
+                                    marks = 0;
+                                } else {
+                                    marks = Float.parseFloat(holder.
+                                        term_marks.getText().toString());
+                                }
+                                float mm = Float.parseFloat(max_marks.toString());
+                                float pm = Float.parseFloat(pass_marks.toString());
+                                if (marks > mm) {
+                                    String message = "Marks entered: ";
+                                    message += holder.term_marks.getText().toString();
+                                    message += " for " + holder.full_name.getText() +
+                                        " are more than ";
+                                    message += "Max marks: " + max_marks.toString();
+                                    Toast toast = Toast.makeText(activity, message,
+                                        Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    holder.term_marks.setText("");
+                                }
 
-            holder.periodic_marks.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                if (marks < pm) {
+                                    //holder.term_marks.setTextColor(Color.RED);
+                                } else
+                                    holder.term_marks.setBackgroundColor(Color.WHITE);
 
-                }
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    switch (holder.periodic_marks.getText().toString()) {
-                        case "":
-                            //marks_entry_list.get(position).setMarks("-5000.00");
-                            marks_entry_list.get(position).setPeriodic_test_marks("-5000.0");
-                            break;
-                        case "ABS":
-                            marks_entry_list.get(position).setMarks("-1000.00");
-                            break;
-                        default:
-                            float marks = 0;
-                            if (holder.periodic_marks.getText().toString().equals(".")) {
-                                marks = 0;
-                            } else {
-                                marks = Float.parseFloat(holder.
+                                marks_entry_list.get(position).
+                                    setMarks(holder.term_marks.getText().toString());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                holder.periodic_marks.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        switch (holder.periodic_marks.getText().toString()) {
+                            case "":
+                                //marks_entry_list.get(position).setMarks("-5000.00");
+                                marks_entry_list.get(position).setPeriodic_test_marks("-5000.0");
+                                break;
+                            case "ABS":
+                                marks_entry_list.get(position).setMarks("-1000.00");
+                                break;
+                            default:
+                                float marks = 0;
+                                if (holder.periodic_marks.getText().toString().equals(".")) {
+                                    marks = 0;
+                                } else {
+                                    marks = Float.parseFloat(holder.
                                         periodic_marks.getText().toString());
-                            }
-                            float mm = 10;
+                                }
+                                float mm = 10;
 
-                            if (marks > mm) {
-                                String message = "Marks entered: ";
-                                message += holder.periodic_marks.getText().toString();
-                                message += " for " + holder.full_name.getText() +
+                                if (marks > mm) {
+                                    String message = "Marks entered: ";
+                                    message += holder.periodic_marks.getText().toString();
+                                    message += " for " + holder.full_name.getText() +
                                         " are more than Max marks: 10";
 
-                                Toast toast = Toast.makeText(activity, message,
+                                    Toast toast = Toast.makeText(activity, message,
                                         Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
-                                holder.periodic_marks.setText("");
-                            }
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    holder.periodic_marks.setText("");
+                                }
 
-                            marks_entry_list.get(position).setPeriodic_test_marks
+                                marks_entry_list.get(position).setPeriodic_test_marks
                                     (holder.periodic_marks.getText().toString());
-                            break;
+                                break;
+                        }
                     }
-                }
-                @Override
-                public void afterTextChanged(Editable editable) {
 
-                }
-            });
+                    @Override
+                    public void afterTextChanged(Editable editable) {
 
-            holder.notebook_marks.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+                });
 
-                }
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    switch (holder.notebook_marks.getText().toString()) {
-                        case "":
-                            //marks_entry_list.get(position).setMarks("-5000.00");
-                            marks_entry_list.get(position).setNotebook_submission_marks("-5000.0");
-                            break;
-                        case "ABS":
-                            marks_entry_list.get(position).setMarks("-1000.00");
-                            break;
-                        default:
-                            float marks = 0;
-                            if (holder.notebook_marks.getText().toString().equals(".")) {
-                                marks = 0;
-                            } else {
-                                marks = Float.parseFloat(holder.
+                holder.notebook_marks.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        switch (holder.notebook_marks.getText().toString()) {
+                            case "":
+                                //marks_entry_list.get(position).setMarks("-5000.00");
+                                marks_entry_list.get(position).
+                                    setNotebook_submission_marks("-5000.0");
+                                break;
+                            case "ABS":
+                                marks_entry_list.get(position).setMarks("-1000.00");
+                                break;
+                            default:
+                                float marks = 0;
+                                if (holder.notebook_marks.getText().toString().equals(".")) {
+                                    marks = 0;
+                                } else {
+                                    marks = Float.parseFloat(holder.
                                         notebook_marks.getText().toString());
-                            }
-                            float mm = 5;
+                                }
+                                float mm = 5;
 
-                            if (marks > mm) {
-                                String message = "Marks entered: ";
-                                message += holder.notebook_marks.getText().toString();
-                                message += " for " + holder.full_name.getText() +
+                                if (marks > mm) {
+                                    String message = "Marks entered: ";
+                                    message += holder.notebook_marks.getText().toString();
+                                    message += " for " + holder.full_name.getText() +
                                         " are more than Max marks: 5";
 
-                                Toast toast = Toast.makeText(activity, message,
+                                    Toast toast = Toast.makeText(activity, message,
                                         Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
-                                holder.notebook_marks.setText("");
-                            }
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    holder.notebook_marks.setText("");
+                                }
 
-                            marks_entry_list.get(position).setNotebook_submission_marks
+                                marks_entry_list.get(position).setNotebook_submission_marks
                                     (holder.notebook_marks.getText().toString());
-                            break;
+                                break;
+                        }
                     }
-                }
-                @Override
-                public void afterTextChanged(Editable editable) {
 
-                }
-            });
+                    @Override
+                    public void afterTextChanged(Editable editable) {
 
-            holder.sub_enrich_marks.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+                });
 
-                }
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    switch (holder.sub_enrich_marks.getText().toString()) {
-                        case "":
-                            //marks_entry_list.get(position).setMarks("-5000.00");
-                            marks_entry_list.get(position).setSubject_enrichment_marks("-5000.0");
-                            break;
-                        case "ABS":
-                            marks_entry_list.get(position).setMarks("-1000.00");
-                            break;
-                        default:
-                            float marks = 0;
-                            if (holder.sub_enrich_marks.getText().toString().equals(".")) {
-                                marks = 0;
-                            } else {
-                                marks = Float.parseFloat(holder.
+                holder.sub_enrich_marks.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        switch (holder.sub_enrich_marks.getText().toString()) {
+                            case "":
+                                //marks_entry_list.get(position).setMarks("-5000.00");
+                                marks_entry_list.get(position).
+                                    setSubject_enrichment_marks("-5000.0");
+                                break;
+                            case "ABS":
+                                marks_entry_list.get(position).setMarks("-1000.00");
+                                break;
+                            default:
+                                float marks = 0;
+                                if (holder.sub_enrich_marks.getText().toString().equals(".")) {
+                                    marks = 0;
+                                } else {
+                                    marks = Float.parseFloat(holder.
                                         sub_enrich_marks.getText().toString());
-                            }
-                            float mm = 5;
+                                }
+                                float mm = 5;
 
-                            if (marks > mm) {
-                                String message = "Marks entered: ";
-                                message += holder.sub_enrich_marks.getText().toString();
-                                message += " for " + holder.full_name.getText() +
+                                if (marks > mm) {
+                                    String message = "Marks entered: ";
+                                    message += holder.sub_enrich_marks.getText().toString();
+                                    message += " for " + holder.full_name.getText() +
                                         " are more than Max marks: 5";
 
-                                Toast toast = Toast.makeText(activity, message,
+                                    Toast toast = Toast.makeText(activity, message,
                                         Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
-                                holder.sub_enrich_marks.setText("");
-                            }
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    holder.sub_enrich_marks.setText("");
+                                }
 
-                            marks_entry_list.get(position).setSubject_enrichment_marks
+                                marks_entry_list.get(position).setSubject_enrichment_marks
                                     (holder.sub_enrich_marks.getText().toString());
-                            break;
+                                break;
+                        }
                     }
-                }
-                @Override
-                public void afterTextChanged(Editable editable) {
 
-                }
-            });
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+            }
+            else    {
+                holder.term_marks.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        switch (holder.term_marks.getText().toString()) {
+                            case "":
+                                marks_entry_list.get(position).setMarks("-5000.00");
+                                break;
+                            case "ABS":
+                                marks_entry_list.get(position).setMarks("-1000.00");
+                                break;
+                            default:
+                                marks_entry_list.get(position).
+                                    setMarks(holder.term_marks.getText().toString());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                holder.prac_marks.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+                    {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        switch (holder.prac_marks.getText().toString()) {
+                            case "":
+                                //marks_entry_list.get(position).setMarks("-5000.00");
+                                marks_entry_list.get(position).setPrac_marks("-5000.0");
+                                break;
+                            case "ABS":
+                                marks_entry_list.get(position).setMarks("-1000.00");
+                                break;
+                            default:
+                                marks_entry_list.get(position).setPrac_marks
+                                    (holder.prac_marks.getText().toString());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+            }
         }
-
         return view;
     }
 
@@ -534,6 +634,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
         EditText periodic_marks;
         EditText notebook_marks;
         EditText sub_enrich_marks;
+        EditText prac_marks;
         CheckBox whether_absent;
         static int i = 0;
 
@@ -541,11 +642,13 @@ public class MarksEntryListAdapter extends BaseAdapter {
             this.roll_no = view.findViewById(R.id.marks_entry_roll_no);
             this.full_name = view.findViewById(R.id.marks_entry_name);
             this.parent_name = view.findViewById(R.id.parent_name);
-            this.marks_or_grade = view.findViewById(R.id.marks_entry_marks_or_grade);
+            this.marks_or_grade = view.findViewById(R.id.prac_marks);
             this.term_marks = view.findViewById(R.id.term_marks);
             this.periodic_marks = view.findViewById(R.id.pa_marks);
             this.notebook_marks = view.findViewById(R.id.notebook_marks);
             this.sub_enrich_marks = view.findViewById(R.id.sub_enrich_marks);
+            this.prac_marks = view.findViewById (R.id.prac_marks);
+
 
             this.whether_absent = view.findViewById(R.id.absence_switch);
         }

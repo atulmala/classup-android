@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MarksEntry extends AppCompatActivity {
@@ -48,6 +49,13 @@ public class MarksEntry extends AppCompatActivity {
 
     Boolean grade_based;
     String test_type;
+    String whether_higher_class;
+    String subject;
+
+    List<String> prac_subjects = Arrays.asList("Biology", "Physics", "Chemistry",
+        "Accountancy", "Business Studies", "Economics",
+        "Information Practices", "Computer Science", "Painting",
+        "Physical Education");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,8 @@ public class MarksEntry extends AppCompatActivity {
         final Intent intent = this.getIntent();
         grade_based = intent.getBooleanExtra("grade_based", false);
         test_type = intent.getStringExtra("test_type");
+        whether_higher_class = intent.getStringExtra("higher_class");
+        subject = intent.getStringExtra("subject");
 
         final Context c = this.getApplicationContext();
 
@@ -66,13 +76,15 @@ public class MarksEntry extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
             String title = "Marks Entry " + intent.getStringExtra("class") + "-" +
-                intent.getStringExtra("section") + " " + intent.getStringExtra("subject");
+                intent.getStringExtra("section") + " " +
+                subject;
             actionBar.setTitle(title);
         }
 
         final ArrayList<MarksEntryListSource> marks_list = new ArrayList<>();
-        final ListView listView = (ListView) findViewById(R.id.marks_entry_list);
-        adapter = new MarksEntryListAdapter(this, marks_list, grade_based, test_type);
+        final ListView listView = findViewById(R.id.marks_entry_list);
+        adapter = new MarksEntryListAdapter(this, marks_list, grade_based, test_type,
+            whether_higher_class, subject);
 
         // get the list of students, roll no and current marks/grade
         server_ip = MiscFunctions.getInstance().getServerIP(c);
@@ -108,9 +120,13 @@ public class MarksEntry extends AppCompatActivity {
                             String notebook_sub_marks = jo.getString("notebook_marks");
                             String sub_enrich_marks = jo.getString("sub_enrich_marks");
 
+                            String prac_marks = "0.0";
+                            if (whether_higher_class.equals("true"))
+                                prac_marks = jo.getString("prac_marks");
+
                             marks_list.add(new MarksEntryListSource(id, roll_no,
                                 full_name, parent, marks, grade, pt_marks,
-                                notebook_sub_marks, sub_enrich_marks));
+                                notebook_sub_marks, sub_enrich_marks, prac_marks));
                             adapter.notifyDataSetChanged();
                         } catch (JSONException je) {
                             System.out.println("Ran into JSON exception " +
@@ -245,7 +261,7 @@ public class MarksEntry extends AppCompatActivity {
     void saveMarks(MarksEntryListAdapter adapter) {
         Toast toast = Toast.makeText(getApplicationContext(),
             "Saving Marks/Grades...", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
         List<MarksEntryListSource> marks_entry_list = adapter.getMarks_entry_list();
         JSONObject params = new JSONObject();
@@ -255,9 +271,14 @@ public class MarksEntry extends AppCompatActivity {
                     JSONObject params1 = new JSONObject();
                     params1.put("marks", marks_entry_list.get(i).getMarks());
                     params1.put("pa", marks_entry_list.get(i).getPeriodic_test_marks());
-                    params1.put("notebook", marks_entry_list.get(i).getNotebook_submission_marks());
+                    params1.put("notebook", marks_entry_list.get(i).
+                        getNotebook_submission_marks());
                     params1.put("subject_enrich",
                         marks_entry_list.get(i).getSubject_enrichment_marks());
+
+                    // 25/12/2017 practical marks for higher classes
+                    if (whether_higher_class.equals("true"))
+                        params1.put ("prac_marks", marks_entry_list.get(i).getPrac_marks());
                     params.put(marks_entry_list.get(i).getId(), params1);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -289,7 +310,8 @@ public class MarksEntry extends AppCompatActivity {
                             // Analysis via AWS
                             try {
                                 AnalyticsEvent saveMarksEvent = SessionManager.getInstance().
-                                        analytics.getEventClient().createEvent("Saved Marks");
+                                        analytics.getEventClient().
+                                    createEvent("Saved Marks");
                                 saveMarksEvent.addAttribute("user",
                                     SessionManager.getInstance().getLogged_in_user());
                                 SessionManager.getInstance().analytics.getEventClient().
@@ -340,8 +362,7 @@ public class MarksEntry extends AppCompatActivity {
                         marks_entry_list.get(i).getFull_name();
                     Toast toast = Toast.makeText(getApplicationContext(),
                         message, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
-                        | Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.setGravity(Gravity.CENTER , 0, 0);
                     toast.show();
                     good_to_submit = false;
                     break;
@@ -373,13 +394,34 @@ public class MarksEntry extends AppCompatActivity {
                     break;
                 }
 
+                if (prac_subjects.contains(subject))    {
+                    if (marks_entry_list.get(i).getPrac_marks().equals("-5000.0") ||
+                        marks_entry_list.get(i).getPrac_marks().equals("-5000.00")) {
+                        String message = "Please enter Practical Marks for " +
+                            marks_entry_list.get(i).getFull_name();
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                            message, Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
+                            | Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.show();
+                        good_to_submit = false;
+                        break;
+                    }
+                }
+
                 try {
                     JSONObject params1 = new JSONObject();
                     params1.put("marks", marks_entry_list.get(i).getMarks());
                     params1.put("pa", marks_entry_list.get(i).getPeriodic_test_marks());
-                    params1.put("notebook", marks_entry_list.get(i).getNotebook_submission_marks());
+                    params1.put("notebook", marks_entry_list.get(i).
+                        getNotebook_submission_marks());
                     params1.put("subject_enrich",
                         marks_entry_list.get(i).getSubject_enrichment_marks());
+
+                    // 25/12/2017 practical marks for higher classes
+                    if (whether_higher_class.equals("true"))
+                        params1.put ("prac_marks", marks_entry_list.get(i).getPrac_marks());
+
                     params.put(marks_entry_list.get(i).getId(), params1);
                 } catch (JSONException e) {
                     e.printStackTrace();

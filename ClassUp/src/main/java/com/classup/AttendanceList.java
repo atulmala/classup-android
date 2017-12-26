@@ -261,8 +261,6 @@ public class AttendanceList extends AppCompatActivity {
                                                             "while trying make call ");
                                                     e.printStackTrace();
                                                 }
-
-
                                                 progressDialog.hide();
                                                 progressDialog.dismiss();
 

@@ -70,7 +70,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView34" />
 
     <TextView
-        android:id="@+id/lbl_marks_or_grade"
+        android:id="@+id/lbl_marks_prac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
@@ -88,8 +88,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
         android:text="@string/sub_enrich"
-        app:layout_constraintLeft_toLeftOf="@+id/lbl_marks_or_grade"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_marks_or_grade" />
+        app:layout_constraintLeft_toLeftOf="@+id/lbl_marks_prac"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_marks_prac" />
 
     <EditText
         android:id="@+id/sub_enrich_marks"

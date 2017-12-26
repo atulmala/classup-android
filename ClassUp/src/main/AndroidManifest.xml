@@ -206,14 +206,12 @@
             android:label="Select Student">
             <intent-filter>
                 <action android:name="com.classup.ShowWard"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".HWList">
             <intent-filter>
                 <action android:name="com.classup.HWList"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

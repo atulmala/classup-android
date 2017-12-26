@@ -83,6 +83,8 @@ public class CompletedTestsActivityFragment extends Fragment {
                 intent.putExtra("class", completed_test_list.get(position).getThe_class());
                 intent.putExtra("section", completed_test_list.get(position).getSection());
                 intent.putExtra("subject", completed_test_list.get(position).getSubject());
+                intent.putExtra("higher_class",
+                    completed_test_list.get(position).getWhether_higher_class());
 
                 if (completed_test_list.get(position).getMax_marks().equals("Grade Based"))
                     intent.putExtra("grade_based", true);
@@ -113,6 +115,12 @@ public class CompletedTestsActivityFragment extends Fragment {
 
                                 String the_class = jo.getString("the_class");
 
+                                // 24/12/2017 - need to understand whether the test is for higher
+                                // class, ie, XI or XII
+                                String higher_class = "true";
+                                if ((the_class.equals("XI")) || (the_class.equals("XII")))
+                                    higher_class = "fales";
+
                                 String section = jo.getString("section");
                                 String subject = jo.getString("subject");
                                 String max_marks = jo.getString("max_marks");
@@ -138,7 +146,8 @@ public class CompletedTestsActivityFragment extends Fragment {
 
                                 // put all the above details into the adapter
                                 completed_test_list.add(new TestListSource(ddmmyyyy, the_class,
-                                        section, subject, max_marks, id, syllabus, test_type));
+                                    section, subject, max_marks, id,
+                                    syllabus, test_type, higher_class));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +

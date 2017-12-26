@@ -39,10 +39,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class HWList extends AppCompatActivity {
+    final Activity activity = this;
     String tag = "HWList";
     String server_ip;
     String school_id;
-    final Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class HWList extends AppCompatActivity {
         String logged_in_user = SessionManager.getInstance().getLogged_in_user();
 
         final ArrayList<HWListSource> hw_list = new ArrayList<>();
-        ListView listView = (ListView) findViewById(R.id.teacher_hw_list);
+        ListView listView = findViewById(R.id.teacher_hw_list);
         String url1;
         if (getIntent().getStringExtra("sender").equals("ParentApp")) {
             String student_id = getIntent().getStringExtra("student_id");
@@ -207,9 +207,11 @@ public class HWList extends AppCompatActivity {
                                                 Toast toast = Toast.makeText
                                                         (getApplicationContext(), "HW Deleted",
                                                                 Toast.LENGTH_SHORT);
-                                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                                toast.setGravity(Gravity.CENTER,
+                                                    0, 0);
                                                 toast.show();
-                                                startActivity(new Intent("com.classup.TeacherMenu").
+                                                startActivity(new Intent
+                                                    ("com.classup.TeacherMenu").
                                                         setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                                                 Intent.FLAG_ACTIVITY_CLEAR_TASK));
                                             }
@@ -222,7 +224,8 @@ public class HWList extends AppCompatActivity {
                                                         "HW could not be Deleted. " +
                                                                 "Please try again",
                                                         Toast.LENGTH_SHORT);
-                                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                                toast.setGravity(Gravity.CENTER,
+                                                    0, 0);
                                                 toast.show();
                                                 error.printStackTrace();
                                             }
@@ -294,6 +297,8 @@ public class HWList extends AppCompatActivity {
                 case "teacher_menu":
                     Intent intent1 = new Intent(this, TeacherMenu.class);
                     intent1.putExtra("sender", "createHW");
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     System.out.println("intent set to createHW");
                     startActivity(intent1);
                     break;
@@ -304,6 +309,8 @@ public class HWList extends AppCompatActivity {
                     intent2.putExtra("sender", "createHW");
                     intent2.putExtra("student_id", student_id);
                     intent2.putExtra("student_name", student_name);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     System.out.println("intent set to createHW");
                     startActivity(intent2);
                     break;

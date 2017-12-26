@@ -66,12 +66,13 @@ public class PendingTestsActivityFragment extends Fragment {
 
         listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> view, View v, int position, long id) {
-
                 intent.putExtra("test_id", pending_test_list.get(position).getId());
                 intent.putExtra("test_type", pending_test_list.get(position).getTest_type());
                 intent.putExtra("class", pending_test_list.get(position).getThe_class());
                 intent.putExtra("section", pending_test_list.get(position).getSection());
                 intent.putExtra("subject", pending_test_list.get(position).getSubject());
+                intent.putExtra("higher_class",
+                    pending_test_list.get(position).getWhether_higher_class());
 
                 if (pending_test_list.get(position).getMax_marks().equals("Grade Based"))
                     intent.putExtra("grade_based", true);
@@ -200,6 +201,12 @@ public class PendingTestsActivityFragment extends Fragment {
                                 //String date = sdf.format(d);
                                 String the_class = jo.getString("the_class");
 
+                                // 24/12/2017 - need to understand whether the test is for higher
+                                // class, ie, XI or XII
+                                String higher_class = "false";
+                                if ((the_class.equals("XI")) || (the_class.equals("XII")))
+                                    higher_class = "true";
+
                                 String section = jo.getString("section");
                                 String subject = jo.getString("subject");
                                 String max_marks = jo.getString("max_marks");
@@ -228,7 +235,8 @@ public class PendingTestsActivityFragment extends Fragment {
 
                                 // put all the above details into the adapter
                                 pending_test_list.add(new TestListSource(ddmmyyyy, the_class,
-                                        section, subject, max_marks, id, syllabus, test_type));
+                                        section, subject, max_marks, id,
+                                    syllabus, test_type, higher_class));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +

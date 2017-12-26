@@ -30,12 +30,10 @@ public class TestManagerActivity extends FragmentActivity implements ActionBar.T
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-
         // add tabs
         for (String tab_name : tabs)    {
             actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
         }
-
     }
 
     @Override
@@ -86,9 +84,6 @@ public class TestManagerActivity extends FragmentActivity implements ActionBar.T
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }
