@@ -76,6 +76,7 @@ public class PendingTestsActivityFragment extends Fragment {
 
                 if (pending_test_list.get(position).getMax_marks().equals("Grade Based"))
                     intent.putExtra("grade_based", true);
+                else
                     intent.putExtra("grade_based", false);
 
                 startActivity(intent);

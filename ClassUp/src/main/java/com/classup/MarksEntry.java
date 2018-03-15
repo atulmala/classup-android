@@ -53,9 +53,12 @@ public class MarksEntry extends AppCompatActivity {
     String subject;
 
     List<String> prac_subjects = Arrays.asList("Biology", "Physics", "Chemistry",
-        "Accountancy", "Business Studies", "Economics",
-        "Information Practices", "Computer Science", "Painting",
+        "Accountancy", "Business Studies", "Economics", "Fine Arts",
+        "Information Practices", "Informatics Practices", "Computer Science", "Painting",
         "Physical Education");
+
+    List<String> absent_values = Arrays.asList("-1000", "-1000.0", "-1000.00");
+    List<String> null_values = Arrays.asList("-5000", "-5000.0", "-5000.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -393,19 +396,21 @@ public class MarksEntry extends AppCompatActivity {
                     good_to_submit = false;
                     break;
                 }
-
-                if (prac_subjects.contains(subject))    {
-                    if (marks_entry_list.get(i).getPrac_marks().equals("-5000.0") ||
-                        marks_entry_list.get(i).getPrac_marks().equals("-5000.00")) {
-                        String message = "Please enter Practical Marks for " +
-                            marks_entry_list.get(i).getFull_name();
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                            message, Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
-                            | Gravity.CENTER_VERTICAL, 0, 0);
-                        toast.show();
-                        good_to_submit = false;
-                        break;
+                if (whether_higher_class.equals("true")) {
+                    if (prac_subjects.contains(subject)) {
+                        if (!absent_values.contains(marks_entry_list.get(i).getMarks())) {
+                            if (null_values.contains(marks_entry_list.get(i).getPrac_marks())) {
+                                String message = "Please enter Practical Marks for " +
+                                    marks_entry_list.get(i).getFull_name();
+                                Toast toast = Toast.makeText(getApplicationContext(),
+                                    message, Toast.LENGTH_LONG);
+                                toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL
+                                    | Gravity.CENTER_VERTICAL, 0, 0);
+                                toast.show();
+                                good_to_submit = false;
+                                break;
+                            }
+                        }
                     }
                 }
 

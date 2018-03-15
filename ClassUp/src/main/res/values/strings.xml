@@ -163,4 +163,5 @@
     <string name="please_select_a_category">Please Select a Category:</string>
     <string name="compose_message_max_200_characters">Compose Message (Max 200 characters):</string>
     <string name="practical">Practical</string>
+    <string name="circulars">Circulars</string>
 </resources>

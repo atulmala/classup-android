@@ -36,4 +36,10 @@ public class CommunicationCenter extends AppCompatActivity {
         Intent intent = new Intent(this, TeacherMessageRecord.class);
         startActivity(intent);
     }
+
+    public void showCirculars(View view)    {
+        Intent intent = new Intent(this, CommunicationHistory.class);
+        intent.putExtra("coming_from", "teacher");
+        startActivity(intent);
+    }
 }

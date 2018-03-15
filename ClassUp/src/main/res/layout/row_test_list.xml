@@ -13,14 +13,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:textColor="@color/white"/>
+        android:textColor="@color/gold"/>
     <!-- second column class -->
     <TextView
         android:id="@+id/txt_class"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="@color/white"/>
+        android:textColor="@color/gold"/>
     <!-- third column for section -->
     <TextView
         android:id="@+id/txt_section"
@@ -28,19 +28,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:enabled="true"
-        android:textColor="@color/white"/>
+        android:textColor="@color/gold"/>
     <!-- fourth column for subject -->
     <TextView
         android:id="@+id/txt_subject"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:textColor="@color/white"/>
+        android:textColor="@color/gold"/>
     <TextView
         android:id="@+id/txt_marks"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:paddingLeft="10dp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/gold"/>
 </LinearLayout>

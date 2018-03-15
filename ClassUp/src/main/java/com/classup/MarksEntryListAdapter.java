@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,8 +34,8 @@ public class MarksEntryListAdapter extends BaseAdapter {
     public String max_marks = "50";
     public String pass_marks = "10";
     List<String> prac_subjects = Arrays.asList("Biology", "Physics", "Chemistry",
-        "Accountancy", "Business Studies", "Economics",
-        "Information Practices", "Computer Science", "Painting",
+        "Accountancy", "Business Studies", "Economics", "Fine Arts",
+        "Information Practices", "Informatics Practices", "Computer Science", "Painting",
         "Physical Education");
 
 

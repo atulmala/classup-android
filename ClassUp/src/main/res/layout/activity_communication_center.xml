@@ -34,7 +34,22 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_comm_parents"/>
 
     <Button
-        android:id="@+id/btn_comm_history"
+        android:id="@+id/btn_circulars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="showCirculars"
+        android:text="@string/circulars"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_comm_history2"/>
+
+    <Button
+        android:id="@+id/btn_comm_history2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -56,7 +71,7 @@
         android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_comm_history"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_circulars"/>
 
     <Button
         android:id="@+id/btn_arrangements"

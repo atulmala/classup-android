@@ -22,12 +22,13 @@ public class TestManagerActivity extends FragmentActivity implements ActionBar.T
         setContentView(R.layout.activity_test_manager);
 
         // initialization
-        viewPager = (ViewPager)findViewById(R.id.pager);
+        viewPager = findViewById(R.id.pager);
         actionBar = getActionBar();
         testManagerPagerAdapter = new TestManagerPagerAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(testManagerPagerAdapter);
         actionBar.setHomeButtonEnabled(false);
+
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // add tabs

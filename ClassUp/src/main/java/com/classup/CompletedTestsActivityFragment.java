@@ -117,9 +117,9 @@ public class CompletedTestsActivityFragment extends Fragment {
 
                                 // 24/12/2017 - need to understand whether the test is for higher
                                 // class, ie, XI or XII
-                                String higher_class = "true";
+                                String higher_class = "false";
                                 if ((the_class.equals("XI")) || (the_class.equals("XII")))
-                                    higher_class = "fales";
+                                    higher_class = "true";
 
                                 String section = jo.getString("section");
                                 String subject = jo.getString("subject");

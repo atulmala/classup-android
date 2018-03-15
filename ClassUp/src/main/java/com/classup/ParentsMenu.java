@@ -108,6 +108,11 @@ public class ParentsMenu extends AppCompatActivity {
                                                         CommunicationHistory.class);
                                                 intent.putExtra("student_id", student_id);
 
+                                                // 14/03/2018 - we will be using the same screen to
+                                                // show the communication history for teachers
+                                                intent.putExtra("coming_from",
+                                                    "parent");
+
                                                 startActivity(intent);
                                                 break;
                                             case R.id.bth_hw_list_parent:

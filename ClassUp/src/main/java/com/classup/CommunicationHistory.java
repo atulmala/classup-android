@@ -2,6 +2,7 @@ package com.classup;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 public class CommunicationHistory extends AppCompatActivity {
     String server_ip;
     String url;
+    String coming_from;
 
     Context context;
 
@@ -54,8 +56,18 @@ public class CommunicationHistory extends AppCompatActivity {
         // retrieve the message history for this user
         server_ip = MiscFunctions.getInstance().getServerIP(context);
         String user = SessionManager.getInstance().getLogged_in_user();
+        Intent intent = getIntent();
+        coming_from = intent.getStringExtra("coming_from");
+        String url = server_ip;
+        switch (coming_from)    {
+            case "parent":
+                url = server_ip + "/operations/retrieve_sms_history/" + user + "/";
+                break;
+            case "teacher":
+                url = server_ip + "/teachers/circulars/" + user + "/Admin/";
+                break;
+        }
 
-        String url = server_ip + "/operations/retrieve_sms_history/" + user + "/";
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
@@ -101,9 +113,12 @@ public class CommunicationHistory extends AppCompatActivity {
                         // 12/09/17 - Now we are building the custom
                         // Analysis via AWS
                         try {
+                            String event_type = "Communication History";
+                            if (coming_from.equals("teacher"))
+                                event_type = "Circulars";
                             AnalyticsEvent event = SessionManager.getInstance().
                                             analytics.getEventClient().
-                                            createEvent("Communication History");
+                                            createEvent(event_type);
                             event.addAttribute("user", SessionManager.getInstance().
                                     getLogged_in_user());
                             SessionManager.getInstance().analytics.getEventClient().
