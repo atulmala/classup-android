@@ -23,11 +23,18 @@
         android:onClick="take_action"/>
 
     <Button
-        android:id="@+id/bth_hw_list_parent"
+        android:id="@+id/btn_time_table1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/home_work"
-        android:onClick="take_action"/>
+        android:onClick="take_action"
+        android:text="@string/time_table"/>
+
+    <Button
+        android:id="@+id/bth_hw_list_parent2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="take_action"
+        android:text="@string/home_work"/>
 
     <Button
         android:id="@+id/btn_pending_test_list_parent"

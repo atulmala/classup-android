@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.classup">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.classup">
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
@@ -112,10 +114,10 @@
             android:name=".TestManagerActivity"
             android:label="@string/title_activity_test_manager"
             android:screenOrientation="portrait"
-
             android:theme="@style/Base.Widget.AppCompat.ActionBar">
             <intent-filter>
                 <action android:name="com.classup.TestManagerActivity"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -204,12 +206,14 @@
             android:label="Select Student">
             <intent-filter>
                 <action android:name="com.classup.ShowWard"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".HWList">
             <intent-filter>
                 <action android:name="com.classup.HWList"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -326,6 +330,10 @@
         <activity android:name=".TeacherMessageRecord">
         </activity>
         <activity android:name=".TeacherMessageReceivers">
+        </activity>
+        <activity android:name=".MyTimeTable">
+        </activity>
+        <activity android:name=".DaysofWeek">
         </activity>
     </application>
 
