@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/please_provide_details_for_this_test"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
+
+    <CheckBox
+        android:id="@+id/chk_whether_grade_based"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/grade_based"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"/>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/max_marks"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chk_whether_grade_based"/>
+
+    <EditText
+        android:id="@+id/txt_max_marks"
+        android:layout_width="51dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="2dp"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLines="1"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/chk_whether_grade_based"/>
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/pass_marks"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/txt_max_marks"
+        app:layout_constraintTop_toBottomOf="@+id/chk_whether_grade_based"/>
+
+    <EditText
+        android:id="@+id/txt_passing_marks"
+        android:layout_width="51dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="2dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/textView25"
+        app:layout_constraintTop_toTopOf="@+id/txt_max_marks"/>
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/topics_comments_optional"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21"/>
+
+    <EditText
+        android:id="@+id/txt_comments"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textCapSentences|textMultiLine"
+        android:lineSpacingExtra="8sp"
+        android:maxLines="1"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView27"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="353dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="@color/blue"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
