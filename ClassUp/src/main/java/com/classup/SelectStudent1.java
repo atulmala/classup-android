@@ -66,7 +66,8 @@ public class SelectStudent1 extends AppCompatActivity {
                                 String r_no = jo.getString("roll_number");
                                 String f_name = jo.getString("fist_name");
                                 String l_name = jo.getString("last_name");
-                                String full_name = r_no + "    " + f_name + " " + l_name;
+                                String sr_no = Integer.toString(i+1);
+                                String full_name = sr_no + "    " + f_name + " " + l_name;
                                 // get the erp id of the student
                                 String erp_id = jo.getString("student_erp_id");
 

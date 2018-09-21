@@ -51,11 +51,7 @@ public class MarksEntry extends AppCompatActivity {
     String test_type;
     String whether_higher_class;
     String subject;
-
-    List<String> prac_subjects = Arrays.asList("Biology", "Physics", "Chemistry",
-        "Accountancy", "Business Studies", "Economics", "Fine Arts",
-        "Information Practices", "Informatics Practices", "Computer Science", "Painting",
-        "Physical Education");
+    String subject_prac;
 
     List<String> absent_values = Arrays.asList("-1000", "-1000.0", "-1000.00");
     List<String> null_values = Arrays.asList("-5000", "-5000.0", "-5000.00");
@@ -70,6 +66,7 @@ public class MarksEntry extends AppCompatActivity {
         test_type = intent.getStringExtra("test_type");
         whether_higher_class = intent.getStringExtra("higher_class");
         subject = intent.getStringExtra("subject");
+        subject_prac = intent.getStringExtra("subject_prac");
 
         final Context c = this.getApplicationContext();
 
@@ -87,7 +84,7 @@ public class MarksEntry extends AppCompatActivity {
         final ArrayList<MarksEntryListSource> marks_list = new ArrayList<>();
         final ListView listView = findViewById(R.id.marks_entry_list);
         adapter = new MarksEntryListAdapter(this, marks_list, grade_based, test_type,
-            whether_higher_class, subject);
+            whether_higher_class, subject, subject_prac);
 
         // get the list of students, roll no and current marks/grade
         server_ip = MiscFunctions.getInstance().getServerIP(c);
@@ -397,7 +394,7 @@ public class MarksEntry extends AppCompatActivity {
                     break;
                 }
                 if (whether_higher_class.equals("true")) {
-                    if (prac_subjects.contains(subject)) {
+                    if (subject_prac.equals("true")) {
                         if (!absent_values.contains(marks_entry_list.get(i).getMarks())) {
                             if (null_values.contains(marks_entry_list.get(i).getPrac_marks())) {
                                 String message = "Please enter Practical Marks for " +

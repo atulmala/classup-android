@@ -252,12 +252,14 @@ public class ReviewHW extends AppCompatActivity {
                                                         Toast toast =
                                                                 Toast.makeText(context, message,
                                                                         Toast.LENGTH_LONG);
-                                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast.setGravity(Gravity.CENTER, 0,
+                                                            0);
                                                         toast.show();
                                                     } else {
                                                         Toast toast = Toast.makeText(context,
                                                                 message, Toast.LENGTH_LONG);
-                                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast.setGravity(Gravity.CENTER, 0,
+                                                            0);
                                                         toast.show();
                                                         startActivity(new Intent
                                                                 ("com.classup.SchoolAdmin").

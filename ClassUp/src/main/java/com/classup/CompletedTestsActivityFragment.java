@@ -63,8 +63,9 @@ public class CompletedTestsActivityFragment extends Fragment {
                 startActivity(new Intent("com.classup.LoginActivity"));
             }
         }
-        final String url =  server_ip + "/academics/completed_test_list/" +
-                logged_in_user + "/?format=json";
+        String exam_id = getActivity().getIntent().getStringExtra("exam_id");
+        final String url =  server_ip + "/academics/completed_test_list/"  +
+                logged_in_user + "/" +  exam_id + "/?format=json";
 
         final ArrayList<TestListSource> completed_test_list = new ArrayList<>();
         ListView listView = (ListView)getActivity().findViewById(R.id.completed_test_list);
@@ -79,10 +80,13 @@ public class CompletedTestsActivityFragment extends Fragment {
         listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()    {
             public void onItemClick(AdapterView<?> view, View v, int position, long id) {
                 intent.putExtra("test_id", completed_test_list.get(position).getId());
-                intent.putExtra("test_type", completed_test_list.get(position).getTest_type());
+                intent.putExtra("test_type",
+                    completed_test_list.get(position).getTest_type());
                 intent.putExtra("class", completed_test_list.get(position).getThe_class());
                 intent.putExtra("section", completed_test_list.get(position).getSection());
                 intent.putExtra("subject", completed_test_list.get(position).getSubject());
+                intent.putExtra("subject_prac", completed_test_list.
+                    get(position).getSubject_prac());
                 intent.putExtra("higher_class",
                     completed_test_list.get(position).getWhether_higher_class());
 
@@ -125,6 +129,7 @@ public class CompletedTestsActivityFragment extends Fragment {
                                 String subject = jo.getString("subject");
                                 String max_marks = jo.getString("max_marks");
                                 String grade_based = jo.getString("grade_based");
+                                String subject_prac = jo.getString("subject_prac");
 
                                 if (grade_based.equals("true")) {
                                     max_marks = "Grade Based";
@@ -146,7 +151,7 @@ public class CompletedTestsActivityFragment extends Fragment {
 
                                 // put all the above details into the adapter
                                 completed_test_list.add(new TestListSource(ddmmyyyy, the_class,
-                                    section, subject, max_marks, id,
+                                    section, subject, subject_prac, max_marks, id,
                                     syllabus, test_type, higher_class));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {

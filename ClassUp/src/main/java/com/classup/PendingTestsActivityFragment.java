@@ -73,6 +73,8 @@ public class PendingTestsActivityFragment extends Fragment {
                 intent.putExtra("subject", pending_test_list.get(position).getSubject());
                 intent.putExtra("higher_class",
                     pending_test_list.get(position).getWhether_higher_class());
+                intent.putExtra("subject_prac", pending_test_list.
+                    get(position).getSubject_prac());
 
                 if (pending_test_list.get(position).getMax_marks().equals("Grade Based"))
                     intent.putExtra("grade_based", true);
@@ -178,8 +180,9 @@ public class PendingTestsActivityFragment extends Fragment {
                 startActivity(intent1);
             }
         }
-        final String url =  server_ip + "/academics/pending_test_list/" +
-                logged_in_user + "/?format=json";
+        String exam_id = getActivity().getIntent().getStringExtra("exam_id");
+        final String url =  server_ip + "/academics/pending_test_list/"  +
+                logged_in_user + "/" + exam_id + "/?format=json";
         final ProgressDialog progressDialog = new ProgressDialog(c);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
@@ -210,6 +213,8 @@ public class PendingTestsActivityFragment extends Fragment {
 
                                 String section = jo.getString("section");
                                 String subject = jo.getString("subject");
+                                String subject_prac = jo.getString("subject_prac");
+
                                 String max_marks = jo.getString("max_marks");
 
                                 String grade_based = jo.getString("grade_based");
@@ -236,7 +241,7 @@ public class PendingTestsActivityFragment extends Fragment {
 
                                 // put all the above details into the adapter
                                 pending_test_list.add(new TestListSource(ddmmyyyy, the_class,
-                                        section, subject, max_marks, id,
+                                        section, subject, subject_prac,  max_marks, id,
                                     syllabus, test_type, higher_class));
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException je) {

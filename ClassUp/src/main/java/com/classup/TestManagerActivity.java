@@ -2,6 +2,7 @@ package com.classup;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,10 @@ public class TestManagerActivity extends FragmentActivity implements ActionBar.T
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_manager);
+        Intent intent = getIntent();
+        String exam_title = intent.getStringExtra("exam_title");
+        String heading = exam_title + " Test list";
+        this.setTitle(heading);
 
         // initialization
         viewPager = findViewById(R.id.pager);

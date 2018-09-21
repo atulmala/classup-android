@@ -162,7 +162,8 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         AnalyticsEvent forgotPasswordEvent = SessionManager.getInstance().
                                 analytics.getEventClient().createEvent("Forgot Password");
-                        forgotPasswordEvent.addAttribute("user", userName.getText().toString());
+                        forgotPasswordEvent.addAttribute("user",
+                            userName.getText().toString());
                         SessionManager.getInstance().analytics.getEventClient().
                                 recordEvent(forgotPasswordEvent);
                     } catch (NullPointerException exception)    {
@@ -344,7 +345,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if(subscription_status.equals("expired"))   {
                                             String message = "Institute/School's subscription ";
                                             message += "has expired. For more information please ";
-                                            message += "contact your seniors";
+                                            message += "contact your seniors or School Management";
                                             Toast toast = Toast.makeText(getApplicationContext(),
                                                     message, Toast.LENGTH_LONG);
                                             toast.setGravity(Gravity.CENTER, 0, 0);

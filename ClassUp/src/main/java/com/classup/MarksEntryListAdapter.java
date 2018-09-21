@@ -30,14 +30,10 @@ public class MarksEntryListAdapter extends BaseAdapter {
     private String test_type;
     private String whether_higher_class;
     private String subject;
+    private String subject_prac;
 
     public String max_marks = "50";
     public String pass_marks = "10";
-    List<String> prac_subjects = Arrays.asList("Biology", "Physics", "Chemistry",
-        "Accountancy", "Business Studies", "Economics", "Fine Arts",
-        "Information Practices", "Informatics Practices", "Computer Science", "Painting",
-        "Physical Education");
-
 
     public List<MarksEntryListSource> getMarks_entry_list() {
         return marks_entry_list;
@@ -45,7 +41,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
 
     public MarksEntryListAdapter(Activity activity, List<MarksEntryListSource> list,
                                  Boolean whether_grade_based, String test_type,
-                                 String whether_higher_class, String subject) {
+                                 String whether_higher_class, String subject, String subject_prac) {
         super();
         this.activity = activity;
 
@@ -54,6 +50,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
         this.test_type = test_type;
         this.whether_higher_class = whether_higher_class;
         this.subject = subject;
+        this.subject_prac = subject_prac;
     }
 
    @Override
@@ -109,7 +106,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                 else    {
                     holder.prac_marks.setInputType
                         (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                    if (!prac_subjects.contains(subject))   {
+                    if (subject_prac.equals("false"))   {
                         holder.prac_marks.setEnabled(false);
                     }
                 }
@@ -180,7 +177,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                 if (prac_marks.equals("-5000.0"))
                     prac_marks = "";
                 holder.prac_marks.setText(prac_marks);
-                if (!prac_subjects.contains(subject))   {
+                if (!subject_prac.equals("true"))   {
                     holder.prac_marks.setText("N/A");
                 }
             }

@@ -8,6 +8,7 @@ public class TestListSource {
     private String the_class;
     private String section;
     private String subject;
+    private String subject_prac;
     private String max_marks;
     private String id;
     private String test_topics;
@@ -18,16 +19,6 @@ public class TestListSource {
         return id;
     }
 
-    public TestListSource(String date, String the_class, String section, String subject,
-                          String max_marks, String id) {
-        this.date = date;
-        this.the_class = the_class;
-        this.section = section;
-        this.subject = subject;
-        this.max_marks = max_marks;
-        this.id = id;
-
-    }
 
     public TestListSource(String date, String the_class, String section, String subject,
                           String max_marks, String id, String test_topics) {
@@ -40,25 +31,16 @@ public class TestListSource {
         this.test_topics = test_topics;
     }
 
-    public TestListSource(String date, String the_class, String section, String subject,
-                          String max_marks, String id, String test_topics, String test_type) {
-        this.date = date;
-        this.the_class = the_class;
-        this.section = section;
-        this.subject = subject;
-        this.max_marks = max_marks;
-        this.id = id;
-        this.test_topics = test_topics;
-        this.test_type = test_type;
-    }
+
 
     public TestListSource(String date, String the_class, String section, String subject,
-                          String max_marks, String id, String test_topics,
+                          String subject_prac, String max_marks, String id, String test_topics,
                           String test_type, String whether_higher_class) {
         this.date = date;
         this.the_class = the_class;
         this.section = section;
         this.subject = subject;
+        this.subject_prac = subject_prac;
         this.max_marks = max_marks;
         this.id = id;
         this.test_topics = test_topics;
@@ -80,6 +62,10 @@ public class TestListSource {
 
     public String getSubject() {
         return subject;
+    }
+
+    public String getSubject_prac() {
+        return subject_prac;
     }
 
     public String getMax_marks() {

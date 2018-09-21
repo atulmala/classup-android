@@ -75,7 +75,7 @@
     <string name="send_message_to_parents">Send Message to Parents</string>
     <string name="attendance_summaries">Attendance Summaries</string>
     <string name="bus_attendance">Bus Attendance</string>
-    <string name="schedule_test">Schedule Unit Test</string>
+    <string name="schedule_test">Schedule Test</string>
     <string name="schedule_term_test">Schedule Term Test</string>
     <string name="manage_tests">Manage Tests</string>
     <string name="take_update_attendance">Take/Update Attendance</string>

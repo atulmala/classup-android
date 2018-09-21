@@ -1,5 +1,6 @@
 package com.classup;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -166,8 +167,9 @@ public class SelectClass extends AppCompatActivity {
                 //submit_button.setText("Take Attendance");
                 break;
             case "scheduleTest":
-                //submit_button.setText("Schedule Test");
                 menu = "Schedule Test";
+                String exam_title = intent.getStringExtra("exam_title");
+                this.setTitle("Schedule for " + exam_title);
                 break;
             case "createHW":
                 datePicker.setMinDate(System.currentTimeMillis() - 1000);
@@ -372,202 +374,24 @@ public class SelectClass extends AppCompatActivity {
             return;
         }
 
-        if (!getIntent().getStringExtra("type").equals("Term")) {
-            // 20/09/2017 - this is a Unit Test hence we need to get the max/passing marks, Grade
-            // based and syllabus
-            final Dialog dialog = new Dialog(SelectClass.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_test_details);
+        if (!getIntent().getStringExtra("exam_type").equals("term")) {
+            // 15/04/2018 - we now present test details screen as activity
+            Intent intent = new Intent(this, TestDetails.class);
+            intent.putExtra("exam_id", getIntent().getStringExtra("exam_id"));
+            intent.putExtra("exam_title", getIntent().getStringExtra("exam_title"));
+            intent.putExtra("date", d.toString());
+            intent.putExtra("month", m.toString());
+            intent.putExtra("year", y.toString());
+            intent.putExtra("type", getIntent().getStringExtra("type"));
+            intent.putExtra("the_class", classList[classPicker.getValue()]);
+            intent.putExtra("section", sectionList[sectionPicker.getValue()]);
+            intent.putExtra("subject", subjectList[subjectPicker.getValue()]);
 
-            // set default values for max_marks and passing_marks
-            ((EditText) dialog.findViewById(R.id.txt_max_marks)).setText("0");
-            ((EditText) dialog.findViewById(R.id.txt_passing_marks)).setText("0");
-            ((EditText) dialog.findViewById(R.id.txt_comments)).setText(" ");
+            startActivity(intent);
 
-            // initially the check box for Grade Based is unchecked. This means the test is
-            // marks based
-            final CheckBox checkBox = dialog.findViewById(R.id.chk_whether_grade_based);
-            GradeBased.getInstance().setGrade_based("False");
-            //checkBox.setEnabled(false);
-            dialog.show();
-
-            checkBox.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view1) {
-                    if (checkBox.isChecked()) {
-                        GradeBased.getInstance().setGrade_based("True");
-                        (dialog.findViewById(R.id.txt_max_marks)).setEnabled(false);
-                        ((EditText) dialog.findViewById(R.id.txt_passing_marks)).
-                                setEnabled(false);
-                    } else {
-                        GradeBased.getInstance().setGrade_based("False");
-                        ( dialog.findViewById(R.id.txt_max_marks)).setEnabled(true);
-                        ( dialog.findViewById(R.id.txt_passing_marks)).
-                                setEnabled(true);
-                    }
-                }
-            });
-            Button btn_submit = dialog.findViewById(R.id.btn_test_confirm);
-            btn_submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Boolean good_to_go = true;
-                    String comments = ((EditText) dialog.findViewById(R.id.txt_comments)).
-                            getText().toString();
-                    if (comments.equals(" "))
-                        comments = "No_Comments";
-                    String mm = ((EditText) dialog.findViewById(R.id.txt_max_marks)).
-                            getText().toString();
-                    String pm = ((EditText) dialog.findViewById(R.id.txt_passing_marks)).
-                            getText().toString();
-                    if (GradeBased.getInstance().getGrade_based().equals("False")) {
-                        if (mm.equals("") || mm.equals("0") || pm.equals("")) {
-                            good_to_go = false;
-                            String message;
-                            switch (mm) {
-                                case "":
-                                    message = "Max Marks cannot be blank.";
-                                    break;
-                                case "0":
-                                    message = "Max Marks cannot be 0.";
-                                    break;
-                                default:
-                                    message = "Passing Marks cannot be blank.";
-                            }
-
-                            Toast.makeText(getApplicationContext(),
-                                    message,
-                                    Toast.LENGTH_LONG).show();
-                        } else
-                            good_to_go = true;
-                    }
-
-                    if (good_to_go) {
-
-                        String g = "1";
-                        switch (GradeBased.getInstance().getGrade_based()) {
-                            case "True":
-                                g = "0";
-                                break;
-                            case "False":
-                                g = "1";
-
-                        }
-                        // in case of grade based test, teacher will leave the max marks
-                        // and pass marks blank. In this case the url will not be formed
-                        // correctly. Hence we need to set these to zero explicitly
-                        if (mm.equals(""))
-                            mm = "0";
-                        if (pm.equals(""))
-                            pm = "0";
-                        String logged_in_user = SessionManager.getInstance().getLogged_in_user();
-                        // as we are using sihgleton pattern to get the logged in user,
-                        // sometimes the method
-                        // call returns a blank string. In this case we will retry
-                        // for 20 times and if not
-                        // successful even after then we will ask the user to log in again
-                        int i = 0;
-                        while (logged_in_user.equals("")) {
-                            logged_in_user = SessionManager.getInstance().getLogged_in_user();
-                            if (i++ == 20) {
-                                Toast.makeText(getApplicationContext(),
-                                        "There seems to be some problem with network. " +
-                                                "Please re-login",
-                                        Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getApplicationContext(),
-                                        LoginActivity.class);
-                                startActivity(intent);
-                            }
-                        }
-                        // now we have to send a POST request to backend to create the test
-
-                        String url = server_ip + "/academics/create_test1/" + school_id
-                                + "/" + classList[(classPicker.getValue())]
-                                + "/" + sectionList[(sectionPicker.getValue())]
-                                + "/" + subjectList[(subjectPicker.getValue())]
-                                + "/" + logged_in_user
-                                + "/" + d.toString() + "/" + m.toString() + "/" + y.toString()
-                                + "/" + mm + "/" + pm
-                                + "/" + g + "/" + comments
-                                + "/unit/";
-                        url = url.replace(" ", "%20");
-                        String tag = "Create Test";
-                        StringRequest request = new StringRequest(Request.Method.POST, url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        // 11/09/17 - Now we are building the custom
-                                        // Analysis via AWS
-                                        try {
-                                            AnalyticsEvent scheduleTestEvent =
-                                                    SessionManager.getInstance().
-                                                            analytics.getEventClient().
-                                                            createEvent("Schedule Test");
-                                            scheduleTestEvent.addAttribute("user",
-                                                    SessionManager.getInstance().
-                                                            getLogged_in_user());
-                                            SessionManager.getInstance().analytics.
-                                                    getEventClient().
-                                                    recordEvent(scheduleTestEvent);
-                                        } catch (NullPointerException exception) {
-                                            System.out.println("flopped in creating " +
-                                                    "analytics Schedule Test");
-                                        } catch (Exception exception) {
-                                            System.out.println("flopped in " +
-                                                    "creating analytics Schedule Test");
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        error.printStackTrace();
-
-                                        if (error instanceof TimeoutError ||
-                                                error instanceof NoConnectionError) {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Slow network connection or" +
-                                                            " No internet connectivity",
-                                                    Toast.LENGTH_LONG).show();
-                                        } else if (error instanceof ServerError) {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Slow network connection or " +
-                                                            "No internet connectivity",
-                                                    Toast.LENGTH_LONG).show();
-                                        } else if (error instanceof NetworkError) {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Slow network connection or " +
-                                                            "No internet connectivity",
-                                                    Toast.LENGTH_LONG).show();
-                                        } else if (error instanceof ParseError) {
-                                            //TODO
-                                        }
-                                    }
-                                });
-                        com.classup.AppController.getInstance().addToRequestQueue(request, tag);
-                        // as GradeBased is a singleton class, it is necessary to set
-                        // grade_based to No
-                        GradeBased.getInstance().setGrade_based("False");
-
-                        dialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Test Scheduled",
-                                Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent("com.classup.TeacherMenu").
-                                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                    }
-                }
-            });
-
-            Button btn_cancel = (Button) dialog.findViewById(R.id.btn_test_cancel);
-            btn_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                    startActivity(new Intent("com.classup.TeacherMenu"));
-                }
-            });
         }
         else {
+            final String exam_id = getIntent().getStringExtra("exam_id");
             final android.app.AlertDialog.Builder builder =
                     new android.app.AlertDialog.Builder(this);
             builder.setMessage("Are you sure you want schedule this Term Test?")
@@ -584,8 +408,8 @@ public class SelectClass extends AppCompatActivity {
                                     + "/" + logged_in_user
                                     + "/" + d.toString() + "/" + m.toString() + "/" + y.toString()
                                     + "/" + "80" + "/" + "33"
-                                    + "/" + "1" + "/" + "Half Yearly Syllabus"
-                                    + "/term/";
+                                    + "/" + "1" + "/" + "Term Exam Syllabus/"
+                                    + exam_id + "/";
                             url = url.replace(" ", "%20");
                             String tag = "Create Test";
                             StringRequest request = new StringRequest(Request.Method.POST, url,
@@ -598,7 +422,8 @@ public class SelectClass extends AppCompatActivity {
                                                 AnalyticsEvent scheduleTestEvent =
                                                         SessionManager.getInstance().
                                                                 analytics.getEventClient().
-                                                                createEvent("Schedule Term Test");
+                                                                createEvent
+                                                                    ("Schedule Term Test");
                                                 scheduleTestEvent.addAttribute("user",
                                                         SessionManager.getInstance().
                                                         getLogged_in_user());

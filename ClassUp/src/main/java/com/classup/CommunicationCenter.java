@@ -42,4 +42,10 @@ public class CommunicationCenter extends AppCompatActivity {
         intent.putExtra("coming_from", "teacher");
         startActivity(intent);
     }
+
+    public void ShowWeekDays(View view) {
+        Intent intent = new Intent(this, DaysofWeek.class);
+        intent.putExtra("coming_from", "teacher");
+        startActivity(intent);
+    }
 }

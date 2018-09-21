@@ -80,8 +80,7 @@ public class SetSubjects extends AppCompatActivity {
                 Toast.makeText(this,
                         "There seems to be some problem with network. Please re-login",
                         Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(this,
-                        LoginActivity.class);
+                Intent intent = new Intent(this, LoginActivity.class);
                 this.startActivity(intent);
             }
         }

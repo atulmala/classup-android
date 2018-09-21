@@ -148,21 +148,14 @@ public class  TeacherMenu extends AppCompatActivity {
     }
 
     public void scheduleTest(View view) {
-        Intent intent = new Intent(this, SelectClass.class);
+        Intent intent = new Intent(this, ExamListTeacher.class);
         intent.putExtra("sender", "scheduleTest");
-
-        // 20/09/2017 we are scheduling Term Test also
-        if (view.getId() == R.id.btn_term_test)
-            intent.putExtra("type", "Term");
-        else
-            intent.putExtra("type", "Unit");
-
-        System.out.println("intent set to scheduleTest");
         startActivity(intent);
     }
 
     public void manageTest(View view)   {
-        Intent intent = new Intent(this, TestManagerActivity.class);
+        Intent intent = new Intent(this, ExamListTeacher.class);
+        intent.putExtra("sender", "manageTest");
         startActivity(intent);
     }
 
@@ -245,10 +238,7 @@ public class  TeacherMenu extends AppCompatActivity {
                 // Create the AlertDialog object and return it
                 builder.show();
                 break;
-
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

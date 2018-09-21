@@ -82,6 +82,14 @@ public class ParentsMenu extends AppCompatActivity {
                                                 intent.putExtra("student_name", student_name);
                                                 startActivity(intent);
                                                 break;
+                                            case R.id.btn_time_table1:
+                                                intent = new Intent(getApplicationContext(),
+                                                        DaysofWeek.class);
+                                                intent.putExtra("student_id", student_id);
+                                                intent.putExtra("coming_from",
+                                                    "student");
+                                                startActivity(intent);
+                                                break;
                                             case R.id.btn_term_test_results:
                                                 intent = new Intent(getApplicationContext(),
                                                         ShowExamList.class);
@@ -115,7 +123,7 @@ public class ParentsMenu extends AppCompatActivity {
 
                                                 startActivity(intent);
                                                 break;
-                                            case R.id.bth_hw_list_parent:
+                                            case R.id.bth_hw_list_parent2:
                                                 intent = new Intent(getApplicationContext(),
                                                         HWList.class);
                                                 intent.putExtra("sender", "ParentApp");

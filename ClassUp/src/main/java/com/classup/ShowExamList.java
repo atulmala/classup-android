@@ -57,7 +57,7 @@ public class ShowExamList extends AppCompatActivity {
 
         final ArrayAdapter adapter =
                 new ArrayAdapter(this, R.layout.exam_list_view, exam_title_list);
-        ListView listView = (ListView)findViewById(R.id.exam_list);
+        ListView listView = findViewById(R.id.exam_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(adapter);

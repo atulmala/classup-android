@@ -221,7 +221,8 @@ public class ShowExamResults extends AppCompatActivity {
                                             DataPoint dataPoint = new DataPoint(i + 1,
                                                     (Float.valueOf(marks) /
                                                             Float.valueOf(max_marks)) * 100);
-                                            BarEntry barEntry = new BarEntry((Float.valueOf(marks) /
+                                            BarEntry barEntry = new BarEntry
+                                                ((Float.valueOf(marks) /
                                                     Float.valueOf(max_marks)) * 100, j++);
                                             entries.add(barEntry);
                                         }
