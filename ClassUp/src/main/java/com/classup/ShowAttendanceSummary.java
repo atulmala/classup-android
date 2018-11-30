@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -198,7 +199,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        for (int i = 0; i < response.length(); i++)
+                        for (Integer i = 0; i < response.length(); i++)
                             try {
                                 JSONObject jo = response.getJSONObject(i);
 
@@ -223,7 +224,8 @@ public class ShowAttendanceSummary extends AppCompatActivity {
                                 fn.setBackgroundResource(R.drawable.cell_shape);
 
                                 // get the roll number of the student
-                                String roll_no = jo.getString("roll_number");
+                                //String roll_no = jo.getString("roll_number");
+                                Integer roll_no = i + 1;
                                 // put the roll inside row column
                                 TextView rn = new TextView(getApplicationContext());
                                 rn.setBackgroundResource(R.drawable.cell_shape);
@@ -231,7 +233,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
                                 rn.setPadding(5, 5, 5, 5);
                                 //rn.setHeight(100);
                                 rn.setTextSize(18);
-                                rn.setText(roll_no);
+                                rn.setText(roll_no.toString());
 
                                 detail_row.addView(rn);
                                 detail_row.addView(fn);
@@ -283,7 +285,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             Toast.makeText(getApplicationContext(),
-                                    "Slow network connection or No internet connectivity",
+                                    "Time-out error. ",
                                     Toast.LENGTH_LONG).show();
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(getApplicationContext(),
@@ -299,6 +301,10 @@ public class ShowAttendanceSummary extends AppCompatActivity {
                         // TODO Auto-generated method stub
                     }
                 });
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
     }
 

@@ -39,6 +39,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.DefaultRetryPolicy;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -182,18 +183,23 @@ public class AttendanceList extends AppCompatActivity {
                             if(!MiscFunctions.getInstance().checkConnection
                                     (getApplicationContext())) {
                                 Toast.makeText(getApplicationContext(),
-                                        "Slow network connection or No internet connectivity",
+                                        "Slow network connection or No internet connectivity (1)",
                                         Toast.LENGTH_LONG).show();
                             } else  {
                                 Toast.makeText(getApplicationContext(),
                                         "Slow network connection or " +
-                                                "No internet connectivity",
+                                                "No internet connectivity (2)",
+
+                                        Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),
+                                        error.getMessage(),
+
                                         Toast.LENGTH_LONG).show();
                             }
                         }  else if (error instanceof ServerError) {
                             Toast.makeText(getApplicationContext(),
                                     "Slow network connection or " +
-                                            "No internet connectivity",
+                                            "No internet connectivity (3)",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
 
@@ -202,6 +208,12 @@ public class AttendanceList extends AppCompatActivity {
                         }
                     }
                 });
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
         // here we can sort the attendance list as per roll number
 
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
@@ -276,18 +288,18 @@ public class AttendanceList extends AppCompatActivity {
                                                             (getApplicationContext())) {
                                                         Toast.makeText(getApplicationContext(),
                                                                 "Slow network connection or " +
-                                                                        "No internet connectivity",
+                                                                        "No internet connectivity (4)",
                                                                 Toast.LENGTH_LONG).show();
                                                     } else  {
                                                         Toast.makeText(getApplicationContext(),
                                                                 "Slow network connection or " +
-                                                                        "No internet connectivity",
+                                                                        "No internet connectivity (5)",
                                                                 Toast.LENGTH_LONG).show();
                                                     }
                                                 }  else if (error instanceof ServerError) {
                                                     Toast.makeText(getApplicationContext(),
                                                             "Slow network connection or " +
-                                                                    "No internet connectivity",
+                                                                    "No internet connectivity (6)",
                                                             Toast.LENGTH_LONG).show();
                                                 } else if (error instanceof NetworkError) {
 

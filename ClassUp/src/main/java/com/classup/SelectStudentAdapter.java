@@ -67,6 +67,7 @@ public class SelectStudentAdapter extends BaseAdapter {
         student_name.setText(student_list.get(position).getFull_name());
 
         TextView roll_no = (TextView)convertView.findViewById(R.id.roll_no);
+        roll_no.setVisibility(View.INVISIBLE);
         roll_no.setText(student_list.get(position).getRoll_number());
 
         TextView parent_name = (TextView)convertView.findViewById(R.id.parent_name);

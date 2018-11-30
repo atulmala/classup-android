@@ -100,12 +100,14 @@ public class MarksEntry extends AppCompatActivity {
             (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    for (int i = 0; i < response.length(); i++) {
+                    for (Integer i = 0; i < response.length(); i++) {
                         try {
                             JSONObject jo = response.getJSONObject(i);
 
                             String id = jo.getString("id");
-                            String roll_no = jo.getString("roll_no");
+                            //String roll_no = jo.getString("roll_no");
+                            Integer _roll_no = i + 1;
+                            String roll_no =  _roll_no.toString();
                             String name = jo.getString("student");
                             String sr_no = Integer.toString(i + 1);
                             String full_name = sr_no + "    " + name;
@@ -166,6 +168,10 @@ public class MarksEntry extends AppCompatActivity {
                     // TODO Auto-generated method stub
                 }
             });
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
         listView.setAdapter(adapter);
@@ -205,6 +211,10 @@ public class MarksEntry extends AppCompatActivity {
                         // TODO Auto-generated method stub
                     }
                 });
+            jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    5000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest1, tag);
         }

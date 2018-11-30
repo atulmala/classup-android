@@ -3,8 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ClassUp/ClassUp.iml" filepath="$PROJECT_DIR$/ClassUp/ClassUp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Classup.iml" filepath="$PROJECT_DIR$/Classup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/classup-android.iml" filepath="$PROJECT_DIR$/classup-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/gson-2.4/gson-2.4.iml" filepath="$PROJECT_DIR$/gson-2.4/gson-2.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinchzoom/pinchzoom.iml" filepath="$PROJECT_DIR$/pinchzoom/pinchzoom.iml" />
       <module fileurl="file://$PROJECT_DIR$/volley/volley.iml" filepath="$PROJECT_DIR$/volley/volley.iml" />
     </modules>
   </component>

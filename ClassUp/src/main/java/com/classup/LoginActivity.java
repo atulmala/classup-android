@@ -113,8 +113,10 @@ public class LoginActivity extends AppCompatActivity {
     //@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add(0, 0, 0, "Login").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        menu.add(0,1, 0, "Forgot Password?").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 0, 0, "Login").
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0,1, 0, "Forgot Password?").
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -345,7 +347,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if(subscription_status.equals("expired"))   {
                                             String message = "Institute/School's subscription ";
                                             message += "has expired. For more information please ";
-                                            message += "contact your seniors or School Management";
+                                            message += "contact the School Management";
                                             Toast toast = Toast.makeText(getApplicationContext(),
                                                     message, Toast.LENGTH_LONG);
                                             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -420,9 +422,11 @@ public class LoginActivity extends AppCompatActivity {
                                                     AnalyticsEvent loginResultEvent =
                                                             SessionManager.getInstance().
                                                             analytics.getEventClient().
-                                                                    createEvent("Login Result");
+                                                                    createEvent(
+                                                                            "Login Result");
                                                     loginResultEvent.addAttribute
-                                                            ("user", userName.getText().toString());
+                                                            ("user",
+                                                                    userName.getText().toString());
                                                     loginResultEvent.addAttribute("Login Result",
                                                             "Success");
                                                     SessionManager.getInstance().analytics.

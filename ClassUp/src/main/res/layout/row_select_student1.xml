@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -38,15 +39,14 @@
         android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="41dp"
         android:clickable="true"
         android:longClickable="true"
         android:text="@string/parent"
         android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@+id/roll_no"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="41dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/parent_name"
@@ -64,33 +64,18 @@
         android:layout_marginTop="41dp" />
 
     <TextView
-        android:id="@+id/roll_no"
-        android:layout_width="wrap_content"
-        android:layout_height="21dp"
-        android:layout_marginStart="75dp"
-        android:clickable="true"
-        android:longClickable="true"
-        android:text="@string/textview"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@+id/textView34"
-        android:layout_marginLeft="4dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="41dp" />
-
-    <TextView
         android:id="@+id/textView34"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="41dp"
         android:clickable="true"
         android:longClickable="true"
         android:text="@string/roll_no"
         android:textSize="16sp"
-        android:layout_marginLeft="16dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="41dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
