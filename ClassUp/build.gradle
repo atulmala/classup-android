@@ -8,7 +8,7 @@ android {
         applicationId "com.classup"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 66
+        versionCode 67
         versionName "2.16"
         multiDexEnabled true
     }

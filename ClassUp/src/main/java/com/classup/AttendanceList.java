@@ -209,8 +209,7 @@ public class AttendanceList extends AppCompatActivity {
                     }
                 });
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
-                5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
