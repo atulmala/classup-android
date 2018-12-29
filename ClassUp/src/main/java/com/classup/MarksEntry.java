@@ -344,6 +344,11 @@ public class MarksEntry extends AppCompatActivity {
                 VolleyLog.d(tag, "Error: " + error.getMessage());
             }
         });
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
     }
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -241,6 +242,12 @@ public class TestDetails extends AppCompatActivity {
                                 }
                             });
                         com.classup.AppController.getInstance().addToRequestQueue(request, tag);
+                        request.setRetryPolicy(new DefaultRetryPolicy(30000,
+                                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
         }

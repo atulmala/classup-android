@@ -141,6 +141,11 @@ public class ParentCommunication extends AppCompatActivity {
                     }
                 });
                 com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
+                jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                        30000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
                 Toast toast = Toast.makeText(getApplicationContext(),
                     "Your communication has been sent. If needed, school authorities will " +
                         "contact you.", Toast.LENGTH_SHORT);
