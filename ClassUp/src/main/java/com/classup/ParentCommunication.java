@@ -141,8 +141,7 @@ public class ParentCommunication extends AppCompatActivity {
                     }
                 });
                 com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
-                jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
-                        30000,
+                jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(30000,
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

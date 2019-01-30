@@ -166,11 +166,12 @@ public class SelectClassSection1 extends AppCompatActivity {
                     // TODO Auto-generated method stub
                 }
             });
+        com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
                 5000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
+
     }
 
     //@Override

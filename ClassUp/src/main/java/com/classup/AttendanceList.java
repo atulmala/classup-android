@@ -208,12 +208,8 @@ public class AttendanceList extends AppCompatActivity {
                         }
                     }
                 });
-        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
-                5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-
-        // here we can sort the attendance list as per roll number
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
 
@@ -360,8 +356,7 @@ public class AttendanceList extends AppCompatActivity {
                 break;
             case 1:
                 startActivity(new Intent("com.classup.TeacherMenu").
-                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 finish();
                 break;
             default:

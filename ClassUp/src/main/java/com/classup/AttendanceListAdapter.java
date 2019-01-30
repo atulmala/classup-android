@@ -103,6 +103,8 @@ public class AttendanceListAdapter extends BaseAdapter  {
                                 e.printStackTrace();
                             }
                         }
+                        System.out.print("first time absentee lists = ");
+                        System.out.println(absentee_list);
 
                     }
                 }, new Response.ErrorListener() {
@@ -202,11 +204,9 @@ public class AttendanceListAdapter extends BaseAdapter  {
                             // TODO Auto-generated method stub
                         }
                     });
-        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
-                5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest1, tag);
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest1, tag);
     }
 
     public static List<String> getAbsentee_list() {
@@ -312,6 +312,10 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 // remove the id of this student from the correction list
                 if(correction_list.contains(roll_no_and_name_list.get(position).getId()))
                     correction_list.remove(roll_no_and_name_list.get(position).getId());
+                System.out.print("Absentee lists = ");
+                System.out.println(absentee_list);
+                System.out.print("correction lists = ");
+                System.out.println(correction_list);
             }
         });
 
@@ -338,6 +342,11 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 if (!correction_list.contains(roll_no_and_name_list.get(position).getId())) {
                     correction_list.add(roll_no_and_name_list.get(position).getId());
                 }
+
+                System.out.print("Absentee lists = ");
+                System.out.println(absentee_list);
+                System.out.print("correction lists = ");
+                System.out.println(correction_list);
             }
         });
         return convertView;

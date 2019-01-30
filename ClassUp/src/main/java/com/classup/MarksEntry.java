@@ -152,7 +152,7 @@ public class MarksEntry extends AppCompatActivity {
                     if (error instanceof TimeoutError ||
                         error instanceof NoConnectionError) {
                         Toast.makeText(getApplicationContext(),
-                            "Slow network connection or No internet connectivity",
+                            "Timeout error",
                             Toast.LENGTH_LONG).show();
                     } else if (error instanceof ServerError) {
                         Toast.makeText(getApplicationContext(),
@@ -168,11 +168,29 @@ public class MarksEntry extends AppCompatActivity {
                     // TODO Auto-generated method stub
                 }
             });
-        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
-                5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
+        //jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+                //DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        /*jsonArrayRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                // Here goes the new timeout
+                Toast.makeText(getApplicationContext(),
+                        "current timeout set to 100000",
+                        Toast.LENGTH_LONG).show();
+                return 100000;
+            }
+            @Override
+            public int getCurrentRetryCount() {
+                // The max number of attempts
+                return 1;
+            }
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                // Here you could check if the retry count has gotten
+                // To the max number, and if so, send a VolleyError msg
+                // or something
+            }
+        });*/
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
         listView.setAdapter(adapter);
 
@@ -213,7 +231,7 @@ public class MarksEntry extends AppCompatActivity {
                 });
             jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
                     5000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    2,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest1, tag);

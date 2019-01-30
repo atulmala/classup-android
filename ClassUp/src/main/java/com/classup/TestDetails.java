@@ -47,6 +47,7 @@ public class TestDetails extends AppCompatActivity {
     String year;
 
     String title;
+    String title_trailer;
     Context context;
 
 
@@ -81,12 +82,18 @@ public class TestDetails extends AppCompatActivity {
         pass_marks.setText("0");
         comments.setText(" ");
 
+        // 30/01/23019 - initially consider this is NOT a Grade based test
+        GradeBased.getInstance().setGrade_based("False");
+
         grade_based.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view1) {
+                title_trailer = "";
                 if (grade_based.isChecked()) {
                     GradeBased.getInstance().setGrade_based("True");
                     max_marks.setEnabled(false);
                     pass_marks.setEnabled(false);
+                    max_marks.setText("0");
+                    pass_marks.setText("0");
                 } else {
                     GradeBased.getInstance().setGrade_based("False");
                     max_marks.setEnabled(true);
@@ -107,26 +114,31 @@ public class TestDetails extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         Boolean good_to_go = true;
-        if (max_marks.getText().toString().equals("0") || max_marks.getText().toString().equals(""))
-        {
-            Toast toast = Toast.makeText(this,
-                "Max marks cannot be Zero/Blank", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-            good_to_go = false;
-        }
-        if (pass_marks.getText().toString().equals("")) {
-            Toast toast = Toast.makeText(this,
-                "Passing marks cannot be Blank", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-            good_to_go = false;
+        if (GradeBased.getInstance().getGrade_based().equals("False")) {
+            if (max_marks.getText().toString().equals("0") ||
+                    max_marks.getText().toString().equals("")) {
+                Toast toast = Toast.makeText(this,
+                        "Max marks cannot be Zero/Blank", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                good_to_go = false;
+            }
+            if (pass_marks.getText().toString().equals("")) {
+                Toast toast = Toast.makeText(this,
+                        "Passing marks cannot be Blank", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                good_to_go = false;
+            }
         }
         if(good_to_go) {
             final String mm = max_marks.getText().toString();
             final String pm = pass_marks.getText().toString();
-            title += " Max Marks: " + mm + ", Pass Marks: " + pm;
-            String prompt = "Are you sure you want to schedule this test?\n\n" + title;
+            if(GradeBased.getInstance().getGrade_based().equals("False"))
+                title_trailer = " Max Marks: " + mm + ", Pass Marks: " + pm;
+            else
+                title_trailer += " Grade Based";
+            String prompt = "Are you sure you want to schedule this test?\n\n" + title + title_trailer;
 
             new AlertDialog.Builder(this)
                 .setTitle("Please confirm")
@@ -214,7 +226,6 @@ public class TestDetails extends AppCompatActivity {
                                 }
                             },
 
-
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
@@ -245,9 +256,6 @@ public class TestDetails extends AppCompatActivity {
                         request.setRetryPolicy(new DefaultRetryPolicy(30000,
                                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-
-
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
         }
