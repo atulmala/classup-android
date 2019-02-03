@@ -39,6 +39,8 @@ public class ExamListTeacher extends AppCompatActivity {
     private String selected_exam_title = "nil";
     private String selected_exam_id = "nil";
     private String select_exam_type = "nil";
+    private String select_start_date = "nil";
+    private String select_end_date = "nil";
     private  String sender;
 
     @Override
@@ -69,6 +71,8 @@ public class ExamListTeacher extends AppCompatActivity {
         final ArrayList<String> exam_title_list = new ArrayList<>();
         final ArrayList<String> exam_id_list = new ArrayList<>();
         final ArrayList<String> exam_type_list = new ArrayList<>();
+        final ArrayList<String> start_date_list = new ArrayList<>();
+        final ArrayList<String> end_date_list = new ArrayList<>();
 
         final ArrayAdapter adapter = new ArrayAdapter(this,
             android.R.layout.simple_list_item_single_choice, exam_title_list);
@@ -102,6 +106,12 @@ public class ExamListTeacher extends AppCompatActivity {
 
                             String exam_type = jo.getString("exam_type");
                             exam_type_list.add(exam_type);
+
+                            String start_date = jo.getString("start_date");
+                            start_date_list.add(start_date);
+
+                            String end_date = jo.getString("end_date");
+                            end_date_list.add(end_date);
 
                             adapter.notifyDataSetChanged();
                         } catch (JSONException je) {
@@ -154,6 +164,8 @@ public class ExamListTeacher extends AppCompatActivity {
                 selected_exam_id = exam_id_list.get(position);
                 selected_exam_title = exam_title_list.get(position);
                 select_exam_type = exam_type_list.get(position);
+                select_start_date = start_date_list.get(position);
+                select_end_date = end_date_list.get(position);
             }
         });
     }
@@ -181,6 +193,8 @@ public class ExamListTeacher extends AppCompatActivity {
                     intent.putExtra("exam_id", selected_exam_id);
                     intent.putExtra("exam_title", selected_exam_title);
                     intent.putExtra("exam_type", select_exam_type);
+                    intent.putExtra("start_date", select_start_date);
+                    intent.putExtra("end_date", select_end_date);
                     startActivity(intent);
                     break;
                 case "manageTest":

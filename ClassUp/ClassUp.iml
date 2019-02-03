@@ -179,5 +179,6 @@
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-measurement-connector-impl:17.0.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-tasks:16.0.1@aar" level="project" />
     <orderEntry type="module" module-name="volley" />
+    <orderEntry type="module" module-name="volley" />
   </component>
 </module>

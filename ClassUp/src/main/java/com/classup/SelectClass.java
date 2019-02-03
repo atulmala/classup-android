@@ -29,6 +29,8 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.NetworkError;
@@ -72,6 +74,8 @@ public class SelectClass extends AppCompatActivity {
     String school_id;
 
     String sender;
+    String start_date;
+    String end_date;
     String menu = "Go";
 
     @Override
@@ -157,11 +161,13 @@ public class SelectClass extends AppCompatActivity {
         // behoviour of this activity
         Intent intent = getIntent();
         sender = intent.getStringExtra("sender");
+        start_date = intent.getStringExtra("start_date");
+        end_date = intent.getStringExtra("end_date");
+
         Calendar calendar =  Calendar.getInstance();
         switch(sender)  {
             case "takeAttendance":
                 // Future dated attendance is not allowed
-
                 datePicker.setMaxDate(calendar.getTimeInMillis());
                 menu = "Take Attendance";
                 //submit_button.setText("Take Attendance");
@@ -170,6 +176,24 @@ public class SelectClass extends AppCompatActivity {
                 menu = "Schedule Test";
                 String exam_title = intent.getStringExtra("exam_title");
                 this.setTitle("Schedule for " + exam_title);
+
+                // 03/02/2019 - Set the min date and max date in the date picker to be the
+                // start date and end date for the exam to prevent teachers from scheduling on the
+                // dates outside the start & end date range for the exam
+                try {
+                    Date sd = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);
+                    Date ed = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
+                    datePicker.setMinDate(sd.getTime());
+                    datePicker.setMaxDate(ed.getTime());
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(sd);
+
+                    datePicker.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                            cal.get(Calendar.DAY_OF_MONTH));
+                } catch (Exception e) {
+                    System.out.print("Failed to set the min and Max date for datePicker = ");
+                    System.out.println(e.getMessage());
+                }
                 break;
             case "createHW":
                 datePicker.setMinDate(System.currentTimeMillis() - 1000);
