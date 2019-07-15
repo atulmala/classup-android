@@ -54,12 +54,12 @@ public class ExamListTeacher extends AppCompatActivity {
 
         try {
             AnalyticsEvent event =
-                SessionManager.getInstance().analytics.getEventClient().
+                SessionManager.analytics.getEventClient().
                     createEvent("Show Exam List Teacher");
             event.addAttribute("user", SessionManager.getInstance().
                 getLogged_in_user());
             // we also capture the communication category
-            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+            SessionManager.analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Show Exam List Teacher");
         } catch (Exception exception)   {

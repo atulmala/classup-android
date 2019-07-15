@@ -80,39 +80,39 @@ public class SelectCriteriaAttendanceSummary extends AppCompatActivity {
         setContentView(R.layout.activity_select_criteria_attendance_summary);
         this.setTitle("Select Criteria");
 
-        classPicker = (NumberPicker)findViewById(R.id.pick_class_attendance_summary);
-        sectionPicker = (NumberPicker)findViewById(R.id.pick_section_attendance_summary);
-        subjectPicker = (NumberPicker)findViewById(R.id.pick_subject_attendance_summary);
+        classPicker = findViewById(R.id.pick_class_attendance_summary);
+        sectionPicker = findViewById(R.id.pick_section_attendance_summary);
+        subjectPicker = findViewById(R.id.pick_subject_attendance_summary);
 
         setupPicker(classPicker, classUrl, "standard", "class_api");
         setupPicker(sectionPicker, sectionUrl, "section", "section_api");
 
         setupPicker(subjectPicker, subjectUrl, "subject", "subject_api");
 
-        monthPicker = (NumberPicker)findViewById(R.id.pick_month_attendance_summary);
+        monthPicker = findViewById(R.id.pick_month_attendance_summary);
 
         monthPicker.setMaxValue(months.length - 1);
         monthPicker.setDisplayedValues(months);
 
-        chk_till_date = (CheckBox)findViewById(R.id.chk_till_date);
-        chk_current_year = (CheckBox)findViewById(R.id.chk_current_year);
-        chk_last_year = (CheckBox)findViewById(R.id.chk_last_year);
+        chk_till_date = findViewById(R.id.chk_till_date);
+        chk_current_year = findViewById(R.id.chk_current_year);
+        chk_last_year = findViewById(R.id.chk_last_year);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 

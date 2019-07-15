@@ -45,11 +45,11 @@ public class PendingTestListAdapter extends BaseAdapter {
         }
 
         final View convertViewRef = convertView;
-        TextView date_col = (TextView)convertView.findViewById(R.id.txt_test_date);
-        TextView class_col = (TextView)convertView.findViewById(R.id.txt_class);
-        TextView section_col = (TextView)convertView.findViewById(R.id.txt_section);
-        TextView subject_col = (TextView)convertView.findViewById(R.id.txt_subject);
-        TextView maxmarks_col = (TextView)convertView.findViewById(R.id.txt_marks);
+        TextView date_col = convertView.findViewById(R.id.txt_test_date);
+        TextView class_col = convertView.findViewById(R.id.txt_class);
+        TextView section_col = convertView.findViewById(R.id.txt_section);
+        TextView subject_col = convertView.findViewById(R.id.txt_subject);
+        TextView maxmarks_col = convertView.findViewById(R.id.txt_marks);
 
         // Now set respective values
         date_col.setText(pending_test_list.get(position).getDate());

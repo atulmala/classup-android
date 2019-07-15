@@ -114,14 +114,14 @@ public class PendingTestsActivityFragment extends Fragment {
                                                 // Analysis via AWS
                                                 try {
                                                     AnalyticsEvent event =
-                                                            SessionManager.getInstance().
+                                                            SessionManager.
                                                                     analytics.getEventClient().
                                                                     createEvent
                                                                         ("Delete Test");
                                                     event.addAttribute("user",
                                                             SessionManager.getInstance().
                                                             getLogged_in_user());
-                                                    SessionManager.getInstance().analytics.
+                                                    SessionManager.analytics.
                                                             getEventClient().
                                                             recordEvent(event);
                                                 } catch (NullPointerException exception)    {

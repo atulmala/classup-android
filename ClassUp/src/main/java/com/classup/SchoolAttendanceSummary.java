@@ -40,12 +40,12 @@ public class SchoolAttendanceSummary extends AppCompatActivity {
         // Analysis via AWS
         try {
             AnalyticsEvent event =
-                    SessionManager.getInstance().analytics.getEventClient().
+                    SessionManager.analytics.getEventClient().
                             createEvent("School Attendance Summary");
             event.addAttribute("user", SessionManager.getInstance().
                     getLogged_in_user());
             // we also capture the communication category
-            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+            SessionManager.analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics School Attendance Summary");
         } catch (Exception exception)   {
@@ -54,7 +54,7 @@ public class SchoolAttendanceSummary extends AppCompatActivity {
 
         school_id = SessionManager.getInstance().getSchool_id();
         // set up the header rows
-        final TableRow header_row = (TableRow) findViewById(R.id.header_row_school_att_summary);
+        final TableRow header_row = findViewById(R.id.header_row_school_att_summary);
 
         Intent intent = getIntent();
         String d = intent.getStringExtra("date");
@@ -63,8 +63,8 @@ public class SchoolAttendanceSummary extends AppCompatActivity {
         String date = d + "/" + m + "/" + y;
         ((TextView) header_row.findViewById(R.id.txt_date_school_att_summary)).setText(date);
 
-        final TableLayout tableLayout = (TableLayout) findViewById(R.id.tbl_school_att_summary);
-        TableLayout tbl_title = (TableLayout) findViewById(R.id.tbl_att_header_school);
+        final TableLayout tableLayout = findViewById(R.id.tbl_school_att_summary);
+        TableLayout tbl_title = findViewById(R.id.tbl_att_header_school);
         // set the title row
         TableRow title_row = new TableRow(getApplicationContext());
         TableRow.LayoutParams lp =
@@ -212,17 +212,17 @@ public class SchoolAttendanceSummary extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

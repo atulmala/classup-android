@@ -49,7 +49,7 @@ public class SelectTeacher extends AppCompatActivity {
 
         final TeacherListAdapter adapter = new TeacherListAdapter(this,
                 android.R.layout.simple_list_item_checked, teacher_list);
-        final ListView listView = (ListView) findViewById(R.id.teacher_list);
+        final ListView listView = findViewById(R.id.teacher_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(adapter);
@@ -141,17 +141,17 @@ public class SelectTeacher extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 

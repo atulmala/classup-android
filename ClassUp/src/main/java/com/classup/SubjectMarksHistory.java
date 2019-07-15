@@ -40,14 +40,14 @@ public class SubjectMarksHistory extends AppCompatActivity {
 
         try {
             AnalyticsEvent event =
-                    SessionManager.getInstance().analytics.getEventClient().
+                    SessionManager.analytics.getEventClient().
                             createEvent("Subject Marks History");
             event.addAttribute("user", SessionManager.getInstance().
                     getLogged_in_user());
             // 17/09/2017 also track of which subject?
             event.addAttribute("Subject", getIntent().getStringExtra("subject"));
             // we also capture the communication category
-            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+            SessionManager.analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Subject Marks History");
         } catch (Exception exception)   {
@@ -55,16 +55,16 @@ public class SubjectMarksHistory extends AppCompatActivity {
         }
 
 
-        final GraphView graph = (GraphView) findViewById(R.id.graph);
+        final GraphView graph = findViewById(R.id.graph);
         final LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
         // show the name of student on the top
-        TableRow header_row = (TableRow)findViewById(R.id.header_row_p_marks_history);
+        TableRow header_row = findViewById(R.id.header_row_p_marks_history);
         String header_text = getIntent().getStringExtra("subject") +
                 " Marks History for " + getIntent().getStringExtra("student_name");
         ((TextView)header_row.findViewById(R.id.txt_p_subject_marks)).setText(header_text);
 
-        final TableLayout tableLayout = (TableLayout)findViewById(R.id.tbl_p_stu_marks_history);
+        final TableLayout tableLayout = findViewById(R.id.tbl_p_stu_marks_history);
         TableRow title_row = new TableRow(getApplicationContext());
         TableRow.LayoutParams lp =
                 new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
@@ -279,17 +279,17 @@ public class SubjectMarksHistory extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

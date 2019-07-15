@@ -29,7 +29,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by atulgupta on 07/08/15.
@@ -38,7 +42,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
     private Activity activity;
     private List<AttendanceListSource> roll_no_and_name_list;
 
-    private static List<String> absentee_list = new ArrayList<>();
+    private static ArrayList<String> absentee_list = new ArrayList<>();
 
     // a list to hold the student who were absent earlier but now marked as present
     private static List<String> correction_list = new ArrayList<>();
@@ -103,6 +107,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
                                 e.printStackTrace();
                             }
                         }
+                        absentee_list = removeDuplicates(absentee_list);
                         System.out.print("first time absentee lists = ");
                         System.out.println(absentee_list);
 
@@ -308,10 +313,12 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 // add the id of this student to the absentees list
                 if (!absentee_list.contains(roll_no_and_name_list.get(position).getId()))
                     absentee_list.add(roll_no_and_name_list.get(position).getId());
+                System.out.print("Absentee lists before removing duplicates = ");
+                System.out.println(absentee_list);
+                absentee_list = removeDuplicates(absentee_list);
 
                 // remove the id of this student from the correction list
-                if(correction_list.contains(roll_no_and_name_list.get(position).getId()))
-                    correction_list.remove(roll_no_and_name_list.get(position).getId());
+                correction_list.remove(roll_no_and_name_list.get(position).getId());
                 System.out.print("Absentee lists = ");
                 System.out.println(absentee_list);
                 System.out.print("correction lists = ");
@@ -334,8 +341,8 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 radioButton_absent.setEnabled(true);
 
                 // remove this student from the absentees list and also from database
-                if (absentee_list.contains(roll_no_and_name_list.get(position).getId()))
-                    absentee_list.remove(roll_no_and_name_list.get(position).getId());
+                absentee_list.remove(roll_no_and_name_list.get(position).getId());
+
 
                 // add this student to correction list. Means if this student was marked as
                 // absent earlier, he/she will now be marked as present
@@ -351,4 +358,27 @@ public class AttendanceListAdapter extends BaseAdapter  {
         });
         return convertView;
     }
+
+    // Function to remove duplicates from an ArrayList
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
+    {
+
+        // Create a new LinkedHashSet
+        Set<T> set = new LinkedHashSet<>();
+
+        // Add the elements to set
+        set.addAll(list);
+
+        // Clear the list
+        list.clear();
+
+        // add the elements of set
+        // with no duplicates to the list
+        list.addAll(set);
+
+        // return the list
+        return list;
+    }
+
+
 }

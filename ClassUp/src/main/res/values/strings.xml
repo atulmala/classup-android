@@ -165,4 +165,6 @@
     <string name="practical">Practical</string>
     <string name="circulars">Circulars</string>
     <string name="time_table">Time Table</string>
+    <string name="share_video">Share Video</string>
+    <string name="add_pics">Share Pics</string>
 </resources>

@@ -109,12 +109,12 @@ public class TeacherMessageRecord extends AppCompatActivity {
 
                     // Analysis via AWS
                     try {
-                        AnalyticsEvent event = SessionManager.getInstance().
+                        AnalyticsEvent event = SessionManager.
                             analytics.getEventClient().
                             createEvent("Teacher Message Record");
                         event.addAttribute("user", SessionManager.getInstance().
                             getLogged_in_user());
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                             recordEvent(event);
                     } catch (NullPointerException exception)    {
                         System.out.println("flopped in creating " +
@@ -167,17 +167,17 @@ public class TeacherMessageRecord extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

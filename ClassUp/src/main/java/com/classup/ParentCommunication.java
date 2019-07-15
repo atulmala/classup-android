@@ -55,17 +55,17 @@ public class ParentCommunication extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -155,13 +155,13 @@ public class ParentCommunication extends AppCompatActivity {
             // Analysis via AWS
             try {
                 AnalyticsEvent event =
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                                 createEvent("Parent Communication");
                 event.addAttribute("user", SessionManager.getInstance().
                         getLogged_in_user());
                 // we also capture the communication category
                 event.addAttribute("category", category_list[cat_picker.getValue()]);
-                SessionManager.getInstance().analytics.
+                SessionManager.analytics.
                         getEventClient().
                         recordEvent(event);
             } catch (NullPointerException exception)    {

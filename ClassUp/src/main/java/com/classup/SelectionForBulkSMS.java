@@ -67,7 +67,7 @@ public class SelectionForBulkSMS extends AppCompatActivity {
 
         final BulkSMSAdapter bulkSMSAdapter =
                 new BulkSMSAdapter(this, android.R.layout.simple_list_item_checked, class_list);
-        final ListView listView = (ListView) findViewById(R.id.bulk_sms_selection_list);
+        final ListView listView = findViewById(R.id.bulk_sms_selection_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(bulkSMSAdapter);
@@ -137,7 +137,7 @@ public class SelectionForBulkSMS extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CheckedTextView textView = (CheckedTextView) view.findViewById(R.id.the_class);
+                CheckedTextView textView = view.findViewById(R.id.the_class);
 
                 if (!textView.isChecked()) {
                     textView.setChecked(true);
@@ -166,17 +166,17 @@ public class SelectionForBulkSMS extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 

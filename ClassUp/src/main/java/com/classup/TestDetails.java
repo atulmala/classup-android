@@ -201,14 +201,14 @@ public class TestDetails extends AppCompatActivity {
                                     // Analysis via AWS
 
                                     AnalyticsEvent scheduleTestEvent =
-                                        SessionManager.getInstance().analytics.getEventClient().
+                                        SessionManager.analytics.getEventClient().
                                             createEvent("Schedule Test");
                                     scheduleTestEvent.addAttribute("user",
                                         SessionManager.getInstance().getLogged_in_user());
-                                    SessionManager.getInstance().analytics.getEventClient().
+                                    SessionManager.analytics.getEventClient().
                                         recordEvent(scheduleTestEvent);
                                     try {
-                                        progressDialog.hide();;
+                                        progressDialog.hide();
                                         progressDialog.cancel();
                                         final String outcome = response.getString("outcome");
                                         Toast toast = Toast.makeText(getApplicationContext(),

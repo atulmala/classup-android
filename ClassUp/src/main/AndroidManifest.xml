@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -32,7 +33,8 @@
         <!-- activity for splash screen -->
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -125,18 +127,21 @@
         <!-- activity that shows list of pending tests -->
         <activity
             android:name=".PendingTestsActivity"
-            android:label="@string/title_activity_pending_tests"/>
+            android:label="@string/title_activity_pending_tests"
+            android:screenOrientation="portrait"/>
 
         <!-- activity that shows list of completed tests -->
         <activity
             android:name=".CompletedTestsActivity"
-            android:label="@string/title_activity_completed_tests"/>
+            android:label="@string/title_activity_completed_tests"
+            android:screenOrientation="portrait"/>
 
         <!-- activity for entering marks or grades of students in a test -->
         <activity
             android:name=".MarksEntry"
             android:label="@string/title_activity_marks_entry"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.classup.MarksEntry"/>
 
@@ -145,7 +150,8 @@
         </activity>
         <activity
             android:name=".SetSubjects"
-            android:label="Set Subjects">
+            android:label="Set Subjects"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.classup.SetSubjects"/>
 
@@ -156,7 +162,8 @@
         <!-- activity to select class, section, subject, month, and year for attendance summary -->
         <activity
             android:name=".SelectCriteriaAttendanceSummary"
-            android:label="Select Criteria for Attendance Summary">
+            android:label="Select Criteria for Attendance Summary"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.classup.SelectAttendanceSummaryCriteria"/>
 
@@ -167,7 +174,8 @@
         <!-- activity that shows attendance summary for a class, section, sbuject, and duration -->
         <activity
             android:name=".ShowAttendanceSummary"
-            android:label="Attendance Summary">
+            android:label="Attendance Summary"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.classup.ShowAttendanceSummary"/>
 
@@ -178,7 +186,8 @@
         <!-- activity for password change -->
         <activity
             android:name=".PasswordChange"
-            android:label="Change Password">
+            android:label="Change Password"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.classup.PasswordChange"/>
 
@@ -188,13 +197,21 @@
         <activity android:name=".SelectStudent"/>
         <activity
             android:name=".SelectClassSection"
-            android:label="Select Class/Section"/>
-        <activity android:name=".ComposeMessage"/>
-        <activity android:name=".SelectCriteriaBusAttendance"/>
-        <activity android:name=".TakeBusAttendance"/>
+            android:label="Select Class/Section"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ComposeMessage"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".SelectCriteriaBusAttendance"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".TakeBusAttendance"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ParentsMenu"
-            android:label="Parent Menu">
+            android:label="Parent Menu"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.classup.ParentsMenu"/>
 
@@ -203,7 +220,8 @@
         </activity>
         <activity
             android:name=".ShowWard"
-            android:label="Select Student">
+            android:label="Select Student"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.classup.ShowWard"/>
 
@@ -212,59 +230,82 @@
         </activity>
         <activity android:name=".HWList">
             <intent-filter>
-                <action android:name="com.classup.HWList"/>
+                <action android:name="com.classup.HWList"
+                    android:screenOrientation="portrait"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ReviewHW"/>
-        <activity android:name=".ShowAttendanceSummaryParents"/>
-        <activity android:name=".ParentCommunication"/>
-        <activity android:name=".ReportBusDelay"/>
+        <activity
+            android:name=".ReviewHW"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ShowAttendanceSummaryParents"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ParentCommunication"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ReportBusDelay"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ParentsSelectSubject"
-            android:label="Select Subject"/>
-        <activity android:name=".SubjectMarksHistory"/>
+            android:label="Select Subject"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SubjectMarksHistory"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ShowExamList"
             android:label="Select Exam"/>
-        <activity android:name=".ShowExamResults"/>
+        <activity android:name=".ShowExamResults"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CommunicationHistory"
-            android:label="Communication History"/>
+            android:label="Communication History"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SendBulkSMS"
-            android:label="Send Bulk SMS"/>
+            android:label="Send Bulk SMS"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SelectionForBulkSMS"
-            android:label="Please Select"/>
+            android:label="Please Select"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SchoolAttendanceSummary"
-            android:label="Attendance Summary"/>
+            android:label="Attendance Summary"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SelectDate"
-            android:label="Select Date"/>
+            android:label="Select Date"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AddStudent"
-            android:label="Enter Details"/>
+            android:label="Enter Details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SelectClassSection1"
-            android:label="Select Class/Section"/>
+            android:label="Select Class/Section"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SelectStudent1"
             android:label="Select Student"/>
         <activity
             android:name=".EditStudent"
-            android:label="Edit Student"/>
+            android:label="Edit Student"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AddTeacher"
-            android:label="Add Teacher"/>
+            android:label="Add Teacher"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".EditTeacher"
-            android:label="Edit Teacher"/>
+            android:label="Edit Teacher"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SelectTeacher"
-            android:label="Select Teacher"/>
+            android:label="Select Teacher"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".MyFirebaseInstanceIdService"
@@ -275,12 +316,9 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name=".MyFireaseMessagingService"
-            android:enabled="true"
-            android:exported="true">
+        <service android:name=".java.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
@@ -303,11 +341,13 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/algae_green"/>
 
-        <activity android:name=".TestListParent"/>
         <activity
-            android:name=".TeacherMenu2"
-            android:label="@string/title_activity_teacher_menu2"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".TestListParent"
+            android:screenOrientation="portrait"/>
+        <!--<activity-->
+            <!--android:name=".TeacherMenu2"-->
+            <!--android:label="@string/title_activity_teacher_menu2"-->
+            <!--android:theme="@style/AppTheme.NoActionBar"/>-->
         <activity
             android:name=".CoScholastic"
             android:screenOrientation="portrait"
@@ -318,28 +358,49 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".TeachersAttendance">
+        <activity
+            android:name=".TeachersAttendance"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CommunicationCenter">
+        <activity
+            android:name=".CommunicationCenter"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Arrangements">
+        <activity
+            android:name=".Arrangements"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ActivityGroup">
+        <activity
+            android:name=".ActivityGroup"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ActivityMembers">
+        <activity
+            android:name=".ActivityMembers"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".TeacherMessageRecord">
+        <activity
+            android:name=".TeacherMessageRecord"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".TeacherMessageReceivers">
+        <activity
+            android:name=".TeacherMessageReceivers"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".MyTimeTable">
+        <activity
+            android:name=".MyTimeTable"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".DaysofWeek">
+        <activity
+            android:name=".DaysofWeek"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".TestDetails">
+        <activity
+            android:name=".TestDetails"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ExamListTeacher">
+        <activity
+            android:name=".ExamListTeacher"
+            android:screenOrientation="portrait">
         </activity>
     </application>
-
 </manifest>

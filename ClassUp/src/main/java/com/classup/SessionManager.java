@@ -57,9 +57,6 @@ public class SessionManager {
     }
 
     public Boolean whetherLoggedIn()    {
-        if (logged_in_user != "")
-            return true;
-        else
-            return false;
+        return logged_in_user != "";
     }
 }

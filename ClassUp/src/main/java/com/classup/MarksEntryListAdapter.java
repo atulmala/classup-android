@@ -195,7 +195,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                     else {
                         marks = Float.parseFloat(holder.marks_or_grade.getText().toString());
                     }
-                    float pm = Float.parseFloat(pass_marks.toString());
+                    float pm = Float.parseFloat(pass_marks);
                     if (marks < pm) {
                         //holder.marks_or_grade.setTextColor(Color.RED);
                     }
@@ -213,7 +213,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
                     else {
                         marks = Float.parseFloat(holder.term_marks.getText().toString());
                     }
-                    float pm = Float.parseFloat(pass_marks.toString());
+                    float pm = Float.parseFloat(pass_marks);
                     if (marks < pm) {
                         //holder.term_marks.setTextColor(Color.RED);
                     }
@@ -299,15 +299,15 @@ public class MarksEntryListAdapter extends BaseAdapter {
                                     marks = Float.parseFloat(holder.
                                             marks_or_grade.getText().toString());
                                 }
-                                float mm = Float.parseFloat(max_marks.toString());
-                                float pm = Float.parseFloat(pass_marks.toString());
+                                float mm = Float.parseFloat(max_marks);
+                                float pm = Float.parseFloat(pass_marks);
                                 //float mm = Float.parseFloat(mm_list.get(0).toString());
                                 if (marks > mm) {
                                     String message = "Marks entered: ";
                                     message += holder.marks_or_grade.getText().toString();
                                     message += " for " + holder.full_name.getText() +
                                             " are more than ";
-                                    message += "Max marks: " + max_marks.toString();
+                                    message += "Max marks: " + max_marks;
                                     Toast toast = Toast.makeText(activity, message,
                                             Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -371,14 +371,14 @@ public class MarksEntryListAdapter extends BaseAdapter {
                                     marks = Float.parseFloat(holder.
                                         term_marks.getText().toString());
                                 }
-                                float mm = Float.parseFloat(max_marks.toString());
-                                float pm = Float.parseFloat(pass_marks.toString());
+                                float mm = Float.parseFloat(max_marks);
+                                float pm = Float.parseFloat(pass_marks);
                                 if (marks > mm) {
                                     String message = "Marks entered: ";
                                     message += holder.term_marks.getText().toString();
                                     message += " for " + holder.full_name.getText() +
                                         " are more than ";
-                                    message += "Max marks: " + max_marks.toString();
+                                    message += "Max marks: " + max_marks;
                                     Toast toast = Toast.makeText(activity, message,
                                         Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.CENTER, 0, 0);

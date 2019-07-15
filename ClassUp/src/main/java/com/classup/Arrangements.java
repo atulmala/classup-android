@@ -102,12 +102,12 @@ public class Arrangements extends AppCompatActivity {
                     // 12/09/17 - Now we are building the custom
                     // Analysis via AWS
                     try {
-                        AnalyticsEvent event = SessionManager.getInstance().
+                        AnalyticsEvent event = SessionManager.
                             analytics.getEventClient().
                             createEvent("Arrangement List");
                         event.addAttribute("user", SessionManager.getInstance().
                             getLogged_in_user());
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                             recordEvent(event);
                     } catch (NullPointerException exception)    {
                         System.out.println("flopped in creating " +
@@ -153,17 +153,17 @@ public class Arrangements extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

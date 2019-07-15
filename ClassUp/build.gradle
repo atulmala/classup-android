@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '28.0.2'
 
     defaultConfig {
         applicationId "com.classup"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 71
+        versionCode 76
         versionName "2.16"
         multiDexEnabled true
     }
@@ -31,22 +30,23 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':volley')
-    //compile project(':gson-2.4')
     implementation files('libs/pinchzoom/pinchzoom.jar')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.wefika:horizontal-picker:1.1.0'
     implementation 'com.jjoe64:graphview:4.0.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v2.1.6'
-    implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-messaging:17.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    //compile 'com.amazonaws:aws-android-sdk-s3:2.4.1'
     implementation 'com.amazonaws:aws-android-sdk-mobileanalytics:2.3.9'
     implementation 'com.anupcowkur:reservoir:3.1.0'
+    implementation 'com.google.firebase:firebase-crash:16.2.1'
+    implementation 'com.google.firebase:firebase-perf:16.2.3'
 }
 
 // Add to the bottom of the file
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.firebase-perf'

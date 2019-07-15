@@ -43,9 +43,9 @@ public class TestListParentAdapter extends BaseAdapter {
             LayoutInflater inflater = activity.getLayoutInflater();
             convertView = inflater.inflate(R.layout.row_p_test_list, null);
         }
-        TextView date = (TextView)convertView.findViewById(R.id.txt_test_date);
-        TextView subject = (TextView)convertView.findViewById(R.id.txt_test);
-        TextView test_topic = (TextView)convertView.findViewById(R.id.txt_test_topics);
+        TextView date = convertView.findViewById(R.id.txt_test_date);
+        TextView subject = convertView.findViewById(R.id.txt_test);
+        TextView test_topic = convertView.findViewById(R.id.txt_test_topics);
 
         // Now set respective values
         date.setText(test_list.get(position).getDate());

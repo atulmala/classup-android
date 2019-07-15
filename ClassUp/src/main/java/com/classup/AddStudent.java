@@ -83,8 +83,8 @@ public class AddStudent extends AppCompatActivity {
             }
         }
 
-        classPicker = (NumberPicker) findViewById(R.id.class_picker);
-        sectionPicker = (NumberPicker) findViewById(R.id.section_picker);
+        classPicker = findViewById(R.id.class_picker);
+        sectionPicker = findViewById(R.id.section_picker);
         setupPicker(classPicker, classUrl, "standard", "class_api");
         setupPicker(sectionPicker, sectionUrl, "section", "section_api");
     }

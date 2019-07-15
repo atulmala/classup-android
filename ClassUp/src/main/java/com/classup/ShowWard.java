@@ -37,12 +37,12 @@ public class ShowWard extends AppCompatActivity {
 
         try {
             AnalyticsEvent event =
-                    SessionManager.getInstance().analytics.getEventClient().
+                    SessionManager.analytics.getEventClient().
                             createEvent("Show Ward");
             event.addAttribute("user", SessionManager.getInstance().
                     getLogged_in_user());
             // we also capture the communication category
-            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+            SessionManager.analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Show Ward");
         } catch (Exception exception)   {
@@ -57,7 +57,7 @@ public class ShowWard extends AppCompatActivity {
         final ArrayList<String> ward_id = new ArrayList<>();
 
         final ArrayAdapter adapter = new ArrayAdapter(this, R.layout.ward_list_view, ward_name);
-        ListView listView = (ListView)findViewById(R.id.ward_list);
+        ListView listView = findViewById(R.id.ward_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(adapter);
@@ -152,17 +152,17 @@ public class ShowWard extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

@@ -34,24 +34,24 @@ public class ParentsMenu extends AppCompatActivity {
         student_id = getIntent().getStringExtra("student_id");
         student_name = getIntent().getStringExtra("student_name");
 
-        TextView textView = (TextView) findViewById(R.id.txt_parent_menu_Heading);
+        TextView textView = findViewById(R.id.txt_parent_menu_Heading);
         textView.setText(student_name);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 

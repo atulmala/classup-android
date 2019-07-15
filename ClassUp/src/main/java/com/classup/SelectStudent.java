@@ -62,7 +62,7 @@ public class SelectStudent extends AppCompatActivity {
 
         final SelectStudentAdapter adapter = new SelectStudentAdapter(this, student_list,
                 selected_students);
-        final ListView listView = (ListView) findViewById(R.id.student_list);
+        final ListView listView = findViewById(R.id.student_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(adapter);
@@ -148,12 +148,12 @@ public class SelectStudent extends AppCompatActivity {
                                 // 12/09/17 - Now we are building the custom Analysis via AWS
                                 try {
                                     AnalyticsEvent callParentEvent =
-                                            SessionManager.getInstance().
+                                            SessionManager.
                                             analytics.getEventClient().
                                                     createEvent("Call Parent");
                                     callParentEvent.addAttribute("user",
                                             SessionManager.getInstance().getLogged_in_user());
-                                    SessionManager.getInstance().analytics.getEventClient().
+                                    SessionManager.analytics.getEventClient().
                                             recordEvent(callParentEvent);
                                 } catch (NullPointerException exception)    {
                                     System.out.println("flopped in creating " +
@@ -274,17 +274,17 @@ public class SelectStudent extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -306,11 +306,11 @@ public class SelectStudent extends AppCompatActivity {
                     // 12/09/17 - Now we are building the custom Analysis via AWS
                     try {
                         AnalyticsEvent sendMessageEvent =
-                                SessionManager.getInstance().analytics.getEventClient().
+                                SessionManager.analytics.getEventClient().
                                         createEvent("Send Message Selected Students");
                         sendMessageEvent.addAttribute("user",
                                 SessionManager.getInstance().getLogged_in_user());
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                                 recordEvent(sendMessageEvent);
                     } catch (NullPointerException exception)    {
                         System.out.println("flopped in creating analytics " +

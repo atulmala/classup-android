@@ -8,6 +8,32 @@
     tools:context="com.classup.CommunicationCenter">
 
     <Button
+        android:id="@+id/btn_share_video2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:enabled="false"
+        android:onClick="sharePic"
+        android:text="@string/add_pics"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_comm_parents" />
+
+    <Button
+        android:id="@+id/btn_share_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:enabled="false"
+        android:onClick="shareVideo"
+        android:text="@string/share_video"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_comm_parents" />
+
+    <Button
         android:id="@+id/btn_comm_parents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,21 +49,22 @@
         android:id="@+id/btn_comm_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="108dp"
         android:onClick="showActivityGroups"
         android:text="@string/activity_group_communication"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_comm_parents"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_comm_parents" />
 
     <Button
         android:id="@+id/btn_circulars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:onClick="showCirculars"
         android:text="@string/circulars"
         android:visibility="visible"
@@ -46,21 +73,22 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_comm_history2"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_comm_history2" />
 
     <Button
         android:id="@+id/btn_comm_history2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:onClick="showTeacherMessageHistory"
         android:text="@string/communication_history"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_comm_activity"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_comm_activity" />
 
     <Button
         android:id="@+id/btn_notices"
@@ -77,7 +105,7 @@
         android:id="@+id/btn_time_table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="8dp"
         android:onClick="ShowWeekDays"
         android:text="@string/time_table"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +113,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_notices"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_arrangements2" />
 
     <Button
         android:id="@+id/btn_arrangements2"
@@ -97,6 +125,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_notices"/>
+        app:layout_constraintTop_toTopOf="@+id/btn_notices" />
 
 </android.support.constraint.ConstraintLayout>

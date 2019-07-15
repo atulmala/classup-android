@@ -37,12 +37,12 @@ public class ShowAttendanceSummaryParents extends AppCompatActivity {
 
         try {
             AnalyticsEvent event =
-                    SessionManager.getInstance().analytics.getEventClient().
+                    SessionManager.analytics.getEventClient().
                             createEvent("Attendance Summary Parents");
             event.addAttribute("user", SessionManager.getInstance().
                     getLogged_in_user());
             // we also capture the communication category
-            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+            SessionManager.analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Attendance Summary Parents");
         } catch (Exception exception)   {
@@ -51,11 +51,11 @@ public class ShowAttendanceSummaryParents extends AppCompatActivity {
 
 
         // show the name of student on the top
-        TableRow header_row = (TableRow)findViewById(R.id.header_row_p_att_summary);
+        TableRow header_row = findViewById(R.id.header_row_p_att_summary);
         String header_text = "Attendance Summary for " + getIntent().getStringExtra("student_name");
         ((TextView)header_row.findViewById(R.id.txt_p_att_summary_stu_name)).setText(header_text);
 
-        final TableLayout tableLayout = (TableLayout)findViewById(R.id.tbl_p_stu_att_summary);
+        final TableLayout tableLayout = findViewById(R.id.tbl_p_stu_att_summary);
         TableRow title_row = new TableRow(getApplicationContext());
         TableRow.LayoutParams lp =
                 new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
@@ -291,17 +291,17 @@ public class ShowAttendanceSummaryParents extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

@@ -42,11 +42,11 @@ public class CompletedTestListAdapter extends BaseAdapter {
             LayoutInflater inflater = activity.getLayoutInflater();
             convertView = inflater.inflate(R.layout.row_test_list, null);
         }
-        TextView date_col = (TextView)convertView.findViewById(R.id.txt_test_date);
-        TextView class_col = (TextView)convertView.findViewById(R.id.txt_class);
-        TextView section_col = (TextView)convertView.findViewById(R.id.txt_section);
-        TextView subject_col = (TextView)convertView.findViewById(R.id.txt_subject);
-        TextView maxmarks_col = (TextView)convertView.findViewById(R.id.txt_marks);
+        TextView date_col = convertView.findViewById(R.id.txt_test_date);
+        TextView class_col = convertView.findViewById(R.id.txt_class);
+        TextView section_col = convertView.findViewById(R.id.txt_section);
+        TextView subject_col = convertView.findViewById(R.id.txt_subject);
+        TextView maxmarks_col = convertView.findViewById(R.id.txt_marks);
 
         // Now set respective values
         date_col.setText(completed_test_list.get(position).getDate());

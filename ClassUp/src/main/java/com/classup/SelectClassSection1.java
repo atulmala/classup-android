@@ -50,11 +50,17 @@ public class SelectClassSection1 extends AppCompatActivity {
 
         selected_term = "";
         if (getIntent().getStringExtra("sender").equals("co_scholastic")) {
-            term1 = (CheckBox) findViewById(R.id.chk_term1);
-            term2 = (CheckBox) findViewById(R.id.chk_term2);
+            term1 = findViewById(R.id.chk_term1);
+            term2 = findViewById(R.id.chk_term2);
             term1.setVisibility(View.VISIBLE);
             term2.setVisibility(View.VISIBLE);
 
+        }
+        else    {
+            term1 = findViewById(R.id.chk_term1);
+            term2 = findViewById(R.id.chk_term2);
+            term1.setVisibility(View.INVISIBLE);
+            term2.setVisibility(View.INVISIBLE);
         }
 
         // get the server ip to make api calls
@@ -65,8 +71,8 @@ public class SelectClassSection1 extends AppCompatActivity {
         String classUrl = server_ip + "/academics/class_list/" + school_id + "/?format=json";
         String sectionUrl = server_ip + "/academics/section_list/" + school_id + "/?format=json";
 
-        classPicker = (NumberPicker) findViewById(R.id.pick_class1);
-        sectionPicker = (NumberPicker) findViewById(R.id.pick_section1);
+        classPicker = findViewById(R.id.pick_class1);
+        sectionPicker = findViewById(R.id.pick_section1);
 
         setupPicker(classPicker, classUrl, "standard", "class_api");
         setupPicker(sectionPicker, sectionUrl, "section", "section_api");
@@ -252,7 +258,8 @@ public class SelectClassSection1 extends AppCompatActivity {
                                                         Toast toast1 = Toast.makeText
                                                             (getApplicationContext(), message,
                                                                 Toast.LENGTH_LONG);
-                                                        toast1.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast1.setGravity(Gravity.CENTER,
+                                                                0, 0);
                                                         toast1.show();
 
                                                     } else {
@@ -271,7 +278,6 @@ public class SelectClassSection1 extends AppCompatActivity {
                                                         intent1.putExtra("term", selected_term);
                                                         startActivity(intent1);
                                                     }
-
                                                 } else {
                                                     progressDialog.dismiss();
                                                     progressDialog.hide();
@@ -338,17 +344,17 @@ public class SelectClassSection1 extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if (SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if (SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

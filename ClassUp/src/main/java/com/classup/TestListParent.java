@@ -36,12 +36,12 @@ public class TestListParent extends AppCompatActivity {
 
         try {
             AnalyticsEvent event =
-                    SessionManager.getInstance().analytics.getEventClient().
+                    SessionManager.analytics.getEventClient().
                             createEvent("Upcoming Tests");
             event.addAttribute("user", SessionManager.getInstance().
                     getLogged_in_user());
             // we also capture the communication category
-            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+            SessionManager.analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Upcoming Tests");
         } catch (Exception exception)   {
@@ -53,7 +53,7 @@ public class TestListParent extends AppCompatActivity {
         server_ip = MiscFunctions.getInstance().getServerIP(c);
 
         final ArrayList<TestListSource> test_list = new ArrayList<>();
-        ListView listView = (ListView)findViewById(R.id.p_pending_test_list);
+        ListView listView = findViewById(R.id.p_pending_test_list);
 
         final TestListParentAdapter adapter = new TestListParentAdapter(this, test_list);
         listView.setAdapter(adapter);
@@ -146,17 +146,17 @@ public class TestListParent extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

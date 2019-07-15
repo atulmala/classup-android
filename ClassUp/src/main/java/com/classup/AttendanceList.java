@@ -91,11 +91,11 @@ public class AttendanceList extends AppCompatActivity {
                 intent.getStringExtra("section") + "/?format=json";
         // 11/09/17 - Now we are building the custom Analysis via AWS
         try {
-            AnalyticsEvent initiateAttendanceEvent = SessionManager.getInstance().
+            AnalyticsEvent initiateAttendanceEvent = SessionManager.
                     analytics.getEventClient().createEvent("Initiated Attendance");
             initiateAttendanceEvent.addAttribute("user",
                     SessionManager.getInstance().getLogged_in_user());
-            SessionManager.getInstance().analytics.getEventClient().
+            SessionManager.analytics.getEventClient().
                     recordEvent(initiateAttendanceEvent);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Initiated Attendance");
@@ -327,17 +327,17 @@ public class AttendanceList extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -374,7 +374,7 @@ public class AttendanceList extends AppCompatActivity {
         dialog.setContentView(R.layout.dialog_attendance_submission1);
 
         // show the date of attendance
-        TextView txt_date = (TextView) dialog.findViewById(R.id.txt_att_submission_date);
+        TextView txt_date = dialog.findViewById(R.id.txt_att_submission_date);
         final String d = intent.getStringExtra("date");
         final String m = intent.getStringExtra("month"); // show the dialog that attendance has successfully been submitted
 
@@ -393,12 +393,12 @@ public class AttendanceList extends AppCompatActivity {
 
         // show the subject
         TextView txt_subject =
-                (TextView) dialog.findViewById(R.id.txt_att_submission_subject);
+                dialog.findViewById(R.id.txt_att_submission_subject);
         txt_subject.setText(intent.getStringExtra("subject"));
         txt_subject.setTypeface(Typeface.DEFAULT_BOLD);
 
         // get the list of absentee
-        final List<String> absentee_list = adapter.getAbsentee_list();
+        final List<String> absentee_list = AttendanceListAdapter.getAbsentee_list();
 
         // 03/06/2017 - show the total count
         TextView txt_total = dialog.findViewById(R.id.txt_att_submission_total);
@@ -497,7 +497,7 @@ public class AttendanceList extends AppCompatActivity {
 
                 // now send the correction request. Means the student who are to be marked
                 // present from absent
-                final  List<String> correction_list = adapter.getCorrection_list();
+                final  List<String> correction_list = AttendanceListAdapter.getCorrection_list();
                 JSONObject jsonObject2 = new JSONObject();
                 try {
                     for (String id : correction_list)
@@ -539,11 +539,11 @@ public class AttendanceList extends AppCompatActivity {
 
                 // 11/09/17 - Now we are building the custom Analysis via AWS
                 try {
-                    AnalyticsEvent conductedAttendanceEvent = SessionManager.getInstance().
+                    AnalyticsEvent conductedAttendanceEvent = SessionManager.
                             analytics.getEventClient().createEvent("Conducted Attendance");
                     conductedAttendanceEvent.addAttribute("user",
                             SessionManager.getInstance().getLogged_in_user());
-                    SessionManager.getInstance().analytics.getEventClient().
+                    SessionManager.analytics.getEventClient().
                             recordEvent(conductedAttendanceEvent);
                 } catch (NullPointerException exception)    {
                     System.out.println("flopped in creating analytics Conducted Attendance");
@@ -559,7 +559,7 @@ public class AttendanceList extends AppCompatActivity {
         });
 
         // processing for Cancel button
-        Button btn_cancel = (Button) dialog.findViewById(R.id.btn_att_cancel);
+        Button btn_cancel = dialog.findViewById(R.id.btn_att_cancel);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

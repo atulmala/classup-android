@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                     while (logoTimer < 1000)    {
                         sleep(100);
                         logoTimer += 100;
-                    };
+                    }
                     startActivity(new Intent("com.classup.LOGINACTIVITY"));
                 }
                 catch (InterruptedException e)  {

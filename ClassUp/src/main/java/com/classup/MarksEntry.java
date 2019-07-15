@@ -91,7 +91,6 @@ public class MarksEntry extends AppCompatActivity {
         school_id = SessionManager.getInstance().getSchool_id();
         String url = server_ip + "/academics/get_test_marks_list/" +
             intent.getStringExtra("test_id") + "/";
-        ;
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
@@ -241,17 +240,17 @@ public class MarksEntry extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if (SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if (SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -337,12 +336,12 @@ public class MarksEntry extends AppCompatActivity {
                             // 12/09/17 - Now we are building the custom
                             // Analysis via AWS
                             try {
-                                AnalyticsEvent saveMarksEvent = SessionManager.getInstance().
+                                AnalyticsEvent saveMarksEvent = SessionManager.
                                         analytics.getEventClient().
                                     createEvent("Saved Marks");
                                 saveMarksEvent.addAttribute("user",
                                     SessionManager.getInstance().getLogged_in_user());
-                                SessionManager.getInstance().analytics.getEventClient().
+                                SessionManager.analytics.getEventClient().
                                     recordEvent(saveMarksEvent);
                             } catch (NullPointerException exception) {
                                 System.out.println("flopped in creating analytics Save Marks");
@@ -498,11 +497,11 @@ public class MarksEntry extends AppCompatActivity {
                         // Analysis via AWS
                         try {
                             AnalyticsEvent event =
-                                SessionManager.getInstance().analytics.getEventClient().
+                                SessionManager.analytics.getEventClient().
                                     createEvent("Submit Marks");
                             event.addAttribute("user", SessionManager.getInstance().
                                 getLogged_in_user());
-                            SessionManager.getInstance().analytics.getEventClient().
+                            SessionManager.analytics.getEventClient().
                                 recordEvent(event);
                         } catch (NullPointerException exception) {
                             System.out.println("flopped in creating analytics Submit Marks");

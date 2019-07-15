@@ -61,14 +61,14 @@ public class EditStudent extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        final EditText txt_reg_no = ((EditText) findViewById(R.id.reg_no));
+        final EditText txt_reg_no = findViewById(R.id.reg_no);
         txt_reg_no.setEnabled(false);
-        final EditText txt_first_name = ((EditText) findViewById(R.id.first_name));
-        final EditText txt_last_name = ((EditText) findViewById(R.id.the_surname));
-        final EditText txt_parent_name = ((EditText) findViewById(R.id.parent_name));
-        final EditText txt_mobile1 = ((EditText) findViewById(R.id.mobile1));
-        final EditText txt_mobile2 = ((EditText) findViewById(R.id.mobile2));
-        final EditText txt_roll_no = ((EditText) findViewById(R.id.roll_no));
+        final EditText txt_first_name = findViewById(R.id.first_name);
+        final EditText txt_last_name = findViewById(R.id.the_surname);
+        final EditText txt_parent_name = findViewById(R.id.parent_name);
+        final EditText txt_mobile1 = findViewById(R.id.mobile1);
+        final EditText txt_mobile2 = findViewById(R.id.mobile2);
+        final EditText txt_roll_no = findViewById(R.id.roll_no);
         ((TextView) findViewById(R.id.tv_roll_no)).setText("Roll No");
 
         // get the server ip to make api calls
@@ -100,8 +100,8 @@ public class EditStudent extends AppCompatActivity {
             }
         }
 
-        classPicker = (NumberPicker) findViewById(R.id.class_picker);
-        sectionPicker = (NumberPicker) findViewById(R.id.section_picker);
+        classPicker = findViewById(R.id.class_picker);
+        sectionPicker = findViewById(R.id.section_picker);
         setupPicker(classPicker, classUrl, "standard", "class_api");
         setupPicker(sectionPicker, sectionUrl, "section", "section_api");
 
@@ -184,17 +184,17 @@ public class EditStudent extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -342,13 +342,13 @@ public class EditStudent extends AppCompatActivity {
                                                 // Analysis via AWS
                                                 try {
                                                     AnalyticsEvent event =
-                                                            SessionManager.getInstance().
+                                                            SessionManager.
                                                                     analytics.getEventClient().
                                                                     createEvent("Delete Student");
                                                     event.addAttribute("user",
                                                             SessionManager.getInstance().
                                                             getLogged_in_user());
-                                                    SessionManager.getInstance().analytics.
+                                                    SessionManager.analytics.
                                                             getEventClient().
                                                             recordEvent(event);
                                                 } catch (NullPointerException exception)    {
@@ -490,14 +490,14 @@ public class EditStudent extends AppCompatActivity {
                                                 // Analysis via AWS
                                                 try {
                                                     AnalyticsEvent event =
-                                                            SessionManager.getInstance().
+                                                            SessionManager.
                                                                     analytics.getEventClient().
                                                                     createEvent
                                                                         ("Update Student");
                                                     event.addAttribute("user", SessionManager.
                                                             getInstance().
                                                             getLogged_in_user());
-                                                    SessionManager.getInstance().analytics.
+                                                    SessionManager.analytics.
                                                             getEventClient().
                                                             recordEvent(event);
                                                 } catch (NullPointerException exception)    {

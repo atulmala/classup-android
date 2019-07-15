@@ -108,12 +108,12 @@ public class ActivityMembers extends AppCompatActivity {
                     // 12/09/17 - Now we are building the custom
                     // Analysis via AWS
                     try {
-                        AnalyticsEvent event = SessionManager.getInstance().
+                        AnalyticsEvent event = SessionManager.
                             analytics.getEventClient().
                             createEvent("Activity Group Members");
                         event.addAttribute("user", SessionManager.getInstance().
                             getLogged_in_user());
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                             recordEvent(event);
                     } catch (NullPointerException exception)    {
                         System.out.println("flopped in creating " +

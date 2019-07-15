@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // initialize AWS analytics
         try {
-            SessionManager.getInstance().analytics = MobileAnalyticsManager.getOrCreateInstance(
+            SessionManager.analytics = MobileAnalyticsManager.getOrCreateInstance(
                     this.getApplicationContext(),
                     "175b4dff4d244f67a3b493ca2fbf0904", //Amazon Mobile Analytics App ID
                     "us-east-1:3c5df3cc-591c-44f1-9624-0fb5fe21cee3" //Amazon Cognito Identity Pool ID
@@ -96,17 +96,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -144,7 +144,8 @@ public class LoginActivity extends AppCompatActivity {
             String text = "Looks you are not connected to internet. Please connect and try again";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
-            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,
+                    0, 0);
             toast.show();
             return;
         }
@@ -162,11 +163,11 @@ public class LoginActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
                     // 11/09/17 - Now we are building the custom Analysis via AWS
                     try {
-                        AnalyticsEvent forgotPasswordEvent = SessionManager.getInstance().
+                        AnalyticsEvent forgotPasswordEvent = SessionManager.
                                 analytics.getEventClient().createEvent("Forgot Password");
                         forgotPasswordEvent.addAttribute("user",
                             userName.getText().toString());
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                                 recordEvent(forgotPasswordEvent);
                     } catch (NullPointerException exception)    {
                         System.out.println("flopped in creating analytics");
@@ -297,10 +298,10 @@ public class LoginActivity extends AppCompatActivity {
 
         if (good_to_go) {
             try {
-                AnalyticsEvent loginAttemptEvent = SessionManager.getInstance().
+                AnalyticsEvent loginAttemptEvent = SessionManager.
                         analytics.getEventClient().createEvent("Login Attempt");
                 loginAttemptEvent.addAttribute("user", userName.getText().toString());
-                SessionManager.getInstance().analytics.getEventClient().
+                SessionManager.analytics.getEventClient().
                         recordEvent(loginAttemptEvent);
             } catch (NullPointerException exception)    {
                 Toast.makeText(this, "Analytics", Toast.LENGTH_SHORT).show();
@@ -420,7 +421,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 toast1.show();
                                                 try {
                                                     AnalyticsEvent loginResultEvent =
-                                                            SessionManager.getInstance().
+                                                            SessionManager.
                                                             analytics.getEventClient().
                                                                     createEvent(
                                                                             "Login Result");
@@ -429,7 +430,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                     userName.getText().toString());
                                                     loginResultEvent.addAttribute("Login Result",
                                                             "Success");
-                                                    SessionManager.getInstance().analytics.
+                                                    SessionManager.analytics.
                                                             getEventClient().
                                                             recordEvent(loginResultEvent);
                                                 } catch (NullPointerException exception)    {
@@ -474,14 +475,14 @@ public class LoginActivity extends AppCompatActivity {
                                         else {
                                             try {
                                                 AnalyticsEvent loginResultEvent =
-                                                        SessionManager.getInstance().
+                                                        SessionManager.
                                                                 analytics.getEventClient().
                                                                 createEvent("Login Result");
                                                 loginResultEvent.addAttribute
                                                         ("Login", userName.getText().toString());
                                                 loginResultEvent.addAttribute("Login Result",
                                                         "Failed");
-                                                SessionManager.getInstance().analytics.
+                                                SessionManager.analytics.
                                                         getEventClient().
                                                         recordEvent(loginResultEvent);
                                             } catch (NullPointerException exception)    {

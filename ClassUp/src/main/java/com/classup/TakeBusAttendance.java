@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -71,12 +72,12 @@ public class TakeBusAttendance extends AppCompatActivity {
 
         try {
             AnalyticsEvent event =
-                    SessionManager.getInstance().analytics.getEventClient().
+                    SessionManager.analytics.getEventClient().
                             createEvent("Bus Attendance");
             event.addAttribute("user", SessionManager.getInstance().
                     getLogged_in_user());
             // we also capture the communication category
-            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+            SessionManager.analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Bus Attendance");
         } catch (Exception exception)   {
@@ -94,7 +95,7 @@ public class TakeBusAttendance extends AppCompatActivity {
                 android.R.layout.simple_list_item_checked, student_list,
                 already_absent_students, intent);
         ptr_adapter = adapter;
-        final ListView listView = (ListView) findViewById(R.id.student_list_bus);
+        final ListView listView = findViewById(R.id.student_list_bus);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(adapter);
@@ -232,6 +233,9 @@ public class TakeBusAttendance extends AppCompatActivity {
                                         // TODO Auto-generated method stub
                                     }
                                 });
+                                jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                                 AppController.getInstance().
                                         addToRequestQueue(jsonArrayRequest, tag);
                             }
@@ -279,6 +283,8 @@ public class TakeBusAttendance extends AppCompatActivity {
                         // TODO Auto-generated method stub
                     }
                 });
+        jsonArrayRequest1.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonArrayRequest1, tag);
 
         // retrieve the list of already absent students, if the attendance has been earlier taken
@@ -347,6 +353,8 @@ public class TakeBusAttendance extends AppCompatActivity {
                         // TODO Auto-generated method stub
                     }
                 });
+        jsonArrayRequest2.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest2, tag);
         adapter.notifyDataSetChanged();
 
@@ -354,7 +362,7 @@ public class TakeBusAttendance extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 adapter.first_time = false;
-                CheckedTextView textView = (CheckedTextView) view.findViewById(R.id.lbl_roll_no);
+                CheckedTextView textView = view.findViewById(R.id.lbl_roll_no);
 
                 if(textView != null)
                     if (!textView.isChecked()) {
@@ -362,9 +370,7 @@ public class TakeBusAttendance extends AppCompatActivity {
                         textView.setChecked(true);
                         textView.setBackgroundColor(Color.WHITE);
 
-                        if (current_absent_students.contains(student_list.get(i).getId())) {
-                            current_absent_students.remove(student_list.get(i).getId());
-                        }
+                        current_absent_students.remove(student_list.get(i).getId());
                         if (!correction_list.contains(student_list.get(i).getId()))
                             correction_list.add(student_list.get(i).getId());
 
@@ -392,11 +398,9 @@ public class TakeBusAttendance extends AppCompatActivity {
 
                         // if this student was absent in earlier attendance, this needs to be removed
                         // from the list of already absent students, else absent count will be flawed
-                        if (already_absent_students.contains(student_list.get(i).getId()))
-                            already_absent_students.remove(student_list.get(i).getId());
+                        already_absent_students.remove(student_list.get(i).getId());
 
-                        if (correction_list.contains(student_list.get(i).getId()))
-                            correction_list.remove(student_list.get(i).getId());
+                        correction_list.remove(student_list.get(i).getId());
                         // also add to the absent students list of the adapter
                         adapter.already_absent_students.add(student_list.get(i).getId());
                         adapter.marked_students.remove(student_list.get(i).getId());
@@ -535,17 +539,17 @@ public class TakeBusAttendance extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -588,7 +592,7 @@ public class TakeBusAttendance extends AppCompatActivity {
 
         // show the date of attendance
         TextView txt_date =
-                (TextView) dialog.findViewById(R.id.txt_bus_att_submission_date);
+                dialog.findViewById(R.id.txt_bus_att_submission_date);
 
         String formatted_date = d + "/" + m + "/" + y;
         txt_date.setText(formatted_date);
@@ -596,7 +600,7 @@ public class TakeBusAttendance extends AppCompatActivity {
 
         // show the rout
         TextView txt_rout =
-                (TextView) dialog.findViewById((R.id.txt_bus_att_submission_rout));
+                dialog.findViewById((R.id.txt_bus_att_submission_rout));
         final String rout =
                 intent.getStringExtra("rout");
         txt_rout.setText(rout);
@@ -615,21 +619,21 @@ public class TakeBusAttendance extends AppCompatActivity {
         else
             absent_count = current_absent_students.size();
         TextView txt_absent =
-                (TextView) dialog.findViewById((R.id.txt_bus_att_absent_count));
+                dialog.findViewById((R.id.txt_bus_att_absent_count));
         txt_absent.setText(absent_count.toString());
         txt_absent.setTypeface(Typeface.DEFAULT_BOLD);
 
         // show present count. We need to deduct the number of stops
         Integer present_count = student_list.size() - stop_list.size() - absent_count;
         TextView txt_present_count =
-                (TextView) dialog.findViewById(R.id.txt_bus_att_present_count);
+                dialog.findViewById(R.id.txt_bus_att_present_count);
         txt_present_count.setText(present_count.toString());
         txt_present_count.setTypeface(Typeface.DEFAULT_BOLD);
 
         // now, show the dialog
         dialog.show();
 
-        Button btn_ok = (Button) dialog.findViewById(R.id.btn_bus_att_confirm);
+        Button btn_ok = dialog.findViewById(R.id.btn_bus_att_confirm);
 
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -751,7 +755,7 @@ public class TakeBusAttendance extends AppCompatActivity {
             }
         });
         // processing for Cancel button
-        Button btn_cancel = (Button) dialog.findViewById(R.id.btn_bus_att_cancel);
+        Button btn_cancel = dialog.findViewById(R.id.btn_bus_att_cancel);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

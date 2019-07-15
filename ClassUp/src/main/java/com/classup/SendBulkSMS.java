@@ -37,26 +37,26 @@ public class SendBulkSMS extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
     public void selectClasses(View view)    {
-        AnalyticsEvent event = SessionManager.getInstance().analytics.getEventClient().
+        AnalyticsEvent event = SessionManager.analytics.getEventClient().
                 createEvent("Send Bulk SMS Selected Classes");
         event.addAttribute("user", SessionManager.getInstance().getLogged_in_user());
-        SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
-        EditText editText = (EditText)findViewById(R.id.bulkSMS);
+        SessionManager.analytics.getEventClient().recordEvent(event);
+        EditText editText = findViewById(R.id.bulkSMS);
         final String message = editText.getText().toString();
 
         if (message.equals("")) {
@@ -77,12 +77,12 @@ public class SendBulkSMS extends AppCompatActivity {
     }
 
     public void bulkSMSwholeSchool(View view)    {
-        AnalyticsEvent event = SessionManager.getInstance().analytics.getEventClient().
+        AnalyticsEvent event = SessionManager.analytics.getEventClient().
                         createEvent("Send Bulk SMS Whole School");
         event.addAttribute("user", SessionManager.getInstance().getLogged_in_user());
-        SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+        SessionManager.analytics.getEventClient().recordEvent(event);
 
-        EditText editText = (EditText)findViewById(R.id.bulkSMS);
+        EditText editText = findViewById(R.id.bulkSMS);
         final String message = editText.getText().toString();
 
         // check for empty message

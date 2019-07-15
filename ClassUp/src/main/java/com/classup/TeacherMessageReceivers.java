@@ -103,12 +103,12 @@ public class TeacherMessageReceivers extends AppCompatActivity {
 
                     // Analysis via AWS
                     try {
-                        AnalyticsEvent event = SessionManager.getInstance().
+                        AnalyticsEvent event = SessionManager.
                             analytics.getEventClient().
                             createEvent("Teacher Message Receivers");
                         event.addAttribute("user", SessionManager.getInstance().
                             getLogged_in_user());
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                             recordEvent(event);
                     } catch (NullPointerException exception)    {
                         System.out.println("flopped in creating " +

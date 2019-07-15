@@ -70,27 +70,27 @@ public class SelectCriteriaBusAttendance extends AppCompatActivity {
 
         String url =  server_ip + "/bus_attendance/retrieve_bus_routs/"
                 + school_id + "/?format=json";
-        routPicker = (NumberPicker)findViewById(R.id.pick_bus_root);
-        datePicker = (DatePicker)findViewById(R.id.pick_date_bus_attendance);
-        chk_to_school = (CheckBox)findViewById(R.id.chk_to_school);
-        chk_from_school = (CheckBox)findViewById(R.id.chk_from_school);
+        routPicker = findViewById(R.id.pick_bus_root);
+        datePicker = findViewById(R.id.pick_date_bus_attendance);
+        chk_to_school = findViewById(R.id.chk_to_school);
+        chk_from_school = findViewById(R.id.chk_from_school);
         setupPicker(routPicker, url, "bus_root", "rerieve_bus_routs");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 

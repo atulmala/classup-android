@@ -30,9 +30,9 @@ public class PasswordChange extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_change);
         Button btn_perform_password_chnge =
-                (Button)findViewById(R.id.btn_perform_password_change);
-        final EditText ed1  = ((EditText)findViewById((R.id.new_password)));
-        final EditText ed2 = (EditText)findViewById(R.id.new_password1);
+                findViewById(R.id.btn_perform_password_change);
+        final EditText ed1  = findViewById((R.id.new_password));
+        final EditText ed2 = findViewById(R.id.new_password1);
 
         btn_perform_password_chnge.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,10 +96,10 @@ public class PasswordChange extends AppCompatActivity {
 
                     // 11/09/17 - Now we are building the custom Analysis via AWS
                     try {
-                        AnalyticsEvent changePasswordEvent = SessionManager.getInstance().
+                        AnalyticsEvent changePasswordEvent = SessionManager.
                                 analytics.getEventClient().createEvent("Change Password");
                         changePasswordEvent.addAttribute("user", logged_in_user);
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                                 recordEvent(changePasswordEvent);
                     } catch (NullPointerException exception)    {
                         System.out.println("flopped in creating analytics");
@@ -174,17 +174,17 @@ public class PasswordChange extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

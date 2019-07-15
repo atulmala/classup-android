@@ -45,12 +45,12 @@ public class ShowAttendanceSummary extends AppCompatActivity {
 
         try {
             AnalyticsEvent event =
-                    SessionManager.getInstance().analytics.getEventClient().
+                    SessionManager.analytics.getEventClient().
                             createEvent("Teacher Attendance Summary");
             event.addAttribute("user", SessionManager.getInstance().
                     getLogged_in_user());
             // we also capture the communication category
-            SessionManager.getInstance().analytics.getEventClient().recordEvent(event);
+            SessionManager.analytics.getEventClient().recordEvent(event);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Teacher Attendance Summary");
         } catch (Exception exception)   {
@@ -60,7 +60,7 @@ public class ShowAttendanceSummary extends AppCompatActivity {
 
         school_id = SessionManager.getInstance().getSchool_id();
         // set up the header rows
-        final TableRow header_row = (TableRow) findViewById(R.id.header_row_att_summary);
+        final TableRow header_row = findViewById(R.id.header_row_att_summary);
         ((TextView) header_row.findViewById(R.id.txt_class_sec_att_summary)).
                 setText((getIntent().getStringExtra("class") + "-" +
                         getIntent().getStringExtra("section")));
@@ -131,8 +131,8 @@ public class ShowAttendanceSummary extends AppCompatActivity {
         });
         com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
 
-        final TableLayout tableLayout = (TableLayout) findViewById(R.id.tbl_att_summary);
-        TableLayout tbl_title = (TableLayout) findViewById(R.id.tbl_att_header);
+        final TableLayout tableLayout = findViewById(R.id.tbl_att_summary);
+        TableLayout tbl_title = findViewById(R.id.tbl_att_header);
         // set the title row
         TableRow title_row = new TableRow(getApplicationContext());
         TableRow.LayoutParams lp =
@@ -311,17 +311,17 @@ public class ShowAttendanceSummary extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 

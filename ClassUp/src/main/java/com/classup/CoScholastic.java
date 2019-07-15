@@ -63,7 +63,7 @@ public class CoScholastic extends AppCompatActivity {
         }
 
         final ArrayList<CoScholasticSource> grade_list = new ArrayList<>();
-        final ListView listView = (ListView) findViewById(R.id.list_coscholastic);
+        final ListView listView = findViewById(R.id.list_coscholastic);
         adapter = new CoScholasticAdapter(activity, grade_list);
         listView.setAdapter(adapter);
 
@@ -192,11 +192,11 @@ public class CoScholastic extends AppCompatActivity {
 
                             try {
                                 AnalyticsEvent saveMarksEvent =
-                                    SessionManager.getInstance().analytics.getEventClient().
+                                    SessionManager.analytics.getEventClient().
                                         createEvent("Saved Coscholastics");
                                 saveMarksEvent.addAttribute("user",
                                     SessionManager.getInstance().getLogged_in_user());
-                                SessionManager.getInstance().analytics.getEventClient().
+                                SessionManager.analytics.getEventClient().
                                     recordEvent(saveMarksEvent);
                             } catch (NullPointerException exception) {
                                 System.out.println("flopped in creating " +
@@ -304,17 +304,17 @@ public class CoScholastic extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if (SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if (SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 

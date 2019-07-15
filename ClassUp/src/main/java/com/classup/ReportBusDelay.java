@@ -46,17 +46,17 @@ public class ReportBusDelay extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -95,7 +95,7 @@ public class ReportBusDelay extends AppCompatActivity {
         final String m = intent.getStringExtra("month");
         final String y = intent.getStringExtra("year");
         final String rout = intent.getStringExtra("rout");
-        EditText editText = (EditText) findViewById(R.id.txt_bus_delay);
+        EditText editText = findViewById(R.id.txt_bus_delay);
         final String message = editText.getText().toString();
         // check to see if message is empty
 
@@ -111,7 +111,7 @@ public class ReportBusDelay extends AppCompatActivity {
 
         // show the date of attendance
         TextView txt_date =
-                (TextView) dialog.findViewById(R.id.txt_bus_delay_date);
+                dialog.findViewById(R.id.txt_bus_delay_date);
 
         String formatted_date = d + "/" + m + "/" + y;
         txt_date.setText(formatted_date);
@@ -119,7 +119,7 @@ public class ReportBusDelay extends AppCompatActivity {
 
         // show the rout
         TextView txt_rout =
-                (TextView) dialog.findViewById((R.id.txt_bus_delay_rout));
+                dialog.findViewById((R.id.txt_bus_delay_rout));
 
         txt_rout.setText(rout);
         txt_rout.setTypeface(Typeface.DEFAULT_BOLD);
@@ -127,7 +127,7 @@ public class ReportBusDelay extends AppCompatActivity {
         // now, show the dialog
         dialog.show();
 
-        Button btn_cancel = (Button) dialog.findViewById(R.id.btn_bus_delay_cancel);
+        Button btn_cancel = dialog.findViewById(R.id.btn_bus_delay_cancel);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)  {
@@ -135,7 +135,7 @@ public class ReportBusDelay extends AppCompatActivity {
             }
         });
 
-        Button btn_ok = (Button) dialog.findViewById(R.id.btn_bus_delay_confirm);
+        Button btn_ok = dialog.findViewById(R.id.btn_bus_delay_confirm);
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,14 +172,14 @@ public class ReportBusDelay extends AppCompatActivity {
                                             // Analysis via AWS
                                             try {
                                                 AnalyticsEvent event =
-                                                        SessionManager.getInstance().analytics.
+                                                        SessionManager.analytics.
                                                                 getEventClient().
                                                                 createEvent("Bus Delay");
                                                 event.addAttribute("user",
                                                         SessionManager.getInstance().
                                                         getLogged_in_user());
 
-                                                SessionManager.getInstance().analytics.
+                                                SessionManager.analytics.
                                                         getEventClient().
                                                         recordEvent(event);
                                             } catch (NullPointerException exception)    {

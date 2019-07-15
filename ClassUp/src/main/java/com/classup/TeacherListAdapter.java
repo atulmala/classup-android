@@ -46,9 +46,9 @@ public class TeacherListAdapter extends ArrayAdapter {
         }
         // we don't want to show the checkbox
         final CheckedTextView textView =
-                (CheckedTextView) convertView.findViewById(R.id.lbl_roll_no);
+                convertView.findViewById(R.id.lbl_roll_no);
 
-        TextView student_name = (TextView) convertView.findViewById(R.id.lbl_roll_no);
+        TextView student_name = convertView.findViewById(R.id.lbl_roll_no);
         student_name.setText(teacher_list.get(position).getFull_name());
         return convertView;
     }

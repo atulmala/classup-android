@@ -48,11 +48,11 @@ public class TeachersAttendance extends AppCompatActivity {
 
 
         try {
-            AnalyticsEvent initiateAttendanceEvent = SessionManager.getInstance().
+            AnalyticsEvent initiateAttendanceEvent = SessionManager.
                 analytics.getEventClient().createEvent("Initiated Teacher Attendance");
             initiateAttendanceEvent.addAttribute("user",
                 SessionManager.getInstance().getLogged_in_user());
-            SessionManager.getInstance().analytics.getEventClient().
+            SessionManager.analytics.getEventClient().
                 recordEvent(initiateAttendanceEvent);
         } catch (NullPointerException exception)    {
             System.out.println("flopped in creating analytics Initiated Teacher Attendance");
@@ -268,12 +268,12 @@ public class TeachersAttendance extends AppCompatActivity {
                     toast.show();
 
                     try {
-                        AnalyticsEvent conductedAttendanceEvent = SessionManager.getInstance().
+                        AnalyticsEvent conductedAttendanceEvent = SessionManager.
                             analytics.getEventClient().
                             createEvent("Conducted Teacher Attendance");
                         conductedAttendanceEvent.addAttribute("user",
                             SessionManager.getInstance().getLogged_in_user());
-                        SessionManager.getInstance().analytics.getEventClient().
+                        SessionManager.analytics.getEventClient().
                             recordEvent(conductedAttendanceEvent);
                     } catch (NullPointerException exception)    {
                         System.out.println("flopped in creating analytics Conducted Attendance");
@@ -301,17 +301,17 @@ public class TeachersAttendance extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

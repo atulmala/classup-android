@@ -61,16 +61,16 @@ public class SelectStudentAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.row_select_student1, null);
         }
 
-        final CheckBox chk = (CheckBox)convertView.findViewById(R.id.chk_select);
+        final CheckBox chk = convertView.findViewById(R.id.chk_select);
 
-        TextView student_name = (TextView) convertView.findViewById(R.id.lbl_roll_no);
+        TextView student_name = convertView.findViewById(R.id.lbl_roll_no);
         student_name.setText(student_list.get(position).getFull_name());
 
-        TextView roll_no = (TextView)convertView.findViewById(R.id.roll_no);
+        TextView roll_no = convertView.findViewById(R.id.roll_no);
         roll_no.setVisibility(View.INVISIBLE);
         roll_no.setText(student_list.get(position).getRoll_number());
 
-        TextView parent_name = (TextView)convertView.findViewById(R.id.parent_name);
+        TextView parent_name = convertView.findViewById(R.id.parent_name);
         parent_name.setText(student_list.get(position).getParent_name());
 
         if (selected_students.contains(student_list.get(position).getId())) {
@@ -89,9 +89,7 @@ public class SelectStudentAdapter extends BaseAdapter {
                     System.out.println(selected_students);
                     notifyDataSetChanged();
                 } else {
-                    if (selected_students.contains(student_list.get(position).getId())) {
-                        selected_students.remove(student_list.get(position).getId());
-                    }
+                    selected_students.remove(student_list.get(position).getId());
                     notifyDataSetChanged();
                 }
             }

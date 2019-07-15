@@ -40,7 +40,7 @@ public class ParentsSelectSubject extends AppCompatActivity {
 
         final ArrayAdapter adapter =
                 new ArrayAdapter(this, R.layout.subject_list_view, subject_list);
-        ListView listView = (ListView)findViewById(R.id.subject_list);
+        ListView listView = findViewById(R.id.subject_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(adapter);
@@ -127,17 +127,17 @@ public class ParentsSelectSubject extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }

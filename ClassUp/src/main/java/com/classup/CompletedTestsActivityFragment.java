@@ -68,7 +68,7 @@ public class CompletedTestsActivityFragment extends Fragment {
                 logged_in_user + "/" +  exam_id + "/?format=json";
 
         final ArrayList<TestListSource> completed_test_list = new ArrayList<>();
-        ListView listView = (ListView)getActivity().findViewById(R.id.completed_test_list);
+        ListView listView = getActivity().findViewById(R.id.completed_test_list);
 
         final CompletedTestListAdapter adapter = new CompletedTestListAdapter(getActivity(),
                 completed_test_list);

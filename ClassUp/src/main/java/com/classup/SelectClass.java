@@ -200,7 +200,7 @@ public class SelectClass extends AppCompatActivity {
                 datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH) + 1);
                 menu = "Take Pic";
-                TextView textView = (TextView)findViewById(R.id.txtAttendanceHeading);
+                TextView textView = findViewById(R.id.txtAttendanceHeading);
                 textView.setText(R.string.hw_due_date);
                 break;
             default:
@@ -212,17 +212,17 @@ public class SelectClass extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 
@@ -444,14 +444,14 @@ public class SelectClass extends AppCompatActivity {
                                             // Analysis via AWS
                                             try {
                                                 AnalyticsEvent scheduleTestEvent =
-                                                        SessionManager.getInstance().
+                                                        SessionManager.
                                                                 analytics.getEventClient().
                                                                 createEvent
                                                                     ("Schedule Term Test");
                                                 scheduleTestEvent.addAttribute("user",
                                                         SessionManager.getInstance().
                                                         getLogged_in_user());
-                                                SessionManager.getInstance().analytics.
+                                                SessionManager.analytics.
                                                         getEventClient().
                                                         recordEvent(scheduleTestEvent);
                                             } catch (NullPointerException exception) {

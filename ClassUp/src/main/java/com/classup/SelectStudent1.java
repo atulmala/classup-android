@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class SelectStudent1 extends AppCompatActivity {
     final Activity activity = this;
-    String tag = "SelectStudents1";;
+    String tag = "SelectStudents1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class SelectStudent1 extends AppCompatActivity {
 
         final SelectStudent1Adapter adapter = new SelectStudent1Adapter(this,
                 android.R.layout.simple_list_item_checked, student_list);
-        final ListView listView = (ListView) findViewById(R.id.student_list1);
+        final ListView listView = findViewById(R.id.student_list1);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(1);
         listView.setAdapter(adapter);
@@ -139,17 +139,17 @@ public class SelectStudent1 extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().pauseSession();
-            SessionManager.getInstance().analytics.getEventClient().submitEvents();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().analytics != null) {
-            SessionManager.getInstance().analytics.getSessionClient().resumeSession();
+        if(SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
         }
     }
 }
