@@ -285,7 +285,8 @@ public class SelectClassSection1 extends AppCompatActivity {
                                                         (getApplicationContext(),
                                                             "You are not a Class Teacher",
                                                             Toast.LENGTH_SHORT);
-                                                    toast1.setGravity(Gravity.CENTER, 0, 0);
+                                                    toast1.setGravity(Gravity.CENTER, 0,
+                                                        0);
                                                     toast1.show();
 
                                                 }

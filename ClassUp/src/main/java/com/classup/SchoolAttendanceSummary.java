@@ -137,14 +137,16 @@ public class SchoolAttendanceSummary extends AppCompatActivity {
                                 // put the roll inside row column
                                 TextView att = new TextView(getApplicationContext());
                                 att.setBackgroundResource(R.drawable.cell_shape);
-                                att.setTextColor(Color.BLACK);
+                                if(!attendance.equals("Not Taken"))
+                                    att.setTextColor(Color.BLACK);
+                                else
+                                    att.setTextColor(Color.RED);
                                 att.setPadding(20, 5, 5, 5);
                                 //rn.setHeight(100);
                                 att.setTextSize(18);
                                 att.setText(attendance);
 
                                 detail_row.addView(att);
-
 
                                 // get the percentage attendance
                                 String percentage = jo.getString("percentage");
@@ -159,9 +161,14 @@ public class SchoolAttendanceSummary extends AppCompatActivity {
 
                                 detail_row.addView(pct);
 
-
                                 tableRows.add(detail_row);
                                 tableLayout.addView(detail_row);
+
+                                if(i == response.length() - 1)  {
+                                    cls.setBackgroundResource(R.drawable.header_cell_shape);
+                                    att.setBackgroundResource(R.drawable.header_cell_shape);
+                                    pct.setBackgroundResource(R.drawable.header_cell_shape);
+                                }
 
                             } catch (JSONException je) {
                                 System.out.println("Ran into JSON exception " +

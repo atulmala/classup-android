@@ -40,12 +40,15 @@ public class SelectStudent extends AppCompatActivity {
     final ArrayList<String> selected_students = new ArrayList<>();
     final Activity activity = this;
     String tag = "SelectStudents";
+    String sender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_student);
         this.setTitle("Select Student(s)");
+
+        sender = getIntent().getStringExtra("sender");
 
         final ArrayList<AttendanceListSource> student_list = new ArrayList<>();
 
@@ -289,9 +292,17 @@ public class SelectStudent extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add(0, 0, 0, "Compose Message").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        return true;
+        switch (sender) {
+            case "share_image":
+                // Inflate the menu; this adds items to the action bar if it is present.
+                menu.add(0, 0, 0,
+                    "Upload Image").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                return true;
+            default:
+                menu.add(0, 0, 0,
+                    "Compose Message").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                return true;
+        }
     }
 
     @Override

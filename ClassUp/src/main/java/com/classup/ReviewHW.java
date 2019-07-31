@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -50,387 +49,13 @@ import java.util.Date;
 */
 
 public class ReviewHW extends AppCompatActivity {
-    String bucket = "classup2";
-
     final Activity a = this;
     final Context context = this;
     ImageView imageView;
+    String sender;
     private ScaleGestureDetector scaleGestureDetector;
     private Matrix matrix = new Matrix();
     private Bitmap bitmap1;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_hw);
-        imageView = findViewById(R.id.image_view);
-        usingSimpleImage(imageView);
-
-        // 12/04/2017 - we can arrive at this ativity from multiple sources
-        // 1. when teacher creates homework by clicking picture. Then this actvity is used for
-        // review picture and uploading to server
-        // 2. when a teacher or parent taps on the list of homework to see the picture. Then this
-        // activity will be shown for just reviewing the picture and then go back to hw list.
-        // In this case Upload option in the menu will not be shown
-        if(getIntent().getStringExtra("sender").equals("select_class")) {
-            this.setTitle("Please Review");
-            scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = false;
-            if (getIntent().getStringExtra("photo_path").equals(""))  {
-                Toast toast = Toast.makeText(this, "Error taking Picture. Please try again.",
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-                Intent intent = new Intent(this, HWList.class);
-                startActivity(intent);
-            }
-            try {
-                bitmap1 = scaleDownAndRotatePic(getIntent().getStringExtra("photo_path"));
-                Picasso.with(a).load(new File(getIntent().getStringExtra("photo_path")))
-                        .fit().centerCrop()
-                        .into(imageView);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast toast = Toast.makeText(this, "Error taking Picture. Please try again.",
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-                Intent intent = new Intent(this, HWList.class);
-                startActivity(intent);
-
-            }
-        }
-        else    {
-            String location = getIntent().getStringExtra("location");
-            final ProgressDialog progressDialog = new ProgressDialog(a);
-            progressDialog.setMessage("Retrieving HW. This can take a few moment. Please wait...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-            Picasso.with(getApplicationContext())
-                    .load(location).fit()
-                    .centerCrop()
-                    .into(imageView,  new Callback() {
-                @Override
-                public void onSuccess() {
-                    // 12/09/17 - Now we are building the custom
-                    // Analysis via AWS
-                    try {
-                        AnalyticsEvent event =
-                                SessionManager.analytics.getEventClient().
-                                        createEvent("Retrieve HW");
-                        event.addAttribute("user", SessionManager.getInstance().
-                                getLogged_in_user());
-                        // we also capture the communication category
-                        SessionManager.analytics.getEventClient().
-                                recordEvent(event);
-                    } catch (NullPointerException exception)    {
-                        System.out.println("flopped in creating analytics Retrieve HW");
-                    } catch (Exception exception)   {
-                        System.out.println("flopped in creating analytics Retrieve HW");
-                    }
-                    progressDialog.hide();
-                    progressDialog.dismiss();
-
-                }
-
-                @Override
-                public void onError() {
-                    progressDialog.hide();
-                    progressDialog.dismiss();
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Failed to download HW Image", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
-            });
-            String key = location.substring(34);
-            System.out.println("key=" + key);
-
-            this.setTitle("HW Image");
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(SessionManager.analytics != null) {
-            SessionManager.analytics.getSessionClient().pauseSession();
-            SessionManager.analytics.getEventClient().submitEvents();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(SessionManager.analytics != null) {
-            SessionManager.analytics.getSessionClient().resumeSession();
-        }
-    }
-
-    //@Override
-    public boolean onCreateOptionsMenu(Menu m) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        if(getIntent().getStringExtra("sender").equals("select_class")) {
-            m.add(0, 0, 0, "Upload").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            return true;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case 0:
-                final String server_ip = MiscFunctions.getInstance().getServerIP(this);
-                final String teacher = SessionManager.getInstance().getLogged_in_user();
-                final String url = server_ip + "/academics/create_hw/";
-                final String tag = "UploadHW";
-                final Intent intent = getIntent();
-                final String date = intent.getStringExtra("date") + "/" +
-                        intent.getStringExtra("month") + "/" + intent.getStringExtra("year");
-                final String the_class = intent.getStringExtra("class") +
-                        "-" + intent.getStringExtra("section");
-                final String subject = intent.getStringExtra("subject");
-                String prompt = "Are you sure to upload the homework for " + the_class;
-                prompt += ", Subject: " + subject;
-                prompt += ", Due date: " + date + "?";
-
-                final android.app.AlertDialog.Builder builder =
-                        new android.app.AlertDialog.Builder(a);
-                builder.setMessage(prompt).setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        final ProgressDialog progressDialog = new ProgressDialog(a);
-                        progressDialog.setMessage("Please wait...");
-                        progressDialog.setCancelable(false);
-                        progressDialog.show();
-                        String timeStamp =
-                                new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                        final String imageFileName = teacher + "-" + the_class + "_" +
-                                subject + "_" + timeStamp + ".jpg";
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            String image = getStringImage(bitmap1);
-                            jsonObject.put("hw_image", image);
-                            jsonObject.put("image_name", imageFileName);
-                            jsonObject.put("school_id", SessionManager.
-                                    getInstance().getSchool_id());
-                            jsonObject.put("teacher", teacher);
-                            jsonObject.put("class", intent.getStringExtra("class"));
-                            jsonObject.put("section", intent.getStringExtra("section"));
-                            jsonObject.put("subject", subject);
-                            jsonObject.put("d", intent.getStringExtra("date"));
-                            jsonObject.put("m", intent.getStringExtra("month"));
-                            jsonObject.put("y", intent.getStringExtra("year"));
-                            jsonObject.put("due_date", date);
-
-                        } catch (JSONException je) {
-                            System.out.println("unable to create json for HW upload");
-                            je.printStackTrace();
-                        } catch (ArrayIndexOutOfBoundsException ae) {
-                            ae.printStackTrace();
-                        }
-
-                        JsonObjectRequest jsonObjReq = new JsonObjectRequest
-                                (Request.Method.POST, url, jsonObject,
-                                        new Response.Listener<JSONObject>() {
-                                            @Override
-                                            public void onResponse(JSONObject response) {
-                                                progressDialog.dismiss();
-                                                progressDialog.hide();
-                                                Log.d(tag, response.toString());
-                                                try {
-                                                    final String status =
-                                                            response.getString("status");
-                                                    final String message =
-                                                            response.getString("message");
-                                                    if (!status.equals("success")) {
-                                                        Toast toast =
-                                                                Toast.makeText(context, message,
-                                                                        Toast.LENGTH_LONG);
-                                                        toast.setGravity(Gravity.CENTER, 0,
-                                                            0);
-                                                        toast.show();
-                                                    } else {
-                                                        Toast toast = Toast.makeText(context,
-                                                                message, Toast.LENGTH_LONG);
-                                                        toast.setGravity(Gravity.CENTER, 0,
-                                                            0);
-                                                        toast.show();
-                                                        startActivity(new Intent
-                                                                ("com.classup.SchoolAdmin").
-                                                                setFlags(Intent.
-                                                                        FLAG_ACTIVITY_NEW_TASK |
-                                                                        Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                                                        finish();
-                                                    }
-                                                } catch (org.json.JSONException je) {
-                                                    progressDialog.dismiss();
-                                                    progressDialog.hide();
-                                                    je.printStackTrace();
-                                                }
-                                            }
-                                        }, new Response.ErrorListener() {
-
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        progressDialog.dismiss();
-                                        progressDialog.hide();
-                                        VolleyLog.d(tag, "Error: " + error.getMessage());
-                                    }
-                                });
-                        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                        com.classup.AppController.getInstance().
-                                addToRequestQueue(jsonObjReq, tag);
-
-
-                        /*StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                                url, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String s) {
-                                //Disimissing the progress dialog
-                                progressDialog.dismiss();
-                                //Showing toast message of the response
-                                Toast.makeText(a, s, Toast.LENGTH_LONG).show();
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError volleyError) {
-                                //Dismissing the progress dialog
-                                progressDialog.dismiss();
-
-                                //Showing toast
-                                Toast toast = Toast.makeText(a, volleyError.getMessage(),
-                                                Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() throws
-                                    AuthFailureError {
-                                //Creating parameters
-                                Map<String, String> params = new Hashtable<>();
-                                //Converting Bitmap to String
-                                try {
-                                    String image = getStringImage(bitmap1);
-                                    params.put("hw_image", image);
-                                }catch (Exception e) {
-                                    e.printStackTrace();
-                                    Toast toast = Toast.makeText(getApplicationContext(),
-                                            "Error taking Picture. Please try again.",
-                                            Toast.LENGTH_LONG);
-                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                    toast.show();
-                                    Intent intent = new Intent(a, HWList.class);
-                                    startActivity(intent);
-                                }
-                                //Adding parameters
-
-
-                                params.put("image_name", imageFileName);
-                                params.put("school_id",
-                                        SessionManager.getInstance().getSchool_id());
-                                params.put("teacher", teacher);
-                                params.put("class", intent.getStringExtra("class"));
-                                params.put("section", intent.getStringExtra("section"));
-                                params.put("subject", subject);
-                                params.put("d", intent.getStringExtra("date"));
-                                params.put("m", intent.getStringExtra("month"));
-                                params.put("y", intent.getStringExtra("year"));
-                                params.put("due_date", date);
-
-                                //returning parameters
-                                return params;
-                            }
-                        };
-                        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                        com.classup.AppController.getInstance().
-                                addToRequestQueue(stringRequest, tag);*/
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "HW Upload in Progress. " +
-                                        "It will appeare Home Work list after a few minutes",
-                                Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-
-                        Intent intent1 = new Intent(getApplicationContext(), TeacherMenu.class);
-                        intent1.putExtra("sender", "teacher_menu");
-                        //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                //Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent1);
-                        //finish();
-                    }
-                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                // Create the AlertDialog object and return it
-                builder.show();
-                return super.onOptionsItemSelected(item);
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        scaleGestureDetector.onTouchEvent(ev);
-        return true;
-    }
-
-    public void usingSimpleImage(ImageView imageView) {
-        ImageAttacher mAttacher = new ImageAttacher(imageView);
-        ImageAttacher.MAX_ZOOM = 3.0f; // triple the current Size
-        ImageAttacher.MIN_ZOOM = 0.5f; // Half the current Size
-        MatrixChangeListener mMaListener = new MatrixChangeListener();
-        mAttacher.setOnMatrixChangeListener(mMaListener);
-        PhotoTapListener mPhotoTap = new PhotoTapListener();
-        mAttacher.setOnPhotoTapListener(mPhotoTap);
-    }
-
-    public String getStringImage(Bitmap bmp) {
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        return encodedImage;
-    }
-
-    private class ScaleListener extends ScaleGestureDetector.
-            SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            float scaleFactor = detector.getScaleFactor();
-            scaleFactor = Math.max(1.00f, Math.min(scaleFactor, 5.0f));
-            matrix.setScale(scaleFactor, scaleFactor);
-            imageView.setImageMatrix(matrix);
-            return true;
-        }
-    }
-
-    private class PhotoTapListener implements OnPhotoTapListener {
-        @Override
-        public void onPhotoTap(View view, float x, float y) {
-        }
-    }
-
-    private class MatrixChangeListener implements OnMatrixChangedListener {
-        @Override
-        public void onMatrixChanged(RectF rect) {
-
-        }
-    }
 
     /* 09/04/17 -
    courtsey https://forums.bignerdranch.com/t/i
@@ -492,6 +117,330 @@ public class ReviewHW extends AppCompatActivity {
             return bitmap;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_review_hw);
+        imageView = findViewById(R.id.image_view);
+        usingSimpleImage(imageView);
+
+        // 12/04/2017 - we can arrive at this ativity from multiple sources
+        // 1. when teacher creates homework by clicking picture. Then this actvity is used for
+        // review picture and uploading to server
+        // 2. when a teacher or parent taps on the list of homework to see the picture. Then this
+        // activity will be shown for just reviewing the picture and then go back to hw list.
+        // In this case Upload option in the menu will not be shown
+
+        // 29/07/2019 - we are also arriving here after a teacher has selected an image/video for
+        // upload
+        sender = getIntent().getStringExtra("sender");
+        switch (sender) {
+            case "select_class":
+            case "share_image":
+                this.setTitle("Please Review");
+                scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inScaled = false;
+                if (getIntent().getStringExtra("photo_path").equals("")) {
+                    Toast toast = Toast.makeText(this,
+                        "Error taking Picture. Please try again.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    Intent intent = new Intent(this, HWList.class);
+                    startActivity(intent);
+                }
+                try {
+                    bitmap1 = scaleDownAndRotatePic(getIntent().getStringExtra("photo_path"));
+                    Picasso.with(a).load(new File(getIntent().getStringExtra("photo_path")))
+                        .fit().centerCrop()
+                        .into(imageView);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast toast = Toast.makeText(this,
+                        "Error taking Picture. Please try again.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    Intent intent = new Intent(this, HWList.class);
+                    startActivity(intent);
+                }
+                break;
+            case "review_hw":
+                String location = getIntent().getStringExtra("location");
+                final ProgressDialog progressDialog = new ProgressDialog(a);
+                progressDialog.setMessage("Retrieving HW. This can take a few moment. Please wait...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                Picasso.with(getApplicationContext())
+                    .load(location).fit()
+                    .centerCrop()
+                    .into(imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressDialog.hide();
+                            progressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onError() {
+                            progressDialog.hide();
+                            progressDialog.dismiss();
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                "Failed to download HW Image", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        }
+                    });
+                String key = location.substring(34);
+                System.out.println("key=" + key);
+
+                this.setTitle("HW Image");
+                break;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().pauseSession();
+            SessionManager.analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SessionManager.analytics != null) {
+            SessionManager.analytics.getSessionClient().resumeSession();
+        }
+    }
+
+    //@Override
+    public boolean onCreateOptionsMenu(Menu m) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        switch (sender) {
+            case "select_class":
+                m.add(0, 0, 0,
+                    "Upload").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                return true;
+            case "share_image":
+                m.add(0, 0, 0,
+                    "Next").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case 0:
+                switch (sender) {
+                    case "teacher_menu":
+                        final String server_ip = MiscFunctions.getInstance().getServerIP(this);
+                        final String teacher = SessionManager.getInstance().getLogged_in_user();
+                        final String url = server_ip + "/academics/create_hw/";
+                        final String tag = "UploadHW";
+                        final Intent intent = getIntent();
+                        final String date = intent.getStringExtra("date") + "/" +
+                            intent.getStringExtra("month") + "/" + intent.getStringExtra
+                            ("year");
+                        final String the_class = intent.getStringExtra("class") +
+                            "-" + intent.getStringExtra("section");
+                        final String subject = intent.getStringExtra("subject");
+                        String prompt = "Are you sure to upload the homework for " + the_class;
+                        prompt += ", Subject: " + subject;
+                        prompt += ", Due date: " + date + "?";
+
+                        final android.app.AlertDialog.Builder builder =
+                            new android.app.AlertDialog.Builder(a);
+                        builder.setMessage(prompt).setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    final ProgressDialog progressDialog = new ProgressDialog(a);
+                                    progressDialog.setMessage("Please wait...");
+                                    progressDialog.setCancelable(false);
+                                    progressDialog.show();
+                                    String timeStamp =
+                                        new SimpleDateFormat("yyyyMMdd_HHmmss").
+                                            format(new Date());
+                                    final String imageFileName = teacher + "-" + the_class + "_" +
+                                        subject + "_" + timeStamp + ".jpg";
+                                    JSONObject jsonObject = new JSONObject();
+                                    try {
+                                        String image = getStringImage(bitmap1);
+                                        jsonObject.put("hw_image", image);
+                                        jsonObject.put("image_name", imageFileName);
+                                        jsonObject.put("school_id", SessionManager.
+                                            getInstance().getSchool_id());
+                                        jsonObject.put("teacher", teacher);
+                                        jsonObject.put("class",
+                                            intent.getStringExtra("class"));
+                                        jsonObject.put("section",
+                                            intent.getStringExtra("section"));
+                                        jsonObject.put("subject", subject);
+                                        jsonObject.put("d",
+                                            intent.getStringExtra("date"));
+                                        jsonObject.put("m",
+                                            intent.getStringExtra("month"));
+                                        jsonObject.put("y",
+                                            intent.getStringExtra("year"));
+                                        jsonObject.put("due_date", date);
+
+                                    } catch (JSONException je) {
+                                        System.out.println("unable to create json for HW upload");
+                                        je.printStackTrace();
+                                    } catch (ArrayIndexOutOfBoundsException ae) {
+                                        ae.printStackTrace();
+                                    }
+
+                                    JsonObjectRequest jsonObjReq = new JsonObjectRequest
+                                        (Request.Method.POST, url, jsonObject,
+                                            new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject response) {
+                                                    progressDialog.dismiss();
+                                                    progressDialog.hide();
+                                                    Log.d(tag, response.toString());
+                                                    try {
+                                                        final String status =
+                                                            response.getString("status");
+                                                        final String message =
+                                                            response.getString("message");
+                                                        if (!status.equals("success")) {
+                                                            Toast toast =
+                                                                Toast.makeText(context, message,
+                                                                    Toast.LENGTH_LONG);
+                                                            toast.setGravity(Gravity.CENTER,
+                                                                0,
+                                                                0);
+                                                            toast.show();
+                                                        } else {
+                                                            Toast toast = Toast.makeText(context,
+                                                                message, Toast.LENGTH_LONG);
+                                                            toast.setGravity(Gravity.CENTER,
+                                                                0,
+                                                                0);
+                                                            toast.show();
+                                                            startActivity(new Intent
+                                                                ("com.classup.SchoolAdmin").
+                                                                setFlags(Intent.
+                                                                    FLAG_ACTIVITY_NEW_TASK |
+                                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                                            finish();
+                                                        }
+                                                    } catch (org.json.JSONException je) {
+                                                        progressDialog.dismiss();
+                                                        progressDialog.hide();
+                                                        je.printStackTrace();
+                                                    }
+                                                }
+                                            }, new Response.ErrorListener() {
+
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                progressDialog.dismiss();
+                                                progressDialog.hide();
+                                                VolleyLog.d(tag, "Error: " + error.getMessage());
+                                            }
+                                        });
+                                    jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0,
+                                        -1,
+                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                                    com.classup.AppController.getInstance().
+                                        addToRequestQueue(jsonObjReq, tag);
+
+                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                        "HW Upload in Progress. " +
+                                            "It will appeare Home Work list after a few minutes",
+                                        Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+
+                                    Intent intent1 = new Intent(getApplicationContext(),
+                                        TeacherMenu.class);
+                                    intent1.putExtra("sender", "teacher_menu");
+                                    //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                    //Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent1);
+                                    //finish();
+                                }
+                            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                        // Create the AlertDialog object and return it
+                        builder.show();
+                        return super.onOptionsItemSelected(item);
+                    case "share_image":
+                        String image = getStringImage(bitmap1);
+                        Intent intent1 = new Intent(getApplicationContext(),
+                            SelStudentForPicSharing.class);
+                        intent1.putExtra("sender", "share_image");
+                        intent1.putExtra("image", image);
+                        startActivity(intent1);
+                        break;
+                }
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        scaleGestureDetector.onTouchEvent(ev);
+        return true;
+    }
+
+    public void usingSimpleImage(ImageView imageView) {
+        ImageAttacher mAttacher = new ImageAttacher(imageView);
+        ImageAttacher.MAX_ZOOM = 3.0f; // triple the current Size
+        ImageAttacher.MIN_ZOOM = 0.5f; // Half the current Size
+        MatrixChangeListener mMaListener = new MatrixChangeListener();
+        mAttacher.setOnMatrixChangeListener(mMaListener);
+        PhotoTapListener mPhotoTap = new PhotoTapListener();
+        mAttacher.setOnPhotoTapListener(mPhotoTap);
+    }
+
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+        return encodedImage;
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.
+        SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            float scaleFactor = detector.getScaleFactor();
+            scaleFactor = Math.max(1.00f, Math.min(scaleFactor, 5.0f));
+            matrix.setScale(scaleFactor, scaleFactor);
+            imageView.setImageMatrix(matrix);
+            return true;
+        }
+    }
+
+    private class PhotoTapListener implements OnPhotoTapListener {
+        @Override
+        public void onPhotoTap(View view, float x, float y) {
+        }
+    }
+
+    private class MatrixChangeListener implements OnMatrixChangedListener {
+        @Override
+        public void onMatrixChanged(RectF rect) {
+
         }
     }
 }

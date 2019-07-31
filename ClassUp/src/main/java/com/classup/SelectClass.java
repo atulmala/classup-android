@@ -1,7 +1,5 @@
 package com.classup;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,12 +18,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,11 +43,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 
 
 public class SelectClass extends AppCompatActivity {
@@ -552,7 +542,8 @@ public class SelectClass extends AppCompatActivity {
                         }
                         // Continue only if the File was successfully created
                         if (photoFile != null) {
-                            Uri photoURI = FileProvider.getUriForFile(this, "com.classup.provider",
+                            Uri photoURI = FileProvider.getUriForFile(this,
+                                    "com.classup.provider",
                                     photoFile);
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -597,7 +588,8 @@ public class SelectClass extends AppCompatActivity {
             startActivity(intent1);
         }
         else    {
-            Toast toast = Toast.makeText(this, "Error creating Home Work. Plase try again",
+            Toast toast = Toast.makeText(this,
+                "Error creating Home Work. Plase try again",
                     Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();

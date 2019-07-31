@@ -51,24 +51,14 @@ public class CommunicationCenter extends AppCompatActivity {
     }
 
     public void shareVideo(View view)  {
-        //Intent intent = new Intent(this, SelectClassSection.class);
-        //intent.putExtra("sender", "share_video");
-       // startActivity(intent);
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(this, HWList.class);
         intent.putExtra("sender", "share_video");
-        final int ACTIVITY_SELECT_VIDEO = 100;
-        startActivityForResult(intent, ACTIVITY_SELECT_VIDEO);
+        startActivity(intent);
     }
 
     public void sharePic(View view) {
-        //Intent intent = new Intent(this, SelectClassSection.class);
-
-        //startActivity(intent);
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(this, HWList.class);
         intent.putExtra("sender", "share_pic");
-        final int ACTIVITY_SELECT_IMAGE = 200;
-        startActivityForResult(intent, ACTIVITY_SELECT_IMAGE);
+        startActivity(intent);
     }
 }

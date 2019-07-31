@@ -6,9 +6,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -36,13 +41,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HWList extends AppCompatActivity {
     final Activity activity = this;
     String tag = "HWList";
     String server_ip;
     String school_id;
+    String sender;
+
+    final int ACTIVITY_SELECT_IMAGE = 200;
+    final int ACTIVITY_SELECT_VIDEO = 300;
+    String mCurrentPhotoPath;
+    String mCurrentVideoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +68,6 @@ public class HWList extends AppCompatActivity {
         if (actionBar != null)
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
 
-        this.setTitle("HW List");
-
         final Context c = this.getApplicationContext();
         server_ip = MiscFunctions.getInstance().getServerIP(c);
         school_id = SessionManager.getInstance().getSchool_id();
@@ -62,13 +75,34 @@ public class HWList extends AppCompatActivity {
 
         final ArrayList<HWListSource> hw_list = new ArrayList<>();
         ListView listView = findViewById(R.id.teacher_hw_list);
-        String url1;
-        if (getIntent().getStringExtra("sender").equals("ParentApp")) {
-            String student_id = getIntent().getStringExtra("student_id");
-            url1 = server_ip + "/academics/retrieve_hw/" + student_id + "/?format=json";
+        String url1 = "/academics/";
+        String retrieval_message = "Please wait...";
+        sender = getIntent().getStringExtra("sender");
+        switch (sender) {
+            case "ParentApp":
+                this.setTitle("HW List");
+                retrieval_message = "Retrieving Home Work list. Please wait...";
+                String student_id = getIntent().getStringExtra("student_id");
+                url1 = server_ip + "/academics/retrieve_hw/" + student_id + "/?format=json";
+                break;
+            case "teacher_menu":
+                this.setTitle("HW List");
+                retrieval_message = "Retrieving Home Work list. Please wait...";
+                url1 = server_ip + "/academics/retrieve_hw/" + logged_in_user + "/?format=json";
+                break;
+            case "share_pic":
+                this.setTitle("Pics List");
+                retrieval_message = "Retrieving shared Pics list. Please wait...";
+                url1 = server_ip + "/pic_share/get_pic_video_list_teacher/";
+                url1 +=  logged_in_user + "/?format=json";
+                break;
+            case "share_video":
+                this.setTitle("Video List");
+                retrieval_message = "Retrieving shared Videos list. Please wait...";
+                url1 = server_ip + "/pic_share/get_pic_video_list_teacher/";
+                url1 += logged_in_user + "/?format=json";
+                break;
 
-        } else {
-            url1 = server_ip + "/academics/retrieve_hw/" + logged_in_user + "/?format=json";
         }
 
         final String url = url1;
@@ -76,95 +110,105 @@ public class HWList extends AppCompatActivity {
         listView.setAdapter(hwListAdapter);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Retrieving Home Work list. Please wait...");
+        progressDialog.setMessage(retrieval_message);
         progressDialog.setCancelable(true);
         progressDialog.show();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        if (response.length() < 1) {
-                            Toast toast = Toast.makeText(c, "No HW created.", Toast.LENGTH_LONG);
+            (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    if (response.length() < 1) {
+                        if (sender.equals("ParentApp") || sender.equals("teacher_menu")) {
+                            Toast toast = Toast.makeText(c, "No HW created.",
+                                Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                         }
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject jo = response.getJSONObject(i);
-                                // get the id of the hw
-                                String id = jo.getString("id");
-
-                                String date = jo.getString("due_date");
-                                String yy = date.substring(0, 4);
-                                String month = date.substring(5, 7);
-                                String dd = date.substring(8, 10);
-                                String ddmmyyyy = dd + "/" + month + "/" + yy;
-
-                                String teacher = jo.getString("teacher");
-
-                                String the_class = jo.getString("the_class");
-
-                                String section = jo.getString("section");
-                                String subject = jo.getString("subject");
-                                String location = jo.getString("location");
-
-                                String notes = jo.getString("notes");
-
-                                // put all the above details into the adapter
-                                hw_list.add(new HWListSource(id, teacher, the_class, section,
-                                        subject, ddmmyyyy, location, notes));
-                                hwListAdapter.notifyDataSetChanged();
-                            } catch (JSONException je) {
-                                System.out.println("Ran into JSON exception " +
-                                        "while trying to fetch the HW list");
-                                je.printStackTrace();
-                            } catch (Exception e) {
-                                System.out.println("Caught General exception " +
-                                        "while trying to fetch the HW list");
-                                e.printStackTrace();
-                            }
+                        else {
+                            Toast toast = Toast.makeText(c, "No Image/Video shared.",
+                                Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
                         }
-                        // 12/09/17 - Now we are building the custom
-                        // Analysis via AWS
+                    }
+                    for (int i = 0; i < response.length(); i++) {
                         try {
-                            AnalyticsEvent event =
-                                    SessionManager.analytics.getEventClient().
-                                            createEvent("Retrieve HW List");
-                            event.addAttribute("user", SessionManager.getInstance().
-                                    getLogged_in_user());
+                            JSONObject jo = response.getJSONObject(i);
+                            // get the id of the hw
+                            String id = jo.getString("id");
+
+                            String date = jo.getString("due_date");
+                            String yy = date.substring(0, 4);
+                            String month = date.substring(5, 7);
+                            String dd = date.substring(8, 10);
+                            String ddmmyyyy = dd + "/" + month + "/" + yy;
+
+                            String teacher = jo.getString("teacher");
+
+                            String the_class = jo.getString("the_class");
+
+                            String section = jo.getString("section");
+                            String subject = jo.getString("subject");
+                            String location = jo.getString("location");
+
+                            String notes = jo.getString("notes");
+
+                            // put all the above details into the adapter
+                            hw_list.add(new HWListSource(id, teacher, the_class, section,
+                                subject, ddmmyyyy, location, notes));
+                            hwListAdapter.notifyDataSetChanged();
+                        } catch (JSONException je) {
+                            System.out.println("Ran into JSON exception " +
+                                "while trying to fetch the HW list");
+                            je.printStackTrace();
+                        } catch (Exception e) {
+                            System.out.println("Caught General exception " +
+                                "while trying to fetch the HW list");
+                            e.printStackTrace();
+                        }
+                    }
+                    // 12/09/17 - Now we are building the custom
+                    // Analysis via AWS
+                    try {
+                        AnalyticsEvent event =
                             SessionManager.analytics.getEventClient().
-                                    recordEvent(event);
-                        } catch (NullPointerException exception)    {
-                            System.out.println("flopped in creating analytics Retrieve HW List");
-                        } catch (Exception exception)   {
-                            System.out.println("flopped in " +
-                                    "creating analytics Retrieve HW List");
-                        }
-                        progressDialog.hide();
-                        progressDialog.dismiss();
+                                createEvent("Retrieve HW List");
+                        event.addAttribute("user", SessionManager.getInstance().
+                            getLogged_in_user());
+                        SessionManager.analytics.getEventClient().
+                            recordEvent(event);
+                    } catch (NullPointerException exception)    {
+                        System.out.println("flopped in creating analytics Retrieve HW List");
+                    } catch (Exception exception)   {
+                        System.out.println("flopped in " +
+                            "creating analytics Retrieve HW List");
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println("inside volley error handler");
-                        progressDialog.hide();
-                        progressDialog.dismiss();
-                        if (error instanceof TimeoutError ||
-                                error instanceof NoConnectionError) {
-                            Toast.makeText(c, "Slow network connection",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof ServerError) {
-                            Toast.makeText(c, "Slow network connection or No internet connectivity",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof NetworkError) {
-                            Toast.makeText(c, "Slow network connection or No internet connectivity",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof ParseError) {
-                            //TODO
-                        }
-                        // TODO Auto-generated method stub
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("inside volley error handler");
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                    if (error instanceof TimeoutError ||
+                        error instanceof NoConnectionError) {
+                        Toast.makeText(c, "Slow network connection",
+                            Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(c, "Slow network connection or No internet connectivity",
+                            Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(c, "Slow network connection or No internet connectivity",
+                            Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        //TODO
                     }
-                });
+                    // TODO Auto-generated method stub
+                }
+            });
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -192,52 +236,52 @@ public class HWList extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 builder.setMessage("Are you sure that you want to delete this HW? ")
-                        .setPositiveButton("Delete HW", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                String server_ip = MiscFunctions.getInstance().
-                                        getServerIP(activity);
-                                String url = server_ip + "/academics/delete_hw/" +
-                                        hw_id + "/";
-                                String tag = "TestDeletion";
-                                StringRequest request = new StringRequest(Request.Method.DELETE,
-                                        url,
-                                        new Response.Listener<String>() {
-                                            @Override
-                                            public void onResponse(String response) {
-                                                Toast toast = Toast.makeText
-                                                        (getApplicationContext(), "HW Deleted",
-                                                                Toast.LENGTH_SHORT);
-                                                toast.setGravity(Gravity.CENTER,
-                                                    0, 0);
-                                                toast.show();
-                                                startActivity(new Intent
-                                                    ("com.classup.TeacherMenu").
-                                                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                                                Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                                            }
-                                        },
-                                        new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                Toast toast = Toast.makeText
-                                                        (getApplicationContext(),
-                                                        "HW could not be Deleted. " +
-                                                                "Please try again",
-                                                        Toast.LENGTH_SHORT);
-                                                toast.setGravity(Gravity.CENTER,
-                                                    0, 0);
-                                                toast.show();
-                                                error.printStackTrace();
-                                            }
-                                        });
-                                com.classup.AppController.getInstance().
-                                        addToRequestQueue(request, tag);
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
+                    .setPositiveButton("Delete HW", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            String server_ip = MiscFunctions.getInstance().
+                                getServerIP(activity);
+                            String url = server_ip + "/academics/delete_hw/" +
+                                hw_id + "/";
+                            String tag = "TestDeletion";
+                            StringRequest request = new StringRequest(Request.Method.DELETE,
+                                url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Toast toast = Toast.makeText
+                                            (getApplicationContext(), "HW Deleted",
+                                                Toast.LENGTH_SHORT);
+                                        toast.setGravity(Gravity.CENTER,
+                                            0, 0);
+                                        toast.show();
+                                        startActivity(new Intent
+                                            ("com.classup.TeacherMenu").
+                                            setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                                Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast toast = Toast.makeText
+                                            (getApplicationContext(),
+                                                "HW could not be Deleted. " +
+                                                    "Please try again",
+                                                Toast.LENGTH_SHORT);
+                                        toast.setGravity(Gravity.CENTER,
+                                            0, 0);
+                                        toast.show();
+                                        error.printStackTrace();
+                                    }
+                                });
+                            com.classup.AppController.getInstance().
+                                addToRequestQueue(request, tag);
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
                 // Create the AlertDialog object and return it
                 builder.show();
                 return true;
@@ -266,7 +310,16 @@ public class HWList extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         Intent intent = getIntent();
         if (intent.getStringExtra("sender").equals("teacher_menu"))
-            menu.add(0, 0, 0, "Create").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.add(0, 0, 0,
+                "Create").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if (intent.getStringExtra("sender").equals("share_pic"))
+            menu.add(0, 0, 0,
+                "Select Pic from Gallery").
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if (intent.getStringExtra("sender").equals("share_video"))
+            menu.add(0, 0, 0,
+                "Select Video from Gallery").
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return true;
     }
@@ -275,16 +328,110 @@ public class HWList extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                Intent intent = new Intent(this, SelectClass.class);
-                intent.putExtra("sender", "createHW");
-                System.out.println("intent set to createHW");
-                startActivity(intent);
-                break;
+                switch(sender) {
+                    case "teacher_menu":
+                        Intent intent = new Intent(this, SelectClass.class);
+                        intent.putExtra("sender", "createHW");
+                        System.out.println("intent set to createHW");
+                        startActivity(intent);
+                        break;
+                    case "share_pic":
+                        Intent intent1 = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent1.putExtra("sender", "share_pic");
+                        if (intent1.resolveActivity(getPackageManager()) != null) {
+                            // Create the File where the photo should go
+                            File photoFile = null;
+                            try {
+                                photoFile = createImageFile();
+                            } catch (IOException ex) {
+                                // Error occurred while creating the File
+                            }
+                            // Continue only if the File was successfully created
+                            if (photoFile != null) {
+                                Uri photoURI = FileProvider.getUriForFile(this,
+                                    "com.classup.provider",
+                                    photoFile);
+                                intent1.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                startActivityForResult(intent1, ACTIVITY_SELECT_IMAGE);
+                            }
+                        }
+                        break;
+                    case "share_video":
+                        Intent intent2 = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent2.putExtra("sender", "share_pic");
 
-            default:
-                return super.onOptionsItemSelected(item);
+                        startActivityForResult(intent2, ACTIVITY_SELECT_VIDEO);
+                        break;
+                    default:
+                        return super.onOptionsItemSelected(item);
+                }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+            imageFileName,  /* prefix */
+            ".jpg",         /* suffix */
+            storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    public String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null,
+            null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = getContentResolver().query(
+            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            null, MediaStore.Images.Media._ID + " = ? ",
+            new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ACTIVITY_SELECT_IMAGE && resultCode == RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
+            Uri selectedImageUri = data.getData();
+            mCurrentPhotoPath = getPath(selectedImageUri);
+            Intent intent1 = new Intent(this, ReviewHW.class);
+            intent1.putExtra("sender", "share_image");
+
+            // Collect the values from pickers
+            // get the Date. Due to different handling of date by Java and Python
+            // we will be using the raw dates, ie, date, month and year separately
+
+
+            intent1.putExtra("photo_path", mCurrentPhotoPath);
+            startActivity(intent1);
+        }
+        else    {
+            Toast toast = Toast.makeText(this,
+                "Error creating Home Work. Plase try again",
+                Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+
     }
 
     // 11/04/17 As we many arrive at this activity after taking pic and uploading homework, we
@@ -314,6 +461,12 @@ public class HWList extends AppCompatActivity {
                     System.out.println("intent set to createHW");
                     startActivity(intent2);
                     break;
+                case "share_pic":
+                case "share_video":
+                    Intent intent3 = new Intent(this, CommunicationCenter.class);
+                    intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent3);
             }
         }
         return true;
