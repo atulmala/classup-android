@@ -15,7 +15,7 @@
         android:scaleX="0.8"
         android:scaleY="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_select_class_sec"></NumberPicker>
+        app:layout_constraintTop_toBottomOf="@+id/lbl_select_class_sec"/>
 
     <NumberPicker
         android:id="@+id/pick_section2"
@@ -26,7 +26,7 @@
         android:scaleX="0.8"
         android:scaleY="0.8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_select_class_sec"></NumberPicker>
+        app:layout_constraintTop_toBottomOf="@+id/lbl_select_class_sec"/>
 
     <TextView
         android:id="@+id/desc_label"
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="4dp"
         android:text="Select Class/Section"
         android:textSize="18sp"
@@ -57,27 +57,12 @@
         app:layout_constraintTop_toBottomOf="@+id/brief_descrption"
         tools:text="Select Class/Section" />
 
-    <EditText
-        android:id="@+id/brief_descrption"
-        android:layout_width="0dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/brief_description_of_image_video"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/desc_label" />
-
     <Button
         android:id="@+id/btn_sel_students"
         android:layout_width="364dp"
         android:layout_height="51dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:onClick="select_students"
         android:text="Select Students"
@@ -98,4 +83,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_sel_students" />
+
+    <EditText
+        android:id="@+id/brief_descrption"
+        android:layout_width="368dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc_label" />
+
 </android.support.constraint.ConstraintLayout>

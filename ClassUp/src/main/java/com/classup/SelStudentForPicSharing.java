@@ -46,12 +46,19 @@ public class SelStudentForPicSharing extends AppCompatActivity {
 
     final Activity a = this;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sel_student_for_pic_sharing);
-        image = getIntent().getStringExtra("image");
+        //image = getIntent().getStringExtra("image");
+        image = SessionManager.getInstance().getImage();
+        //System.out.println("image = " + image);
+
+        if(getIntent().getStringExtra("sender").equals("image_video"))  {
+            String description = getIntent().getStringExtra("description");
+            TextView bd = findViewById(R.id.brief_descrption);
+            bd.setText(description);
+        }
 
         // get the server ip to make api calls
         Context c = this.getApplicationContext();
@@ -104,16 +111,15 @@ public class SelStudentForPicSharing extends AppCompatActivity {
                         System.out.println("there seems to be no data for " + tag);
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(),
-                            "It looks that you have not yet set subjects. " +
-                                "Please set subjects", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent("com.classup.SetSubjects"));
+                            "Error while retrieving " + tag + "list",
+                            Toast.LENGTH_LONG).show();
+                        //startActivity(new Intent("com.classup.SetSubjects"));
                     } catch (Exception e) {
                         System.out.println("ran into exception during " + tag);
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(),
-                            "It looks that you have not yet set subjects. " +
-                                "Please set subjects", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent("com.classup.SetSubjects"));
+                            "Error while retrieving " + tag + "list",
+                            Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -161,7 +167,7 @@ public class SelStudentForPicSharing extends AppCompatActivity {
             final String[] sectionList = sectionPicker.getDisplayedValues();
             final Intent intent = new Intent(this, SelectStudent.class);
             intent.putExtra("sender", "share_image");
-            intent.putExtra("image", image);
+            //intent.putExtra("image", image);
             intent.putExtra("brief_description", brief_description);
             intent.putExtra("class", classList[(classPicker.getValue())]);
             intent.putExtra("section", sectionList[(sectionPicker.getValue())]);
@@ -171,7 +177,7 @@ public class SelStudentForPicSharing extends AppCompatActivity {
 
     public void share_with_whole_class(View view)   {
         TextView bd = findViewById(R.id.brief_descrption);
-        String brief_description = bd.getText().toString();
+        final String brief_description = bd.getText().toString();
         if(brief_description.equals(""))    {
             Toast toast = Toast.makeText(getApplicationContext(),
                 "Please enter brief description", Toast.LENGTH_LONG);
@@ -207,6 +213,7 @@ public class SelStudentForPicSharing extends AppCompatActivity {
                         try {
                             jsonObject.put("image", image);
                             jsonObject.put("image_name", imageFileName);
+                            jsonObject.put("description", brief_description);
                             jsonObject.put("school_id", SessionManager.
                                 getInstance().getSchool_id());
                             jsonObject.put("teacher", teacher);
@@ -251,7 +258,7 @@ public class SelStudentForPicSharing extends AppCompatActivity {
                                                     0);
                                                 toast.show();
                                                 startActivity(new Intent
-                                                    ("com.classup.SchoolAdmin").
+                                                    ("com.classup.TeacherMenu").
                                                     setFlags(Intent.
                                                         FLAG_ACTIVITY_NEW_TASK |
                                                         Intent.FLAG_ACTIVITY_CLEAR_TASK));
@@ -286,9 +293,9 @@ public class SelStudentForPicSharing extends AppCompatActivity {
                         toast.show();
 
                         Intent intent1 = new Intent(getApplicationContext(),
-                            TeacherMenu.class);
+                            CommunicationCenter.class);
                         intent1.putExtra("sender", "teacher_menu");
-                        //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                            //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                         //Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent1);
                         //finish();
@@ -299,6 +306,7 @@ public class SelStudentForPicSharing extends AppCompatActivity {
             });
             // Create the AlertDialog object and return it
             builder.show();
+
         }
     }
 }

@@ -349,6 +349,7 @@ public class SelectClass extends AppCompatActivity {
                 // Collect the values from pickers
                 // get the Date. Due to different handling of date by Java and Python
                 // we will be using the raw dates, ie, date, month and year separately
+                intent1.putExtra("sender", "teacher");
                 intent1.putExtra("sender_type", "teacher");
                 intent1.putExtra("date", d.toString());
                 intent1.putExtra("month", m.toString());

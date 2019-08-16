@@ -32,23 +32,27 @@ public class SessionManager {
     }
 
     Boolean bus_attendance_known = false;
-
     public Boolean getBus_attendance_known() {
         return bus_attendance_known;
     }
-
     public void setBus_attendance_known(Boolean bus_attendance_known) {
         this.bus_attendance_known = bus_attendance_known;
     }
 
     String bus_attendance = "false";
-
     public String getBus_attendance() {
         return bus_attendance;
     }
-
     public void setBus_attendance(String bus_attendance) {
         this.bus_attendance = bus_attendance;
+    }
+
+    private String image = "";
+    public String getImage() {
+        return image;
+    }
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void logout()    {

@@ -31,6 +31,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -531,7 +532,7 @@ public class DiskBasedCache implements Cache {
     }
 
     static void writeString(OutputStream os, String s) throws IOException {
-        byte[] b = s.getBytes("UTF-8");
+        byte[] b = s.getBytes(StandardCharsets.UTF_8);
         writeLong(os, b.length);
         os.write(b, 0, b.length);
     }
@@ -539,7 +540,7 @@ public class DiskBasedCache implements Cache {
     static String readString(InputStream is) throws IOException {
         int n = (int) readLong(is);
         byte[] b = streamToBytes(is, n);
-        return new String(b, "UTF-8");
+        return new String(b, StandardCharsets.UTF_8);
     }
 
     static void writeStringStringMap(Map<String, String> map, OutputStream os) throws IOException {

@@ -1,17 +1,21 @@
 package com.classup;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -57,6 +61,8 @@ public class ReviewHW extends AppCompatActivity {
     private Matrix matrix = new Matrix();
     private Bitmap bitmap1;
 
+    int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
+
     /* 09/04/17 -
    courtsey https://forums.bignerdranch.com/t/i
    mageview-showing-in-landscape-but-not-portrait/7689/6
@@ -71,7 +77,7 @@ public class ReviewHW extends AppCompatActivity {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             // Find the correct scale value. It should be the power of 2.
-            final int REQUIRED_SIZE = 70;
+            final int REQUIRED_SIZE = 100;
             int width_tmp = o.outWidth, height_tmp = o.outHeight;
             int scale = 0;
             while (true) {
@@ -101,17 +107,20 @@ public class ReviewHW extends AppCompatActivity {
                 //m.postScale((float) bm.getWidth(), (float) bm.getHeight());
                 // if(m.preRotate(90)){
                 Log.e("in orientation", "" + orientation);
-                bitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
+                bitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
+                    bm.getHeight(), m, true);
                 return bitmap;
             } else if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
                 m.postRotate(90);
                 Log.e("in orientation", "" + orientation);
-                bitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
+                bitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
+                    bm.getHeight(), m, true);
                 return bitmap;
             } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
                 m.postRotate(270);
                 Log.e("in orientation", "" + orientation);
-                bitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
+                bitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
+                    bm.getHeight(), m, true);
                 return bitmap;
             }
             return bitmap;
@@ -123,6 +132,8 @@ public class ReviewHW extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_review_hw);
         imageView = findViewById(R.id.image_view);
         usingSimpleImage(imageView);
@@ -154,9 +165,10 @@ public class ReviewHW extends AppCompatActivity {
                     startActivity(intent);
                 }
                 try {
+                    System.out.println("photo path = " + getIntent().getStringExtra("photo_path"));
                     bitmap1 = scaleDownAndRotatePic(getIntent().getStringExtra("photo_path"));
                     Picasso.with(a).load(new File(getIntent().getStringExtra("photo_path")))
-                        .fit().centerCrop()
+                        .fit()
                         .into(imageView);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -169,14 +181,16 @@ public class ReviewHW extends AppCompatActivity {
                 }
                 break;
             case "review_hw":
+            case "hw_list":
+            case "image_video":
                 String location = getIntent().getStringExtra("location");
+                bitmap1 = scaleDownAndRotatePic(getIntent().getStringExtra(location));
                 final ProgressDialog progressDialog = new ProgressDialog(a);
-                progressDialog.setMessage("Retrieving HW. This can take a few moment. Please wait...");
+                progressDialog.setMessage("Retrieving. This can take a few moment. Please wait...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 Picasso.with(getApplicationContext())
                     .load(location).fit()
-                    .centerCrop()
                     .into(imageView, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -189,7 +203,7 @@ public class ReviewHW extends AppCompatActivity {
                             progressDialog.hide();
                             progressDialog.dismiss();
                             Toast toast = Toast.makeText(getApplicationContext(),
-                                "Failed to download HW Image", Toast.LENGTH_LONG);
+                                "Failed to download Image", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                         }
@@ -197,7 +211,7 @@ public class ReviewHW extends AppCompatActivity {
                 String key = location.substring(34);
                 System.out.println("key=" + key);
 
-                this.setTitle("HW Image");
+                this.setTitle("Image");
                 break;
         }
     }
@@ -228,6 +242,7 @@ public class ReviewHW extends AppCompatActivity {
                     "Upload").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
                 return true;
             case "share_image":
+            case "image_video":
                 m.add(0, 0, 0,
                     "Next").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
                 return true;
@@ -242,7 +257,8 @@ public class ReviewHW extends AppCompatActivity {
         switch (id) {
             case 0:
                 switch (sender) {
-                    case "teacher_menu":
+                    case "teacher":
+                    case "select_class":
                         final String server_ip = MiscFunctions.getInstance().getServerIP(this);
                         final String teacher = SessionManager.getInstance().getLogged_in_user();
                         final String url = server_ip + "/academics/create_hw/";
@@ -329,7 +345,7 @@ public class ReviewHW extends AppCompatActivity {
                                                                 0);
                                                             toast.show();
                                                             startActivity(new Intent
-                                                                ("com.classup.SchoolAdmin").
+                                                                ("com.classup.TeacherMenu").
                                                                 setFlags(Intent.
                                                                     FLAG_ACTIVITY_NEW_TASK |
                                                                     Intent.FLAG_ACTIVITY_CLEAR_TASK));
@@ -379,11 +395,21 @@ public class ReviewHW extends AppCompatActivity {
                         builder.show();
                         return super.onOptionsItemSelected(item);
                     case "share_image":
+                    case "image_video":
                         String image = getStringImage(bitmap1);
+                        //System.out.println("image = " + image);
                         Intent intent1 = new Intent(getApplicationContext(),
                             SelStudentForPicSharing.class);
                         intent1.putExtra("sender", "share_image");
-                        intent1.putExtra("image", image);
+                        //intent1.putExtra("image", image);
+                        // because image is large, it cannot be passed through intents. We get
+                        // TransactionTooLarge exception
+                        SessionManager.getInstance().setImage(image);
+
+                        if(sender.equals("image_video"))    {
+                            intent1.putExtra("description",
+                                getIntent().getStringExtra("description"));
+                        }
                         startActivity(intent1);
                         break;
                 }
@@ -412,7 +438,7 @@ public class ReviewHW extends AppCompatActivity {
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 

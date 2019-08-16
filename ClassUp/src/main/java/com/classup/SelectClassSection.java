@@ -159,6 +159,7 @@ public class SelectClassSection extends AppCompatActivity {
         // 26/11/2017 - now we will be reaching the compose message screen from Activity Group
         // communication also. Hence, the compose message screen should know its trigger
         intent.putExtra("coming_from", "TeacherCommunication");
+        intent.putExtra("sender", "send_message");
         intent.putExtra("class", classList[(classPicker.getValue())]);
         intent.putExtra("section", sectionList[(sectionPicker.getValue())]);
         intent.putExtra("whole_class", "false");
@@ -197,5 +198,4 @@ public class SelectClassSection extends AppCompatActivity {
         intent.putExtra("whole_class", "true");
         startActivity(intent);
     }
-
 }

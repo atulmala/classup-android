@@ -44,7 +44,7 @@ public class TeacherMessageAdapter extends BaseAdapter {
         TextView sent_to = convertView.findViewById(R.id.txt_sent_to);
         sent_to.setText(message_list.get(position).getSent_to());
 
-        TextView message = convertView.findViewById(R.id.txt_2);
+        TextView message = convertView.findViewById(R.id.txt_description);
         message.setEnabled(false);
         message.setTextColor(Color.DKGRAY);
         String message_text = message_list.get(position).getMessage();
