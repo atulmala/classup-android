@@ -20,7 +20,8 @@
         android:icon="@mipmap/classup_app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelStudentForPicSharing"></activity>
+        <activity android:name=".ParentCommCenter"></activity>
+        <activity android:name=".SelStudentForPicSharing" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -336,37 +337,37 @@
         </activity>
         <activity
             android:name=".TeachersAttendance"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CommunicationCenter"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Arrangements"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityGroup"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityMembers"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TeacherMessageRecord"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TeacherMessageReceivers"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MyTimeTable"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DaysofWeek"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TestDetails"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ExamListTeacher"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -69,7 +69,7 @@ public class SelectStudent extends AppCompatActivity {
         progressDialog.show();
 
         final SelectStudentAdapter adapter = new SelectStudentAdapter(this, student_list,
-            selected_students);
+            selected_students, sender);
         final ListView listView = findViewById(R.id.student_list);
         listView.setDivider(new ColorDrawable(0x99F10529));
         listView.setDividerHeight(4);

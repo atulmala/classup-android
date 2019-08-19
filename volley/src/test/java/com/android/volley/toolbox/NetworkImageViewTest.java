@@ -18,7 +18,7 @@ public class NetworkImageViewTest {
     private NetworkImageView mNIV;
     private MockImageLoader mMockImageLoader;
 
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         mMockImageLoader = new MockImageLoader();
         mNIV = new NetworkImageView(RuntimeEnvironment.application);
     }

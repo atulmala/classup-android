@@ -56,18 +56,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="take_action"/>
+
     <Button
-        android:id="@+id/btn_communicate_with_school"
-        android:text="@string/communicate_with_school"
+        android:id="@+id/btn_communication_center"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="take_action"/>
-    <Button
-        android:id="@+id/btn_communicate_history"
-        android:text="@string/communication_history"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="take_action"/>
+        android:onClick="take_action"
+        android:text="@string/comm_center" />
+
     <Button
         android:id="@+id/btn_parent_change_password"
         android:layout_width="fill_parent"

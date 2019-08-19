@@ -104,25 +104,15 @@ public class ParentsMenu extends AppCompatActivity {
                                                 intent.putExtra("student_name", student_name);
                                                 startActivity(intent);
                                                 break;
-                                            case R.id.btn_communicate_with_school:
+
+                                            case R.id.btn_communication_center:
                                                 intent = new Intent(getApplicationContext(),
-                                                        ParentCommunication.class);
+                                                    ParentCommCenter.class);
                                                 intent.putExtra("student_id", student_id);
                                                 intent.putExtra("student_name", student_name);
                                                 startActivity(intent);
                                                 break;
-                                            case R.id.btn_communicate_history:
-                                                intent = new Intent(getApplicationContext(),
-                                                        CommunicationHistory.class);
-                                                intent.putExtra("student_id", student_id);
 
-                                                // 14/03/2018 - we will be using the same screen to
-                                                // show the communication history for teachers
-                                                intent.putExtra("coming_from",
-                                                    "parent");
-
-                                                startActivity(intent);
-                                                break;
                                             case R.id.bth_hw_list_parent2:
                                                 intent = new Intent(getApplicationContext(),
                                                         HWList.class);

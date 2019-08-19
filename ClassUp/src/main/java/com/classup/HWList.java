@@ -53,6 +53,7 @@ public class HWList extends AppCompatActivity {
     String server_ip;
     String school_id;
     String sender;
+    String student_id;
 
     final int ACTIVITY_SELECT_IMAGE = 200;
     final int ACTIVITY_SELECT_VIDEO = 300;
@@ -85,8 +86,17 @@ public class HWList extends AppCompatActivity {
                 dealing_with = "HW";
                 this.setTitle("HW List");
                 retrieval_message = "Retrieving Home Work list. Please wait...";
-                String student_id = getIntent().getStringExtra("student_id");
+                student_id = getIntent().getStringExtra("student_id");
                 url1 = server_ip + "/academics/retrieve_hw/" + student_id + "/?format=json";
+                break;
+            case "parent_pic_video":
+                dealing_with = "image_video";
+                student_id = getIntent().getStringExtra("student_id");
+                this.setTitle("Image/Video List ");
+
+                retrieval_message = "Retrieving shared Pics/Video list. Please wait...";
+                url1 = server_ip + "/pic_share/get_pic_video_list_teacher/";
+                url1 +=  student_id + "/?format=json";
                 break;
             case "teacher_menu":
                 dealing_with = "HW";
@@ -559,6 +569,7 @@ public class HWList extends AppCompatActivity {
                     startActivity(intent1);
                     break;
                 case "ParentApp":
+                case "parent_pic_video":
                     String student_id = getIntent().getStringExtra("student_id");
                     String student_name = getIntent().getStringExtra("student_name");
                     Intent intent2 = new Intent(this, ParentsMenu.class);

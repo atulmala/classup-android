@@ -42,7 +42,7 @@ public class CacheDispatcherTest {
 
     private static final long TIMEOUT_MILLIS = 5000;
 
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         mCacheQueue = new WaitableQueue();
         mNetworkQueue = new WaitableQueue();
         mCache = new MockCache();

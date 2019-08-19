@@ -31,7 +31,7 @@ public class PoolingByteArrayOutputStreamTest {
         writeOneBuffer(pool);
     }
 
-    @Test public void pooledIndividualWrites() throws IOException {
+    @Test public void pooledIndividualWrites() {
         ByteArrayPool pool = new ByteArrayPool(32768);
         writeBytesIndividually(pool);
         writeBytesIndividually(pool);
@@ -45,7 +45,7 @@ public class PoolingByteArrayOutputStreamTest {
         writeOneBuffer(pool);
     }
 
-    @Test public void unpooledIndividualWrites() throws IOException {
+    @Test public void unpooledIndividualWrites() {
         ByteArrayPool pool = new ByteArrayPool(0);
         writeBytesIndividually(pool);
         writeBytesIndividually(pool);

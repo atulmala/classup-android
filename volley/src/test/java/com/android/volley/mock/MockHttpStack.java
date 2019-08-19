@@ -52,8 +52,7 @@ public class MockHttpStack implements HttpStack {
     }
 
     @Override
-    public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders)
-            throws AuthFailureError {
+    public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders) {
         mLastUrl = request.getUrl();
         mLastHeaders = new HashMap<String, String>();
         if (request.getHeaders() != null) {

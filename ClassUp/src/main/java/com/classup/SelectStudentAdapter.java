@@ -46,16 +46,18 @@ public class SelectStudentAdapter extends BaseAdapter {
 
     String server_ip;
     Context context;
+    String sender;
 
    public List<AttendanceListSource> getStudent_list() {
         return student_list;
     }
 
     public SelectStudentAdapter(Context context, ArrayList<AttendanceListSource> student_list,
-                                ArrayList<String > selected_students) {
+                                ArrayList<String > selected_students, String sender) {
         super();
         this.student_list = student_list;
         this.selected_students = selected_students;
+        this.sender = sender;
 
         this.context = context;
     }
@@ -118,6 +120,8 @@ public class SelectStudentAdapter extends BaseAdapter {
         });
 
         ImageView call_parent = convertView.findViewById(R.id.icon_call);
+        if(sender.equals("share_image"))
+            call_parent.setVisibility(View.INVISIBLE);
         call_parent.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

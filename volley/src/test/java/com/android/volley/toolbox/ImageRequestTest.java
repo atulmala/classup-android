@@ -36,7 +36,7 @@ import static org.junit.Assert.*;
 @RunWith(RobolectricTestRunner.class)
 public class ImageRequestTest {
 
-    @Test public void parseNetworkResponse_resizing() throws Exception {
+    @Test public void parseNetworkResponse_resizing() {
         // This is a horrible hack but Robolectric doesn't have a way to provide
         // width and height hints for decodeByteArray. It works because the byte array
         // "file:fake" is ASCII encodable and thus the name in Robolectric's fake

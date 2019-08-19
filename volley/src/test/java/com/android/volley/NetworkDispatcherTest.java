@@ -43,7 +43,7 @@ public class NetworkDispatcherTest {
     private static final byte[] CANNED_DATA = "Ceci n'est pas une vraie reponse".getBytes();
     private static final long TIMEOUT_MILLIS = 5000;
 
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         mDelivery = new MockResponseDelivery();
         mNetworkQueue = new WaitableQueue();
         mNetwork = new MockNetwork();

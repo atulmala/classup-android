@@ -35,7 +35,7 @@ public class ResponseDeliveryTest {
     private MockRequest mRequest;
     private Response<byte[]> mSuccessResponse;
 
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         // Make the delivery just run its posted responses immediately.
         mDelivery = new ImmediateResponseDelivery();
         mRequest = new MockRequest();

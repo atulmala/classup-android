@@ -80,7 +80,7 @@ public class AndroidAuthenticatorTest {
     }
 
     @Test
-    public void invalidateAuthToken() throws Exception {
+    public void invalidateAuthToken() {
         mAuthenticator.invalidateAuthToken("monkey");
         verify(mAccountManager).invalidateAuthToken("cooltype", "monkey");
     }
@@ -97,7 +97,7 @@ public class AndroidAuthenticatorTest {
     }
 
     @Test
-    public void publicMethods() throws Exception {
+    public void publicMethods() {
         // Catch-all test to find API-breaking changes.
         Context context = mock(Context.class);
         new AndroidAuthenticator(context, mAccount, "cooltype");

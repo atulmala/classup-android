@@ -169,4 +169,5 @@
     <string name="add_pics">Share Pics</string>
     <string name="enter_brief_description">Enter Brief Description</string>
     <string name="brief_description_of_image_video">Brief description of Image/Video</string>
+    <string name="image_video">Image/Video</string>
 </resources>

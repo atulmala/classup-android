@@ -71,7 +71,7 @@ public class MockHttpURLConnection extends HttpURLConnection {
     }
 
     @Override
-    public void connect() throws IOException {
+    public void connect() {
     }
 
 }

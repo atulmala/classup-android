@@ -53,7 +53,7 @@ public class RequestQueueIntegrationTest {
     private ResponseDelivery mDelivery;
     @Mock private Network mMockNetwork;
 
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         mDelivery = new ImmediateResponseDelivery();
         initMocks(this);
     }
@@ -166,7 +166,7 @@ public class RequestQueueIntegrationTest {
      *
      * Needs to be an integration test because relies on Request -> dispatcher -> RequestQueue interaction
      */
-    @Test public void add_requestFinishedListenerSuccess() throws Exception {
+    @Test public void add_requestFinishedListenerSuccess() {
         NetworkResponse response = mock(NetworkResponse.class);
         Request request = new MockRequest();
         RequestFinishedListener listener = mock(RequestFinishedListener.class);

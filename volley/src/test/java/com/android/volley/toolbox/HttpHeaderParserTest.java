@@ -46,7 +46,7 @@ public class HttpHeaderParserTest {
     private NetworkResponse response;
     private Map<String, String> headers;
 
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         headers = new HashMap<String, String>();
         response = new NetworkResponse(0, null, headers, false);
     }
