@@ -106,7 +106,7 @@ public class HWList extends AppCompatActivity {
                 break;
             case "share_pic":
                 dealing_with = "image_video";
-                this.setTitle("Pics List");
+                this.setTitle("Pics/Video List");
                 retrieval_message = "Retrieving shared Pics list. Please wait...";
                 url1 = server_ip + "/pic_share/get_pic_video_list_teacher/";
                 url1 +=  logged_in_user + "/?format=json";
@@ -400,7 +400,8 @@ public class HWList extends AppCompatActivity {
                                 }
                             });
                         // Create the AlertDialog object and return it
-                        builder1.show();
+                        if(!sender.equals("parent_pic_video"))
+                            builder1.show();
                         return true;
                 }
                 return true;
@@ -478,10 +479,25 @@ public class HWList extends AppCompatActivity {
                         break;
                     case "share_video":
                         Intent intent2 = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        intent2.putExtra("sender", "share_pic");
-
-                        startActivityForResult(intent2, ACTIVITY_SELECT_VIDEO);
+                            android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+                        intent2.putExtra("sender", "share_video");
+                        if (intent2.resolveActivity(getPackageManager()) != null) {
+                            // Create the File where the photo should go
+                            File videoFile = null;
+                            try {
+                                videoFile = createVideoFile();
+                            } catch (IOException ex) {
+                                // Error occurred while creating the File
+                            }
+                            // Continue only if the File was successfully created
+                            if (videoFile != null) {
+                                Uri videoURI = FileProvider.getUriForFile(this,
+                                    "com.classup.provider", videoFile);
+                                intent2.putExtra(MediaStore.EXTRA_OUTPUT, videoURI);
+                                startActivityForResult(intent2, ACTIVITY_SELECT_VIDEO);
+                            }
+                        }
+                        //startActivityForResult(intent2, ACTIVITY_SELECT_VIDEO);
                         break;
                     default:
                         return super.onOptionsItemSelected(item);
@@ -506,7 +522,23 @@ public class HWList extends AppCompatActivity {
         return image;
     }
 
-    public String getPath(Uri uri) {
+    private File createVideoFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String videoFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File video = File.createTempFile(
+            videoFileName,  /* prefix */
+            ".mp4",         /* suffix */
+            storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentVideoPath = video.getAbsolutePath();
+        return video;
+    }
+
+    public String getPath(Uri uri, String sender) {
         Cursor cursor = getContentResolver().query(uri, null,
             null, null, null);
         cursor.moveToFirst();
@@ -514,10 +546,20 @@ public class HWList extends AppCompatActivity {
         document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
         cursor.close();
 
-        cursor = getContentResolver().query(
-            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            null, MediaStore.Images.Media._ID + " = ? ",
-            new String[]{document_id}, null);
+        switch (sender) {
+            case "share_pic":
+                cursor = getContentResolver().query(
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    null, MediaStore.Images.Media._ID + " = ? ",
+                    new String[]{document_id}, null);
+                break;
+            case "share_video":
+                cursor = getContentResolver().query(
+                    android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                    null, MediaStore.Images.Media._ID + " = ? ",
+                    new String[]{document_id}, null);
+                break;
+        }
         cursor.moveToFirst();
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
         cursor.close();
@@ -525,32 +567,30 @@ public class HWList extends AppCompatActivity {
         return path;
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACTIVITY_SELECT_IMAGE && resultCode == RESULT_OK) {
             super.onActivityResult(requestCode, resultCode, data);
             Uri selectedImageUri = data.getData();
-            mCurrentPhotoPath = getPath(selectedImageUri);
+            mCurrentPhotoPath = getPath(selectedImageUri, sender);
             Intent intent1 = new Intent(this, ReviewHW.class);
             intent1.putExtra("sender", "share_image");
-
-            // Collect the values from pickers
-            // get the Date. Due to different handling of date by Java and Python
-            // we will be using the raw dates, ie, date, month and year separately
-
-
             intent1.putExtra("photo_path", mCurrentPhotoPath);
             startActivity(intent1);
         }
         else    {
-            Toast toast = Toast.makeText(this,
-                "Error creating Home Work. Plase try again",
-                Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            super.onActivityResult(requestCode, resultCode, data);
+            Uri selectedVideoUri = data.getData();
+            mCurrentVideoPath = getPath(selectedVideoUri, sender);
+            System.out.println("mCurrentVideoPath = " + mCurrentVideoPath);
+            File file = new File(mCurrentVideoPath);
+            System.out.println(Environment.getExternalStorageDirectory().getAbsolutePath().equals(mCurrentVideoPath));
+            System.out.println("file = " + file);
+            Intent intent1 = new Intent(this, SelStudentForPicSharing.class);
+            intent1.putExtra("sender", "share_video");
+            intent1.putExtra("video_path", mCurrentVideoPath);
+            startActivity(intent1);
         }
-
     }
 
     // 11/04/17 As we many arrive at this activity after taking pic and uploading homework, we

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.AnalyticsEvent;
@@ -22,16 +23,33 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SendBulkSMS extends AppCompatActivity {
     final Activity a = this;
     final String tag = "BulkSMSFromDevice";
     final String server_ip = MiscFunctions.getInstance().getServerIP(this);
     final String user = SessionManager.getInstance().getLogged_in_user();
 
+    String sender;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_bulk_sms);
+
+        sender = getIntent().getStringExtra("sender");
+
+        TextView prompt = findViewById(R.id.txt_bulk_sms);
+        switch (sender) {
+            case "send_bulk_sms":
+                prompt.setText("Compose SMS");
+                break;
+            case "admin_share_image":
+                prompt.setText("Brief Description for Image/Video");
+                break;
+        }
     }
 
     @Override
@@ -71,6 +89,7 @@ public class SendBulkSMS extends AppCompatActivity {
             toast.show();
         } else {
             Intent intent = new Intent(this, SelectionForBulkSMS.class);
+            intent.putExtra("sender", sender);
             intent.putExtra("message", message);
             startActivity(intent);
         }
@@ -110,6 +129,23 @@ public class SendBulkSMS extends AppCompatActivity {
                                     jsonObject.put("message_text", message);
                                     String school_id = SessionManager.getInstance().getSchool_id();
                                     jsonObject.put("school_id", school_id);
+
+                                    if(sender.equals("admin_share_image")) {
+                                        jsonObject.put("image_included", "yes");
+                                        String image = SessionManager.getInstance().getImage();
+                                        jsonObject.put("image", image);
+                                        String timeStamp =
+                                            new SimpleDateFormat("yyyyMMdd_HHmmss").
+                                                format(new Date());
+                                        String teacher =
+                                            SessionManager.getInstance().getLogged_in_user();
+                                        final String imageFileName = teacher + "-"
+                                            + "_" + timeStamp + ".jpg";
+                                        jsonObject.put("image_name", imageFileName);
+                                    }
+                                    else
+                                        jsonObject.put("image_included", "no");
+
                                 } catch (JSONException je) {
                                     System.out.println
                                             ("unable to create json for " +

@@ -133,7 +133,6 @@ public class ReviewHW extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_review_hw);
         imageView = findViewById(R.id.image_view);
         usingSimpleImage(imageView);
@@ -151,6 +150,7 @@ public class ReviewHW extends AppCompatActivity {
         switch (sender) {
             case "select_class":
             case "share_image":
+            case "admin_share_image":
                 this.setTitle("Please Review");
                 scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
@@ -165,7 +165,8 @@ public class ReviewHW extends AppCompatActivity {
                     startActivity(intent);
                 }
                 try {
-                    System.out.println("photo path = " + getIntent().getStringExtra("photo_path"));
+                    System.out.println("photo path = " + getIntent().
+                        getStringExtra("photo_path"));
                     bitmap1 = scaleDownAndRotatePic(getIntent().getStringExtra("photo_path"));
                     Picasso.with(a).load(new File(getIntent().getStringExtra("photo_path")))
                         .fit()
@@ -243,6 +244,7 @@ public class ReviewHW extends AppCompatActivity {
                 return true;
             case "share_image":
             case "image_video":
+            case "admin_share_image":
                 m.add(0, 0, 0,
                     "Next").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
                 return true;
@@ -412,6 +414,12 @@ public class ReviewHW extends AppCompatActivity {
                         }
                         startActivity(intent1);
                         break;
+                    case "admin_share_image":
+                        String image1 = getStringImage(bitmap1);
+                        SessionManager.getInstance().setImage(image1);
+                        Intent intent2 = new Intent(getApplicationContext(), SendBulkSMS.class);
+                        intent2.putExtra("sender", "admin_share_image");
+                        startActivity(intent2);
                 }
             default:
                 break;

@@ -34,12 +34,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SelectionForBulkSMS extends AppCompatActivity {
     String tag = "SelectionForBulkSMS";
     final ArrayList<String> selection = new ArrayList<>();
     final Activity activity = this;
+
+    String sender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class SelectionForBulkSMS extends AppCompatActivity {
                 this.startActivity(intent);
             }
         }
+
+        sender = getIntent().getStringExtra("sender");
 
         final ArrayList<ClassListSource> class_list = new ArrayList<>();
 
@@ -226,6 +232,22 @@ public class SelectionForBulkSMS extends AppCompatActivity {
                                             array.put(selection.get(i));
                                         }
                                         jsonObject.put("classes_array", array);
+
+                                        if(sender.equals("admin_share_image")) {
+                                            jsonObject.put("image_included", "yes");
+                                            String image = SessionManager.getInstance().getImage();
+                                            jsonObject.put("image", image);
+                                            String timeStamp =
+                                                new SimpleDateFormat("yyyyMMdd_HHmmss").
+                                                    format(new Date());
+                                            String teacher =
+                                                SessionManager.getInstance().getLogged_in_user();
+                                            final String imageFileName = teacher + "-"
+                                                + "_" + timeStamp + ".jpg";
+                                            jsonObject.put("image_name", imageFileName);
+                                        }
+                                        else
+                                            jsonObject.put("image_included", "no");
 
                                     } catch (JSONException je) {
                                         System.out.println

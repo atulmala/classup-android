@@ -24,15 +24,16 @@
         android:id="@+id/btn_share_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="8dp"
         android:enabled="true"
         android:onClick="shareVideo"
         android:text="@string/share_video"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_comm_parents" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_share_video2"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/btn_comm_parents"

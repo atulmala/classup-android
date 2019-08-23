@@ -60,24 +60,17 @@ public class CommunicationCenter extends AppCompatActivity {
     public void shareVideo(View view)  {
         // check for storage access permissions
         if (ContextCompat.checkSelfPermission(this,
-            Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-
+            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
 
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
-
         } else {
             // Permission has already been granted
             Intent intent = new Intent(this, HWList.class);
-            intent.putExtra("sender", "share_pic");
+            intent.putExtra("sender", "share_video");
             startActivity(intent);
         }
     }
@@ -85,8 +78,7 @@ public class CommunicationCenter extends AppCompatActivity {
     public void sharePic(View view) {
         // check for storage access permissions
         if (ContextCompat.checkSelfPermission(this,
-            Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
+            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             // Permission is not granted
 
