@@ -2,36 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.classup">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true" />
-
     <application
         android:name=".AppController"
         android:allowBackup="true"
         android:icon="@mipmap/classup_app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".ParentCommCenter"></activity>
+        <activity android:name=".VideoReviewActivity"></activity>
+        <activity android:name=".ParentCommCenter" />
         <activity android:name=".SelStudentForPicSharing" />
 
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider> <!-- activity for splash screen -->
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -41,7 +21,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- activity for Login -->
+        </activity> <!-- activity for splash screen -->
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
@@ -51,8 +31,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- activity for main menu (are we using it really??) -->
-        <!-- the menu that appears after login (actually this is the main menu) -->
+        </activity> <!-- activity for Login -->
         <activity
             android:name=".TeacherMenu"
             android:label="@string/title_activity_teacher_menu"
@@ -62,7 +41,8 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- activity for school admin -->
+        </activity> <!-- activity for main menu (are we using it really??) -->
+        <!-- the menu that appears after login (actually this is the main menu) -->
         <activity
             android:name=".SchoolAdmin"
             android:label="@string/school_admin_menu"
@@ -72,11 +52,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <!--
-         activity for selecting class, section, subject, date,
-         month, and year for taking attendance and scheduling tests
-        -->
+        </activity> <!-- activity for school admin -->
         <activity
             android:name=".SelectClass"
             android:label="Select Class"
@@ -88,8 +64,8 @@
             </intent-filter>
         </activity>
         <!--
-             screen that shows list of students in class/section for taking attendance of a
-             particular subject
+         activity for selecting class, section, subject, date,
+         month, and year for taking attendance and scheduling tests
         -->
         <activity
             android:name=".AttendanceList"
@@ -100,7 +76,11 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- test Manager screen -->
+        </activity>
+        <!--
+             screen that shows list of students in class/section for taking attendance of a
+             particular subject
+        -->
         <activity
             android:name=".TestManagerActivity"
             android:label="@string/title_activity_test_manager"
@@ -111,15 +91,15 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- activity that shows list of pending tests -->
+        </activity> <!-- test Manager screen -->
         <activity
             android:name=".PendingTestsActivity"
             android:label="@string/title_activity_pending_tests"
-            android:screenOrientation="portrait" /> <!-- activity that shows list of completed tests -->
+            android:screenOrientation="portrait" /> <!-- activity that shows list of pending tests -->
         <activity
             android:name=".CompletedTestsActivity"
             android:label="@string/title_activity_completed_tests"
-            android:screenOrientation="portrait" /> <!-- activity for entering marks or grades of students in a test -->
+            android:screenOrientation="portrait" /> <!-- activity that shows list of completed tests -->
         <activity
             android:name=".MarksEntry"
             android:label="@string/title_activity_marks_entry"
@@ -130,7 +110,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity> <!-- activity for entering marks or grades of students in a test -->
         <activity
             android:name=".SetSubjects"
             android:label="Set Subjects"
@@ -140,7 +120,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- activity to select class, section, subject, month, and year for attendance summary -->
+        </activity>
         <activity
             android:name=".SelectCriteriaAttendanceSummary"
             android:label="Select Criteria for Attendance Summary"
@@ -150,7 +130,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- activity that shows attendance summary for a class, section, sbuject, and duration -->
+        </activity> <!-- activity to select class, section, subject, month, and year for attendance summary -->
         <activity
             android:name=".ShowAttendanceSummary"
             android:label="Attendance Summary"
@@ -160,7 +140,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- activity for password change -->
+        </activity> <!-- activity that shows attendance summary for a class, section, sbuject, and duration -->
         <activity
             android:name=".PasswordChange"
             android:label="Change Password"
@@ -170,7 +150,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity> <!-- activity for password change -->
         <activity android:name=".SelectStudent" />
         <activity
             android:name=".SelectClassSection"
@@ -286,45 +266,10 @@
             android:name=".SelectTeacher"
             android:label="Select Teacher"
             android:screenOrientation="portrait" />
-
-        <service
-            android:name=".MyFirebaseInstanceIdService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".java.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
-            android:enabled="true" />
-        <!--
-     Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more.
-        -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/classup_app_logo" />
-        <!--
-             Set color used with incoming notification messages. This is used when no color
-             is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more.
-        -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/algae_green" />
-
         <activity
             android:name=".TestListParent"
-            android:screenOrientation="portrait" /> <!-- <activity -->
-        <!-- android:name=".TeacherMenu2" -->
-        <!-- android:label="@string/title_activity_teacher_menu2" -->
-        <!-- android:theme="@style/AppTheme.NoActionBar"/> -->
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".CoScholastic"
             android:screenOrientation="portrait"
@@ -341,15 +286,28 @@
         <activity
             android:name=".CommunicationCenter"
             android:screenOrientation="portrait" />
+        <!--
+     Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <activity
             android:name=".Arrangements"
             android:screenOrientation="portrait" />
+        <!--
+             Set color used with incoming notification messages. This is used when no color
+             is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <activity
             android:name=".ActivityGroup"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ActivityMembers"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" /> <!-- <activity -->
+        <!-- android:name=".TeacherMenu2" -->
+        <!-- android:label="@string/title_activity_teacher_menu2" -->
+        <!-- android:theme="@style/AppTheme.NoActionBar"/> -->
         <activity
             android:name=".TeacherMessageRecord"
             android:screenOrientation="portrait" />
@@ -368,6 +326,49 @@
         <activity
             android:name=".ExamListTeacher"
             android:screenOrientation="portrait" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/classup_app_logo" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/algae_green" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        <service
+            android:name=".MyFirebaseInstanceIdService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".java.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
     </application>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

@@ -191,31 +191,25 @@ public class SelectStudent extends AppCompatActivity {
                                                 System.out.println("mobile=" + p_m1);
                                                 Intent intent = new Intent
                                                     (Intent.ACTION_CALL);
-                                                intent.setData(Uri.parse
-                                                    ("tel:" + p_m1));
+                                                intent.setData(Uri.parse("tel:" + p_m1));
                                                 System.out.println
                                                     ("going to make call");
                                                 // check to see if dialler permssion exist
                                                 int permissionCheck =
                                                     ContextCompat.checkSelfPermission
-                                                        (activity,
-                                                            android.Manifest
+                                                        (activity, android.Manifest
                                                                 .permission.CALL_PHONE);
                                                 if (permissionCheck ==
-                                                    PackageManager.
-                                                        PERMISSION_GRANTED)
+                                                    PackageManager.PERMISSION_GRANTED)
                                                     startActivity(intent);
                                                 else
                                                     Toast.makeText(
                                                         getApplicationContext(),
-                                                        "Dialling permission " +
-                                                            "not granted",
+                                                        "Dialling permission not granted",
                                                         Toast.LENGTH_LONG).show();
-
                                             } catch (JSONException je) {
                                                 System.out.println("Ran into " +
-                                                    "JSON exception " +
-                                                    "while trying to make call");
+                                                    "JSON exception while trying to make call");
                                                 je.printStackTrace();
                                             } catch (Exception e) {
                                                 System.out.println("Caught " +

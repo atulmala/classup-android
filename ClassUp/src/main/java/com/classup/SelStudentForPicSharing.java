@@ -3,11 +3,14 @@ package com.classup;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
+
+import android.net.Uri;
 import android.os.Bundle;
+
+import android.content.DialogInterface;
+
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -36,7 +39,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 public class SelStudentForPicSharing extends AppCompatActivity {
+    public static final int MAX_KEYWORD_LENGTH = 30;
+    public static final String DEFAULT_KEYWORD = "ytdl";
+    // A playlist ID is a string that begins with PL. You must replace this string with the correct
+    // playlist ID for the app to work
+    public static final String UPLOAD_PLAYLIST = "Replace me with the playlist ID you want to upload into";
+    public static final String APP_NAME = "ytd-android";
+
+
     private NumberPicker classPicker;
     private NumberPicker sectionPicker;
 
@@ -50,15 +62,12 @@ public class SelStudentForPicSharing extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sel_student_for_pic_sharing);
-        //image = getIntent().getStringExtra("image");
         image = SessionManager.getInstance().getImage();
-        //System.out.println("image = " + image);
 
-        if(getIntent().getStringExtra("sender").equals("image_video"))  {
-            String description = getIntent().getStringExtra("description");
-            TextView bd = findViewById(R.id.brief_descrption);
-            bd.setText(description);
-        }
+        String description = getIntent().getStringExtra("description");
+        TextView bd = findViewById(R.id.brief_descrption);
+        bd.setText(description);
+
 
         // get the server ip to make api calls
         Context c = this.getApplicationContext();
@@ -190,7 +199,7 @@ public class SelStudentForPicSharing extends AppCompatActivity {
             final String[] sectionList = sectionPicker.getDisplayedValues();
             final String the_class = classList[(classPicker.getValue())];
             final String section = sectionList[(sectionPicker.getValue())];
-            String prompt = "Are you sure to upload this image to the whole class ";
+            String prompt = "Are you sure to upload this image/video to the whole class ";
             prompt += the_class;
             prompt += "-" + section + "?";
 
@@ -199,109 +208,121 @@ public class SelStudentForPicSharing extends AppCompatActivity {
             builder.setMessage(prompt).setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        final ProgressDialog progressDialog = new ProgressDialog(a);
-                        progressDialog.setMessage("Please wait...");
-                        progressDialog.setCancelable(false);
-                        progressDialog.show();
-                        String timeStamp =
-                            new SimpleDateFormat("yyyyMMdd_HHmmss").
-                                format(new Date());
-                        String teacher = SessionManager.getInstance().getLogged_in_user();
-                        final String imageFileName = teacher + "-" + the_class + "_"
-                            + "_" + timeStamp + ".jpg";
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            jsonObject.put("image", image);
-                            jsonObject.put("image_name", imageFileName);
-                            jsonObject.put("description", brief_description);
-                            jsonObject.put("school_id", SessionManager.
-                                getInstance().getSchool_id());
-                            jsonObject.put("teacher", teacher);
-                            jsonObject.put("class", the_class);
-                            jsonObject.put("section", section);
-                            jsonObject.put("whole_class", "true");
+                        final String sender = getIntent().getStringExtra("sender");
+                        if(sender.equals("share_image")) {
+                            final ProgressDialog progressDialog = new ProgressDialog(a);
+                            progressDialog.setMessage("Please wait...");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
+                            String timeStamp =
+                                new SimpleDateFormat("yyyyMMdd_HHmmss").
+                                    format(new Date());
+                            String teacher = SessionManager.getInstance().getLogged_in_user();
+                            final String imageFileName = teacher + "-" + the_class + "_"
+                                + "_" + timeStamp + ".jpg";
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("image", image);
+                                jsonObject.put("image_name", imageFileName);
+                                jsonObject.put("description", brief_description);
+                                jsonObject.put("school_id", SessionManager.
+                                    getInstance().getSchool_id());
+                                jsonObject.put("teacher", teacher);
+                                jsonObject.put("class", the_class);
+                                jsonObject.put("section", section);
+                                jsonObject.put("whole_class", "true");
 
-                        } catch (JSONException je) {
-                            System.out.println("unable to create json for HW upload");
-                            je.printStackTrace();
-                        } catch (ArrayIndexOutOfBoundsException ae) {
-                            ae.printStackTrace();
-                        }
-                        String url = server_ip + "/pic_share/upload_pic/";
-                        final String tag = "Upload Pic";
-                        JsonObjectRequest jsonObjReq = new JsonObjectRequest
-                            (Request.Method.POST, url, jsonObject,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        progressDialog.dismiss();
-                                        progressDialog.hide();
-                                        Log.d(tag, response.toString());
-                                        try {
-                                            final String status =
-                                                response.getString("status");
-                                            final String message =
-                                                response.getString("message");
-                                            if (!status.equals("success")) {
-                                                Toast toast =
-                                                    Toast.makeText(getApplicationContext(), message,
-                                                        Toast.LENGTH_LONG);
-                                                toast.setGravity(Gravity.CENTER,
-                                                    0,
-                                                    0);
-                                                toast.show();
-                                            } else {
-                                                Toast toast = Toast.makeText(getApplicationContext(),
-                                                    message, Toast.LENGTH_LONG);
-                                                toast.setGravity(Gravity.CENTER,
-                                                    0,
-                                                    0);
-                                                toast.show();
-                                                startActivity(new Intent
-                                                    ("com.classup.TeacherMenu").
-                                                    setFlags(Intent.
-                                                        FLAG_ACTIVITY_NEW_TASK |
-                                                        Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                                                finish();
-                                            }
-                                        } catch (org.json.JSONException je) {
+                            } catch (JSONException je) {
+                                System.out.println("unable to create json for HW upload");
+                                je.printStackTrace();
+                            } catch (ArrayIndexOutOfBoundsException ae) {
+                                ae.printStackTrace();
+                            }
+                            String url = server_ip + "/pic_share/upload_pic/";
+                            final String tag = "Upload Pic";
+                            JsonObjectRequest jsonObjReq = new JsonObjectRequest
+                                (Request.Method.POST, url, jsonObject,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
                                             progressDialog.dismiss();
                                             progressDialog.hide();
-                                            je.printStackTrace();
+                                            Log.d(tag, response.toString());
+                                            try {
+                                                final String status =
+                                                    response.getString("status");
+                                                final String message =
+                                                    response.getString("message");
+                                                if (!status.equals("success")) {
+                                                    Toast toast =
+                                                        Toast.makeText(getApplicationContext(),
+                                                            message, Toast.LENGTH_LONG);
+                                                    toast.setGravity(Gravity.CENTER,
+                                                        0,
+                                                        0);
+                                                    toast.show();
+                                                } else {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                        message, Toast.LENGTH_LONG);
+                                                    toast.setGravity(Gravity.CENTER, 0,
+                                                        0);
+                                                    toast.show();
+                                                    startActivity(new Intent
+                                                        ("com.classup.TeacherMenu").
+                                                        setFlags(Intent.
+                                                            FLAG_ACTIVITY_NEW_TASK |
+                                                            Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                                    finish();
+                                                }
+                                            } catch (org.json.JSONException je) {
+                                                progressDialog.dismiss();
+                                                progressDialog.hide();
+                                                je.printStackTrace();
+                                            }
                                         }
+                                    }, new Response.ErrorListener() {
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        progressDialog.dismiss();
+                                        progressDialog.hide();
+                                        VolleyLog.d(tag, "Error: " + error.getMessage());
                                     }
-                                }, new Response.ErrorListener() {
+                                });
+                            jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0,
+                                -1,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                            com.classup.AppController.getInstance().
+                                addToRequestQueue(jsonObjReq, tag);
 
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    progressDialog.dismiss();
-                                    progressDialog.hide();
-                                    VolleyLog.d(tag, "Error: " + error.getMessage());
-                                }
-                            });
-                        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0,
-                            -1,
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                        com.classup.AppController.getInstance().
-                            addToRequestQueue(jsonObjReq, tag);
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                "Image Upload in Progress. " +
+                                    "It will appear in Image/Video list after a few minutes",
+                                Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
 
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                            "Image Upload in Progress. " +
-                                "It will appear in Image/Video list after a few minutes",
-                            Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-
-                        Intent intent1 = new Intent(getApplicationContext(),
-                            CommunicationCenter.class);
-                        intent1.putExtra("sender", "teacher_menu");
+                            Intent intent1 = new Intent(getApplicationContext(),
+                                CommunicationCenter.class);
+                            intent1.putExtra("sender", "teacher_menu");
                             //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                        //Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent1);
-                        //finish();
+                            //Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent1);
+                            //finish();
+                        }
+                        else    {
+                            Uri uri = getIntent().getData();
+                            System.out.println("uri = " + uri);
+                            Boolean whole_class = true;
+                            ArrayList<String> student_list = new ArrayList<>();
+                            UploadVideo uploadVideo = new UploadVideo(a, uri, true,
+                                the_class, section, student_list);
+                            uploadVideo.upload_video();
+
+                        }
                     }
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
+                    public void onClick(DialogInterface dialog, int id) {
                 }
             });
             // Create the AlertDialog object and return it
@@ -309,4 +330,6 @@ public class SelStudentForPicSharing extends AppCompatActivity {
 
         }
     }
+
+
 }

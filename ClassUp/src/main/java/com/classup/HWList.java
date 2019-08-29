@@ -481,6 +481,7 @@ public class HWList extends AppCompatActivity {
                         Intent intent2 = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
                         intent2.putExtra("sender", "share_video");
+                        intent2.setType("video/*");
                         if (intent2.resolveActivity(getPackageManager()) != null) {
                             // Create the File where the photo should go
                             File videoFile = null;
@@ -556,7 +557,7 @@ public class HWList extends AppCompatActivity {
             case "share_video":
                 cursor = getContentResolver().query(
                     android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                    null, MediaStore.Images.Media._ID + " = ? ",
+                    null, MediaStore.Video.Media._ID + " = ? ",
                     new String[]{document_id}, null);
                 break;
         }
@@ -569,27 +570,47 @@ public class HWList extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ACTIVITY_SELECT_IMAGE && resultCode == RESULT_OK) {
-            super.onActivityResult(requestCode, resultCode, data);
-            Uri selectedImageUri = data.getData();
-            mCurrentPhotoPath = getPath(selectedImageUri, sender);
-            Intent intent1 = new Intent(this, ReviewHW.class);
-            intent1.putExtra("sender", "share_image");
-            intent1.putExtra("photo_path", mCurrentPhotoPath);
-            startActivity(intent1);
+        if (requestCode == ACTIVITY_SELECT_IMAGE) {
+            if(resultCode == RESULT_OK) {
+                super.onActivityResult(requestCode, resultCode, data);
+                Uri selectedImageUri = data.getData();
+                mCurrentPhotoPath = getPath(selectedImageUri, sender);
+
+                Intent intent1 = new Intent(this, ReviewHW.class);
+                intent1.putExtra("sender", "share_image");
+                intent1.putExtra("photo_path", mCurrentPhotoPath);
+                startActivity(intent1);
+            }
+            else    {
+                Toast toast = Toast.makeText(this,
+                    "No Image Selected", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
         }
         else    {
-            super.onActivityResult(requestCode, resultCode, data);
-            Uri selectedVideoUri = data.getData();
-            mCurrentVideoPath = getPath(selectedVideoUri, sender);
-            System.out.println("mCurrentVideoPath = " + mCurrentVideoPath);
-            File file = new File(mCurrentVideoPath);
-            System.out.println(Environment.getExternalStorageDirectory().getAbsolutePath().equals(mCurrentVideoPath));
-            System.out.println("file = " + file);
-            Intent intent1 = new Intent(this, SelStudentForPicSharing.class);
-            intent1.putExtra("sender", "share_video");
-            intent1.putExtra("video_path", mCurrentVideoPath);
-            startActivity(intent1);
+            if(resultCode == RESULT_OK) {
+                super.onActivityResult(requestCode, resultCode, data);
+                Uri selectedVideoUri = data.getData();
+                mCurrentVideoPath = getPath(selectedVideoUri, sender);
+                System.out.println("mCurrentVideoPath = " + mCurrentVideoPath);
+                File file = new File(mCurrentVideoPath);
+                System.out.println(Environment.getExternalStorageDirectory().
+                    getAbsolutePath().equals(mCurrentVideoPath));
+                System.out.println("file = " + file);
+                Intent intent1 = new Intent(this, VideoReviewActivity.class);
+                intent1.setData(selectedVideoUri);
+                intent1.putExtra("uri", selectedVideoUri);
+                intent1.putExtra("sender", "share_video");
+                intent1.putExtra("video_path", mCurrentVideoPath);
+                startActivity(intent1);
+            }
+            else    {
+                Toast toast = Toast.makeText(this,
+                    "No Video Selected", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
         }
     }
 

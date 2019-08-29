@@ -20,6 +20,16 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
 }
 
 repositories {
@@ -46,15 +56,21 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf:16.2.3'
 
     // 23/08/2019 - adding for Youtube integration
-    implementation 'com.google.android.gms:play-services-auth:10.2.1'   // this did not create any issue
+    implementation 'com.google.android.gms:play-services-auth:10.2.1'
+    // this did not create any issue
     implementation 'pub.devrel:easypermissions:0.3.0'   // this did not create any issues
-    implementation ('com.google.api-client:google-api-client-android:1.25.0') {
+    implementation('com.google.api-client:google-api-client-android:1.25.0') {
         exclude group: 'org.apache.httpcomponents'
     }   // this did not cause any problem
 
-    implementation ('com.google.apis:google-api-services-youtube:v3-rev212-1.25.0') {
+    implementation('com.google.apis:google-api-services-youtube:v3-rev212-1.25.0') {
         exclude group: 'org.apache.httpcomponents'
     }   // finally, this also did not cause any issue. S Gul Hakeem
+
+    // 25/08/2019 - added for YouTube object creation
+    implementation 'com.google.http-client:google-http-client-gson:1.19.0'
+
+
 }
 
 // Add to the bottom of the file
