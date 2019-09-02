@@ -343,8 +343,6 @@ public class SelectStudent extends AppCompatActivity {
                                             + "_" + timeStamp + ".jpg";
                                         JSONObject jsonObject = new JSONObject();
                                         try {
-//                                            jsonObject.put("image",
-//                                                getIntent().getStringExtra("image"));
                                             jsonObject.put("image",
                                                 SessionManager.getInstance().getImage());
                                             jsonObject.put("image_name", imageFileName);

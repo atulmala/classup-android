@@ -1,5 +1,7 @@
 package com.classup;
 
+import android.accounts.Account;
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -7,13 +9,19 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.google.api.client.auth.oauth.OAuthGetAccessToken;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.YouTubeScopes;
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoSnippet;
 import com.google.api.services.youtube.model.VideoStatus;
@@ -25,16 +33,29 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import static com.classup.Auth.SCOPES;
 
 public class UploadVideo {
     private static final String DEVELOPER_KEY = "AIzaSyCVmBBIm0CrGF2nSZMOYeeXRVqoEWw3HBY";
 
     private static final String APPLICATION_NAME = "ClassUp YouTube Video upload";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    static final int REQUEST_ACCOUNT_PICKER = 1000;
+    static final int REQUEST_AUTHORIZATION = 1001;
+    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+
+    private static final String BUTTON_TEXT = "Call YouTube Data API";
+    private static final String ACCOUNT_NAME = "atulmala@gmail.com";
+    private static final String[] SCOPES = { YouTubeScopes.YOUTUBE_UPLOAD };
 
     private static YouTube youtubeService;
     YouTube.Videos.Insert request = null;
 
+    GoogleAccountCredential credential;
+    String token;
     Context context;
     Uri mFileUri;
     Boolean whole_class;
@@ -42,7 +63,7 @@ public class UploadVideo {
     String section;
     ArrayList<String> students;
 
-    public UploadVideo(Context context, Uri mFileUri, Boolean whole_class, String the_class,
+    public UploadVideo(Activity context, Uri mFileUri, Boolean whole_class, String the_class,
                        String section, ArrayList<String> students) {
         this.context = context;
         this.mFileUri = mFileUri;
@@ -50,6 +71,31 @@ public class UploadVideo {
         this.the_class = the_class;
         this.section = section;
         this.students = students;
+
+        credential = GoogleAccountCredential.usingOAuth2(context, Arrays.asList(SCOPES))
+            .setBackOff(new ExponentialBackOff());
+
+        //credential.setSelectedAccountName(ACCOUNT_NAME);
+        credential.setSelectedAccount(new Account("atulmala@gmail.com", "com.classsup"));
+        System.out.println("credentials = " + credential);
+
+//        try {
+//            token = credential.getToken();
+//        }
+//        catch (java.io.IOException e) {
+//            System.out.println(e);
+//        }
+//        catch (com.google.android.gms.auth.GoogleAuthException e)   {
+//            System.out.println(e);
+//        }
+        ;
+//        String accountName = context.getPreferences(Context.MODE_PRIVATE)
+//            .getString(ACCOUNT_NAME, null);
+//        if (accountName != null) {
+//            credential.setSelectedAccountName(ACCOUNT_NAME);
+
+
+
     }
 
     /**
@@ -58,10 +104,16 @@ public class UploadVideo {
      * @return an authorized API client service
      * @throws GeneralSecurityException, IOException
      */
-    public static YouTube getService() throws GeneralSecurityException, IOException {
-        final NetHttpTransport httpTransport = new com.google.api.client.http.javanet.NetHttpTransport();
-        return new YouTube.Builder(httpTransport, JSON_FACTORY, null)
-            .setApplicationName(APPLICATION_NAME).build();
+    public YouTube getService() throws GeneralSecurityException, IOException {
+        HttpTransport transport = AndroidHttp.newCompatibleTransport();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        return new com.google.api.services.youtube.YouTube.Builder(
+            transport, jsonFactory, credential)
+            .setApplicationName("YouTube Data API Android Quickstart")
+            .build();
+//        final NetHttpTransport httpTransport = new com.google.api.client.http.javanet.NetHttpTransport();
+//        return new YouTube.Builder(httpTransport, JSON_FACTORY, null)
+//            .setApplicationName(APPLICATION_NAME).build();
     }
 
     /**
@@ -131,7 +183,7 @@ public class UploadVideo {
         protected String doInBackground(String[] params) {
             Video response = null;
             try {
-                response = request.setKey("t3sbLcdhHA8E7_fVQMTasU5l").execute();
+                 response = request.execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
