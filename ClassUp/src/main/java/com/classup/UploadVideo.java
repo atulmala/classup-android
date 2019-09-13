@@ -1,119 +1,57 @@
 package com.classup;
 
-import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.google.api.client.auth.oauth.OAuthGetAccessToken;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
+
 import com.google.api.client.http.InputStreamContent;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 
-import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.YouTubeScopes;
-import com.google.api.services.youtube.model.Video;
-import com.google.api.services.youtube.model.VideoSnippet;
-import com.google.api.services.youtube.model.VideoStatus;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import static com.classup.Auth.SCOPES;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UploadVideo {
-    private static final String DEVELOPER_KEY = "AIzaSyCVmBBIm0CrGF2nSZMOYeeXRVqoEWw3HBY";
-
-    private static final String APPLICATION_NAME = "ClassUp YouTube Video upload";
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    static final int REQUEST_ACCOUNT_PICKER = 1000;
-    static final int REQUEST_AUTHORIZATION = 1001;
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
-    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-
-    private static final String BUTTON_TEXT = "Call YouTube Data API";
-    private static final String ACCOUNT_NAME = "atulmala@gmail.com";
-    private static final String[] SCOPES = { YouTubeScopes.YOUTUBE_UPLOAD };
-
-    private static YouTube youtubeService;
-    YouTube.Videos.Insert request = null;
-
-    GoogleAccountCredential credential;
-    String token;
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String SERVER_PATH = "";
     Context context;
-    Uri mFileUri;
-    Boolean whole_class;
+    private Uri mFileUri;
+    private Boolean whole_class;
     String the_class;
     String section;
     ArrayList<String> students;
+    String description;
 
     public UploadVideo(Activity context, Uri mFileUri, Boolean whole_class, String the_class,
-                       String section, ArrayList<String> students) {
+                       String section, ArrayList<String> students, String description) {
         this.context = context;
         this.mFileUri = mFileUri;
         this.whole_class = whole_class;
         this.the_class = the_class;
         this.section = section;
         this.students = students;
-
-        credential = GoogleAccountCredential.usingOAuth2(context, Arrays.asList(SCOPES))
-            .setBackOff(new ExponentialBackOff());
-
-        //credential.setSelectedAccountName(ACCOUNT_NAME);
-        credential.setSelectedAccount(new Account("atulmala@gmail.com", "com.classsup"));
-        System.out.println("credentials = " + credential);
-
-//        try {
-//            token = credential.getToken();
-//        }
-//        catch (java.io.IOException e) {
-//            System.out.println(e);
-//        }
-//        catch (com.google.android.gms.auth.GoogleAuthException e)   {
-//            System.out.println(e);
-//        }
-        ;
-//        String accountName = context.getPreferences(Context.MODE_PRIVATE)
-//            .getString(ACCOUNT_NAME, null);
-//        if (accountName != null) {
-//            credential.setSelectedAccountName(ACCOUNT_NAME);
-
-
-
-    }
-
-    /**
-     * Build and return an authorized API client service.
-     *
-     * @return an authorized API client service
-     * @throws GeneralSecurityException, IOException
-     */
-    public YouTube getService() throws GeneralSecurityException, IOException {
-        HttpTransport transport = AndroidHttp.newCompatibleTransport();
-        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        return new com.google.api.services.youtube.YouTube.Builder(
-            transport, jsonFactory, credential)
-            .setApplicationName("YouTube Data API Android Quickstart")
-            .build();
-//        final NetHttpTransport httpTransport = new com.google.api.client.http.javanet.NetHttpTransport();
-//        return new YouTube.Builder(httpTransport, JSON_FACTORY, null)
-//            .setApplicationName(APPLICATION_NAME).build();
+        this.description = description;
     }
 
     /**
@@ -123,35 +61,6 @@ public class UploadVideo {
      * @throws GeneralSecurityException, IOException, GoogleJsonResponseException
      */
     public void upload_video() {
-        try {
-            youtubeService = getService();
-
-        } catch (GeneralSecurityException e) {
-            System.out.println("youtubeservice creation failed due to GeneralSecurityException");
-            e.printStackTrace();
-            Log.v("youtube", "exception", e);
-        } catch (IOException e) {
-            System.out.println("youtubeservice creation failed due to IOException");
-
-
-
-        }
-
-        // Define the Video object, which will be uploaded as the request body.
-        Video video = new Video();
-
-        // Add the snippet object property to the Video object.
-        VideoSnippet snippet = new VideoSnippet();
-        snippet.setCategoryId("22");
-        snippet.setDescription("Description of uploaded video.");
-        snippet.setTitle("Test video upload.");
-        video.setSnippet(snippet);
-
-        // Add the status object property to the Video object.
-        VideoStatus status = new VideoStatus();
-        status.setPrivacyStatus("private");
-        video.setStatus(status);
-
         String path = getPath(mFileUri);
         File mediaFile = new File(path);
         InputStreamContent mediaContent = null;
@@ -164,39 +73,48 @@ public class UploadVideo {
         }
         mediaContent.setLength(mediaFile.length());
 
-        // Define and execute the API request
-
+        String url = MiscFunctions.getInstance().getServerIP(context);
+        String teacher = SessionManager.getInstance().getLogged_in_user();
         try {
-            request = youtubeService.videos()
-                .insert("snippet,status", video, mediaContent);
-            InsertVideo insertVideo = new InsertVideo();
-            insertVideo.execute();
-        } catch (IOException e) {
+            JSONObject paramObject = new JSONObject();
+            paramObject.put("whole_class", whole_class);
+            paramObject.put("the_class", the_class);
+            paramObject.put("section", section);
+            paramObject.put("students", students);
+            paramObject.put("teacher", teacher);
+            paramObject.put("description", description);
+
+            String parameters = paramObject.toString();
+
+            RequestBody videoBody = RequestBody.create(MediaType.parse("video/*"), mediaFile);
+            MultipartBody.Part vFile = MultipartBody.Part.createFormData("video",
+                mediaFile.getName(), videoBody);
+            MultipartBody.Part params = MultipartBody.Part.createFormData("params", parameters);
+
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(url + "/pic_share/upload_video/")
+                .addConverterFactory(GsonConverterFactory.create()).build();
+            VideoInterface vInterface = retrofit.create(VideoInterface.class);
+            Call<ResultObject> serverCom = vInterface.uploadVideoToServer(vFile, params);
+            serverCom.enqueue(new Callback<ResultObject>() {
+                @Override
+                public void onResponse(Call<ResultObject> call, Response<ResultObject> response) {
+                    ResultObject result = response.body();
+                    if(!TextUtils.isEmpty(result.getSuccess())){
+                        Toast.makeText(context, "Result " + result.getSuccess(),
+                            Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "Result " + result.getSuccess());
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResultObject> call, Throwable t) {
+                    Log.d(TAG, "Error message " + t.getMessage());
+                }
+            });
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
-    private class InsertVideo extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String[] params) {
-            Video response = null;
-            try {
-                 response = request.execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("response = " + response);
-            // do above Server call here
-            return "some message";
-        }
-
-        @Override
-        protected void onPostExecute(String message) {
-            //process message
-        }
-    }
 
     public String getPath(Uri uri) {
         Cursor cursor = context.getContentResolver().query(uri, null,

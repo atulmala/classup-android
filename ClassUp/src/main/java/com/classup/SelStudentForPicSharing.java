@@ -316,7 +316,7 @@ public class SelStudentForPicSharing extends AppCompatActivity {
                             Boolean whole_class = true;
                             ArrayList<String> student_list = new ArrayList<>();
                             UploadVideo uploadVideo = new UploadVideo(a, uri, true,
-                                the_class, section, student_list);
+                                the_class, section, student_list, brief_description);
                             uploadVideo.upload_video();
 
                         }
