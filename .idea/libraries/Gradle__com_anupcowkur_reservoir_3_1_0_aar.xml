@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.anupcowkur:reservoir:3.1.0@aar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/9435cbd2e569dcdf115d3fcf45983f8c/reservoir-3.1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/9435cbd2e569dcdf115d3fcf45983f8c/reservoir-3.1.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.anupcowkur/reservoir/3.1.0/5d31d0c2f7b14fe444b9c497006def068ddc8b51/reservoir-3.1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.anupcowkur/reservoir/3.1.0/dea08e3881e3d6c4e76b65ffe20c3e8a9ed6c357/reservoir-3.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
