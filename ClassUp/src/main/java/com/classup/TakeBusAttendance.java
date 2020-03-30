@@ -51,7 +51,6 @@ public class TakeBusAttendance extends AppCompatActivity {
     String tag = "TakeBusAttendance";
 
 
-
     final ArrayList<AttendanceListSource> student_list = new ArrayList<>();
     private ArrayList<String> stop_list = new ArrayList<>();
     final ArrayList<String> current_absent_students = new ArrayList<>();
@@ -109,12 +108,12 @@ public class TakeBusAttendance extends AppCompatActivity {
         progressDialog.show();
 
         JsonArrayRequest jsonArrayRequest1 = new JsonArrayRequest
-                (Request.Method.GET, stop_list_url, null, new Response.Listener<JSONArray>() {
+                (Request.Method.GET, stop_list_url, null,
+                    new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        progressDialog.hide();
-                        progressDialog.dismiss();
                         for (int i = 0; i < response.length(); i++) {
+
                             try {
                                 JSONObject jo = response.getJSONObject(i);
 
@@ -127,16 +126,17 @@ public class TakeBusAttendance extends AppCompatActivity {
                                 final String student_list_url = ( server_ip +
                                         "/bus_attendance/list_rout_students1/" + school_id + "/" +
                                         intent.getStringExtra("rout") + "/"
-                                        + stop_name + "/?format=json").replace(" ", "%20");
+                                        + stop_name + "/?format=json").replace(" ",
+                                    "%20");
                                 JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                                         Request.Method.GET, student_list_url, null,
                                         new Response.Listener<JSONArray>() {
                                             public void onResponse(JSONArray response) {
                                                 String blank = "";
                                                 student_list.add(new AttendanceListSource(blank,
-                                                        blank, blank, stop_name, "bus_stop"));
-                                                progressDialog.hide();
-                                                progressDialog.dismiss();
+                                                        blank, blank, stop_name,
+                                                    "bus_stop"));
+//                                                progressDialog.show();
                                                 for (int j = 0; j < response.length(); j++) {
                                                     try {
                                                         JSONObject jo =
@@ -187,20 +187,18 @@ public class TakeBusAttendance extends AppCompatActivity {
                                                         e.printStackTrace();
                                                     }
                                                 }
-                                                System.out.println("list at this stage:");
-                                                for(int i=0; i<student_list.size(); i++)
-                                                    student_list.get(i).show();
-                                                progressDialog.hide();
-                                                progressDialog.dismiss();
-                                                adapter.notifyDataSetChanged();
+//                                                System.out.println("list at this stage:");
+//                                                for(int i=0; i<student_list.size(); i++)
+//                                                    student_list.get(i).show();
+                                             adapter.notifyDataSetChanged();
                                             }
                                         }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         System.out.println
                                                 ("inside volley error handler");
-                                        progressDialog.hide();
-                                        progressDialog.dismiss();
+//                                        progressDialog.hide();
+//                                        progressDialog.dismiss();
                                         if (error instanceof TimeoutError ||
                                                 error instanceof NoConnectionError) {
                                             if (!MiscFunctions.getInstance().
@@ -250,6 +248,8 @@ public class TakeBusAttendance extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
+                        progressDialog.hide();
+                        progressDialog.dismiss();
                     }
 
                 }, new Response.ErrorListener() {
@@ -258,6 +258,8 @@ public class TakeBusAttendance extends AppCompatActivity {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
                         progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "showing due to volley",
+                            Toast.LENGTH_LONG).show();
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             if (!MiscFunctions.getInstance().checkConnection
                                     (getApplicationContext())) {
@@ -296,14 +298,11 @@ public class TakeBusAttendance extends AppCompatActivity {
                 + intent.getStringExtra("year") + "/?format=json";
         url = url.replace(" ", "%20");
 
-        progressDialog.show();
 
         JsonArrayRequest jsonArrayRequest2 = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        progressDialog.hide();
-                        progressDialog.dismiss();
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject jo = response.getJSONObject(i);
@@ -320,6 +319,7 @@ public class TakeBusAttendance extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -327,6 +327,7 @@ public class TakeBusAttendance extends AppCompatActivity {
                         System.out.println("inside volley error handler");
                         progressDialog.hide();
                         progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "showing due to volley 2", Toast.LENGTH_LONG).show();
                         if (error instanceof TimeoutError ||
                                 error instanceof NoConnectionError) {
                             if(!MiscFunctions.getInstance().checkConnection
@@ -471,8 +472,8 @@ public class TakeBusAttendance extends AppCompatActivity {
                                                         }
 
 
-                                                        progressDialog.hide();
-                                                        progressDialog.dismiss();
+//                                                        progressDialog.hide();
+//                                                        progressDialog.dismiss();
 
                                                     }
                                                 }, new Response.ErrorListener() {

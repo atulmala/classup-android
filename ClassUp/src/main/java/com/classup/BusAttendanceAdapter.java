@@ -59,9 +59,7 @@ public class BusAttendanceAdapter extends ArrayAdapter {
         server_ip = MiscFunctions.getInstance().getServerIP(c);
         String school_id = SessionManager.getInstance().getSchool_id();
 
-        final ProgressDialog progressDialog = new ProgressDialog(c);
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
+
         String url = server_ip + "/bus_attendance/attendance_taken_earlier/" + school_id + "/" +
                 intent.getStringExtra("rout") + "/" + intent.getStringExtra("date") +
                 "/" + intent.getStringExtra("month") + "/"
@@ -76,8 +74,7 @@ public class BusAttendanceAdapter extends ArrayAdapter {
                                     String te = (response.get("taken_earlier")).
                                             toString();
                                     taken_earlier.add(te);
-                                    progressDialog.hide();
-                                    progressDialog.dismiss();
+
                                 } catch (org.json.JSONException je) {
                                     je.printStackTrace();
                                 }
@@ -88,8 +85,7 @@ public class BusAttendanceAdapter extends ArrayAdapter {
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("inside volley error " +
                                 "handler(LoginActivity)");
-                        progressDialog.hide();
-                        progressDialog.dismiss();
+
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 
                         } else if (error instanceof ServerError) {

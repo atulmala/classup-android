@@ -82,8 +82,8 @@ public class SendBulkSMS extends AppCompatActivity {
                     Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
-        } else if (message.length() > 200) {
-            String prompt = "Message is too long. Please limit it to 200 Characters";
+        } else if (message.length() > 400) {
+            String prompt = "Message is too long. Please limit it to 400 Characters";
             Toast toast = Toast.makeText(getApplicationContext(), prompt, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
@@ -110,8 +110,8 @@ public class SendBulkSMS extends AppCompatActivity {
                     Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
-        } else if (message.length() > 200) {
-            String prompt = "Message is too long. Please limit it to 200 Characters";
+        } else if (message.length() > 400) {
+            String prompt = "Message is too long. Please limit it to 400 Characters";
             Toast toast = Toast.makeText(getApplicationContext(), prompt, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
@@ -176,7 +176,8 @@ public class SendBulkSMS extends AppCompatActivity {
                                                         + error.getMessage());
                                             }
                                         });
-                                jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, -1,
+                                jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0,
+                                    -1,
                                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                                 com.classup.AppController.getInstance().
                                         addToRequestQueue(jsonObjReq, tag);

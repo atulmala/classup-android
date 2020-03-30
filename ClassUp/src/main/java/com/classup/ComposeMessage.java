@@ -152,7 +152,6 @@ public class ComposeMessage extends AppCompatActivity {
                                     System.out.println("array out of bounds exception");
                                     ae.printStackTrace();
                                 }
-
                         }
                         String url = server_ip + "/operations/send_message/" + school_id + "/";
 

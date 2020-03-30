@@ -16,10 +16,8 @@ public class MiscFunctions extends Activity {
     private static final String CHAR_LIST =
             "abcdefghijklmnopqrstuadxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static final int RANDOM_STRING_LENGTH = 10;
-    String server_ip = "http://10.0.2.2:8000";
-    //String server_ip = "https://www.classupclient.com";
-
-
+//    String server_ip = "http://10.0.2.2:8000";
+    String server_ip = "https://www.classupclient.com";
     private static MiscFunctions ourInstance = new MiscFunctions();
 
     public static MiscFunctions getInstance() {
@@ -30,7 +28,7 @@ public class MiscFunctions extends Activity {
     }
 
     /*
-    method to return the ip of main server.
+    method`` to return the ip of main server.
     The ip is written in plain text in file server_url.txt in assets folder
     */
 

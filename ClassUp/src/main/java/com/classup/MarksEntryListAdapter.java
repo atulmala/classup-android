@@ -161,6 +161,11 @@ public class MarksEntryListAdapter extends BaseAdapter {
                     pm = "";
                 holder.periodic_marks.setText(pm);
 
+                String ma = marks_entry_list.get(position).getMulti_assess_marks();
+                if (ma.equals("-5000.0"))
+                    ma = "";
+                holder.mult_asses_marks.setText(ma);
+
                 String nb = marks_entry_list.get(position).getNotebook_submission_marks();
                 if (nb.equals("-5000.0"))
                     nb = "";
@@ -427,13 +432,13 @@ public class MarksEntryListAdapter extends BaseAdapter {
                                     marks = Float.parseFloat(holder.
                                         periodic_marks.getText().toString());
                                 }
-                                float mm = 10;
+                                float mm = 5;
 
                                 if (marks > mm) {
                                     String message = "Marks entered: ";
                                     message += holder.periodic_marks.getText().toString();
                                     message += " for " + holder.full_name.getText() +
-                                        " are more than Max marks: 10";
+                                        " are more than Max marks: 5";
 
                                     Toast toast = Toast.makeText(activity, message,
                                         Toast.LENGTH_LONG);
@@ -444,6 +449,57 @@ public class MarksEntryListAdapter extends BaseAdapter {
 
                                 marks_entry_list.get(position).setPeriodic_test_marks
                                     (holder.periodic_marks.getText().toString());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                holder.mult_asses_marks.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        switch (holder.mult_asses_marks.getText().toString()) {
+                            case "":
+                                //marks_entry_list.get(position).setMarks("-5000.00");
+                                marks_entry_list.get(position).setMulti_assess_marks("-5000.0");
+                                break;
+                            case "ABS":
+                                marks_entry_list.get(position).setMarks("-1000.00");
+                                break;
+                            default:
+                                float marks = 0;
+                                if (holder.mult_asses_marks.getText().toString().equals(".")) {
+                                    marks = 0;
+                                } else {
+                                    marks = Float.parseFloat(holder.
+                                        mult_asses_marks.getText().toString());
+                                }
+                                float mm = 5;
+
+                                if (marks > mm) {
+                                    String message = "Marks entered: ";
+                                    message += holder.mult_asses_marks.getText().toString();
+                                    message += " for " + holder.full_name.getText() +
+                                        " are more than Max marks: 5";
+
+                                    Toast toast = Toast.makeText(activity, message,
+                                        Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    holder.mult_asses_marks.setText("");
+                                }
+
+                                marks_entry_list.get(position).setMulti_assess_marks
+                                    (holder.mult_asses_marks.getText().toString());
                                 break;
                         }
                     }
@@ -628,6 +684,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
         EditText marks_or_grade;
         EditText term_marks;
         EditText periodic_marks;
+        EditText mult_asses_marks;
         EditText notebook_marks;
         EditText sub_enrich_marks;
         EditText prac_marks;
@@ -641,6 +698,7 @@ public class MarksEntryListAdapter extends BaseAdapter {
             this.marks_or_grade = view.findViewById(R.id.prac_marks);
             this.term_marks = view.findViewById(R.id.term_marks);
             this.periodic_marks = view.findViewById(R.id.pa_marks);
+            this.mult_asses_marks = view.findViewById(R.id.mult_asses_marks);
             this.notebook_marks = view.findViewById(R.id.notebook_marks);
             this.sub_enrich_marks = view.findViewById(R.id.sub_enrich_marks);
             this.prac_marks = view.findViewById (R.id.prac_marks);

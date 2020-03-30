@@ -15,14 +15,16 @@ public class MarksEntryListSource {
     private String periodic_test_marks;
     private String notebook_submission_marks;
     private String subject_enrichment_marks;
+    // 24/09/2019 - exactly after 2 years of last change
+    private String multi_assess_marks;
 
     // 24/12/2017 for higher classes (XI & XII) term tests
     private String prac_marks;
 
     public MarksEntryListSource(String id, String roll_no, String full_name, String parent,
                                 String marks, String grade, String periodic_test_marks,
-                                String notebook_submission_marks, String subject_enrichment_marks,
-                                String prac_marks) {
+                                String multi_assess_marks, String notebook_submission_marks,
+                                String subject_enrichment_marks, String prac_marks) {
         this.id = id;
         this.roll_no = roll_no;
         this.full_name = full_name;
@@ -30,6 +32,7 @@ public class MarksEntryListSource {
         this.marks = marks;
         this.grade = grade;
         this.periodic_test_marks = periodic_test_marks;
+        this.multi_assess_marks = multi_assess_marks;
         this.notebook_submission_marks = notebook_submission_marks;
         this.subject_enrichment_marks = subject_enrichment_marks;
         this.prac_marks = prac_marks;
@@ -45,6 +48,14 @@ public class MarksEntryListSource {
 
     public String getFull_name() {
         return full_name;
+    }
+
+    public String getMulti_assess_marks() {
+        return multi_assess_marks;
+    }
+
+    public void setMulti_assess_marks(String mult_assess_marks) {
+        this.multi_assess_marks = mult_assess_marks;
     }
 
     public String getMarks() {

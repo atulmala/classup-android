@@ -73,7 +73,8 @@ public class AttendanceList extends AppCompatActivity {
             String text = "Looks you are not connected to internet. Please connect and try again";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
-            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,
+                0, 0);
             toast.show();
             return;
         }

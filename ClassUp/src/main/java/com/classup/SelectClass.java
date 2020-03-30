@@ -35,7 +35,10 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.common.util.ArrayUtils;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +69,8 @@ public class SelectClass extends AppCompatActivity {
     String sender;
     String start_date;
     String end_date;
+    String start_class;
+    String end_class;
     String menu = "Go";
 
     @Override
@@ -148,11 +153,9 @@ public class SelectClass extends AppCompatActivity {
             //setupPicker(subjectPicker, subjectUrl2, "subject_name", "subject_api");
 
         // check method from previous activity has fired this activity. Accordingly we change
-        // behoviour of this activity
+        // behaviour of this activity
         Intent intent = getIntent();
         sender = intent.getStringExtra("sender");
-        start_date = intent.getStringExtra("start_date");
-        end_date = intent.getStringExtra("end_date");
 
         Calendar calendar =  Calendar.getInstance();
         switch(sender)  {
@@ -167,9 +170,15 @@ public class SelectClass extends AppCompatActivity {
                 String exam_title = intent.getStringExtra("exam_title");
                 this.setTitle("Schedule for " + exam_title);
 
+
+
                 // 03/02/2019 - Set the min date and max date in the date picker to be the
                 // start date and end date for the exam to prevent teachers from scheduling on the
                 // dates outside the start & end date range for the exam
+                start_date = intent.getStringExtra("start_date");
+                end_date = intent.getStringExtra("end_date");
+                start_class = intent.getStringExtra("start_class");
+                end_class = intent.getStringExtra("end_class");
                 try {
                     Date sd = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);
                     Date ed = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
@@ -427,30 +436,27 @@ public class SelectClass extends AppCompatActivity {
                                     + exam_id + "/";
                             url = url.replace(" ", "%20");
                             String tag = "Create Test";
-                            StringRequest request = new StringRequest(Request.Method.POST, url,
-                                    new Response.Listener<String>() {
+                            JSONObject jsonObject = new JSONObject();
+                            final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                                    new Response.Listener<JSONObject>() {
                                         @Override
-                                        public void onResponse(String response) {
+                                        public void onResponse(JSONObject response) {
                                             // 11/09/17 - Now we are building the custom
                                             // Analysis via AWS
                                             try {
-                                                AnalyticsEvent scheduleTestEvent =
-                                                        SessionManager.
-                                                                analytics.getEventClient().
-                                                                createEvent
-                                                                    ("Schedule Term Test");
-                                                scheduleTestEvent.addAttribute("user",
-                                                        SessionManager.getInstance().
-                                                        getLogged_in_user());
-                                                SessionManager.analytics.
-                                                        getEventClient().
-                                                        recordEvent(scheduleTestEvent);
-                                            } catch (NullPointerException exception) {
-                                                System.out.println("flopped in creating " +
-                                                        "analytics Schedule Test");
-                                            } catch (Exception exception) {
-                                                System.out.println("flopped in " +
-                                                        "creating analytics Schedule Term Test");
+                                                final String outcome =
+                                                    response.getString("outcome");
+                                                Toast toast = Toast.makeText(getApplicationContext(),
+                                                    outcome, Toast.LENGTH_LONG);
+                                                toast.setGravity(Gravity.CENTER,
+                                                    0, 0);
+                                                toast.show();
+                                                startActivity(new Intent("com.classup.TeacherMenu").
+                                                    setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                                        Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                            } catch (org.json.JSONException je) {
+
+                                                je.printStackTrace();
                                             }
                                         }
                                     },

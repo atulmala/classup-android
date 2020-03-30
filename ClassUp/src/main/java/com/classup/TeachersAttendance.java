@@ -36,8 +36,8 @@ import java.util.ArrayList;
 
 public class TeachersAttendance extends AppCompatActivity {
     final Activity activity = this;
-    TeacherAttAdapter adapter;
     final ArrayList<String> correction_list = new ArrayList<>();
+    TeacherAttAdapter adapter;
     Integer tot_teachers = 0;
 
     @Override
@@ -45,7 +45,6 @@ public class TeachersAttendance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teachers_attendance);
         Intent intent = getIntent();
-
 
         try {
             AnalyticsEvent initiateAttendanceEvent = SessionManager.

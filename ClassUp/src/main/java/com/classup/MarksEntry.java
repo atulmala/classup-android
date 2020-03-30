@@ -118,6 +118,7 @@ public class MarksEntry extends AppCompatActivity {
 
                             // 23/09/2017 for term test
                             String pt_marks = jo.getString("periodic_test_marks");
+                            String multi_assess_marks = jo.getString("multi_asses_marks");
                             String notebook_sub_marks = jo.getString("notebook_marks");
                             String sub_enrich_marks = jo.getString("sub_enrich_marks");
 
@@ -126,7 +127,7 @@ public class MarksEntry extends AppCompatActivity {
                                 prac_marks = jo.getString("prac_marks");
 
                             marks_list.add(new MarksEntryListSource(id, roll_no,
-                                full_name, parent, marks, grade, pt_marks,
+                                full_name, parent, marks, grade, pt_marks, multi_assess_marks,
                                 notebook_sub_marks, sub_enrich_marks, prac_marks));
                             adapter.notifyDataSetChanged();
                         } catch (JSONException je) {
@@ -169,27 +170,7 @@ public class MarksEntry extends AppCompatActivity {
             });
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        jsonArrayRequest.setRetryPolicy(new RetryPolicy() {
-//            @Override
-//            public int getCurrentTimeout() {
-//                // Here goes the new timeout
-//                Toast.makeText(getApplicationContext(),
-//                        "current timeout set to 100000",
-//                        Toast.LENGTH_LONG).show();
-//                return 100000;
-//            }
-//            @Override
-//            public int getCurrentRetryCount() {
-//                // The max number of attempts
-//                return 1;
-//            }
-//            @Override
-//            public void retry(VolleyError error) throws VolleyError {
-//                // Here you could check if the retry count has gotten
-//                // To the max number, and if so, send a VolleyError msg
-//                // or something
-//            }
-//        });
+
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
         listView.setAdapter(adapter);
 
@@ -298,6 +279,8 @@ public class MarksEntry extends AppCompatActivity {
                     JSONObject params1 = new JSONObject();
                     params1.put("marks", marks_entry_list.get(i).getMarks());
                     params1.put("pa", marks_entry_list.get(i).getPeriodic_test_marks());
+                    params1.put("multi_assess",
+                        marks_entry_list.get(i).getMulti_assess_marks());
                     params1.put("notebook", marks_entry_list.get(i).
                         getNotebook_submission_marks());
                     params1.put("subject_enrich",
@@ -446,6 +429,8 @@ public class MarksEntry extends AppCompatActivity {
                 try {
                     JSONObject params1 = new JSONObject();
                     params1.put("marks", marks_entry_list.get(i).getMarks());
+                    params1.put("multi_assess",
+                        marks_entry_list.get(i).getMulti_assess_marks());
                     params1.put("pa", marks_entry_list.get(i).getPeriodic_test_marks());
                     params1.put("notebook", marks_entry_list.get(i).
                         getNotebook_submission_marks());

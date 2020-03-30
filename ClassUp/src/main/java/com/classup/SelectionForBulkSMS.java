@@ -218,6 +218,7 @@ public class SelectionForBulkSMS extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     JSONObject jsonObject = new JSONObject();
                                     try {
+                                        jsonObject.put("from_device", "true");
                                         jsonObject.put("message_text", message);
                                         jsonObject.put("whole_school", "false");
 

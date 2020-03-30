@@ -41,6 +41,8 @@ public class ExamListTeacher extends AppCompatActivity {
     private String select_exam_type = "nil";
     private String select_start_date = "nil";
     private String select_end_date = "nil";
+    private String select_start_class = "nil";
+    private String select_end_class = "nil";
     private  String sender;
 
     @Override
@@ -73,6 +75,11 @@ public class ExamListTeacher extends AppCompatActivity {
         final ArrayList<String> exam_type_list = new ArrayList<>();
         final ArrayList<String> start_date_list = new ArrayList<>();
         final ArrayList<String> end_date_list = new ArrayList<>();
+
+        // 29/11/2019 - as every exam is associated with a class range, in the schedule test
+        // screen, we will show only the classes which are relevant to the selected exam
+        final ArrayList<String> start_classes_list = new ArrayList<>();
+        final ArrayList<String> end_classes_list = new ArrayList<>();
 
         final ArrayAdapter adapter = new ArrayAdapter(this,
             android.R.layout.simple_list_item_single_choice, exam_title_list);
@@ -112,6 +119,12 @@ public class ExamListTeacher extends AppCompatActivity {
 
                             String end_date = jo.getString("end_date");
                             end_date_list.add(end_date);
+
+                            String start_class = jo.getString("start_class");
+                            start_classes_list.add(start_class);
+
+                            String end_class = jo.getString("end_class");
+                            end_classes_list.add(end_class);
 
                             adapter.notifyDataSetChanged();
                         } catch (JSONException je) {
@@ -166,6 +179,8 @@ public class ExamListTeacher extends AppCompatActivity {
                 select_exam_type = exam_type_list.get(position);
                 select_start_date = start_date_list.get(position);
                 select_end_date = end_date_list.get(position);
+                select_start_class = start_classes_list.get(position);
+                select_end_class = end_classes_list.get(position);
             }
         });
     }
@@ -195,6 +210,8 @@ public class ExamListTeacher extends AppCompatActivity {
                     intent.putExtra("exam_type", select_exam_type);
                     intent.putExtra("start_date", select_start_date);
                     intent.putExtra("end_date", select_end_date);
+                    intent.putExtra("start_class", select_start_class);
+                    intent.putExtra("end_class", select_end_class);
                     startActivity(intent);
                     break;
                 case "manageTest":

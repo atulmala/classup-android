@@ -38,24 +38,17 @@ import java.util.stream.Collectors;
 /**
  * Created by atulgupta on 07/08/15.
  */
-public class AttendanceListAdapter extends BaseAdapter  {
-    private Activity activity;
-    private List<AttendanceListSource> roll_no_and_name_list;
-
+public class AttendanceListAdapter extends BaseAdapter {
     private static ArrayList<String> absentee_list = new ArrayList<>();
-
     // a list to hold the student who were absent earlier but now marked as present
     private static List<String> correction_list = new ArrayList<>();
-
     Intent intent;
-
     String d, m, y, the_class, section, subject;
     String tag = "AbsenteesList";
     String server_ip;
     String school_id;
-
-    int green = R.color.clover_green;
-    int amber = R.color.amber;
+    private Activity activity;
+    private List<AttendanceListSource> roll_no_and_name_list;
 
     public AttendanceListAdapter(Activity a, List<AttendanceListSource> l, Intent intent) {
         super();
@@ -79,138 +72,138 @@ public class AttendanceListAdapter extends BaseAdapter  {
         // retrieve the absentee list for this class, section, subject and date
         // clear the absentee list
         absentee_list.clear();
-        String url =  server_ip + "/attendance/retrieve/" + school_id + "/" +
-                the_class + "/" + section + "/" + subject +
-                "/" + d + "/" + m + "/" + y + "/?format=json";
+        String url = server_ip + "/attendance/retrieve/" + school_id + "/" +
+            the_class + "/" + section + "/" + subject +
+            "/" + d + "/" + m + "/" + y + "/?format=json";
         url = url.replace(" ", "%20");
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject jo = response.getJSONObject(i);
-                                // get the id of of the absent student and
-                                // add it to absentee list
-                                absentee_list.add(jo.getString("student"));
-                            } catch (JSONException je) {
-                                System.out.println("Ran into JSON exception " +
-                                        "while trying to fetch the list of absentees");
-                                je.printStackTrace();
-                            } catch (Exception e) {
-                                System.out.println("Caught General exception " +
-                                        "while trying to fetch the list of absentees");
-                                e.printStackTrace();
-                            }
+            (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jo = response.getJSONObject(i);
+                            // get the id of of the absent student and
+                            // add it to absentee list
+                            absentee_list.add(jo.getString("student"));
+                        } catch (JSONException je) {
+                            System.out.println("Ran into JSON exception " +
+                                "while trying to fetch the list of absentees");
+                            je.printStackTrace();
+                        } catch (Exception e) {
+                            System.out.println("Caught General exception " +
+                                "while trying to fetch the list of absentees");
+                            e.printStackTrace();
                         }
-                        absentee_list = removeDuplicates(absentee_list);
-                        System.out.print("first time absentee lists = ");
-                        System.out.println(absentee_list);
+                    }
+                    absentee_list = removeDuplicates(absentee_list);
+                    System.out.print("first time absentee lists = ");
+                    System.out.println(absentee_list);
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println("inside volley error handler");
-                        progressDialog.hide();
-                        progressDialog.dismiss();
-                        if (error instanceof TimeoutError ||
-                                error instanceof NoConnectionError) {
-                            if(!MiscFunctions.getInstance().checkConnection(c)) {
-                                Toast.makeText(c,
-                                        "Slow network connection or No internet connectivity",
-                                        Toast.LENGTH_LONG).show();
-                            } else  {
-                                Toast.makeText(c,
-                                        "Slow network connection or No internet connectivity",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }  else if (error instanceof ServerError) {
-                            Toast.makeText(activity,
-                                    "Slow network connection or No internet connectivity",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof NetworkError) {
-                            Toast.makeText(activity,
-                                    "Slow network connection or No internet connectivity",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof ParseError) {
-                            //TODO
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("inside volley error handler");
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                    if (error instanceof TimeoutError ||
+                        error instanceof NoConnectionError) {
+                        if (!MiscFunctions.getInstance().checkConnection(c)) {
+                            Toast.makeText(c,
+                                "Slow network connection or No internet connectivity",
+                                Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(c,
+                                "Slow network connection or No internet connectivity",
+                                Toast.LENGTH_LONG).show();
                         }
-                        // TODO Auto-generated method stub
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(activity,
+                            "Slow network connection or No internet connectivity",
+                            Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(activity,
+                            "Slow network connection or No internet connectivity",
+                            Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        //TODO
                     }
-                });
+                    // TODO Auto-generated method stub
+                }
+            });
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
-                5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            5000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
 
         // We also need to get the absentee list in the main attendance
         // (only if this subject is not Main)
         if (!subject.equals("Main"))
-            url =  server_ip + "/attendance/retrieve/" + school_id + "/" +
-                    the_class + "/" + section + "/Main"  +
-                    "/" + d + "/" + m + "/" + y + "/?format=json";
-            url = url.replace(" ", "%20");
+            url = server_ip + "/attendance/retrieve/" + school_id + "/" +
+                the_class + "/" + section + "/Main" +
+                "/" + d + "/" + m + "/" + y + "/?format=json";
+        url = url.replace(" ", "%20");
 
-            JsonArrayRequest jsonArrayRequest1 = new JsonArrayRequest
-                    (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            for (int i = 0; i < response.length(); i++) {
-                                try {
-                                    JSONObject jo = response.getJSONObject(i);
-                                    // get the id of of the absent student and
-                                    // add it to absentee list
-                                    if (!absentee_list.contains(jo.getString("student")))
-                                        absentee_list.add(jo.getString("student"));
-                                } catch (JSONException je) {
-                                    System.out.println("Ran into JSON exception " +
-                                            "while trying to fetch the list of absentees");
-                                    je.printStackTrace();
-                                } catch (Exception e) {
-                                    System.out.println("Caught General exception " +
-                                            "while trying to fetch the list of absentees");
-                                    e.printStackTrace();
-                                }
-                            }
-                            progressDialog.hide();
-                            progressDialog.dismiss();
+        JsonArrayRequest jsonArrayRequest1 = new JsonArrayRequest
+            (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jo = response.getJSONObject(i);
+                            // get the id of of the absent student and
+                            // add it to absentee list
+                            if (!absentee_list.contains(jo.getString("student")))
+                                absentee_list.add(jo.getString("student"));
+                        } catch (JSONException je) {
+                            System.out.println("Ran into JSON exception " +
+                                "while trying to fetch the list of absentees");
+                            je.printStackTrace();
+                        } catch (Exception e) {
+                            System.out.println("Caught General exception " +
+                                "while trying to fetch the list of absentees");
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            System.out.println("inside volley error handler");
-                            progressDialog.hide();
-                            progressDialog.dismiss();
-                            if (error instanceof TimeoutError ||
-                                    error instanceof NoConnectionError) {
-                                if(!MiscFunctions.getInstance().checkConnection(c)) {
-                                    Toast.makeText(c,
-                                            "Slow network connection or No internet connectivity",
-                                            Toast.LENGTH_LONG).show();
-                                } else  {
-                                    Toast.makeText(c,
-                                            "Slow network connection or No internet connectivity",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }  else if (error instanceof ServerError) {
+                    }
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("inside volley error handler");
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                    if (error instanceof TimeoutError ||
+                        error instanceof NoConnectionError) {
+                        if (!MiscFunctions.getInstance().checkConnection(c)) {
+                            Toast.makeText(c,
+                                "Slow network connection or No internet connectivity",
+                                Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(c,
+                                "Slow network connection or No internet connectivity",
+                                Toast.LENGTH_LONG).show();
+                        }
+                    } else if (error instanceof ServerError) {
                                 /*Toast.makeText(activity, "Server error, please try later",
                                         Toast.LENGTH_LONG).show();*/
-                            } else if (error instanceof NetworkError) {
+                    } else if (error instanceof NetworkError) {
 
-                            } else if (error instanceof ParseError) {
-                                //TODO
-                            }
-                            // TODO Auto-generated method stub
-                        }
-                    });
+                    } else if (error instanceof ParseError) {
+                        //TODO
+                    }
+                    // TODO Auto-generated method stub
+                }
+            });
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest1, tag);
     }
 
@@ -218,18 +211,40 @@ public class AttendanceListAdapter extends BaseAdapter  {
         return absentee_list;
     }
 
-    public static List<String> getCorrection_list() {return correction_list;}
+    public static List<String> getCorrection_list() {
+        return correction_list;
+    }
 
-    public void clearAbsentee_list()    {
+    // Function to remove duplicates from an ArrayList
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) {
+
+        // Create a new LinkedHashSet
+        Set<T> set = new LinkedHashSet<>();
+
+        // Add the elements to set
+        set.addAll(list);
+
+        // Clear the list
+        list.clear();
+
+        // add the elements of set
+        // with no duplicates to the list
+        list.addAll(set);
+
+        // return the list
+        return list;
+    }
+
+    public void clearAbsentee_list() {
         absentee_list.clear();
     }
 
-    public void clearCorrectionList()   {
+    public void clearCorrectionList() {
         correction_list.clear();
     }
 
     @Override
-    public int getCount()  {
+    public int getCount() {
         return roll_no_and_name_list.size();
     }
 
@@ -246,8 +261,8 @@ public class AttendanceListAdapter extends BaseAdapter  {
     }
 
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent)   {
-        if(convertView == null) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
+        if (convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
             convertView = inflater.inflate(R.layout.row_attendance_list, null);
         }
@@ -271,7 +286,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
 
         // If this student was absent, the name will be shown in amber background,
         // present radio button enabled, and absent radio button disabled
-        if (absentee_list.contains(roll_no_and_name_list.get(position).getId()))  {
+        if (absentee_list.contains(roll_no_and_name_list.get(position).getId())) {
             // present radio button should be shown enabled & unchecked
             radioButton_present.setEnabled(true);
             radioButton_present.setChecked(false);
@@ -281,8 +296,7 @@ public class AttendanceListAdapter extends BaseAdapter  {
             // this row should be shown in amber background
             //conVertViewRef.setBackgroundColor(parent.getResources().getColor(amber));
             imageView.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             // present radio button should be shown as disabled
             radioButton_present.setEnabled(false);
             // absent radio button should be shown as enabled
@@ -343,7 +357,6 @@ public class AttendanceListAdapter extends BaseAdapter  {
                 // remove this student from the absentees list and also from database
                 absentee_list.remove(roll_no_and_name_list.get(position).getId());
 
-
                 // add this student to correction list. Means if this student was marked as
                 // absent earlier, he/she will now be marked as present
                 if (!correction_list.contains(roll_no_and_name_list.get(position).getId())) {
@@ -357,27 +370,6 @@ public class AttendanceListAdapter extends BaseAdapter  {
             }
         });
         return convertView;
-    }
-
-    // Function to remove duplicates from an ArrayList
-    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
-    {
-
-        // Create a new LinkedHashSet
-        Set<T> set = new LinkedHashSet<>();
-
-        // Add the elements to set
-        set.addAll(list);
-
-        // Clear the list
-        list.clear();
-
-        // add the elements of set
-        // with no duplicates to the list
-        list.addAll(set);
-
-        // return the list
-        return list;
     }
 
 

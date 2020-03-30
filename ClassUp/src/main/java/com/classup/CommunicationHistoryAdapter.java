@@ -2,6 +2,8 @@ package com.classup;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +51,10 @@ public class CommunicationHistoryAdapter extends BaseAdapter {
         communication_date.setTextColor(Color.LTGRAY);
 
         EditText communication_text = convertView.findViewById(R.id.communiction_text);
-        communication_text.setEnabled(false);
+        communication_text.setMovementMethod(LinkMovementMethod.getInstance());
+        communication_text.setAutoLinkMask(Linkify.WEB_URLS);
+        communication_text.setLinksClickable(true);
+//        communication_text.setEnabled(false);
         //communication_text.setInputType(InputType.TYPE_NULL);
         communication_text.setTextColor(Color.DKGRAY);
         String the_text = communicationSourceList.get(position).getText();
