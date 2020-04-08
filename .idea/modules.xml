@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ClassUp/ClassUp.iml" filepath="$PROJECT_DIR$/ClassUp/ClassUp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/classup-android.iml" filepath="$PROJECT_DIR$/classup-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gson-2.4/gson-2.4.iml" filepath="$PROJECT_DIR$/gson-2.4/gson-2.4.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pinchzoom/pinchzoom.iml" filepath="$PROJECT_DIR$/pinchzoom/pinchzoom.iml" />
-      <module fileurl="file://$PROJECT_DIR$/volley/volley.iml" filepath="$PROJECT_DIR$/volley/volley.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ClassUp/ClassUp.iml" filepath="$PROJECT_DIR$/ClassUp/ClassUp.iml" group="classup-android/ClassUp" />
+      <module fileurl="file://$PROJECT_DIR$/classup-android.iml" filepath="$PROJECT_DIR$/classup-android.iml" group="classup-android" />
+      <module fileurl="file://$PROJECT_DIR$/gson-2.4/gson-2.4.iml" filepath="$PROJECT_DIR$/gson-2.4/gson-2.4.iml" group="classup-android/gson-2.4" />
+      <module fileurl="file://$PROJECT_DIR$/pinchzoom/pinchzoom.iml" filepath="$PROJECT_DIR$/pinchzoom/pinchzoom.iml" group="classup-android/pinchzoom" />
+      <module fileurl="file://$PROJECT_DIR$/volley/volley.iml" filepath="$PROJECT_DIR$/volley/volley.iml" group="classup-android/volley" />
     </modules>
   </component>
 </project>

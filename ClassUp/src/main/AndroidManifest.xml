@@ -2,16 +2,30 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.classup">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <application
         android:name=".AppController"
         android:allowBackup="true"
         android:icon="@mipmap/classup_app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".VideoReviewActivity"></activity>
+        <activity android:name=".ExamTestManagement"></activity>
+        <activity android:name=".OnlineClasses" />
+        <activity android:name=".VideoReviewActivity" />
         <activity android:name=".ParentCommCenter" />
         <activity android:name=".SelStudentForPicSharing" />
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -269,7 +283,6 @@
         <activity
             android:name=".TestListParent"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".CoScholastic"
             android:screenOrientation="portrait"
@@ -301,7 +314,6 @@
         <activity
             android:name=".ActivityGroup"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ActivityMembers"
             android:screenOrientation="portrait" /> <!-- <activity -->
@@ -326,12 +338,14 @@
         <activity
             android:name=".ExamListTeacher"
             android:screenOrientation="portrait" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/classup_app_logo" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/algae_green" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -341,6 +355,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
         <service
             android:name=".MyFirebaseInstanceIdService"
             android:enabled="true"
@@ -349,7 +368,9 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".java.MyFirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -358,18 +379,5 @@
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
     </application>
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
 </manifest>

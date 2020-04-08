@@ -28,7 +28,7 @@ public class MiscFunctions extends Activity {
     }
 
     /*
-    method`` to return the ip of main server.
+    method to return the ip of main server.
     The ip is written in plain text in file server_url.txt in assets folder
     */
 

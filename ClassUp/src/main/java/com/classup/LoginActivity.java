@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -37,7 +38,13 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import com.onesignal.OSPermissionSubscriptionState;
+import com.onesignal.OneSignal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,16 +64,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //29/06/2017 - initialize AWS cognito
-        CognitoCachingCredentialsProvider credentialsProvider =
-                new CognitoCachingCredentialsProvider(
-                context, // get the context for the current activity
-                "263985579392 ", // your AWS Account id
-                "us-east-1:3c5df3cc-591c-44f1-9624-0fb5fe21cee3", // your identity pool id
-                "arn:aws:iam::263985579392:role/Cognito_classupUnauth_Role",// an authenticated role ARN
-                "arn:aws:iam::XXXXXXXXXX:role/YourRoleName", // an unauthenticated role ARN
-                Regions.US_EAST_1 //Region
-        );
+        OneSignal.startInit(this)
+            .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+            .unsubscribeWhenNotificationsAreDisabled(true)
+            .init();
 
         // initialize AWS analytics
         try {
@@ -366,51 +367,71 @@ public class LoginActivity extends AppCompatActivity {
                                                 // set the logged in user
                                                 SessionManager.getInstance().setLogged_in_user
                                                         (userName.getText().toString());
+                                                FirebaseInstanceId.getInstance().getInstanceId()
+                                                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                                            if (!task.isSuccessful()) {
+                                                                Log.w("TAG",
+                                                                    "getInstanceId failed",
+                                                                    task.getException());
+                                                                return;
+                                                            }
+                                                            OSPermissionSubscriptionState status =
+                                                                OneSignal.getPermissionSubscriptionState();
+                                                            String player_id = status.getSubscriptionStatus().getUserId();
+                                                            Toast toast1 = Toast.makeText(
+                                                                getApplicationContext(), player_id,
+                                                                Toast.LENGTH_SHORT);
+                                                            toast1.setGravity(Gravity.CENTER, 0,
+                                                                0);
+                                                            toast1.show();
 
-                                                // 10/03/17 - send the registration token to server
-                                                String refreshedToken =
-                                                        FirebaseInstanceId.getInstance().getToken();
-                                                Toast toast = Toast.makeText(context,
-                                                        refreshedToken, Toast.LENGTH_LONG);
-                                                toast.setGravity(Gravity.CENTER, 0,
-                                                    0);
-                                                //toast.show();
-                                                JSONObject jsonObject1 = new JSONObject();
-                                                jsonObject1.put("user",
-                                                        userName.getText().toString());
-                                                jsonObject1.put("device_token",
-                                                    refreshedToken);
-                                                jsonObject1.put("device_type",
-                                                    "Android");
 
-                                                String url2 = server_ip + "/auth/map_device_token/";
-                                                JsonObjectRequest jsonObjReq =
-                                                        new JsonObjectRequest(Request.Method.POST,
-                                                                url2, jsonObject1,
-                                                                new Response.Listener<JSONObject>() {
+                                                            // Get new Instance ID token
+                                                            String token = task.getResult().getToken();
+                                                            JSONObject jsonObject1 = new JSONObject();
+                                                            try {
+                                                                jsonObject1.put("user",
+                                                                    userName.getText().toString());
+                                                                jsonObject1.put("device_token",
+                                                                    token);
+                                                                jsonObject1.put("device_type",
+                                                                    "Android");
+                                                                jsonObject1.put("player_id",
+                                                                    player_id);
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+
+                                                            String url2 = server_ip + "/auth/map_device_token/";
+                                                            JsonObjectRequest jsonObjReq =
+                                                                new JsonObjectRequest(Request.Method.POST,
+                                                                    url2, jsonObject1,
+                                                                    new Response.Listener<JSONObject>() {
+
+                                                                        @Override
+                                                                        public void onResponse(JSONObject response)
+                                                                        {
+                                                                            Log.d("map_device_token",
+                                                                                response.
+                                                                                    toString());
+                                                                        }
+                                                                    }, new Response.ErrorListener() {
 
                                                                     @Override
-                                                                    public void onResponse(JSONObject response)
-                                                                    {
-                                                                        Log.d("map_device_token",
-                                                                                response.
-                                                                                        toString());
+                                                                    public void onErrorResponse(VolleyError error) {
+                                                                        VolleyLog.d("map_device_token",
+                                                                            "Error: "
+                                                                                + error.getMessage());
                                                                     }
-                                                                }, new Response.ErrorListener() {
+                                                                });
 
-                                                            @Override
-                                                            public void onErrorResponse(VolleyError error) {
-                                                                VolleyLog.d("map_device_token",
-                                                                        "Error: "
-                                                                        + error.getMessage());
-                                                            }
-                                                        });
-
-                                                com.classup.AppController.getInstance().
-                                                        addToRequestQueue(jsonObjReq,
-                                                                "map_device_token");
-
-                                                //String greetings = "Hello, " + user_name;
+                                                            com.classup.AppController.getInstance().
+                                                                addToRequestQueue(jsonObjReq,
+                                                                    "map_device_token");
+                                                        }
+                                                    });
                                                 String greetings =
                                                         response.getString("welcome_message");
                                                 Toast toast1 = Toast.makeText(

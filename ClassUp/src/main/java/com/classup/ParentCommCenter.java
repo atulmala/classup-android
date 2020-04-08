@@ -47,4 +47,15 @@ public class ParentCommCenter extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+    public void online_classes(View view)   {
+        Intent intent = new Intent(getApplicationContext(), OnlineClasses.class);
+        intent.putExtra("student_id", student_id);
+        intent.putExtra("student_name", student_name);
+        intent.putExtra("sender",
+            "parent");
+
+        startActivity(intent);
+
+    }
 }

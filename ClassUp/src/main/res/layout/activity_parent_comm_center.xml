@@ -7,6 +7,18 @@
     tools:context=".ParentCommCenter">
 
     <Button
+        android:id="@+id/button4"
+        android:layout_width="392dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="24dp"
+        android:onClick="online_classes"
+        android:text="@string/online_classes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <Button
         android:id="@+id/button"
         android:layout_width="392dp"
         android:layout_height="52dp"

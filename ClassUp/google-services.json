@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "682187619549-kg7n0pfdbddonq3ih68k2c8lrgjf0o65.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.classup",
+            "certificate_hash": "0ba35a75d5a1f440ee2f8e17c8f94277c255b7ca"
+          }
+        },
+        {
           "client_id": "682187619549-1lfpap1i2t6e6euuo2uu6fpce3gec80b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -31,14 +39,6 @@
           }
         },
         {
-          "client_id": "682187619549-kg7n0pfdbddonq3ih68k2c8lrgjf0o65.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.classup",
-            "certificate_hash": "0ba35a75d5a1f440ee2f8e17c8f94277c255b7ca"
-          }
-        },
-        {
           "client_id": "682187619549-jplmk8429p2abdvtvge8a4vt5keptv1p.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -49,15 +49,21 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "682187619549-jplmk8429p2abdvtvge8a4vt5keptv1p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "682187619549-a2g3pkirvt3mp521nl7jpv30jbf5oh3r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ClassUp",
+                "app_store_id": "1100776259"
+              }
+            }
+          ]
         }
       }
     }

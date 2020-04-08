@@ -153,15 +153,14 @@ public class  TeacherMenu extends AppCompatActivity {
         }
     }
 
-    public void scheduleTest(View view) {
-        Intent intent = new Intent(this, ExamListTeacher.class);
-        intent.putExtra("sender", "scheduleTest");
+    public void ExamManagement(View view)   {
+        Intent intent = new Intent(this, ExamTestManagement.class);
         startActivity(intent);
     }
 
-    public void manageTest(View view)   {
-        Intent intent = new Intent(this, ExamListTeacher.class);
-        intent.putExtra("sender", "manageTest");
+    public void online_classes(View view)    {
+        Intent intent = new Intent(this, OnlineClasses.class);
+        intent.putExtra("sender", "teacher");
         startActivity(intent);
     }
 
@@ -184,12 +183,6 @@ public class  TeacherMenu extends AppCompatActivity {
     public void commCenter (View view) {
         Intent intent = new Intent(this, CommunicationCenter.class);
         startActivity (intent);
-    }
-
-    public void coScholastic(View view) {
-        Intent intent = new Intent(this, SelectClassSection1.class);
-        intent.putExtra("sender", "co_scholastic");
-        startActivity(intent);
     }
 
     public void manageHW(View view) {

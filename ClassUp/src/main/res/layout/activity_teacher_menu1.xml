@@ -1,19 +1,34 @@
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.classup.TeacherMenu">
+
+    <Button
+        android:id="@+id/btn_homework3"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="ExamManagement"
+        android:text="@string/test_management"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_homework2"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <Button
         android:id="@+id/btn_Attendance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="4dp"
         android:onClick="takeAttendance"
         android:text="@string/take_update_attendance"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,15 +36,15 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1" />
 
     <Button
         android:id="@+id/btn_Attendance_summaries"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="8dp"
         android:onClick="summaryAttendance"
         android:text="@string/attendance_summaries"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -37,32 +52,31 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_Attendance"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1" />
 
     <Button
         android:id="@+id/btn_send_Message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:onClick="commCenter"
         android:text="@string/comm_center"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_Attendance_summaries"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_Bus_attendance"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1" />
 
     <Button
         android:id="@+id/btn_homework"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="4dp"
         android:onClick="manageHW"
         android:text="@string/home_work"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -70,80 +84,47 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_send_Message"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1" />
 
     <Button
-        android:id="@+id/btn_schedule_Test"
+        android:id="@+id/btn_homework2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="4dp"
-        android:onClick="scheduleTest"
-        android:text="@string/schedule_test"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="online_classes"
+        android:text="@string/online_classes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_homework"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
-
-    <Button
-        android:id="@+id/btn_manage_Test"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:onClick="manageTest"
-        android:text="@string/manage_tests"
-        app:layout_constraintLeft_toLeftOf="@+id/btn_schedule_Test"
-        app:layout_constraintRight_toRightOf="@+id/btn_schedule_Test"
-        app:layout_constraintTop_toBottomOf="@+id/btn_schedule_Test"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
-
-    <Button
-        android:id="@+id/btn_co_scholastic"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:onClick="coScholastic"
-        android:text="@string/co_scholastic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/btn_schedule_Test"
-        app:layout_constraintRight_toRightOf="@+id/btn_schedule_Test"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_set_Subjects"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1" />
 
     <Button
         android:id="@+id/btn_set_Subjects"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:onClick="setSubjects"
         android:text="@string/set_my_subjects"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/btn_manage_Test"
-        app:layout_constraintRight_toRightOf="@+id/btn_manage_Test"
-        app:layout_constraintTop_toBottomOf="@+id/btn_manage_Test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_homework3"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1" />
 
     <Button
         android:id="@+id/btn_Bus_attendance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:onClick="selectBusRout"
         android:text="@string/bus_attendance"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,8 +132,8 @@
         app:layout_constraintLeft_toLeftOf="@+id/btn_set_Subjects"
         app:layout_constraintRight_toRightOf="@+id/btn_set_Subjects"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_co_scholastic"
+        app:layout_constraintTop_toBottomOf="@+id/btn_Attendance_summaries"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1" />
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,19 @@
 apply plugin: 'com.android.application'
 
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.4, 0.99.99]'
+    }
+}
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+repositories {
+    maven { url 'https://maven.google.com' }
+}
+
 android {
     compileSdkVersion 28
 
@@ -7,9 +21,15 @@ android {
         applicationId "com.classup"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 86
-        versionName "2.18"
+        versionCode 87
+        versionName "2.19"
         multiDexEnabled true
+
+        manifestPlaceholders = [
+                onesignal_app_id: '4f62be3e-1330-4fda-ac23-91757077abe3',
+                // Project number pulled from dashboard, local value is ignored.
+                onesignal_google_project_number: 'REMOTE'
+        ]
     }
     buildTypes {
         release {
@@ -38,6 +58,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.onesignal:OneSignal:[3.13.0, 3.99.99]'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':volley')
     implementation files('libs/pinchzoom/pinchzoom.jar')
@@ -46,6 +67,7 @@ dependencies {
     implementation 'com.wefika:horizontal-picker:1.1.0'
     implementation 'com.jjoe64:graphview:4.0.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v2.1.6'
+
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

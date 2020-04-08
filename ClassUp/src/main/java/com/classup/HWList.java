@@ -118,7 +118,6 @@ public class HWList extends AppCompatActivity {
                 url1 = server_ip + "/pic_share/get_pic_video_list_teacher/";
                 url1 += logged_in_user + "/?format=json";
                 break;
-
         }
 
         final String url = url1;
