@@ -43,6 +43,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import com.onesignal.OSNotification;
+import com.onesignal.OSNotificationAction;
+import com.onesignal.OSNotificationOpenResult;
 import com.onesignal.OSPermissionSubscriptionState;
 import com.onesignal.OneSignal;
 
@@ -64,7 +67,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         OneSignal.startInit(this)
+            .setNotificationOpenedHandler(new ExampleNotificationOpenedHandler())
+            .setNotificationReceivedHandler(new ExampleNotificationReceivedHandler())
             .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
             .unsubscribeWhenNotificationsAreDisabled(true)
             .init();
@@ -378,19 +384,25 @@ public class LoginActivity extends AppCompatActivity {
                                                                 return;
                                                             }
                                                             OSPermissionSubscriptionState status =
-                                                                OneSignal.getPermissionSubscriptionState();
-                                                            String player_id = status.getSubscriptionStatus().getUserId();
+                                                                OneSignal.
+                                                                    getPermissionSubscriptionState();
+                                                            String player_id =
+                                                                status.getSubscriptionStatus().
+                                                                    getUserId();
                                                             Toast toast1 = Toast.makeText(
                                                                 getApplicationContext(), player_id,
                                                                 Toast.LENGTH_SHORT);
-                                                            toast1.setGravity(Gravity.CENTER, 0,
+                                                            toast1.setGravity(Gravity.CENTER,
+                                                                0,
                                                                 0);
-                                                            toast1.show();
+//                                                            toast1.show();
 
 
                                                             // Get new Instance ID token
-                                                            String token = task.getResult().getToken();
-                                                            JSONObject jsonObject1 = new JSONObject();
+                                                            String token =
+                                                                task.getResult().getToken();
+                                                            JSONObject jsonObject1 =
+                                                                new JSONObject();
                                                             try {
                                                                 jsonObject1.put("user",
                                                                     userName.getText().toString());
@@ -458,7 +470,6 @@ public class LoginActivity extends AppCompatActivity {
                                                     System.out.println
                                                             ("flopped in creating analytics");
                                                 }
-
                                                 String is_school_admin =
                                                         response.get("school_admin").toString();
 
@@ -618,4 +629,98 @@ public class LoginActivity extends AppCompatActivity {
 
         return String.valueOf(density);
     }
+
+    private class ExampleNotificationOpenedHandler implements OneSignal.NotificationOpenedHandler {
+        // This fires when a notification is opened by tapping on it.
+        @Override
+        public void notificationOpened(OSNotificationOpenResult result) {
+            OSNotificationAction.ActionType actionType = result.action.type;
+            JSONObject data = result.notification.payload.additionalData;
+            String launchUrl = result.notification.payload.launchURL; // update docs launchUrl
+
+            String customKey;
+            String openURL = null;
+
+            Object activityToLaunch = DummyActivity.class;
+
+            if (data != null) {
+                customKey = data.optString("customkey", null);
+                openURL = data.optString("openURL", null);
+
+                if (customKey != null)
+                    Log.i("OneSignalExample", "customkey set with value: " + customKey);
+
+                if (openURL != null)
+                    Log.i("OneSignalExample", "openURL to webview with URL value: " + openURL);
+            }
+
+            if (actionType == OSNotificationAction.ActionType.ActionTaken) {
+                Log.i("OneSignalExample", "Button pressed with id: " + result.action.actionID);
+
+                if (result.action.actionID.equals("id1")) {
+                    Log.i("OneSignalExample", "button id called: " + result.action.actionID);
+                    activityToLaunch = LoginActivity.class;
+                } else
+                    Log.i("OneSignalExample", "button id called: " + result.action.actionID);
+            }
+            // The following can be used to open an Activity of your choice.
+            // Replace - getApplicationContext() - with any Android Context.
+            // Intent intent = new Intent(getApplicationContext(), YourActivity.class);
+            Intent intent = new Intent(getApplicationContext(), (Class<?>) activityToLaunch);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("openURL", openURL);
+            Log.i("OneSignalExample", "openURL = " + openURL);
+            // startActivity(intent);
+            startActivity(intent);
+
+            // Add the following to your AndroidManifest.xml to prevent the launching of your main Activity
+            //   if you are calling startActivity above.
+        /*
+           <application ...>
+             <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT" android:value="DISABLE" />
+           </application>
+        */
+        }
+
+
+    }
+
+    private class ExampleNotificationReceivedHandler implements OneSignal.NotificationReceivedHandler {
+        @Override
+        public void notificationReceived(OSNotification notification) {
+            System.out.println("Inside notificationReceivedHandler");
+            JSONObject data = notification.payload.additionalData;
+            String notificationID = notification.payload.notificationID;
+            String title = notification.payload.title;
+            String body = notification.payload.body;
+            String smallIcon = notification.payload.smallIcon;
+            String largeIcon = notification.payload.largeIcon;
+            String bigPicture = notification.payload.bigPicture;
+            String smallIconAccentColor = notification.payload.smallIconAccentColor;
+            String sound = notification.payload.sound;
+            String ledColor = notification.payload.ledColor;
+            int lockScreenVisibility = notification.payload.lockScreenVisibility;
+            String groupKey = notification.payload.groupKey;
+            String groupMessage = notification.payload.groupMessage;
+            String fromProjectNumber = notification.payload.fromProjectNumber;
+            String rawPayload = notification.payload.rawPayload;
+
+
+            String customKey;
+
+            Log.i("OneSignalExample", "NotificationID received: " + notificationID);
+
+            if (data != null) {
+                customKey = data.optString("customkey", null);
+                if (customKey != null)
+                    Log.i("OneSignalExample", "customkey set with value: " + customKey);
+            }
+        }
+
+
+    }
+
+
 }
