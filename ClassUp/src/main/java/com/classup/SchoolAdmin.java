@@ -177,7 +177,6 @@ public class SchoolAdmin extends AppCompatActivity {
 
     }
 
-
     public void addStudent(View view)  {
         Intent intent = new Intent(this, AddStudent.class);
         startActivity(intent);

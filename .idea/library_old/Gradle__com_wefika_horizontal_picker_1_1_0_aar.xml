@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.wefika:horizontal-picker:1.1.0@aar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/31a4437e4136614321749655ca1b7b21/horizontal-picker-1.1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/31a4437e4136614321749655ca1b7b21/horizontal-picker-1.1.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.wefika/horizontal-picker/1.1.0/9ec65d7630d0b628ae8bbd7357c97251e6bdc38f/horizontal-picker-1.1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.wefika/horizontal-picker/1.1.0/cf1d47cfe6bc0c6532aac312943daa1d3e8b163c/horizontal-picker-1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

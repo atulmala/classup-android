@@ -318,7 +318,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * throw {@link AuthFailureError} as authentication may be required to
      * provide these values.
      */
-    public Map<String, String> getHeaders() {
+    public Map<String, String> getHeaders() throws AuthFailureError {
         return Collections.emptyMap();
     }
 
@@ -332,7 +332,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * @deprecated Use {@link #getParams()} instead.
      */
     @Deprecated
-    protected Map<String, String> getPostParams() {
+    protected Map<String, String> getPostParams() throws AuthFailureError {
         return getParams();
     }
 
@@ -390,7 +390,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * <p>Note that you can directly override {@link #getBody()} for custom data.</p>
      *
      */
-    protected Map<String, String> getParams() {
+    protected Map<String, String> getParams() throws AuthFailureError {
         return null;
     }
 

@@ -193,4 +193,12 @@
     <string name="test_management"><![CDATA[Test & Exam Management]]></string>
     <string name="enter_marks">Enter Marks</string>
     <string name="default_notification_channel_id">notification</string>
+    <string name="please_note">Please Note:</string>
+    <string name="login_message">ClassUp is available only for the users of Schools who have subscribed to our service. If you are a parent your login id will be your Mobile Number registered with School. If you are a teacher then your login id is provided to you by School. If you have forgotten password, Please enter your login id and hit \"Forgot Password\" on top</string>
+    <string name="select_class_subject"><![CDATA[Select Class & Subject:]]></string>
+    <string name="brief_description">Brief Description</string>
+    <string name="you_tube_link">Youtube Video Link</string>
+    <string name="support_doc_pdf" />
+    <string name="support_doc">Support Doc PDF</string>
+    <string name="choose_document">Choose Document</string>
 </resources>

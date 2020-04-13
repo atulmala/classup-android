@@ -157,8 +157,10 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         if (userName.getText().toString().equals("")) {
-            Toast.makeText(getApplicationContext(),
-                    "User Name cannot be blank", Toast.LENGTH_SHORT).show();
+            String prompt = "Username cannot be blank. ";
+            prompt += "For parent, Username is mobile number registered with school. ";
+            prompt += "For teachers, Username has been provided by school";
+            Toast.makeText(getApplicationContext(), prompt, Toast.LENGTH_LONG).show();
             good_to_go = false;
         }
         if (good_to_go) {
@@ -190,7 +192,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     JSONObject jsonObject = new JSONObject();
                     try {
+                        OSPermissionSubscriptionState status =
+                            OneSignal.getPermissionSubscriptionState();
+                        String player_id = status.getSubscriptionStatus().getUserId();
+
                         jsonObject.put("user", userName.getText().toString());
+                        jsonObject.put("player_id", player_id);
                     } catch (JSONException je) {
                         System.out.println("unable to create json object for " +
                                 "forgotPassword functionality ");
@@ -389,14 +396,6 @@ public class LoginActivity extends AppCompatActivity {
                                                             String player_id =
                                                                 status.getSubscriptionStatus().
                                                                     getUserId();
-                                                            Toast toast1 = Toast.makeText(
-                                                                getApplicationContext(), player_id,
-                                                                Toast.LENGTH_SHORT);
-                                                            toast1.setGravity(Gravity.CENTER,
-                                                                0,
-                                                                0);
-//                                                            toast1.show();
-
 
                                                             // Get new Instance ID token
                                                             String token =

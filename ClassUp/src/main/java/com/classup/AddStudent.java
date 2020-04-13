@@ -372,26 +372,6 @@ public class AddStudent extends AppCompatActivity {
                                                                                             @Override
                                                                                             public void onResponse(JSONObject response) {
                                                                                                 Log.d(tag, response.toString());
-                                                                                                // 12/09/17 - Now we are building the custom
-                                                                                                // Analysis via AWS
-                                                                                                try {
-                                                                                                    AnalyticsEvent addStudentEvent =
-                                                                                                            SessionManager.
-                                                                                                                    analytics.getEventClient().
-                                                                                                                    createEvent("Add Student");
-                                                                                                    addStudentEvent.addAttribute("user",
-                                                                                                            SessionManager.getInstance().
-                                                                                                                    getLogged_in_user());
-                                                                                                    SessionManager.analytics.
-                                                                                                            getEventClient().
-                                                                                                            recordEvent(addStudentEvent);
-                                                                                                } catch (NullPointerException exception)    {
-                                                                                                    System.out.println("flopped in creating " +
-                                                                                                            "analytics Schedule Test");
-                                                                                                } catch (Exception exception)   {
-                                                                                                    System.out.println("flopped in " +
-                                                                                                            "creating analytics Schedule Test");
-                                                                                                }
                                                                                             }
                                                                                         }, new Response.ErrorListener() {
 

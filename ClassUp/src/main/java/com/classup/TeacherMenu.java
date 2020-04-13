@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -188,8 +190,7 @@ public class  TeacherMenu extends AppCompatActivity {
     public void manageHW(View view) {
         // check for storage access permissions
         if (ContextCompat.checkSelfPermission(this,
-            Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
+            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
             // Permission is not granted
 
@@ -236,8 +237,6 @@ public class  TeacherMenu extends AppCompatActivity {
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
     //@Override
@@ -251,6 +250,7 @@ public class  TeacherMenu extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

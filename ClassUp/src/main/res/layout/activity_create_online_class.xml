@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateOnlineClass">
+
+    <NumberPicker
+        android:id="@+id/pick_subject"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        app:layout_constraintStart_toEndOf="@+id/pick_class"
+        app:layout_constraintTop_toTopOf="@+id/pick_class" />
+
+    <NumberPicker
+        android:id="@+id/pick_class"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView49" />
+
+    <TextView
+        android:id="@+id/textView49"
+        android:layout_width="229dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/select_class_subject"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/brief_description"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/brief_description"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView49"
+        app:layout_constraintTop_toBottomOf="@+id/pick_subject" />
+
+    <EditText
+        android:id="@+id/you_tube_link"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/you_tube_link"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/brief_description"
+        app:layout_constraintStart_toStartOf="@+id/brief_description"
+        app:layout_constraintTop_toBottomOf="@+id/brief_description" />
+
+    <EditText
+        android:id="@+id/pdf_doc"
+        android:layout_width="370dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="88dp"
+        android:editable="false"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/support_doc"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/brief_description"
+        app:layout_constraintTop_toBottomOf="@+id/brief_description" />
+
+    <Button
+        android:id="@+id/pick_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/choose_document"
+        app:layout_constraintStart_toStartOf="@+id/pdf_doc"
+        app:layout_constraintTop_toBottomOf="@+id/pdf_doc" />
+
+</android.support.constraint.ConstraintLayout>

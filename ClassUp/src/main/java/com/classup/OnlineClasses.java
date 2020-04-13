@@ -227,8 +227,6 @@ public class OnlineClasses extends AppCompatActivity {
                     builder.show();
                 }
                 return true;
-
-
             }
         });
     }
@@ -240,5 +238,12 @@ public class OnlineClasses extends AppCompatActivity {
                 "Create").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, CreateOnlineClass.class);
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 }
