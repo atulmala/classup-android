@@ -6,23 +6,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,24 +31,21 @@ import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.android.volley.NetworkResponse;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +61,7 @@ public class CreateOnlineClass extends AppCompatActivity {
     String school_id;
     String teacher;
 
-    private Uri fileUri;
+    private Uri uri;
     private String filePath;
     String file_name;
     private TextView brief_description;
@@ -167,14 +163,26 @@ public class CreateOnlineClass extends AppCompatActivity {
         switch (requestCode) {
             case PICKFILE_RESULT_CODE:
                 if (resultCode == -1) {
-                    fileUri = data.getData();
-                    filePath = fileUri.getPath();
-                    String result = fileUri.getPath();
-                    int cut = result.lastIndexOf('/');
-                    if (cut != -1) {
-                        file_name = result.substring(cut + 1);
-                        pdf_path.setText(file_name);
+                    uri = data.getData();
+                    String uriString = uri.toString();
+                    File myFile = new File(uriString);
+                    String path = myFile.getAbsolutePath();
+                    filePath = uri.getPath();
+                    if (uriString.startsWith("content://")) {
+                        Cursor cursor = null;
+                        try {
+                            cursor = context.getContentResolver().query(uri, null,
+                                null, null, null);
+                            if (cursor != null && cursor.moveToFirst()) {
+                                file_name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                            }
+                        } finally {
+                            cursor.close();
+                        }
+                    } else if (uriString.startsWith("file://")) {
+                        file_name = myFile.getName();
                     }
+                    pdf_path.setText(file_name);
                 }
                 break;
         }
@@ -217,7 +225,7 @@ public class CreateOnlineClass extends AppCompatActivity {
                 String URL = server_ip + "/lectures/share_lecture/";
                 InputStream iStream = null;
                 try {
-                    iStream = getContentResolver().openInputStream(fileUri);
+                    iStream = getContentResolver().openInputStream(uri);
                     final byte[] inputData = getBytes(iStream);
 
                     VolleyMultipartRequest volleyMultipartRequest =
