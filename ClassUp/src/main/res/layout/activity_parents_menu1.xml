@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.classup.ParentsMenu">
+
+    <TextView
+        android:id="@+id/txt_parent_menu_Heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/parent_menu_Heading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_parent_Attendance"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_parent_Attendance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="take_action"
+        android:text="@string/month_wise_attendance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_time_table1"
+        app:layout_constraintTop_toBottomOf="@+id/txt_parent_menu_Heading" />
+
+    <Button
+        android:id="@+id/btn_time_table1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="take_action"
+        android:text="@string/time_table"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/bth_hw_list_parent2"
+        app:layout_constraintTop_toBottomOf="@+id/btn_parent_Attendance" />
+
+    <Button
+        android:id="@+id/bth_hw_list_parent2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="take_action"
+        android:text="@string/home_work"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_pending_test_list_parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_time_table1" />
+
+    <Button
+        android:id="@+id/btn_pending_test_list_parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="take_action"
+        android:text="Upcoming Tests"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_term_test_results"
+        app:layout_constraintTop_toBottomOf="@+id/bth_hw_list_parent2" />
+
+    <Button
+        android:id="@+id/btn_term_test_results"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="take_action"
+        android:text="@string/term_test_results"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_subject_wise_marks"
+        app:layout_constraintTop_toBottomOf="@+id/btn_pending_test_list_parent" />
+
+    <Button
+        android:id="@+id/btn_subject_wise_marks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="take_action"
+        android:text="@string/subject_wise_marks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_communication_center"
+        app:layout_constraintTop_toBottomOf="@+id/btn_term_test_results" />
+
+    <Button
+        android:id="@+id/btn_communication_center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="take_action"
+        android:text="@string/comm_center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_parent_change_password"
+        app:layout_constraintTop_toBottomOf="@+id/btn_subject_wise_marks" />
+
+    <Button
+        android:id="@+id/btn_parent_change_password"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:onClick="p_changePassword"
+        android:text="@string/change_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_communication_center" />
+
+    <!-- <Button
+        android:id="@+id/btn_parent_logout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/logout"
+        android:onClick="p_logout"/>-->
+
+</android.support.constraint.ConstraintLayout>

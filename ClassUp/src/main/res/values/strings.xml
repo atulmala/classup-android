@@ -201,4 +201,7 @@
     <string name="support_doc_pdf" />
     <string name="support_doc">Support Doc PDF</string>
     <string name="choose_document">Choose Document</string>
+    <string name="subject">Subject:</string>
+    <string name="online_tests">Online Tests</string>
+    <string name="upcoming_tests">Upcoming Tests</string>
 </resources>

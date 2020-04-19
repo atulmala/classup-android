@@ -63,7 +63,7 @@ public class CreateOnlineClass extends AppCompatActivity {
 
     private Uri uri;
     private String filePath;
-    String file_name;
+    //    String file_name;
     private TextView brief_description;
     private TextView youtube_link;
     private TextView pdf_path;
@@ -146,6 +146,7 @@ public class CreateOnlineClass extends AppCompatActivity {
                 Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
+                finish();
             } else {
                 // permission denied, boo! Disable the
                 // functionality that depends on this permission.
@@ -160,31 +161,30 @@ public class CreateOnlineClass extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case PICKFILE_RESULT_CODE:
-                if (resultCode == -1) {
-                    uri = data.getData();
-                    String uriString = uri.toString();
-                    File myFile = new File(uriString);
-                    String path = myFile.getAbsolutePath();
-                    filePath = uri.getPath();
-                    if (uriString.startsWith("content://")) {
-                        Cursor cursor = null;
-                        try {
-                            cursor = context.getContentResolver().query(uri, null,
-                                null, null, null);
-                            if (cursor != null && cursor.moveToFirst()) {
-                                file_name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                            }
-                        } finally {
-                            cursor.close();
+        String file_name = "";
+        if (requestCode == PICKFILE_RESULT_CODE) {
+            if (resultCode == -1) {
+                uri = data.getData();
+                String uriString = uri.toString();
+                File myFile = new File(uriString);
+                filePath = uri.getPath();
+                if (uriString.startsWith("content://")) {
+                    Cursor cursor = null;
+                    try {
+                        cursor = context.getContentResolver().query(uri, null,
+                            null, null, null);
+                        if (cursor != null && cursor.moveToFirst()) {
+                            file_name = cursor.getString(cursor
+                                .getColumnIndex(OpenableColumns.DISPLAY_NAME));
                         }
-                    } else if (uriString.startsWith("file://")) {
-                        file_name = myFile.getName();
+                    } finally {
+                        cursor.close();
                     }
-                    pdf_path.setText(file_name);
+                } else if (uriString.startsWith("file://")) {
+                    file_name = myFile.getName();
                 }
-                break;
+                pdf_path.setText(file_name);
+            }
         }
     }
 
@@ -214,7 +214,7 @@ public class CreateOnlineClass extends AppCompatActivity {
 
         final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.
             Builder(this);
-        String prompt = "Are you sure you want to Add this teacher?";
+        String prompt = "Are you sure you want to Upload this Online Class?";
         builder.setMessage(prompt).setPositiveButton("Yes", new DialogInterface.
             OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -223,75 +223,84 @@ public class CreateOnlineClass extends AppCompatActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 String URL = server_ip + "/lectures/share_lecture/";
-                InputStream iStream = null;
-                try {
-                    iStream = getContentResolver().openInputStream(uri);
-                    final byte[] inputData = getBytes(iStream);
+                final InputStream[] iStream = {null};
+                final String file_name = pdf_path.getText().toString();
 
-                    VolleyMultipartRequest volleyMultipartRequest =
-                        new VolleyMultipartRequest(Request.Method.POST, URL,
-                            new Response.Listener<NetworkResponse>() {
-                                @Override
-                                public void onResponse(NetworkResponse response) {
-                                    progressDialog.hide();
-                                    progressDialog.cancel();
-                                    Toast.makeText(getApplicationContext(),
-                                        "Online Class uploaded", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(context, OnlineClasses.class);
-                                    intent.putExtra("sender", "teacher");
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getApplicationContext(), error.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
-                                }
-                            }) {
-
+                VolleyMultipartRequest volleyMultipartRequest =
+                    new VolleyMultipartRequest(Request.Method.POST, URL,
+                        new Response.Listener<NetworkResponse>() {
                             @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                final String[] classList = classPicker.getDisplayedValues();
-                                final String the_class = classList[(classPicker.getValue())];
-                                final String[] subjectList = subjectPicker.getDisplayedValues();
-                                final String subject = subjectList[(subjectPicker.getValue())];
+                            public void onResponse(NetworkResponse response) {
+                                progressDialog.hide();
+                                progressDialog.cancel();
+                                Toast.makeText(getApplicationContext(),
+                                    "Online Class uploaded", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(context, OnlineClasses.class);
+                                intent.putExtra("sender", "teacher");
+                                startActivity(intent);
+                                finish();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(), error.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            }
+                        }) {
 
-                                Map<String, String> params = new HashMap<>();
-                                params.put("teacher", teacher);
-                                params.put("school_id", school_id);
-                                params.put("the_class", the_class);
-                                params.put("section", "all_sections");
-                                params.put("subject", subject);
-                                params.put("all_sections", "true");
-                                params.put("youtube_link", youtube_link.getText().toString());
-                                params.put("lesson_topic", brief_description.getText().toString());
+
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            final String[] classList = classPicker.getDisplayedValues();
+                            final String the_class = classList[(classPicker.getValue())];
+                            final String[] subjectList = subjectPicker.getDisplayedValues();
+                            final String subject = subjectList[(subjectPicker.getValue())];
+
+                            Map<String, String> params = new HashMap<>();
+                            params.put("teacher", teacher);
+                            params.put("school_id", school_id);
+                            params.put("the_class", the_class);
+                            params.put("section", "all_sections");
+                            params.put("subject", subject);
+                            params.put("all_sections", "true");
+                            params.put("youtube_link", youtube_link.getText().toString());
+                            params.put("lesson_topic", brief_description.getText().toString());
+
+                            if (!file_name.equals(""))
                                 params.put("file_included", "true");
-                                params.put("file_name", pdf_path.getText().toString());
+                            else
+                                params.put("file_included", "false");
+                            params.put("file_name", pdf_path.getText().toString());
 
-                                return params;
+                            return params;
+                        }
+
+                        /*
+                         *pass files using below method
+                         * */
+                        @Override
+                        protected Map<String, DataPart> getByteData() {
+                            Map<String, DataPart> params = new HashMap<>();
+                            if (!file_name.equals("")) {
+                                try {
+                                    iStream[0] = getContentResolver().openInputStream(uri);
+                                    assert iStream[0] != null;
+                                    byte[] inputData = getBytes(iStream[0]);
+                                    params.put("file", new DataPart(file_name, inputData));
+                                } catch (IOException ignored) {
+
+                                }
+
                             }
-
-                            /*
-                             *pass files using below method
-                             * */
-                            @Override
-                            protected Map<String, DataPart> getByteData() {
-                                Map<String, DataPart> params = new HashMap<>();
-
-                                params.put("file", new DataPart(file_name, inputData));
-                                return params;
-                            }
-                        };
-                    volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                    com.classup.AppController.getInstance().addToRequestQueue(volleyMultipartRequest,
-                        "tag");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                            return params;
+                        }
+                    };
+                volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                AppController.getInstance().addToRequestQueue(volleyMultipartRequest,
+                    "tag");
             }
         }).setNegativeButton(R.string.cancel,
             new DialogInterface.OnClickListener() {

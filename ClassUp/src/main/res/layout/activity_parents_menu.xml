@@ -37,10 +37,17 @@
         android:text="@string/home_work"/>
 
     <Button
+        android:id="@+id/btn_online_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/online_tests"
+        android:onClick="take_action"/>
+
+    <Button
         android:id="@+id/btn_pending_test_list_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upcoming Tests"
+        android:text="@string/upcoming_tests"
         android:onClick="take_action"/>
 
     <Button
@@ -68,15 +75,15 @@
         android:id="@+id/btn_parent_change_password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/change_password"
-        android:onClick="p_changePassword"/>
+        android:onClick="p_changePassword"
+        android:text="@string/change_password" />
 
-   <!-- <Button
-        android:id="@+id/btn_parent_logout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/logout"
-        android:onClick="p_logout"/>-->
+    <!-- <Button
+         android:id="@+id/btn_parent_logout"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="40dp"
+         android:text="@string/logout"
+         android:onClick="p_logout"/>-->
 
 </LinearLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView50"
+        android:layout_width="62dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/date"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView58"
+        android:layout_width="82dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/subject"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView50"
+        app:layout_constraintTop_toBottomOf="@+id/textView50" />
+
+    <TextView
+        android:id="@+id/textView54"
+        android:layout_width="62dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="24dp"
+        android:text="@string/the_class"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/test_date"
+        app:layout_constraintTop_toTopOf="@+id/test_date" />
+
+    <TextView
+        android:id="@+id/the_class"
+        android:layout_width="62dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/the_class"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView54"
+        app:layout_constraintTop_toTopOf="@+id/textView54" />
+
+    <TextView
+        android:id="@+id/test_date"
+        android:layout_width="111dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/date"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textView50"
+        app:layout_constraintTop_toTopOf="@+id/textView50" />
+
+    <TextView
+        android:id="@+id/subject"
+        android:layout_width="111dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/date"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textView58"
+        app:layout_constraintTop_toTopOf="@+id/textView58" />
+</android.support.constraint.ConstraintLayout>
