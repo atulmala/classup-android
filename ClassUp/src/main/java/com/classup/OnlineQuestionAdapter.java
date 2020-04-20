@@ -52,16 +52,16 @@ public class OnlineQuestionAdapter extends BaseAdapter {
         question.setText(question_list.get(position).getQuestion());
 
         TextView option_A = convertView.findViewById(R.id.option_A);
-        option_A.setText(question_list.get(position).getOption_A());
+        option_A.setText("A. " + question_list.get(position).getOption_A());
 
         TextView option_B = convertView.findViewById(R.id.option_B);
-        option_B.setText(question_list.get(position).getOption_B());
+        option_B.setText("B. " + question_list.get(position).getOption_B());
 
         TextView option_C = convertView.findViewById(R.id.option_C);
-        option_C.setText(question_list.get(position).getOption_C());
+        option_C.setText("C. " + question_list.get(position).getOption_C());
 
         TextView option_D = convertView.findViewById(R.id.option_D);
-        option_D.setText(question_list.get(position).getOption_D());
+        option_D.setText("D. " + question_list.get(position).getOption_D());
 
         return convertView;
     }
