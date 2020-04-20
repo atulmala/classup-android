@@ -21,7 +21,7 @@
         android:id="@+id/textView58"
         android:layout_width="82dp"
         android:layout_height="26dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/subject"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -36,11 +36,11 @@
         android:text="@string/the_class"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/test_date"
-        app:layout_constraintTop_toTopOf="@+id/test_date" />
+        app:layout_constraintStart_toEndOf="@+id/ot_test_date"
+        app:layout_constraintTop_toTopOf="@+id/ot_test_date" />
 
     <TextView
-        android:id="@+id/the_class"
+        android:id="@+id/ot_class"
         android:layout_width="62dp"
         android:layout_height="25dp"
         android:layout_marginStart="8dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView54" />
 
     <TextView
-        android:id="@+id/test_date"
+        android:id="@+id/ot_test_date"
         android:layout_width="111dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"

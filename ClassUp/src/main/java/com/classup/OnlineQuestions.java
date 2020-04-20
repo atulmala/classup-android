@@ -10,8 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,8 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
-public class OnlineTestList extends AppCompatActivity {
+public class OnlineQuestions extends AppCompatActivity {
     final Activity activity = this;
     String tag = "Online Classes";
     String server_ip;
@@ -43,8 +40,7 @@ public class OnlineTestList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_online_test_list);
-
+        setContentView(R.layout.activity_online_questions2);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
@@ -54,21 +50,22 @@ public class OnlineTestList extends AppCompatActivity {
         final Context c = this.getApplicationContext();
         server_ip = MiscFunctions.getInstance().getServerIP(c);
         school_id = SessionManager.getInstance().getSchool_id();
+        final Intent intent = getIntent();
+        student_id = intent.getStringExtra("student_id");
+        String test_id = intent.getStringExtra("test_id");
 
-        final ArrayList<OnlineTestSource> test_list = new ArrayList<>();
-
-        ListView listView = findViewById(R.id.online_test);
-        final OnlineTestAdapter adapter = new OnlineTestAdapter(activity, test_list);
+        final ArrayList<OnlineQuestionSource> question_list = new ArrayList<>();
+        final OnlineQuestionAdapter adapter = new OnlineQuestionAdapter(activity, question_list);
+        ListView listView = findViewById(R.id.online_questions);
         listView.setAdapter(adapter);
 
-        student_id = getIntent().getStringExtra("student_id");
-        String url = server_ip + "/online_test/get_online_test/" + student_id + "/?format=json";
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Getting Online Test Pleas wait...");
         progressDialog.setCancelable(true);
         progressDialog.show();
 
+        String url = server_ip + "/online_test/get_online_questions/" + test_id + "/?format=json";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
             (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                 @Override
@@ -84,22 +81,15 @@ public class OnlineTestList extends AppCompatActivity {
                         try {
                             JSONObject jo = response.getJSONObject(i);
                             String id = jo.getString("id");
-
-                            String date = jo.getString("date");
-                            String yy = date.substring(0, 4);
-                            String month = date.substring(5, 7);
-                            String dd = date.substring(8, 10);
-                            String ddmmyyyy = dd + "/" + month + "/" + yy;
-
-                            String the_class = jo.getString("the_class");
-
-                            String subject = jo.getString("subject");
-
-                            int duration = jo.getInt("duration");
+                            String question = jo.getString("question");
+                            String option_a = jo.getString("option_a");
+                            String option_b = jo.getString("option_b");
+                            String option_c = jo.getString("option_c");
+                            String option_d = jo.getString("option_d");
 
                             // put all the above details into the adapter
-                            test_list.add(new OnlineTestSource(id, ddmmyyyy, subject,
-                                the_class, duration));
+                            question_list.add(new OnlineQuestionSource(id, i + 1, question,
+                                option_a, option_b, option_c, option_d));
                             adapter.notifyDataSetChanged();
 
                         } catch (JSONException je) {
@@ -140,14 +130,5 @@ public class OnlineTestList extends AppCompatActivity {
             });
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
 
-        final Intent intent = new Intent(this, OnlineQuestions.class);
-        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                intent.putExtra("test_id", test_list.get(i).getId());
-                intent.putExtra("student_id", student_id);
-                startActivity(intent);
-            }
-        });
     }
 }

@@ -56,9 +56,9 @@ public class BulkSMSAdapter extends ArrayAdapter{
             convertView = inflater.inflate(R.layout.row_bulk_sms, null);
         }
         final CheckedTextView textView =
-                convertView.findViewById(R.id.the_class);
+                convertView.findViewById(R.id.ot_class);
 
-        TextView the_class = convertView.findViewById(R.id.the_class);
+        TextView the_class = convertView.findViewById(R.id.ot_class);
         the_class.setText(class_list.get(position).getThe_class());
         if (selection.contains(class_list.get(position).getThe_class()))   {
             textView.setChecked(true);

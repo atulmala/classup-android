@@ -24,7 +24,8 @@
         android:icon="@mipmap/classup_app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".OnlineTestList"></activity>
+        <activity android:name=".OnlineQuestions"></activity>
+        <activity android:name=".OnlineTestList" />
         <activity android:name=".CreateOnlineClass" />
         <activity android:name=".DummyActivity" />
 

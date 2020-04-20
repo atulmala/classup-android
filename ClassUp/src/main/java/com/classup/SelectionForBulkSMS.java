@@ -143,7 +143,7 @@ public class SelectionForBulkSMS extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CheckedTextView textView = view.findViewById(R.id.the_class);
+                CheckedTextView textView = view.findViewById(R.id.ot_class);
 
                 if (!textView.isChecked()) {
                     textView.setChecked(true);

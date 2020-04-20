@@ -30,14 +30,14 @@ public class OnlineTestAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent)   {
         if(convertView == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.row_online_class, null);
+            convertView = inflater.inflate(R.layout.row_online_test, null);
         }
 
-        TextView date = convertView.findViewById(R.id.test_date);
-        date.setText(test_list.get(position).getDate());
-        date.setTextColor(Color.BLUE);
+        TextView test_date = convertView.findViewById(R.id.ot_test_date);
+        test_date.setText(test_list.get(position).getDate());
+        test_date.setTextColor(Color.BLUE);
 
-        TextView txt_class = convertView.findViewById(R.id.the_class);
+        TextView txt_class = convertView.findViewById(R.id.ot_class);
         String the_class = test_list.get(position).getThe_class();
         txt_class.setText(the_class);
 
