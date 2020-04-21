@@ -29,6 +29,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -88,6 +89,23 @@ public class OnlineQuestions extends AppCompatActivity {
         progressDialog.setMessage("Getting Online Test Pleas wait...");
         progressDialog.setCancelable(true);
         progressDialog.show();
+
+        String url1 = server_ip + "/online_test/mark_attempted/" + student_id + "/" + test_id + "/";
+        JsonObjectRequest jsObjRequest1 = new JsonObjectRequest
+            (Request.Method.POST, url1, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        com.classup.AppController.getInstance().addToRequestQueue(jsObjRequest1);
 
         String url = server_ip + "/online_test/get_online_questions/" + test_id + "/?format=json";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
@@ -157,7 +175,7 @@ public class OnlineQuestions extends AppCompatActivity {
             });
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
 
-        new CountDownTimer(1 * 60 * 1000, 1000) {
+        new CountDownTimer(30 * 60 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 String ms = String.format("%02d:%02d",
                     (millisUntilFinished / (60 * 1000)), ((millisUntilFinished / 1000) % 60));
