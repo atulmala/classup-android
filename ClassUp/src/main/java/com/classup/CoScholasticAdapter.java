@@ -59,14 +59,11 @@ public class CoScholasticAdapter  extends BaseAdapter{
         if (view == null || view.getTag() == null) {
             LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
             view = inflater.inflate(R.layout.row_coscholastic, null);
-
             holder = new ViewHolder(view);
 
         } else {
             holder = (ViewHolder) view.getTag();
-
         }
 
         holder.full_name.setText(grade_list.get(position).getFull_name());
@@ -292,5 +289,4 @@ public class CoScholasticAdapter  extends BaseAdapter{
             this.promoted = view.findViewById(R.id.txt_promoted_to);
         }
     }
-
 }

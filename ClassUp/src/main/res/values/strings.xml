@@ -204,4 +204,6 @@
     <string name="subject">Subject:</string>
     <string name="online_tests">Online Tests</string>
     <string name="upcoming_tests">Upcoming Tests</string>
+    <string name="time_remaining">"Time Remaining: "</string>
+    <string name="time_over">Time Over!</string>
 </resources>
