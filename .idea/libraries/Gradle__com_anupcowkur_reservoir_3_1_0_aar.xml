@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.anupcowkur:reservoir:3.1.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/20c06ebca5585b08dd11f2b3c6b3535d/reservoir-3.1.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/20c06ebca5585b08dd11f2b3c6b3535d/reservoir-3.1.0/res" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/5a5fbad58f33bf04083e0ecca525291b/reservoir-3.1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/5a5fbad58f33bf04083e0ecca525291b/reservoir-3.1.0/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.anupcowkur/reservoir/3.1.0/5d31d0c2f7b14fe444b9c497006def068ddc8b51/reservoir-3.1.0-javadoc.jar!/" />

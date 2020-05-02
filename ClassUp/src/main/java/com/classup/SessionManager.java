@@ -55,6 +55,16 @@ public class SessionManager {
         this.image = image;
     }
 
+    private int test_duration = 30;
+
+    public int getTest_duration() {
+        return test_duration;
+    }
+
+    public void setTest_duration(int test_duration) {
+        this.test_duration = test_duration;
+    }
+
     public void logout()    {
         school_id = "";
         logged_in_user = "";

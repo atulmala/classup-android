@@ -291,7 +291,6 @@ public class CreateOnlineClass extends AppCompatActivity {
                                 } catch (IOException ignored) {
 
                                 }
-
                             }
                             return params;
                         }

@@ -206,4 +206,17 @@
     <string name="upcoming_tests">Upcoming Tests</string>
     <string name="time_remaining">"Time Remaining: "</string>
     <string name="time_over">Time Over!</string>
+    <string name="instructions">Instructions For Online Test</string>
+    <string name="instruction_1">There will be only single attempt to do this Test</string>
+    <string name="instruction_2">Once started the Attempt will be counted</string>
+    <string name="instruction_3">Please Do Not Press the Back Button While doing the Test</string>
+    <string name="instruction_4">Timer will show while you do the test. After time over Test will be Automatically Submitted</string>
+    <string name="instruction_5">You can Attempt the Test anytime during the day but only Once.</string>
+    <string name="ready_for_test">Yes, I am Ready to Take Test</string>
+    <string name="not_ready_for_test" />
+    <string name="not_ready">No, Please take me Back</string>
+    <string name="instruction_6">Most Important: Please do the test with utmost sincerety. Parents requested to ensure that child does not open book or notes while doing test</string>
+    <string name="test_exams"><![CDATA[Tests & Exams]]></string>
+    <string name="online_test_result1" />
+    <string name="online_test_result">Online Test Result</string>
 </resources>

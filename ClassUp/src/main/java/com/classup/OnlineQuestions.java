@@ -62,6 +62,7 @@ public class OnlineQuestions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_questions2);
         final Intent intent = getIntent();
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
@@ -76,7 +77,7 @@ public class OnlineQuestions extends AppCompatActivity {
 
         student_id = intent.getStringExtra("student_id");
         String test_id = intent.getStringExtra("test_id");
-
+        int duration = SessionManager.getInstance().getTest_duration();
         final ArrayList<OnlineQuestionSource> question_list = new ArrayList<>();
 
         final OnlineQuestionAdapter adapter = new OnlineQuestionAdapter(activity,
@@ -127,10 +128,18 @@ public class OnlineQuestions extends AppCompatActivity {
                                 id, "X"));
 
                             String question = jo.getString("question");
+
                             String option_a = jo.getString("option_a");
+                            option_a = getRidofDecimal(option_a);
+
                             String option_b = jo.getString("option_b");
+                            option_b = getRidofDecimal(option_b);
+
                             String option_c = jo.getString("option_c");
+                            option_c = getRidofDecimal(option_c);
+
                             String option_d = jo.getString("option_d");
+                            option_d = getRidofDecimal(option_d);
 
                             // put all the above details into the adapter
                             question_list.add(new OnlineQuestionSource(id, i + 1, question,
@@ -175,7 +184,7 @@ public class OnlineQuestions extends AppCompatActivity {
             });
         com.classup.AppController.getInstance().addToRequestQueue(jsonArrayRequest, tag);
 
-        new CountDownTimer(30 * 60 * 1000, 1000) {
+        new CountDownTimer(duration * 60 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 String ms = String.format("%02d:%02d",
                     (millisUntilFinished / (60 * 1000)), ((millisUntilFinished / 1000) % 60));
@@ -251,6 +260,23 @@ public class OnlineQuestions extends AppCompatActivity {
                 com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
             }
         }.start();
+    }
+
+    private String getRidofDecimal(String option)  {
+        try {
+            String last_2 = option.length() > 2 ?
+                option.substring(option.length() - 2) : option;
+            if (last_2.equals(".0"))  {
+                return option.substring(0, option.length() - 2);
+            }
+            else    {
+                return option;
+            }
+        }
+        catch (Exception e) {
+            return option;
+        }
+
     }
 
     @Override

@@ -37,32 +37,11 @@
         android:text="@string/home_work"/>
 
     <Button
-        android:id="@+id/btn_online_test"
+        android:id="@+id/btn_tests_exams"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/online_tests"
-        android:onClick="take_action"/>
-
-    <Button
-        android:id="@+id/btn_pending_test_list_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/upcoming_tests"
-        android:onClick="take_action"/>
-
-    <Button
-        android:id="@+id/btn_term_test_results"
-        android:text="@string/term_test_results"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="take_action"/>
-
-    <Button
-        android:id="@+id/btn_subject_wise_marks"
-        android:text="@string/subject_wise_marks"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="take_action"/>
+        android:onClick="take_action"
+        android:text="@string/test_exams" />
 
     <Button
         android:id="@+id/btn_communication_center"

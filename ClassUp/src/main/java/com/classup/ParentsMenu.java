@@ -23,7 +23,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONObject;
 
 public class ParentsMenu extends AppCompatActivity {
-
     private String student_id;
     private String student_name;
 
@@ -72,7 +71,6 @@ public class ParentsMenu extends AppCompatActivity {
                                                 message, Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, 0, 0);
                                         toast.show();
-                                        return;
                                     } else {
                                         switch (view.getId())   {
                                             case R.id.btn_parent_Attendance:
@@ -90,21 +88,6 @@ public class ParentsMenu extends AppCompatActivity {
                                                     "student");
                                                 startActivity(intent);
                                                 break;
-                                            case R.id.btn_term_test_results:
-                                                intent = new Intent(getApplicationContext(),
-                                                        ShowExamList.class);
-                                                intent.putExtra("student_id", student_id);
-                                                intent.putExtra("student_name", student_name);
-                                                startActivity(intent);
-                                                break;
-                                            case R.id.btn_subject_wise_marks:
-                                                intent = new Intent(getApplicationContext(),
-                                                        ParentsSelectSubject.class);
-                                                intent.putExtra("student_id", student_id);
-                                                intent.putExtra("student_name", student_name);
-                                                startActivity(intent);
-                                                break;
-
                                             case R.id.btn_communication_center:
                                                 intent = new Intent(getApplicationContext(),
                                                     ParentCommCenter.class);
@@ -121,17 +104,9 @@ public class ParentsMenu extends AppCompatActivity {
                                                 intent.putExtra("student_name", student_name);
                                                 startActivity(intent);
                                                 break;
-                                            case R.id.btn_pending_test_list_parent:
+                                            case R.id.btn_tests_exams:
                                                 intent = new Intent(getApplicationContext(),
-                                                        TestListParent.class);
-                                                intent.putExtra("sender", "ParentApp");
-                                                intent.putExtra("student_id", student_id);
-                                                intent.putExtra("student_name", student_name);
-                                                startActivity(intent);
-                                                break;
-                                            case R.id.btn_online_test:
-                                                intent = new Intent(getApplicationContext(),
-                                                    OnlineTestList.class);
+                                                    TestExams.class);
                                                 intent.putExtra("sender", "ParentApp");
                                                 intent.putExtra("student_id", student_id);
                                                 intent.putExtra("student_name", student_name);
