@@ -311,16 +311,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (good_to_go) {
-            try {
-                AnalyticsEvent loginAttemptEvent = SessionManager.
-                        analytics.getEventClient().createEvent("Login Attempt");
-                loginAttemptEvent.addAttribute("user", userName.getText().toString());
-                SessionManager.analytics.getEventClient().
-                        recordEvent(loginAttemptEvent);
-            } catch (NullPointerException exception)    {
-                Toast.makeText(this, "Analytics", Toast.LENGTH_SHORT).show();
-                System.out.println("flopped in creating analytics");
-            }
             // 10/07/2017 - Get the manufacturer, model & OS of the device
             String model = getDeviceName();
             Integer version = Build.VERSION.SDK_INT;
@@ -374,9 +364,6 @@ public class LoginActivity extends AppCompatActivity {
                                             String userStatus =
                                                     (response.get("user_status")).toString();
                                             if (userStatus.equals("active")) {
-                                                String user_name =
-                                                        (response.get("user_name").toString());
-
                                                 // set the logged in user
                                                 SessionManager.getInstance().setLogged_in_user
                                                         (userName.getText().toString());
@@ -451,24 +438,6 @@ public class LoginActivity extends AppCompatActivity {
                                                 toast1.setGravity(Gravity.CENTER, 0,
                                                     0);
                                                 toast1.show();
-                                                try {
-                                                    AnalyticsEvent loginResultEvent =
-                                                            SessionManager.
-                                                            analytics.getEventClient().
-                                                                    createEvent(
-                                                                            "Login Result");
-                                                    loginResultEvent.addAttribute
-                                                            ("user",
-                                                                    userName.getText().toString());
-                                                    loginResultEvent.addAttribute("Login Result",
-                                                            "Success");
-                                                    SessionManager.analytics.
-                                                            getEventClient().
-                                                            recordEvent(loginResultEvent);
-                                                } catch (NullPointerException exception)    {
-                                                    System.out.println
-                                                            ("flopped in creating analytics");
-                                                }
                                                 String is_school_admin =
                                                         response.get("school_admin").toString();
 
@@ -493,33 +462,42 @@ public class LoginActivity extends AppCompatActivity {
                                                             ("com.classup.TeacherMenu"));
                                                     finish();
                                                 }
-                                                else
-                                                    startActivity(new Intent
-                                                            ("com.classup.ShowWard"));
-                                            } else {
+                                                else {
+                                                    try {
+                                                        String fee_default_status =
+                                                            response.get("fee_defaulter").toString();
+                                                        if (fee_default_status.equals("yes")) {
+                                                            String message =
+                                                                response.get("welcome_message").toString();
+                                                            String amount_due =
+                                                                response.get("amount_due").toString();
+                                                            String stop_access =
+                                                                response.getString("stop_access");
+                                                            Intent intent = new Intent(getApplicationContext(),
+                                                                ShowFeeStatus.class);
+                                                            intent.putExtra("welcome_message", message);
+                                                            intent.putExtra("amount_due", amount_due);
+                                                            intent.putExtra("stop_access", stop_access);
+                                                            startActivity(intent);
+                                                        }
+                                                        else    {
+                                                            System.out.println("Fee payment status: Good");
+                                                            startActivity(new Intent
+                                                                ("com.classup.ShowWard"));
+                                                        }
+                                                    }
+                                                    catch (Exception e) {
+                                                        System.out.println("this version does not bring fee default");
+                                                    }
 
+                                                }
+                                            } else {
                                                 Toast.makeText(getApplicationContext(),
                                                         "Login disabled! Please contact your Admin",
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                         else {
-                                            try {
-                                                AnalyticsEvent loginResultEvent =
-                                                        SessionManager.
-                                                                analytics.getEventClient().
-                                                                createEvent("Login Result");
-                                                loginResultEvent.addAttribute
-                                                        ("Login", userName.getText().toString());
-                                                loginResultEvent.addAttribute("Login Result",
-                                                        "Failed");
-                                                SessionManager.analytics.
-                                                        getEventClient().
-                                                        recordEvent(loginResultEvent);
-                                            } catch (NullPointerException exception)    {
-                                                System.out.println
-                                                        ("flopped in creating analytics");
-                                            }
                                             Toast.makeText(getApplicationContext(),
                                                     "Login/Password not correct! Please retry.",
                                                     Toast.LENGTH_SHORT).show();

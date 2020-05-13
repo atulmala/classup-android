@@ -219,4 +219,5 @@
     <string name="test_exams"><![CDATA[Tests & Exams]]></string>
     <string name="online_test_result1" />
     <string name="online_test_result">Online Test Result</string>
+    <string name="continue_">Continue</string>
 </resources>

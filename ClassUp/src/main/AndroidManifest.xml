@@ -24,9 +24,9 @@
         android:icon="@mipmap/classup_app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestExams"></activity>
+        <activity android:name=".ShowFeeStatus" />
+        <activity android:name=".TestExams" />
         <activity android:name=".InstructionScreen" />
-        <activity android:name=".OnlineQuestions" />
         <activity android:name=".OnlineTestList" />
         <activity android:name=".CreateOnlineClass" />
         <activity android:name=".DummyActivity" />
@@ -81,6 +81,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity> <!-- activity for school admin -->
+        <activity
+            android:name=".OnlineQuestions"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SelectClass"
             android:label="Select Class"
