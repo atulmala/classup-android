@@ -10,30 +10,9 @@
         android:id="@+id/online_questions"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView52"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/time_remaining"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/time_remaining"
-        android:layout_width="112dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/time_remaining"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView52"
-        app:layout_constraintTop_toTopOf="@+id/textView52" />
 </android.support.constraint.ConstraintLayout>

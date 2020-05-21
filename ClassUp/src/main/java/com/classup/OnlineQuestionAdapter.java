@@ -12,7 +12,24 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.onesignal.OSPermissionSubscriptionState;
+import com.onesignal.OneSignal;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -104,21 +121,82 @@ public class OnlineQuestionAdapter extends BaseAdapter {
         public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
             Object object = radioGroup.getTag();
             int position = (int)object;
+            String student_id = student_answers.get(position).getStudent_id();
+            String question_id = student_answers.get(position).getQuestion_id();
+            String answer_marked = "X";
             switch (i)  {
                 case R.id.option_A:
                     student_answers.get(position).setOption_marked("A");
+                    answer_marked = "A";
                     break;
                 case R.id.option_B:
                     student_answers.get(position).setOption_marked("B");
+                    answer_marked = "B";
                     break;
                 case R.id.option_C:
                     student_answers.get(position).setOption_marked("C");
+                    answer_marked = "C";
                     break;
-
                 case R.id.option_D:
                     student_answers.get(position).setOption_marked("D");
+                    answer_marked = "D";
                     break;
             }
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("student_id", student_id);
+                jsonObject.put("question_id", question_id);
+                jsonObject.put("answer_marked", answer_marked);
+            } catch (JSONException je) {
+                System.out.println("unable to create json object for marking answer online test ");
+                je.printStackTrace();
+            }
+            String server_ip = MiscFunctions.getInstance().getServerIP(activity);
+            String url1 = server_ip + "/online_test/mark_answer/";
+            JsonObjectRequest jsObjRequest1 = new JsonObjectRequest
+                (Request.Method.POST, url1, jsonObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                        }
+                    }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof TimeoutError ||
+                            error instanceof NoConnectionError) {
+                            if (!MiscFunctions.getInstance().checkConnection
+                                (activity)) {
+                                Toast.makeText(activity,
+                                    "Slow network connection or No internet connectivity",
+                                    Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(activity,
+                                    "Some problem at server end, please try after some time",
+                                    Toast.LENGTH_LONG).show();
+                            }
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(activity,
+                                "User does not exist. Please contact " +
+                                    "ClassUp Support at support@classup.in",
+                                Toast.LENGTH_LONG).show();
+                        } else if (error instanceof NetworkError) {
+                            Toast.makeText(activity,
+                                "Network error, please try later",
+                                Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ParseError) {
+                            //TODO
+                        }
+                        System.out.println("inside volley error handler(LoginActivity)");
+                        // TODO Auto-generated method stub
+                    }
+                });
+            int socketTimeout = 300000;//5 minutes
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            jsObjRequest1.setRetryPolicy(policy);
+            com.classup.AppController.getInstance().addToRequestQueue(jsObjRequest1);
         }
     };
 
