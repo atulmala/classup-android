@@ -55,6 +55,7 @@ public class OnlineQuestions extends AppCompatActivity {
     String school_id;
     String sender;
     String student_id;
+    String time_remaining = "Time Remaining";
     final ArrayList<StudentAnswers> student_answers = new ArrayList<>();
 
     @Override
@@ -66,10 +67,7 @@ public class OnlineQuestions extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
-        String subject = intent.getStringExtra("subject");
-        this.setTitle(subject);
-        final TextView time_remaining = findViewById(R.id.time_remaining);
-
+        this.setTitle(time_remaining);
 
         final Context c = this.getApplicationContext();
         server_ip = MiscFunctions.getInstance().getServerIP(c);
@@ -186,13 +184,13 @@ public class OnlineQuestions extends AppCompatActivity {
 
         new CountDownTimer(duration * 60 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
-                String ms = String.format("%02d:%02d",
+                String ms = String.format("Time Remaining: %02d:%02d",
                     (millisUntilFinished / (60 * 1000)), ((millisUntilFinished / 1000) % 60));
-                time_remaining.setText(ms);
+                activity.setTitle(ms);
             }
 
             public void onFinish() {
-                time_remaining.setText(R.string.time_over);
+                activity.setTitle("Time Over!");
                 Toast toast = Toast.makeText(context, "Time over. now test will be Submittd",
                     Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -202,62 +200,22 @@ public class OnlineQuestions extends AppCompatActivity {
                 progressDialog.setMessage("Please wait while Your Answers are submitted");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                JSONObject params = new JSONObject();
-                for (int i = 0; i < student_answers.size(); i++) {
-                    JSONObject params1 = new JSONObject();
-                    try {
-                        params1.put("student_id", student_answers.get(i).getStudent_id());
-                        params1.put("question_id", student_answers.get(i).getQuestion_id());
-                        params1.put("option_marked",
-                            student_answers.get(i).getOption_marked());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        params.put(student_answers.get(i).getQuestion_id(), params1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("params = " + params);
-                }
 
-                String URL = server_ip + "/online_test/submit_answers/";
-                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    URL, params,
-                    new Response.Listener<JSONObject>() {
+                progressDialog.hide();
+                progressDialog.cancel();
+                Toast toast1 = Toast.makeText(getApplicationContext(),
+                    "Answers Submitted. Result will be communicated later  ",
+                    Toast.LENGTH_SHORT);
+                toast1.setGravity(Gravity.CENTER |
+                    Gravity.CENTER_HORIZONTAL
+                    | Gravity.CENTER_VERTICAL, 0, 0);
+                toast1.show();
+                Intent intent = new Intent(context, ParentsMenu.class);
+                intent.putExtra("sender", "ParentApp");
+                intent.putExtra("student_id", student_id);
+                startActivity(intent);
+                finish();
 
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d(tag, response.toString());
-                            try {
-                                if (response.get("status").toString().equals("success")) {
-                                    progressDialog.hide();
-                                    progressDialog.cancel();
-                                    Toast toast = Toast.makeText(getApplicationContext(),
-                                        "Answers Submitted. Result will be communicated later  ",
-                                        Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER |
-                                        Gravity.CENTER_HORIZONTAL
-                                        | Gravity.CENTER_VERTICAL, 0, 0);
-                                    toast.show();
-                                    Intent intent = new Intent(context, ParentsMenu.class);
-                                    intent.putExtra("sender", "ParentApp");
-                                    intent.putExtra("student_id", student_id);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(tag, "Error: " + error.getMessage());
-                    }
-                });
-                com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
             }
         }.start();
     }
@@ -276,7 +234,6 @@ public class OnlineQuestions extends AppCompatActivity {
         catch (Exception e) {
             return option;
         }
-
     }
 
     @Override
@@ -285,7 +242,6 @@ public class OnlineQuestions extends AppCompatActivity {
             Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
-
     }
 
     //@Override
@@ -303,66 +259,18 @@ public class OnlineQuestions extends AppCompatActivity {
         builder.setMessage(prompt).setPositiveButton("Yes", new DialogInterface.
             OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                final ProgressDialog progressDialog = new ProgressDialog(context);
-                progressDialog.setMessage("Please wait while Your Answers are submitted");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                JSONObject params = new JSONObject();
-                for (int i = 0; i < student_answers.size(); i++) {
-                    JSONObject params1 = new JSONObject();
-                    try {
-                        params1.put("student_id", student_answers.get(i).getStudent_id());
-                        params1.put("question_id", student_answers.get(i).getQuestion_id());
-                        params1.put("option_marked",
-                            student_answers.get(i).getOption_marked());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        params.put(student_answers.get(i).getQuestion_id(), params1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("params = " + params);
-                }
-
-                String URL = server_ip + "/online_test/submit_answers/";
-                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    URL, params,
-                    new Response.Listener<JSONObject>() {
-
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d(tag, response.toString());
-                            try {
-                                if (response.get("status").toString().equals("success")) {
-                                    progressDialog.hide();
-                                    progressDialog.cancel();
-                                    Toast toast = Toast.makeText(getApplicationContext(),
-                                        "Answers Submitted. Result will be communicated later  ",
-                                        Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER |
-                                        Gravity.CENTER_HORIZONTAL
-                                        | Gravity.CENTER_VERTICAL, 0, 0);
-                                    toast.show();
-                                    Intent intent = new Intent(context, ParentsMenu.class);
-                                    intent.putExtra("sender", "ParentApp");
-                                    intent.putExtra("student_id", student_id);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(tag, "Error: " + error.getMessage());
-                    }
-                });
-                com.classup.AppController.getInstance().addToRequestQueue(jsonObjReq, tag);
+                Toast toast = Toast.makeText(getApplicationContext(),
+                    "Answers Submitted. Result will be communicated later  ",
+                    Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER |
+                    Gravity.CENTER_HORIZONTAL
+                    | Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
+                Intent intent = new Intent(context, ParentsMenu.class);
+                intent.putExtra("sender", "ParentApp");
+                intent.putExtra("student_id", student_id);
+                startActivity(intent);
+                finish();
             }
         }).setNegativeButton(R.string.cancel,
             new DialogInterface.OnClickListener() {
